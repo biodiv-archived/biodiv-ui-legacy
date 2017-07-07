@@ -1,29 +1,30 @@
-import React, { Component} from 'react';
-import Content_Left from './content_obs_left';
-import Content_Middle from './content_obs_middle';
-import Content_Right from './content_obs_right';
+import React, {Component} from 'react';
+import Left_Content from './content_left';
+import Right_Content from './content_right';
+import GetObservation from '../containers/get_observations';
+import ObservationList from '../containers/observation_list';
 
- const Content =()=>{
+class Content extends Component{
+   render(){
+     return (
+       <div>
+         <div className="container">
+           <div className="row">
+             <div className="col-xs-12 col-sm-2 ">
+               <Left_Content />
+             </div>
+             <div className="col-xs-12 col-sm-8 ">
+               <ObservationList />
+               <GetObservation />
+             </div>
+             <div className="col-xs-12 col-sm-2 ">
+               <Right_Content />
+             </div>
+           </div>
+         </div>
+       </div>
+     )
+   }
 
-  return (
-  <div>
-      <div className="row">
-        <div className="col-xs-12 col-sm-3 col-md-3">
-              <Content_Left />
-        </div>
-        <div className="col-xs-12 col-sm-9 col-md-6">
-            <Content_Middle />
-
-        </div>
-        <div className="col-xm-12 col-sm-3 col-md-3">
-          <Content_Right />
-        </div>
-      </div>
-
-
-
-
-  </div>
-  )
 }
 export default Content;
