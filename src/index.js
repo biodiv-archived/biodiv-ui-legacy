@@ -6,6 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
 import App from './components/app';
 import reducers from './reducers';
+import registerServiceWorker from './registerServiceWorker';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -14,3 +15,4 @@ ReactDOM.render(
     <App />
   </Provider>
   , document.querySelector('.container-fluid'));
+registerServiceWorker();

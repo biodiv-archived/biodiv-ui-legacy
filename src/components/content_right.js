@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
-import TaxonBrowser from '../containers/container_taxon_browser';
-
+import Right_bar from './taxon_browser/main';
 class Right extends Component {
 
 render(){
+
   return (
     <div>
-      <TaxonBrowser />
+      <div className="pre-scrollable">
+
+    <Right_bar />
+      </div>
+
+
     </div>
   )
 }

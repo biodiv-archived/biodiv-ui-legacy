@@ -8,7 +8,6 @@ export default class App extends React.Component {
     return (
       <div>
         <Header title="IBP" />
-
         <div className="container">
         <Content />
         <Footer />
