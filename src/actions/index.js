@@ -5,7 +5,7 @@ export const FETCH_OBSERVATION='FETCH_OBSERVATION';
 
 export default function  fetchObservations(count) {
 
-const url=`http://indiabiodiversity.org/observation/list?max=12&offset=${count*10}&format=json`;
+const url=`http://indiabiodiversity.org/observation/list?max=2&offset=${count*10}&format=json`;
 const request = axios.get(url);
 console.log('request:',request);
   return {

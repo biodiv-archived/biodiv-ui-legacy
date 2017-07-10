@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TreeView from './tree_view';
 import 'font-awesome-webpack';
-
+import axios from 'axios';
 class MainPage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -20,7 +20,7 @@ class MainPage extends React.Component {
 		const level = parent ? parent.level : 0;
 		const pname = parent ? parent.name + '.' : 'Item ';
 
-		const size = Math.floor(1* 5) + 2;
+		const size = Math.floor(1* 2) + 2;
 
 		const lst = [];
 		for (var i = 1; i <= size; i++) {

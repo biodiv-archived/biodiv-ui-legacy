@@ -1,8 +1,13 @@
 import React from 'react';
 import Img from 'react-image';
-
+import ShowGallery from './imageGallery/image_display';
 const ObservationListComponent=(props)=>{
 
+const imageArray=[];
+props.objs.resource.map((images)=>{
+  imageArray.push(images.url);
+})
+console.log(props.objs)
 return(
   <div key={props.index} className="container">
           <div className="row">
@@ -10,7 +15,7 @@ return(
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
-                      <a href="#"><Img src={props.objs.thumbnail} className="media-object img-responsive " /></a>
+                        <ShowGallery thumbnail={props.objs.thumbnail} imageArray={imageArray} />
                     </div>
                   </div>
                   <div className=" col-xs-12 col-sm-9">
@@ -31,12 +36,12 @@ return(
                            </tr>
                            </tbody>
                      </table>
-
                          <a href="#"> <Img src={props.objs.author.icon} style={{height:'30px',width:'30px'}} title={props.objs.author.name} /> </a>
-                          {/* <div className="pull-right">
-                           <Getgroup initialgroup={this.props.props.objs.group.name}/>
+                           <div className="pull-right">
+                             <strong>{props.objs.group.name}</strong>
+
                            </div>
-                           */}
+
                    </div>
                  </div>
               </div>

@@ -7,8 +7,7 @@ render(){
   return (
     <div>
       <div className="pre-scrollable">
-
-    <Right_bar />
+        <Right_bar />
       </div>
 
 
