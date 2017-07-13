@@ -1,108 +1,139 @@
+import 'rc-tree/assets/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TreeView from './tree_view';
-import 'font-awesome-webpack';
+import Tree, { TreeNode } from 'rc-tree';
 import axios from 'axios';
-class MainPage extends React.Component {
-	constructor(props) {
-		super(props);
-		this.getAsyncNodes = this.getAsyncNodes.bind(this);
-	}
+import $ from 'jquery';
+function generateTreeNodes(treeNode) {
 
-	/**
-	 * Return the nodes to be displayed in the tree view. This function is initially called
-	 * if the root property is not specified in the tree view
-	 * @param  {object} parent The parent object linked to the node, or null if the tree needs
-	 *                         	to display the root nodes
-	 * @return {any}        The list of roots, or a promise object
-	 */
-	getNodes(parent) {
-		const level = parent ? parent.level : 0;
-		const pname = parent ? parent.name + '.' : 'Item ';
-
-		const size = Math.floor(1* 2) + 2;
-
-		const lst = [];
-		for (var i = 1; i <= size; i++) {
-			lst.push({ name: pname + i, level: level + 1 });
-		}
-
-		return lst;
-	}
+  const arr = [];
+  const key = treeNode.props.eventKey;
 
 
-	getAsyncNodes(parent) {
-		const self = this;
-		return new Promise(resolve => {
-			setTimeout(() => resolve(self.getNodes(parent)), 1000);
-		});
-	}
+  $.ajax({
+    async:false,
+   url:"http://indiabiodiversity.org/taxon/listHierarchy",
+   data:{
+      classSystem:265799,
+      id:key
+   },
+   success:(data)=>{
+     data.map((item)=>{
+         arr.push({ text:item.text, id: item.id });
+     })
+ }
+})
+/*
+  for (let i = 0; i < 3; i++) {
+    arr.push({ name: `leaf ${key}-${i}`, key: `${key}-${i}` });
+  }
+  */
+  return arr;
 
-	/**
-	 * The title to be displayed, or any other composition of react components
-	 * @param  {object} item The object returned by getNodes()
-	 * @return {any}         String to be displayed as a title or a react component
-	 */
-	innerNode(item) {
-		return item.name;
-	}
-
-	/**
-	 * React component that will wrap the node link. It will include 2 columns to be displayed
-	 * using Twitter Bootstrap to make it responsive
-	 * @param  {Component} content 	The react element containing the plus/leaf button and the title
-	 * @param  {object} item    	The object linked to the node (returned by getNodes)
-	 * @return {Component}         	A new component wrapping the given component
-	 */
-	outerNode(content, item) {
-		return (
-			<div key={item.name} className="row" style={{ borderTop: '1px solid #f0f0f0' }}>
-				<div className="col-xs-6">
-            {content}
-				</div>
-			</div>
-			);
-	}
-
-	/**
-	 * Inform the tree if the node is a leaf, i.e, if the node has no other children
-	 * @param  {[type]} item The object linked to the node, created by the <code>getNodes</code> function
-	 * @return {boolean}     return true if the node is a leaf
-	 */
-	checkLeaf(item) {
-		if (item.level === 1) {
-			return false;
-		}
-
-		const res = Math.floor(Math.random() * 2.2);
-		return res === 1;
-	}
-
-	render() {
-		return (
-
-			<div className="container">
-        {/*
-				<h2>{'Simple Tree View'}</h2>
-				<TreeView onGetNodes={this.getNodes}
-					innerRender={this.innerNode}
-					checkLeaf={this.checkLeaf} />
-
-
-				<h2>{'Multiple columns (using Bootstrap grid system)'}</h2>
-				<TreeView onGetNodes={this.getNodes}
-					innerRender={this.innerNode}
-					checkLeaf={this.checkLeaf}
-					outerRender={this.outerNode} />
-          */}
-
-				<h4>{'Taxon Browser'}</h4>
-				<TreeView onGetNodes={this.getAsyncNodes}
-					innerRender={this.innerNode}
-					outerRender={this.outerNode}
-					checkLeaf={this.checkLeaf} />
-			</div>
-			);
-	}
 }
-export default MainPage;
+
+function setLeaf(treeData, curKey, level) {
+  const loopLeaf = (data, lev) => {
+    const l = lev - 1;
+    data.forEach((item) => {
+      if ((item.id.length > curKey.length) ? item.id.indexOf(curKey) !== 0 :
+        curKey.indexOf(item.id) !== 0) {
+        return;
+      }
+      if (item.children) {
+        loopLeaf(item.children, l);
+      } else if (l < 1) {
+        item.isLeaf = true;
+      }
+    });
+  };
+  loopLeaf(treeData, level + 1);
+}
+
+function getNewTreeData(treeData, curKey, child, level) {
+  const loop = (data) => {
+    //if (level < 1 || curKey.length - 3 > level * 2) return;
+    data.forEach((item) => {
+      if (curKey.indexOf(item.id) === 0) {
+        if (item.children) {
+          loop(item.children);
+        } else {
+          item.children = child;
+        }
+      }
+    });
+  };
+  loop(treeData);
+  setLeaf(treeData, curKey, level);
+}
+
+const Demo = React.createClass({
+  propTypes: {},
+  getInitialState() {
+    return {
+      treeData: [],
+      checkedKeys: [],
+    };
+  },
+  componentDidMount() {
+    $.ajax({
+     url:"http://indiabiodiversity.org/taxon/listHierarchy?classSystem=265799",
+     success:(data)=>{
+       this.setState({
+         treeData:data,
+         checkedKeys: ['0-0'],
+       })
+   }
+ })
+  },
+  onSelect(info) {
+    console.log('selected', info);
+  },
+  onCheck(checkedKeys) {
+    console.log(checkedKeys);
+    this.setState({
+      checkedKeys,
+    });
+  },
+  onLoadData(treeNode) {
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const treeData = [...this.state.treeData];
+        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode), 6);
+        this.setState({
+           treeData:treeData,
+         });
+        resolve();
+      }, 500);
+    });
+  },
+  render() {
+    const loop = (data) => {
+      return data.map((item) => {
+        if (item.children) {
+          return <TreeNode title={item.text} key={item.id}>{loop(item.children)}</TreeNode>;
+        }
+        return (
+          <TreeNode title={item.text} key={item.id} isLeaf={item.isLeaf}
+            disabled={item.rank === 10}
+          />
+        );
+      });
+    };
+    const treeNodes = loop(this.state.treeData);
+    return (
+      <div>
+      
+        <Tree
+          onSelect={this.onSelect}
+          checkable onCheck={this.onCheck} checkedKeys={this.state.checkedKeys}
+          loadData={this.onLoadData}
+        >
+          {treeNodes}
+        </Tree>
+      </div>
+    );
+  },
+});
+export default Demo;

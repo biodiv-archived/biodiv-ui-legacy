@@ -8,17 +8,18 @@ class Content extends Component{
    render(){
      return (
        <div>
-         <div className="container">
+         <div>
            <div className="row">
              <div className="col-xs-12 col-sm-2 ">
-               <Left_Content />
+                 <Right_Content />
              </div>
              <div className="col-xs-12 col-sm-8 ">
                <ObservationList />
                <GetObservation />
              </div>
              <div className="col-xs-12 col-sm-2 ">
-               <Right_Content />
+                <Left_Content />
+
              </div>
            </div>
          </div>

@@ -22,13 +22,13 @@ export default class LightboxExample extends Component {
         return (
             <div>
 
-              <div id="mycarousel" class="carousel slide" data-ride="carousel" onClick={() => this.setState({ isOpen: true })}>
-                <div class="carousel-inner">
-                  <div class="item active">
+              <div id="mycarousel" className="carousel slide" data-ride="carousel" onClick={() => this.setState({ isOpen: true })}>
+                <div className="carousel-inner">
+                  <div className="item active">
                     <Img src={this.props.thumbnail}
                     className="media-object img-responsive " />
                     <div className="carousel-caption ">
-                         <strong>View Gallery <i class="fa fa-picture-o" aria-hidden="true"></i></strong>
+                         <strong>View Gallery <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
                     </div>
                     {isOpen &&
                         <Lightbox
