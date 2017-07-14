@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import fetchObservations from '../actions/index';
+import {fetchObservations} from '../actions/index';
 
  class GetObservations extends Component{
     constructor(props){

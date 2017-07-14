@@ -7,9 +7,9 @@ const imageArray=[];
 props.objs.resource.map((images)=>{
   imageArray.push(images.url);
 })
-console.log(props.objs)
+
 return(
-  <div key={props.index} className="container">
+  <div className="container">
           <div className="row">
             <div className="col-sm-8">
                 <div className="media">

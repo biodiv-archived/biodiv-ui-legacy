@@ -1,4 +1,5 @@
 import {FETCH_OBSERVATION} from '../actions/index';
+
 export default function(state=[],action){
   switch (action.type) {
     case FETCH_OBSERVATION:

@@ -5,11 +5,8 @@ import Tree, { TreeNode } from 'rc-tree';
 import axios from 'axios';
 import $ from 'jquery';
 function generateTreeNodes(treeNode) {
-
   const arr = [];
   const key = treeNode.props.eventKey;
-
-
   $.ajax({
     async:false,
    url:"http://indiabiodiversity.org/taxon/listHierarchy",
@@ -19,15 +16,12 @@ function generateTreeNodes(treeNode) {
    },
    success:(data)=>{
      data.map((item)=>{
-         arr.push({ text:item.text, id: item.id });
+        console.log(item.taxonid)
+         arr.push({ text:item.text, id: item.id,taxon:item.taxonid});
      })
  }
 })
-/*
-  for (let i = 0; i < 3; i++) {
-    arr.push({ name: `leaf ${key}-${i}`, key: `${key}-${i}` });
-  }
-  */
+
   return arr;
 
 }
@@ -67,36 +61,39 @@ function getNewTreeData(treeData, curKey, child, level) {
   setLeaf(treeData, curKey, level);
 }
 
-const Demo = React.createClass({
-  propTypes: {},
-  getInitialState() {
-    return {
-      treeData: [],
-      checkedKeys: [],
-    };
-  },
+
+class Demo extends  React.Component{
+constructor(){
+  super();
+  this.state={
+    treeData: [],
+    checkedKeys: []
+  }
+  this.onLoadData =this.onLoadData.bind(this);
+  this.onCheck =this.onCheck.bind(this);
+}
   componentDidMount() {
     $.ajax({
      url:"http://indiabiodiversity.org/taxon/listHierarchy?classSystem=265799",
      success:(data)=>{
        this.setState({
          treeData:data,
-         checkedKeys: ['0-0'],
+         checkedKeys: []
        })
    }
  })
-  },
-  onSelect(info) {
-    console.log('selected', info);
-  },
+  }
+  onSelect(info,taxonid) {
+    console.log('selected', info,"taxon",taxonid);
+  }
   onCheck(checkedKeys) {
-    console.log(checkedKeys);
+    console.log(checkedKeys)
     this.setState({
-      checkedKeys,
-    });
-  },
-  onLoadData(treeNode) {
+      checkedKeys
+    })
+  }
 
+  onLoadData(treeNode) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const treeData = [...this.state.treeData];
@@ -107,7 +104,8 @@ const Demo = React.createClass({
         resolve();
       }, 500);
     });
-  },
+  }
+
   render() {
     const loop = (data) => {
       return data.map((item) => {
@@ -121,10 +119,10 @@ const Demo = React.createClass({
         );
       });
     };
+
     const treeNodes = loop(this.state.treeData);
     return (
       <div>
-      
         <Tree
           onSelect={this.onSelect}
           checkable onCheck={this.onCheck} checkedKeys={this.state.checkedKeys}
@@ -134,6 +132,6 @@ const Demo = React.createClass({
         </Tree>
       </div>
     );
-  },
-});
+  }
+};
 export default Demo;

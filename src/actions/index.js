@@ -1,15 +1,20 @@
 import axios from 'axios';
-//const API_KEY='9189fb8936e52920e38b7fa0aab73cb1';
-//const ROOT_URL=`http://api.openweathermap.org/data/2.5/weather?appid=${API_KEY}`;
 export const FETCH_OBSERVATION='FETCH_OBSERVATION';
+export const FETCH_SPECIES_CHART='FETCH_SPECIES_CHART';
 
-export default function  fetchObservations(count) {
-
+export  function  fetchObservations(count) {
 const url=`http://indiabiodiversity.org/observation/list?max=2&offset=${count*10}&format=json`;
 const request = axios.get(url);
-console.log('request:',request);
   return {
     type:FETCH_OBSERVATION,
+    payload:request
+  }
+}
+export function fetchSpeciesChart() {
+const url=`http://indiabiodiversity.org/observation/speciesGroupCount?actionType=list&view=list&sGroup=829&habitat=267835`;
+const request = axios.get(url);
+  return {
+    type:FETCH_SPECIES_CHART,
     payload:request
   }
 }
