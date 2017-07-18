@@ -12,7 +12,6 @@ render(){
       <div className="pre-scrollable">
         <Right_bar />
       </div>
-
       <div>
         <h4>Species Chart</h4>
         <SpeciesChart />

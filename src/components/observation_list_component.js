@@ -39,9 +39,7 @@ return(
                          <a href="#"> <Img src={props.objs.author.icon} style={{height:'30px',width:'30px'}} title={props.objs.author.name} /> </a>
                            <div className="pull-right">
                              <strong>{props.objs.group.name}</strong>
-
                            </div>
-
                    </div>
                  </div>
               </div>

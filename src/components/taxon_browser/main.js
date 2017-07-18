@@ -17,7 +17,7 @@ function generateTreeNodes(treeNode) {
    success:(data)=>{
      data.map((item)=>{
         console.log(item.taxonid)
-         arr.push({ text:item.text, id: item.id,taxon:item.taxonid});
+         arr.push({ text:item.text, id: item.id,taxonid:item.taxonid});
      })
  }
 })
@@ -83,8 +83,8 @@ constructor(){
    }
  })
   }
-  onSelect(info,taxonid) {
-    console.log('selected', info,"taxon",taxonid);
+  onSelect(info,event) {
+    console.log('selected',info ,"taxon",event.node.props.taxonid);
   }
   onCheck(checkedKeys) {
     console.log(checkedKeys)
@@ -110,11 +110,11 @@ constructor(){
     const loop = (data) => {
       return data.map((item) => {
         if (item.children) {
-          return <TreeNode title={item.text} key={item.id}>{loop(item.children)}</TreeNode>;
+          return <TreeNode title={item.text} key={item.id} taxonid={item.taxonid}>{loop(item.children)}</TreeNode>;
         }
         return (
           <TreeNode title={item.text} key={item.id} isLeaf={item.isLeaf}
-            disabled={item.rank === 10}
+            disabled={item.rank === 10} taxonid={item.taxonid}
           />
         );
       });

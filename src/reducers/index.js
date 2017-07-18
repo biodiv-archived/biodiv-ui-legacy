@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-
 import SpeciesChartReducer from './reducer_chart_data';
 import ObservationReducer from './reducer_observation';
 
