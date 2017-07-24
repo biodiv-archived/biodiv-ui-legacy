@@ -7,8 +7,8 @@ import ReduxPromise from 'redux-promise';
 import App from './components/app';
 import reducers from './reducers';
 import registerServiceWorker from './registerServiceWorker';
-
-const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+import logger from 'redux-logger'
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise,logger)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>

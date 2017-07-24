@@ -111,7 +111,7 @@ const Header =(props)=>{
     </div> {/* <!-- /.navbar-collapse -->*/}
   </div> {/*<!-- /.container-fluid -->*/}
 </nav>
-      <div className="jumbotron ">
+      <div className="jumbotron">
           <h2 className="display-3"> <span className="jumboh"></span></h2>
       </div>
 </div>

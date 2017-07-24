@@ -4,6 +4,12 @@ import ReactDOM from 'react-dom';
 import Tree, { TreeNode } from 'rc-tree';
 import axios from 'axios';
 import $ from 'jquery';
+import {connect} from 'react-redux';
+import {fetchObservations} from '../../actions/index';
+import {fetchTaxonList} from '../../actions/index';
+import {ClearObservationPage} from '../../actions/index';
+
+
 function generateTreeNodes(treeNode) {
   const arr = [];
   const key = treeNode.props.eventKey;
@@ -21,9 +27,7 @@ function generateTreeNodes(treeNode) {
      })
  }
 })
-
   return arr;
-
 }
 
 function setLeaf(treeData, curKey, level) {
@@ -57,34 +61,35 @@ function getNewTreeData(treeData, curKey, child, level) {
       }
     });
   };
+
   loop(treeData);
   setLeaf(treeData, curKey, level);
 }
 
-
 class Demo extends  React.Component{
 constructor(){
   super();
+  this.taxon;
   this.state={
-    treeData: [],
     checkedKeys: []
   }
   this.onLoadData =this.onLoadData.bind(this);
   this.onCheck =this.onCheck.bind(this);
+  this.onSelect =this.onSelect.bind(this);
 }
   componentDidMount() {
-    $.ajax({
-     url:"http://indiabiodiversity.org/taxon/listHierarchy?classSystem=265799",
-     success:(data)=>{
-       this.setState({
-         treeData:data,
-         checkedKeys: []
-       })
-   }
- })
+    this.props.fetchTaxonList();
   }
+
   onSelect(info,event) {
-    console.log('selected',info ,"taxon",event.node.props.taxonid);
+    this.props.ClearObservationPage();
+    var event = new CustomEvent("name-of-event",{ "detail":{
+      taxonid:event.node.props.taxonid
+    }
+  });
+
+  document.dispatchEvent(event);
+
   }
   onCheck(checkedKeys) {
     console.log(checkedKeys)
@@ -96,8 +101,8 @@ constructor(){
   onLoadData(treeNode) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const treeData = [...this.state.treeData];
-        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode), 6);
+        const treeData = [...this.props.treeData];
+        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode));
         this.setState({
            treeData:treeData,
          });
@@ -107,6 +112,7 @@ constructor(){
   }
 
   render() {
+
     const loop = (data) => {
       return data.map((item) => {
         if (item.children) {
@@ -119,8 +125,7 @@ constructor(){
         );
       });
     };
-
-    const treeNodes = loop(this.state.treeData);
+    const treeNodes = loop(this.props.treeData);
     return (
       <div>
         <Tree
@@ -130,8 +135,15 @@ constructor(){
         >
           {treeNodes}
         </Tree>
+
       </div>
     );
   }
 };
-export default Demo;
+function mapStateToProps(state){
+return {
+  treeData:state.treeData,
+  GlobalFilter:state.GlobalFilter
+};
+}
+export default connect(mapStateToProps,{fetchTaxonList,ClearObservationPage})(Demo);

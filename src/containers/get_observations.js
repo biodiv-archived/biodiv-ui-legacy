@@ -4,48 +4,65 @@ import {bindActionCreators} from 'redux';
 import {fetchObservations} from '../actions/index';
 import ObservationListComponent from '../components/observation_list_component';
 
- class GetObservations extends Component{
+class GetObservations extends Component{
+
     constructor(props){
       super(props);
       this.state={
-        count:0
+        count:0,
+        taxonid:0
       }
-      {this.props.fetchObservations()}
+        let taxonid;
+
+      document.addEventListener('name-of-event', (e)=>{
+        this.props.fetchObservations(this.state.count,e.detail.taxonid);
+        this.setState({
+              taxonid:e.detail.taxonid
+        })
+        });
+      this.props.fetchObservations(this.state.count);
       this.loadMore=this.loadMore.bind(this);
     }
-
     displayData(objs,index){
       return(
-        <div>
-          <ObservationListComponent objs={objs} index={index}/>
+        <div key={objs.id}>
+          <ObservationListComponent  objs={objs} index={index}/>
         </div>
       )
     }
+    loadMore(counts){
 
-loadMore(){
-  let count=this.state.count;
-  count=count+1;
-  this.setState({
-    count:count
-  })
-  this.props.fetchObservations(count);
-}
+      let count=this.state.count;
+      count=count+1;
+
+      this.setState({
+        count:count
+      })
+
+      if(this.state.taxonid==0)
+      {
+          this.props.fetchObservations(count)
+
+      }
+      else{
+        this.props.fetchObservations(count,this.state.taxonid)
+
+      }
+
+      }
   render(){
     return(
        <div>
               {this.props.Observation.map(this.displayData)}
-             <button onClick={this.loadMore} type="submit" className="btn btn-secondry">LoadMore</button>
+
+              {this.props.Observation.length ?<button onClick={this.loadMore} type="submit" className="btn btn-secondry">LoadMore</button>:null }
        </div>
     )
   }
 }
 function mapStateToProps(state){
-
-return {Observation:state.Observation};
+return {
+  Observation:state.Observation
+};
 }
-
-function mapDispatchToProps(dispatch){
-
-  return bindActionCreators({fetchObservations},dispatch);
-}
-export default connect(mapStateToProps, mapDispatchToProps)(GetObservations);
+export default connect(mapStateToProps, {fetchObservations})(GetObservations);

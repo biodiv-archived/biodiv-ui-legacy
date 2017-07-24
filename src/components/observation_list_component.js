@@ -11,7 +11,7 @@ props.objs.resource.map((images)=>{
 return(
   <div className="container">
           <div className="row">
-            <div className="col-sm-8">
+            <div className="col-sm-7">
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
