@@ -82,7 +82,9 @@ constructor(){
   }
 
   onSelect(info,event) {
+
     this.props.ClearObservationPage();
+
     var event = new CustomEvent("name-of-event",{ "detail":{
       taxonid:event.node.props.taxonid
     }
@@ -142,8 +144,7 @@ constructor(){
 };
 function mapStateToProps(state){
 return {
-  treeData:state.treeData,
-  GlobalFilter:state.GlobalFilter
+  treeData:state.treeData
 };
 }
 export default connect(mapStateToProps,{fetchTaxonList,ClearObservationPage})(Demo);

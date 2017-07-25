@@ -35,7 +35,7 @@ return(
                               <td className="col-sm-9">{props.objs.createdOn }</td>
                            </tr>
                            </tbody>
-                     </table>
+                      </table>
                          <a href="#"> <Img src={props.objs.author.icon} style={{height:'30px',width:'30px'}} title={props.objs.author.name} /> </a>
                            <div className="pull-right">
                              <strong>{props.objs.group.name}</strong>

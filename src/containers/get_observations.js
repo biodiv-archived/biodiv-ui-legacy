@@ -10,16 +10,31 @@ class GetObservations extends Component{
       super(props);
       this.state={
         count:0,
-        taxonid:0
+        taxonid:undefined,
+        sGroup:0
       }
         let taxonid;
 
       document.addEventListener('name-of-event', (e)=>{
-        this.props.fetchObservations(this.state.count,e.detail.taxonid);
+        console.log("count",this.state.count)
         this.setState({
+              count:0,
+              sGroup:0,
               taxonid:e.detail.taxonid
+
         })
+        this.props.fetchObservations(this.state.count,e.detail.taxonid);
+
+
         });
+        document.addEventListener('group-event', (e)=>{
+          this.props.fetchObservations(this.state.count,null,e.detail.sGroup);
+
+          this.setState({
+                sGroup:e.detail.sGroup
+          })
+          });
+
       this.props.fetchObservations(this.state.count);
       this.loadMore=this.loadMore.bind(this);
     }
@@ -39,15 +54,18 @@ class GetObservations extends Component{
         count:count
       })
 
-      if(this.state.taxonid==0)
-      {
+    if(this.state.sGroup){
+      console.log("this.state.sGroup",this.state.sGroup)
+        this.props.fetchObservations(count,null,this.state.sGroup)
+    }
+    else {
+      if(this.state.taxonid==0){
           this.props.fetchObservations(count)
-
       }
       else{
         this.props.fetchObservations(count,this.state.taxonid)
-
       }
+    }
 
       }
   render(){
@@ -62,7 +80,8 @@ class GetObservations extends Component{
 }
 function mapStateToProps(state){
 return {
-  Observation:state.Observation
+  Observation:state.Observation,
+
 };
 }
 export default connect(mapStateToProps, {fetchObservations})(GetObservations);
