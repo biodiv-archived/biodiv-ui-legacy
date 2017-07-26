@@ -18,7 +18,7 @@ return(
                         <ShowGallery thumbnail={props.objs.thumbnail} imageArray={imageArray} />
                     </div>
                   </div>
-                  <div className=" col-xs-12 col-sm-9">
+                  <div className=" col-xs-12 col-sm-7">
                     <div className="media-body">
                       <table className="table table-striped pull-right">
                            <tbody>

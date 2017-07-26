@@ -26,7 +26,7 @@ export default class LightboxExample extends Component {
                 <div className="carousel-inner">
                   <div className="item active">
                     <Img src={this.props.thumbnail}
-                    className="media-object img-responsive " />
+                    className="media-object img-responsive"/>
                     <div className="carousel-caption ">
                          <strong>View Gallery <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
                     </div>

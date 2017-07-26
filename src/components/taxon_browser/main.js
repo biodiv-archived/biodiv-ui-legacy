@@ -86,7 +86,8 @@ constructor(){
     this.props.ClearObservationPage();
 
     var event = new CustomEvent("name-of-event",{ "detail":{
-      taxonid:event.node.props.taxonid
+      taxonid:event.node.props.taxonid,
+      title:event.node.props.title
     }
   });
 

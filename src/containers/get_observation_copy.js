@@ -19,7 +19,7 @@ class GetObservations extends Component{
         title:null,
         groupName:null
       }
-
+      {/* */}
       document.addEventListener('name-of-event', (e)=>{
         const params=this.state.params;
           params.taxon=e.detail.taxonid;
@@ -37,7 +37,7 @@ class GetObservations extends Component{
                 title:e.detail.title
           })
         });
-
+          {/*  */}
         document.addEventListener('group-event', (e)=>{
           const params=this.state.params;
           params.sGroup=e.detail.sGroup;
