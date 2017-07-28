@@ -1,6 +1,8 @@
 import React from 'react';
 import Img from 'react-image';
 import ShowGallery from './imageGallery/image_display';
+import Button from 'material-ui/Button';
+
 const ObservationListComponent=(props)=>{
 
 const imageArray=[];
@@ -9,16 +11,16 @@ props.objs.resource.map((images)=>{
 })
 
 return(
-  <div className="container">
+
+      <div className="container-fluid">
           <div className="row">
-            <div className="col-sm-7">
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
                         <ShowGallery thumbnail={props.objs.thumbnail} imageArray={imageArray} />
                     </div>
                   </div>
-                  <div className=" col-xs-12 col-sm-7">
+                  <div className=" col-xs-12 col-sm-9">
                     <div className="media-body">
                       <table className="table table-striped pull-right">
                            <tbody>
@@ -44,9 +46,8 @@ return(
                  </div>
               </div>
             </div>
-          </div>
+          <br />
         </div>
-
 )
 
 }

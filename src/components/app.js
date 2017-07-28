@@ -6,14 +6,15 @@ import Header from './header/header';
 export default class App extends React.Component {
   render() {
     return (
-      <div>
-        <Header title="IBP" />
-
-        <div className="container">
+      <div className="container-fluid">
+        <div className="row">
+          <Header title="IBP" />
+        </div>
+        <div className="row">
         <Content />
         </div>
-          <div className="container">
-            <Footer />
+        <div className="row">
+        <Footer />
         </div>
     </div>
     );

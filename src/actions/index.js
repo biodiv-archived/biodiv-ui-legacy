@@ -4,11 +4,10 @@ export const FETCH_SPECIES_CHART='FETCH_SPECIES_CHART';
 export const FETCH_TAXON_LIST='FETCH_TAXON_LIST';
 export const DELETE_OBSERVATION='DELETE_OBSERVATION';
 export const GLOBAL_FILTER='GLOBAL_FILTER';
-
+export const GET_OBSERVATION_COUNT="GET_OBSERVATION_COUNT";
 const ROOT_URL="http://indiabiodiversity.org/";
 
 export  function  fetchObservations(parameter) {
-
 const url=`http://indiabiodiversity.org/observation/list`;
 const request = axios.get(url,{params:parameter})
   return {

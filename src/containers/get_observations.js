@@ -4,7 +4,9 @@ import {bindActionCreators} from 'redux';
 import {fetchObservations} from '../actions/index';
 import ObservationListComponent from '../components/observation_list_component';
 import {ClearObservationPage} from '../actions/index';
-
+import Button from 'material-ui/Button';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+import Right_stats from '../components/right_material'
 class GetObservations extends Component{
     constructor(props){
       super(props);
@@ -19,7 +21,7 @@ class GetObservations extends Component{
         title:null,
         groupName:null
       }
-
+      {/* Listening to event in ../taxon_browser/main.js*/}
       document.addEventListener('name-of-event', (e)=>{
         const params=this.state.params;
           params.taxon=e.detail.taxonid;
@@ -37,7 +39,7 @@ class GetObservations extends Component{
                 title:e.detail.title
           })
         });
-
+          {/*Listening to event in ../FilterPanel/filter.js  */}
         document.addEventListener('group-event', (e)=>{
           const params=this.state.params;
           params.sGroup=e.detail.sGroup;
@@ -57,6 +59,7 @@ class GetObservations extends Component{
       this.props.fetchObservations(this.state.params);
       this.loadMore=this.loadMore.bind(this);
     }
+
     displayData(objs,index){
       return(
         <div key={objs.id}>
@@ -64,6 +67,8 @@ class GetObservations extends Component{
         </div>
       )
     }
+
+
     loadMore(){
       let params=this.state.params;
         let count=params.offset;
@@ -121,22 +126,25 @@ class GetObservations extends Component{
 
       }
   render(){
+    
     return(
        <div>
-         <div className="text-center">
-         {this.state.title?<button onClick={this.removeTaxon.bind(this)} id="singlebutton" name="singlebutton" className="btn btn-xs btn-danger">{this.state.title} <span className="glyphicon glyphicon-remove"></span></button>:null}
+          <div className="pull-right">
+            <Right_stats />
+          </div>
+         {this.state.title?<Button raised color="accent" style={{ fontSize: '13px' }} onClick={this.removeTaxon.bind(this)} >{this.state.title} <span className="glyphicon glyphicon-remove"></span></Button>:null}
+         <span>&nbsp;&nbsp;</span>
+         {this.state.groupName?<Button  raised color="accent" onClick={this.removeGroup.bind(this)} >{this.state.groupName} <span className="glyphicon glyphicon-remove"></span></Button>:null}
 
-         {this.state.groupName?<button onClick={this.removeGroup.bind(this)} id="singlebutton" name="singlebutton" className="btn btn-xs btn-danger">{this.state.groupName} <span className="glyphicon glyphicon-remove"></span></button>:null}
-
-         </div>
          <hr />
-          <br />
               {this.props.Observation.map(this.displayData)}
 
               {this.props.Observation.length ?<button onClick={this.loadMore} type="submit" className="btn btn-secondry">LoadMore</button>:null }
        </div>
     )
   }
+
+
 }
 function mapStateToProps(state){
 return {

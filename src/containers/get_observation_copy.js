@@ -25,7 +25,8 @@ class GetObservations extends Component{
           params.taxon=e.detail.taxonid;
           params.classification=265799;
           let sGroup=params.sGroup;
-          console.log("  params.taxon",  params)
+          console.log("  params.taxon",  params);
+
             this.props.fetchObservations(params);
           this.setState({
               params:{
@@ -61,6 +62,7 @@ class GetObservations extends Component{
       return(
         <div key={objs.id}>
           <ObservationListComponent  objs={objs} index={index}/>
+        
         </div>
       )
     }
