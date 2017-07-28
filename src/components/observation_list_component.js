@@ -12,7 +12,7 @@ props.objs.resource.map((images)=>{
 return(
 
       <div className="container-fluid">
-          <div className="row">
+          <div className="row" style={{border:'1px solid #acb3bf'}}>
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
@@ -21,7 +21,7 @@ return(
                   </div>
                   <div className=" col-xs-12 col-sm-9">
                     <div className="media-body">
-                      <table className="table table-striped pull-right">
+                      <table className="table table-hover-success pull-right">
                            <tbody>
                             <tr>
                                 <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true">Name</span></td>

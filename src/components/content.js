@@ -9,7 +9,7 @@ class Content extends Component{
              <div className="col-xs-12 col-sm-3">
                <Right_Content />
              </div>
-             <div className="col-xs-12 col-sm-9">
+             <div style={{backgroundColor:'f2f4f7#'}} className="col-xs-12 col-sm-9 ">
                <GetObservation />
              </div>
            </div>
