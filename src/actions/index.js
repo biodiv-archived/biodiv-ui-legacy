@@ -5,10 +5,10 @@ export const FETCH_TAXON_LIST='FETCH_TAXON_LIST';
 export const DELETE_OBSERVATION='DELETE_OBSERVATION';
 export const GLOBAL_FILTER='GLOBAL_FILTER';
 export const GET_OBSERVATION_COUNT="GET_OBSERVATION_COUNT";
-const ROOT_URL="http://indiabiodiversity.org/";
+const ROOT_URL="http://indiabiodiversity.org";
 
 export  function  fetchObservations(parameter) {
-const url=`http://indiabiodiversity.org/observation/list`;
+const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
   return {
     type:FETCH_OBSERVATION,
@@ -17,7 +17,7 @@ const request = axios.get(url,{params:parameter})
 }
 
 export function fetchSpeciesChart() {
-const url=`${ROOT_URL}observation/speciesGroupCount?actionType=list&view=list&sGroup=829&habitat=267835`;
+const url=`${ROOT_URL}/observation/speciesGroupCount?actionType=list&view=list&sGroup=829&habitat=267835`;
 const request = axios.get(url);
   return {
     type:FETCH_SPECIES_CHART,
@@ -25,7 +25,7 @@ const request = axios.get(url);
   }
 }
 export function fetchTaxonList() {
-const url=`${ROOT_URL}taxon/listHierarchy?classSystem=265799`;
+const url=`${ROOT_URL}/taxon/listHierarchy?classSystem=265799`;
 const request = axios.get(url);
   return {
     type:FETCH_TAXON_LIST,

@@ -28,7 +28,7 @@ export default class LightboxExample extends Component {
                     <Img src={this.props.thumbnail}
                     className="media-object img-responsive"/>
                     <div className="carousel-caption ">
-                         <strong>View Gallery <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
+                         <strong>View Gallery {this.props.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
                     </div>
                     {isOpen &&
                         <Lightbox

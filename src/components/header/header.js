@@ -5,7 +5,7 @@ const Header =(props)=>{
   return (
     <div>
        <nav className="navbar navbar-default navbar-inverse" role="navigation">
-         <div  className="container-fluid bg-default">
+         <div  className="container-fluid bg-primary">
     <div className="navbar-header">
       <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span className="sr-only">Toggle navigation</span>
