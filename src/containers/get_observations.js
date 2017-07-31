@@ -16,10 +16,12 @@ class GetObservations extends Component{
           offset:0,
           taxon:null,
           sGroup:null,
-          classification:null
+          classification:null,
+          userGroup:null
         },
         title:null,
-        groupName:null
+        groupName:null,
+        userGroupName:null
       }
       {/* Listening to event in ../taxon_browser/main.js*/}
       document.addEventListener('name-of-event', (e)=>{
@@ -39,6 +41,17 @@ class GetObservations extends Component{
                 title:e.detail.title
           })
         });
+        document.addEventListener('group-observation', (e)=>{
+                  var params={};
+                  params.userGroup=e.detail.id;
+                  params.offset=0,
+              this.props.fetchObservations(params);
+              this.setState({
+                params:params,
+                userGroupName:e.detail.userGroupName
+              })
+
+          });
           {/*Listening to event in ../FilterPanel/filter.js  */}
         document.addEventListener('group-event', (e)=>{
           const params=this.state.params;
@@ -63,7 +76,7 @@ class GetObservations extends Component{
     displayData(objs,index){
       return(
         <div key={objs.id}>
-          <ObservationListComponent  objs={objs} index={index}/>
+          <ObservationListComponent objs={objs} index={index}/>
         </div>
       )
     }
@@ -80,12 +93,11 @@ class GetObservations extends Component{
           params:{
             max:10,
             offset:count,
-            taxon:params.taxon,
-            sGroup:params.sGroup,
-            classification:265799
+            classification:265799,
+            userGroup:params.userGroup
           }
         })
-          console.log("params in loadMore",params)
+
       }
       removeTaxon(){
         const params=this.state.params;
@@ -106,6 +118,8 @@ class GetObservations extends Component{
       this.props.fetchObservations(newparams)
 
       }
+
+
       removeGroup(){
         const params=this.state.params;
         const newparams={
@@ -125,8 +139,28 @@ class GetObservations extends Component{
       this.props.fetchObservations(newparams)
 
       }
+
+
+      removeUserGroup(){
+        this.props.ClearObservationPage();
+        const params=this.state.params;
+        const newparams={
+            max:10,
+            offset:0,
+            classification:265799,
+            sGroup:params.sGroup,
+            taxon:params.taxon
+        }
+        this.props.fetchObservations(newparams);
+        this.setState({
+            params:newparams,
+            userGroup:null
+        })
+      }
+
   render(){
-    
+
+
     return(
        <div>
           <div className="pull-right">
@@ -135,6 +169,7 @@ class GetObservations extends Component{
          {this.state.title?<Button raised color="accent" style={{ fontSize: '13px' }} onClick={this.removeTaxon.bind(this)} >{this.state.title} <span className="glyphicon glyphicon-remove"></span></Button>:null}
          <span>&nbsp;&nbsp;</span>
          {this.state.groupName?<Button  raised color="accent" onClick={this.removeGroup.bind(this)} >{this.state.groupName} <span className="glyphicon glyphicon-remove"></span></Button>:null}
+         {this.state.userGroupName?<Button  raised color="accent" onClick={this.removeUserGroup.bind(this)} >{this.state.userGroupName} <span className="glyphicon glyphicon-remove"></span></Button>:null}
 
          <hr />
               {this.props.Observation.map(this.displayData)}

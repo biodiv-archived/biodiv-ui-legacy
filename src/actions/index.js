@@ -5,6 +5,9 @@ export const FETCH_TAXON_LIST='FETCH_TAXON_LIST';
 export const DELETE_OBSERVATION='DELETE_OBSERVATION';
 export const GLOBAL_FILTER='GLOBAL_FILTER';
 export const GET_OBSERVATION_COUNT="GET_OBSERVATION_COUNT";
+export const GET_USERGROUPNAME="GET_USERGROUPNAME";
+export const FETCH_GROUP_OBSERVATIONS="FETCH_GROUP_OBSERVATIONS";
+
 const ROOT_URL="http://indiabiodiversity.org";
 
 export  function  fetchObservations(parameter) {
@@ -36,5 +39,22 @@ export function ClearObservationPage() {
   return {
     type:DELETE_OBSERVATION,
     payload:[]
+  }
+}
+export function FetchUserGroupName(offset) {
+  const url=`${ROOT_URL}/group/list?max=10&offset=${offset*10}&format=json`;
+  const request = axios.get(url);
+
+  return {
+    type:GET_USERGROUPNAME,
+    payload:request
+  }
+}
+export function FetchGroupObservations(text) {
+  const url=`${ROOT_URL}/group/${text}/observation/list?sort=lastRevised&view=list`;
+  const request = axios.get(url);
+  return {
+    type:FETCH_GROUP_OBSERVATIONS,
+    payload:request
   }
 }

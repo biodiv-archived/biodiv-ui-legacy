@@ -35,22 +35,41 @@ return(
                               <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Observed On </td>
                               <td className="col-sm-8">{props.objs.fromDate }</td>
                            </tr>
+                           <tr>
+                             <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> CreatedOn </td>
+                             <td className="col-sm-8">{props.objs.toDate }</td>
+                          </tr>
+                          <tr>
+                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Updated On </td>
+                            <td className="col-sm-8">{props.objs.createdOn }</td>
+                         </tr>
 
                          <tr>
                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
                            <td style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap'}} className="col-sm-8" dangerouslySetInnerHTML={{__html:props.objs.notes ?props.objs.notes:"Not Provided"}}></td>
                         </tr>
 
+                          <tr style={{margin:'10px'}}>
+                            <td>
+                              <Img src={props.objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={props.objs.author.name} />
+                            </td>
+                            <td>
+                             <span className="glyphicon glyphicon-check" aria-hidden="true" title={"species call"}></span> <span> {"   "}</span> {props.objs.recoVotes.length}
+                            </td>
+                            <td>
+                              <div className="pull-right">
+                               <strong>{props.objs.group.name}</strong>
+                              </div>
+                            </td>
+                          </tr>
                       </tbody>
                       </table>
-                            <Img src={props.objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={props.objs.author.name} />
-                            <div className="pull-right">
-                             <strong>{props.objs.group.name}</strong>
-                            </div>
+
+
 
                             <ul className="list list-unstyled list-inline">
                                {props.objs.userGroups.map((item)=>{
-                                 return <li className="list-inline-item"><img className="img-circle btn-success" src={`http://indiabiodiversity.org/biodiv/userGroups/${item.icon}`} style={{height:'30px',width:'30px'}} title={item.name}/></li>
+                                 return <li key={item.name} className="list-inline-item"><img className="img-circle btn-success" src={`http://indiabiodiversity.org/biodiv/userGroups/${item.icon}`} style={{height:'30px',width:'30px'}} title={item.name}/></li>
                                })}
                              </ul>
                    </div>

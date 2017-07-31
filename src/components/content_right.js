@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Right_bar from './taxon_browser/main';
 import FilterPanel from './filterPanel/filter_panel';
+import GroupNameFilter from './groupname_filter';
 class Right extends Component {
 render(){
   return (
@@ -31,7 +32,7 @@ render(){
       <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
     <div className="panel-heading">
       <h4 className="panel-title">
-      Groups Filter
+      Species Groups Filter
       </h4>
     </div>
     </a>
@@ -45,12 +46,13 @@ render(){
       <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
     <div className="panel-heading">
       <h4 className="panel-title">
-        Habitat Filter
+        Group Filter
       </h4>
     </div>
     </a>
     <div id="collapse3" className="panel-collapse collapse">
       <div className="panel-body">
+        <GroupNameFilter />
       </div>
     </div>
   </div>
