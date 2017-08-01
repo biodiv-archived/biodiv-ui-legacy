@@ -4,25 +4,15 @@ import {FetchUserGroupName} from '../actions/index';
 import {connect} from 'react-redux';
 import {ClearObservationPage} from '../actions/index';
 import {FetchGroupObservations} from '../actions/index';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 class GroupNameFilter extends Component{
-  constructor(props){
-    super(props);
-    this.state={
-      count:0
-    }
-  }
+
 
   componentDidMount(){
-      this.props.FetchUserGroupName(this.state.count);
+      this.props.FetchUserGroupName();
   }
-loadMore(){
-  let count=this.state.count;
-  count=count+1;
-  this.props.FetchUserGroupName(count);
-  this.setState({
-    count:count
-  })
-}
+
 fetchGroupObservation(item,userGroup){
   this.props.ClearObservationPage();
   var event = new CustomEvent("group-observation",{ "detail":{
@@ -33,16 +23,44 @@ fetchGroupObservation(item,userGroup){
   document.dispatchEvent(event);
 }
 
+ logChange(val) {
+  console.log("Selected: " + val.value,val.id);
+  this.props.ClearObservationPage();
+  var event = new CustomEvent("group-observation",{ "detail":{
+        id:val.id,
+        userGroupName:val.value
+  }
+  });
+  document.dispatchEvent(event);
+}
   render(){
+    const data=[];
+    this.props.UserGroupNames.map((item)=>{
+      let item1={};
+      item1.value=item.name;
+      item1.id=item.id;
+      item1.webaddress=item.webaddress;
+      item1.label=item.name;
+      item1.clearValue=false;
+      data.push(item1)
+
+    })
 
     return(
-      <div className="pre-scrollable">
-        <ul  className="list list-unstyled">
-          {this.props.UserGroupNames.map((item)=>{
-            return <a onClick={this.fetchGroupObservation.bind(this,item.id,item.name)}><li key={item.id} >{item.name}</li> </a>
-          })}
-        </ul>
-        <button onClick={this.loadMore.bind(this)} className="btn btn-sm btn-primary">Load More</button>
+      <div>
+        <Select
+          name="form-field-name"
+          value="one"
+          options={data}
+          onChange={this.logChange.bind(this)}
+        />
+        <div className="pre-scrollable">
+          <ul  className="list list-unstyled">
+            {this.props.UserGroupNames.map((item,index)=>{
+              return <a onClick={this.fetchGroupObservation.bind(this,item.id,item.name)}><li key={item.id} >{index<7?item.name:null}</li> </a>
+            })}
+          </ul>
+        </div>
       </div>
 
     )

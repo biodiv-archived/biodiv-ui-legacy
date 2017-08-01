@@ -59,6 +59,7 @@ class UndockedDrawer extends Component {
           <ListItemIcon>
             <StarIcon />
           </ListItemIcon>
+
           <ListItemText primary="Starred" />
         </ListItem>
         <ListItem button>

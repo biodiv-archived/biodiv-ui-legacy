@@ -154,7 +154,7 @@ class GetObservations extends Component{
         this.props.fetchObservations(newparams);
         this.setState({
             params:newparams,
-            userGroup:null
+            userGroupName:null
         })
       }
 

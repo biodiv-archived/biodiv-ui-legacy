@@ -5,11 +5,11 @@ import GetObservation from '../containers/get_observations';
 class Content extends Component{
    render(){
      return (
-           <div style={{backgroundColor: "#12345"}}>
+           <div>
              <div className="col-xs-12 col-sm-3">
-               <Right_Content />
+                   <Right_Content />
              </div>
-             <div style={{backgroundColor:'f2f4f7#'}} className="col-xs-12 col-sm-9 ">
+             <div  style={{backgroundColor:'#EEF9FC'}}  className="col-xs-12 col-sm-9 ">
                <GetObservation />
              </div>
            </div>

@@ -41,8 +41,8 @@ export function ClearObservationPage() {
     payload:[]
   }
 }
-export function FetchUserGroupName(offset) {
-  const url=`${ROOT_URL}/group/list?max=10&offset=${offset*10}&format=json`;
+export function FetchUserGroupName() {
+  const url=`${ROOT_URL}/group/list?max=95&format=json`;
   const request = axios.get(url);
 
   return {
