@@ -93,6 +93,8 @@ class GetObservations extends Component{
           params:{
             max:10,
             offset:count,
+            sGroup:params.sGroup,
+            taxon:params.taxon,
             classification:265799,
             userGroup:params.userGroup
           }

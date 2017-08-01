@@ -16,7 +16,7 @@ return(
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
-                        <ShowGallery thumbnail={props.objs.thumbnail} imageArray={imageArray} noofimages={imageArray.length} />
+                        <ShowGallery thumbnail={props.objs.thumbnail} pos={props.index} objid={props.objs.id} imageArray={imageArray} noofimages={imageArray.length} />
                     </div>
                   </div>
                   <div className=" col-xs-12 col-sm-9">
@@ -25,7 +25,7 @@ return(
                            <tbody>
                             <tr>
                                 <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true">Name</span></td>
-                                <td className="col-sm-8" dangerouslySetInnerHTML={{__html:props.objs.title}}></td>
+                                <td className="col-sm-6" dangerouslySetInnerHTML={{__html:props.objs.title}}></td>
                             </tr>
                             <tr>
                               <td className="col-sm-4"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Place </td>
@@ -48,8 +48,11 @@ return(
                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
                            <td style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap'}} className="col-sm-8" dangerouslySetInnerHTML={{__html:props.objs.notes ?props.objs.notes:"Not Provided"}}></td>
                         </tr>
-
-                          <tr style={{margin:'10px'}}>
+                      </tbody>
+                      </table>
+                      <table className="table table-hover-success ">
+                        <tbody>
+                          <tr>
                             <td>
                               <Img src={props.objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={props.objs.author.name} />
                             </td>
@@ -62,7 +65,7 @@ return(
                               </div>
                             </td>
                           </tr>
-                      </tbody>
+                        </tbody>
                       </table>
 
 

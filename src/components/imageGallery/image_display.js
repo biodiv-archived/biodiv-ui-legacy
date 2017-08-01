@@ -5,7 +5,6 @@ import Img from 'react-image';
 export default class LightboxExample extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             photoIndex: 0,
             isOpen: false
@@ -21,15 +20,16 @@ export default class LightboxExample extends Component {
 
         return (
             <div>
-
-              <div id="mycarousel" className="carousel slide" data-ride="carousel" onClick={() => this.setState({ isOpen: true })}>
+              <a href={"http://indiabiodiversity.org/observation/show/"+this.props.objid+"?pos="+this.props.pos}>
+              <div id="mycarousel" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                   <div className="item active">
                     <Img src={this.props.thumbnail}
                     className="media-object img-responsive"/>
                     <div className="carousel-caption ">
-                         <strong>View Gallery {this.props.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
+                         <strong onClick={() => this.setState({ isOpen: true })}>View Gallery {this.props.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
                     </div>
+
                     {isOpen &&
                         <Lightbox
                             mainSrc={images[photoIndex]}
@@ -44,11 +44,13 @@ export default class LightboxExample extends Component {
                                 photoIndex: (photoIndex + 1) % images.length,
                             })}
                         />
+
                     }
 
                   </div>
                 </div>
               </div>
+              </a>
         {/*   <Img src={this.props.thumbnail}    onClick={() => this.setState({ isOpen: true })}
                className="media-object img-responsive " />
                */}
