@@ -6,184 +6,409 @@ import ObservationListComponent from '../components/observation_list_component';
 import {ClearObservationPage} from '../actions/index';
 import Button from 'material-ui/Button';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Right_stats from '../components/right_material'
+import Right_stats from '../components/right_material';
+import createHistory from 'history/createBrowserHistory'
+const history = createHistory();
+
 class GetObservations extends Component{
-    constructor(props){
+    constructor(props,match){
       super(props);
       this.state={
         params:{
-          max:12,
+          max:10,
           offset:0,
-          taxon:null,
-          sGroup:null,
+          taxon:[],
+          sGroup:[],
           classification:null,
-          userGroup:null
+          userGroup:[]
         },
-        title:null,
-        groupName:null,
-        userGroupName:null
+        title:[],
+        groupName:[],
+        userGroupName:[]
       }
-      {/* Listening to event in ../taxon_browser/main.js*/}
-      document.addEventListener('name-of-event', (e)=>{
-        const params=this.state.params;
-          params.taxon=e.detail.taxonid;
-          params.classification=265799;
-          let sGroup=params.sGroup;
-          console.log("  params.taxon",  params)
-            this.props.fetchObservations(params);
-          this.setState({
-              params:{
-                taxon:e.detail.taxonid,
-                classification:265799,
-                offset:0,
-                sGroup:sGroup
-              },
-                title:e.detail.title
-          })
-        });
-        document.addEventListener('group-observation', (e)=>{
-                  var params={};
-                  params.userGroup=e.detail.id;
-                  params.offset=0,
-              this.props.fetchObservations(params);
-              this.setState({
-                params:params,
-                userGroupName:e.detail.userGroupName
-              })
-
-          });
-          {/*Listening to event in ../FilterPanel/filter.js  */}
-        document.addEventListener('group-event', (e)=>{
-          const params=this.state.params;
-          params.sGroup=e.detail.sGroup;
-          let taxon=params.taxon;
-          this.props.fetchObservations(params);
-          this.setState({
-                  params:{
-                    max:10,
-                    sGroup:e.detail.sGroup,
-                    classification:265799,
-                    offset:0,
-                    taxon:taxon
-                  },
-                groupName:e.detail.groupName
-          })
-          });
       this.props.fetchObservations(this.state.params);
       this.loadMore=this.loadMore.bind(this);
-    }
 
-    displayData(objs,index){
-      return(
-        <div key={objs.id}>
-          <ObservationListComponent objs={objs} index={index}/>
-        </div>
-      )
-    }
+          let paramsForUrl=this.state.params;
+          let strParams = Object.keys(paramsForUrl).map(function(key){
+      return encodeURIComponent(key) + '=' + encodeURIComponent(paramsForUrl[key]);
+    }).join('&');
+
+          history.push({
+            pathname:'/observations/list',
+             search:strParams
+          })
+          history.listen((location, action) => {
+            console.log(`The current URL is ${location.pathname}${location.search}${location.hash}`)
+            console.log(`The last navigation action was ${action}`)
+          })
+    };
+
+      taxonFilterEventListner(e){
+        const params=this.state.params;
+        if(!params.taxon){
+          params.taxon=[];
+        }
+        params.taxon.push(e.detail.taxon)
+
+          const title=this.state.title;
+          var titleobject={};
+          titleobject.taxon=e.detail.taxon;
+          titleobject.title=e.detail.title;
+          title.push(titleobject);
+          params.classification=265799;
+          let sGroup=params.sGroup;
+
+          {/* */}
+          let paramsForUrl=params;
+          let strParams = Object.keys(paramsForUrl).map(function(key){
+      return encodeURIComponent(key) + '=' + encodeURIComponent(paramsForUrl[key]);
+      }).join('&');
+
+          history.push({
+            pathname:'/observations/list',
+             search:strParams
+          })
 
 
-    loadMore(){
+          this.setState({
+              params:{
+                taxon:params.taxon,
+                classification:265799,
+                offset:0,
+                sGroup:sGroup,
+                userGroup:params.userGroup
+              },
+                title:title
+          })
+          params.taxon=params.taxon.join(",");
+          params.sGroup=params.sGroup.join(",");
+          params.userGroup=params.userGroup.join(",");
+          this.props.fetchObservations(params);
+      }
+
+      sGroupFilterEventListner(e){
+        const params=this.state.params;
+        if(!params.sGroup){
+          params.sGroup=[];
+        }
+        console.log("params.sGroup",params.taxon)
+        params.sGroup.push(e.detail.sGroup)
+
+        const groupName=this.state.groupName;
+        var titleobject={};
+        titleobject.sGroup=e.detail.sGroup;
+        titleobject.groupName=e.detail.groupName;
+        groupName.push(titleobject);
+        params.classification=265799;
+
+        let taxonparams=params.taxon;
+        taxonparams= taxonparams.join(",");
+        let sGroupParams=params.sGroup;
+            sGroupParams=sGroupParams.join(",");
+        let userGroupParams=params.userGroup;
+         userGroupParams=userGroupParams.join(",");
+        let newparams={
+                  max:10,
+                  sGroup:sGroupParams,
+                  classification:265799,
+                  offset:0,
+                  taxon:taxonparams,
+                  userGroup:userGroupParams
+                }
+
+        this.props.fetchObservations(newparams);
+        this.setState({
+                params:{
+                  max:10,
+                  sGroup:params.sGroup,
+                  classification:265799,
+                  offset:0,
+                  taxon:params.taxon,
+                  userGroup:params.userGroup
+                },
+              groupName:groupName
+        })
+      }
+
+    userGroupFilterEventListner(e){
       let params=this.state.params;
-        let count=params.offset;
-        count=count+1;
-        params.offset=count*12;
-        console.log("params inside loadmore",params)
-        this.props.fetchObservations(params)
+      let userGroupName=this.state.userGroupName;
+      if(!params.userGroup){
+        params.userGroup=[];
+      }
+        params.userGroup.push(e.detail.id)
+        console.log(params.userGroup,"params.userGroup")
+        const title=this.state.title;
+        var titleobject={};
+        titleobject.userGroup=e.detail.id;
+        titleobject.userGroupName=e.detail.userGroupName;
+        userGroupName.push(titleobject);
+
+        params.offset=0;
+        let taxon=params.taxon;
+        taxon=taxon.join(",");
+        let sGroup=params.sGroup;
+        sGroup=sGroup.join(",");
+        let userGroup=params.userGroup;
+        userGroup=userGroup.join(",");
+
+      let newparams={
+        max:10,
+        offset:0,
+        classification:265799,
+        sGroup:sGroup,
+        taxon:taxon,
+        userGroup:userGroup
+      }
+
+      this.props.fetchObservations(newparams);
+      this.setState({
+      params:{
+        max:10,
+        offset:0,
+        classification:265799,
+        sGroup:params.sGroup,
+        taxon:params.taxon,
+        userGroup:params.userGroup
+      },
+      userGroupName:userGroupName
+      })
+    }
+
+
+    allFilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+      params.SpeciesName=e.detail.SpeciesName;
+      this.props.fetchObservations(params);
+      this.setState({
+              params:{
+                max:10,
+                classification:265799,
+                offset:0,
+                SpeciesName:e.detail.SpeciesName
+              }
+      })
+    }
+
+      removeTaxon(taxonid,item){
+
+        const params=this.state.params;
+        const index1=params.taxon.indexOf(taxonid);
+        console.log("params",params)
+        params.taxon.splice(index1, 1);
+
+        const title=this.state.title;
+        const indexoftitile=title.indexOf(item);
+        title.splice(indexoftitile,1);
+
+        this.props.ClearObservationPage();
+
+          let sGroupParams=params.sGroup;
+          sGroupParams= sGroupParams.join(",");
+          let taxonparams=params.taxon;
+          taxonparams=taxonparams.join(",");
+          let userGroup=params.userGroup;
+          userGroup=userGroup.join(",");
+
+        const newparams={
+            max:10,
+            offset:0,
+            classification:265799,
+            sGroup:sGroupParams,
+            taxon:taxonparams,
+            userGroup:userGroup
+        }
+
+        this.props.fetchObservations(newparams);
+          this.setState({
+            params:{
+                  max:10,
+                  offset:0,
+                  classification:265799,
+                  sGroup:params.sGroup,
+                  taxon:params.taxon,
+                  userGroup:params.userGroup
+            },
+            title:title,
+            groupName:this.state.groupName
+          })
+
+      }
+
+
+
+      removesGroup(sGroup,item){
+        const params=this.state.params;
+
+        const index1=params.sGroup.indexOf(sGroup);
+        params.sGroup.splice(index1, 1);
+
+        const groupName=this.state.groupName;
+        const indexoftitile=groupName.indexOf(item);
+        groupName.splice(indexoftitile,1);
+
+
+        let taxon=params.taxon;
+        taxon=taxon.join(",");
+        let sGroupName=params.sGroup;
+        sGroupName=sGroupName.join(",");
+        let userGroupNew=params.userGroup;
+        userGroupNew=userGroupNew.join(",");
+        const newparams={
+            max:10,
+            offset:0,
+            classification:265799,
+            sGroup:sGroupName,
+            taxon,
+            userGroup:userGroupNew
+        }
+        this.props.ClearObservationPage();
+        this.props.fetchObservations(newparams)
+
         this.setState({
           params:{
             max:10,
-            offset:count,
+            offset:0,
+            classification:265799,
             sGroup:params.sGroup,
             taxon:params.taxon,
-            classification:265799,
             userGroup:params.userGroup
-          }
+          },
+          title:this.state.title,
+          groupName:groupName
         })
 
       }
-      removeTaxon(){
+
+
+      removeUserGroup(userGroup,item){
+        this.props.ClearObservationPage();
         const params=this.state.params;
+        const index1=params.userGroup.indexOf(userGroup);
+        params.userGroup.splice(index1, 1);
+
+        const userGroupName=this.state.userGroupName;
+        const indexoftitile=userGroupName.indexOf(item);
+        userGroupName.splice(indexoftitile,1);
+
+        let userGroupid=params.userGroup;
+        userGroupid=userGroupid.join(",");
+        let taxon=params.taxon;
+        taxon=taxon.join(",");
+        let sGroup=params.sGroup;
+        sGroup=sGroup.join(",");
+
         const newparams={
             max:10,
             offset:0,
             classification:265799,
-            sGroup:params.sGroup,
-            taxon:undefined
+            sGroup,
+            taxon,
+            userGroup:userGroupid
         }
-        this.setState({
-          params:newparams,
-          title:null
-        })
-
         this.props.ClearObservationPage();
-        console.log(this.state.params,newparams);
-      this.props.fetchObservations(newparams)
 
-      }
-
-
-      removeGroup(){
-        const params=this.state.params;
-        const newparams={
-            max:10,
-            offset:0,
-            classification:265799,
-            sGroup:undefined,
-            taxon:params.taxon
-        }
-        this.setState({
-          params:newparams,
-          groupName:null
-        })
-
-        this.props.ClearObservationPage();
-        console.log(this.state.params,newparams);
-      this.props.fetchObservations(newparams)
-
-      }
-
-
-      removeUserGroup(){
-        this.props.ClearObservationPage();
-        const params=this.state.params;
-        const newparams={
-            max:10,
-            offset:0,
-            classification:265799,
-            sGroup:params.sGroup,
-            taxon:params.taxon
-        }
         this.props.fetchObservations(newparams);
         this.setState({
-            params:newparams,
-            userGroupName:null
+            params:{
+              max:10,
+              offset:0,
+              classification:265799,
+              sGroup:params.sGroup,
+              taxon:params.taxon,
+              userGroup:params.userGroup
+            },
+            userGroupName:userGroupName
         })
       }
 
+
+      showtaxonButton(item,index){
+      return  <button className="btn btn-default btn-xs " key={index}  onClick={this.removeTaxon.bind(this,item.taxon,item)} >{item.title} <span className="glyphicon glyphicon-remove"></span>    <span>&nbsp;&nbsp;</span></button>
+      }
+      showGroupNameButton(item,index){
+        return <button  className="btn btn-danger btn-xs" onClick={this.removesGroup.bind(this,item.sGroup,item)} key={index} >{item.groupName} <span className="glyphicon glyphicon-remove"></span></button>
+      }
+      showUserGroupNameButton(item,index){
+        return <button className="btn btn-warning btn-xs " onClick={this.removeUserGroup.bind(this,item.userGroup,item)} key={index} >{item.userGroupName} <span className="glyphicon glyphicon-remove"></span></button>
+      }
+      componentDidMount(){
+        document.addEventListener("all-filter", this.allFilterEventListner.bind(this));
+        document.addEventListener("getTaxon-filter", this.taxonFilterEventListner.bind(this));
+        document.addEventListener("userGroup-filter", this.userGroupFilterEventListner.bind(this));
+        document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
+      }
+      componentWillUnMount(){
+        document.addEventListener("all-filter", this.allFilterEventListner.bind(this));
+        document.addEventListener("get-taxon-filter", this.taxonFilterEventListner.bind(this));
+        document.addEventListener("userGroup-filter", this.taxonFilterEventListner.bind(this));
+        document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
+
+      }
+      displayData(objs,index){
+        return(
+          <div key={objs.id}>
+            <ObservationListComponent objs={objs} index={index}/>
+          </div>
+        )
+      }
+      loadMore(){
+        let params=this.state.params;
+          let count=params.offset;
+          count=count+1;
+          let offset=count*10;
+          let newtaxon=params.taxon;
+            newtaxon=newtaxon.join(",");
+          let newsGroup=params.sGroup;
+            newsGroup=newsGroup.join(",");
+          let newUserGroup=params.userGroup;
+            newUserGroup=newUserGroup.join(",");
+              let newparams={
+                max:10,
+                offset:offset,
+                sGroup:newsGroup,
+                taxon:newtaxon,
+                classification:265799,
+                userGroup:newUserGroup
+              }
+
+          this.props.fetchObservations(newparams);
+          this.setState({
+            params:{
+              max:10,
+              offset:count,
+              sGroup:params.sGroup,
+              taxon:params.taxon,
+              classification:265799,
+              userGroup:params.userGroup
+            }
+          })
+
+        }
   render(){
-
-
     return(
        <div>
           <div className="pull-right">
             <Right_stats />
           </div>
-         {this.state.title?<Button raised color="accent" style={{ fontSize: '13px' }} onClick={this.removeTaxon.bind(this)} >{this.state.title} <span className="glyphicon glyphicon-remove"></span></Button>:null}
+          {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}
+          <span>&nbsp;&nbsp;</span>
+         {this.state.title.length?this.state.title.map(this.showtaxonButton.bind(this)):null}
          <span>&nbsp;&nbsp;</span>
-         {this.state.groupName?<Button  raised color="accent" onClick={this.removeGroup.bind(this)} >{this.state.groupName} <span className="glyphicon glyphicon-remove"></span></Button>:null}
-         {this.state.userGroupName?<Button  raised color="accent" onClick={this.removeUserGroup.bind(this)} >{this.state.userGroupName} <span className="glyphicon glyphicon-remove"></span></Button>:null}
-
+         {this.state.groupName?this.state.groupName.map(this.showGroupNameButton.bind(this)):null}
+         <span>&nbsp;&nbsp;</span>
+         {this.state.userGroupName?this.state.userGroupName.map(this.showUserGroupNameButton.bind(this)):null}
          <hr />
-              {this.props.Observation.map(this.displayData)}
-
-              {this.props.Observation.length ?<button onClick={this.loadMore} type="submit" className="btn btn-secondry">LoadMore</button>:null }
-       </div>
+         {this.props.Observation.all?this.props.Observation.all.map(this.displayData):null}
+         {this.props.Observation.all.length ?(this.props.Observation.count)>(this.state.params.offset*10+10)?<button onClick={this.loadMore} type="submit" className="btn btn-primary">LoadMore</button>:null:null }
+            </div>
     )
   }
-
-
 }
 function mapStateToProps(state){
+  console.log("inside observation",state.Observation)
 return {
   Observation:state.Observation
 };

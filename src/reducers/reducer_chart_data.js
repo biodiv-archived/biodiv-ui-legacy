@@ -3,6 +3,8 @@ export default function(state={},action){
   switch (action.type) {
     case FETCH_SPECIES_CHART:
     return action.payload.data.model.speciesGroupCountList;
+    default:
+    return state
   }
 
   return state;

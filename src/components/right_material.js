@@ -13,6 +13,8 @@ import MailIcon from 'material-ui-icons/Mail';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ReportIcon from 'material-ui-icons/Report';
 import BackspaceIcon from 'material-ui-icons/Backspace';
+import Chip from 'material-ui/Chip';
+
 
 const styleSheet = createStyleSheet('UndockedDrawer', {
   list: {
@@ -97,6 +99,7 @@ class UndockedDrawer extends Component {
           </ListItemIcon>
           <ListItemText primary="Spam" />
         </ListItem>
+
       </div>
     );
 
@@ -114,7 +117,7 @@ class UndockedDrawer extends Component {
 
     return (
       <div>
-        <Button raised color="accent"  onClick={this.handleRightOpen}>Click!</Button>
+        <button className="btn btn-primary btn-xs"  onClick={this.handleRightOpen}>Click!</button>
         <Drawer
           anchor="right"
           open={this.state.open.right}

@@ -1,7 +1,13 @@
 import React from 'react';
-import Img from 'react-image';
+
 import ShowGallery from './imageGallery/image_display';
 import objstyle from './objstyle.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import List from 'material-ui/List/List';
+import ListItem from 'material-ui/List/ListItem';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
+import EllipsisText  from 'react-ellipsis-text';
 const ObservationListComponent=(props)=>{
 
 const imageArray=[];
@@ -12,11 +18,12 @@ props.objs.resource.map((images)=>{
 return(
 
       <div className="container-fluid">
+
           <div className="row" style={{border:'1px solid #acb3bf'}}>
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
-                        <ShowGallery thumbnail={props.objs.thumbnail} pos={props.index} objid={props.objs.id} imageArray={imageArray} noofimages={imageArray.length} />
+                        <ShowGallery thumbnail={props.objs.thumbnail} objs={props.objs} pos={props.index} objid={props.objs.id} imageArray={imageArray} noofimages={imageArray.length} />
                     </div>
                   </div>
                   <div className=" col-xs-12 col-sm-9">
@@ -29,7 +36,7 @@ return(
                             </tr>
                             <tr>
                               <td className="col-sm-4"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Place </td>
-                              <td style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap'}} className="col-sm-8"> {props.objs.placeName} </td>
+                              <td className="col-sm-8"> <EllipsisText text={props.objs.placeName} length={30} /> </td>
                             </tr>
                             <tr>
                               <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Observed On </td>
@@ -46,7 +53,7 @@ return(
 
                          <tr>
                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
-                           <td style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap'}} className="col-sm-8" dangerouslySetInnerHTML={{__html:props.objs.notes ?props.objs.notes:"Not Provided"}}></td>
+                           <td className="col-sm-8" dangerouslySetInnerHTML={{__html:props.objs.notes ? <EllipsisText text={props.objs.notes} length={13} />:"Not Provided"}}></td>
                         </tr>
                       </tbody>
                       </table>
@@ -54,7 +61,7 @@ return(
                         <tbody>
                           <tr>
                             <td>
-                              <Img src={props.objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={props.objs.author.name} />
+                              <img src={props.objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={props.objs.author.name} />
                             </td>
                             <td>
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={"species call"}></span> <span> {"   "}</span> {props.objs.recoVotes.length}
@@ -69,17 +76,25 @@ return(
                       </table>
 
 
+                      </div>
 
-                            <ul className="list list-unstyled list-inline">
-                               {props.objs.userGroups.map((item)=>{
-                                 return <li key={item.name} className="list-inline-item"><img className="img-circle btn-success" src={`http://indiabiodiversity.org/biodiv/userGroups/${item.icon}`} style={{height:'30px',width:'30px'}} title={item.name}/></li>
-                               })}
-                             </ul>
-                   </div>
                  </div>
               </div>
+              {props.objs.userGroups.map((item,index)=>{
+              return  (
+                  <div key={index} className="chip">
+
+                    <img src={"http://indiabiodiversity.org/biodiv/userGroups"+item.icon} title={item.name}/>
+                    <EllipsisText text={item.name} length={13} />
+
+                  </div>
+              )
+          })}
+
             </div>
           <br />
+
+
         </div>
 )
 

@@ -1,6 +1,37 @@
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900");
 .table>tbody>tr>td {
   padding:4px
 }
 tr:not(.no-hover):hover {
     background-color: ;
+}
+.chip {
+    display: inline-block;
+    padding: 0px 25px 10px 26px;
+    height: 32px;
+    font-size: 12px;
+    line-height: 26px;
+    border-radius: 26px;
+    background-color:#d3dcd0;
+    margin-bottom: 5px;
+    margin-left: 8px;
+}
+
+.chip img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+
+}
+body {
+    font-family:"Roboto";
+    font-size: 14px;
+    line-height: 2.1s28571;
+    color: #EE7109;
+    background-color: #123;
+}
+.media{
+  margin-top:5px
 }

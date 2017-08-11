@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Lightbox from 'react-image-lightbox';
-import Img from 'react-image';
+import {Link} from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory'
 
 export default class LightboxExample extends Component {
     constructor(props) {
@@ -11,6 +12,11 @@ export default class LightboxExample extends Component {
         };
     }
 
+callShowPage(objs){
+  const history = createHistory();
+    console.log("history",history);
+  history.push(`/show/${this.props.objid}`, { some:objs  })
+}
     render() {
       const images = this.props.imageArray;
         const {
@@ -20,16 +26,15 @@ export default class LightboxExample extends Component {
 
         return (
             <div>
-              <a href={"http://indiabiodiversity.org/observation/show/"+this.props.objid+"?pos="+this.props.pos}>
+
               <div id="mycarousel" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                   <div className="item active">
-                    <Img src={this.props.thumbnail}
-                    className="media-object img-responsive"/>
+                    <img src={this.props.thumbnail}
+                    className="media-object img-responsive" onClick={this.callShowPage.bind(this,this.props.objs)} />
                     <div className="carousel-caption ">
                          <strong onClick={() => this.setState({ isOpen: true })}>View Gallery {this.props.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
                     </div>
-
                     {isOpen &&
                         <Lightbox
                             mainSrc={images[photoIndex]}
@@ -44,16 +49,10 @@ export default class LightboxExample extends Component {
                                 photoIndex: (photoIndex + 1) % images.length,
                             })}
                         />
-
                     }
-
                   </div>
                 </div>
               </div>
-              </a>
-        {/*   <Img src={this.props.thumbnail}    onClick={() => this.setState({ isOpen: true })}
-               className="media-object img-responsive " />
-               */}
 
             </div>
         );

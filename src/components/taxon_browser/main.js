@@ -83,9 +83,9 @@ constructor(){
 
   onSelect(info,event) {
     this.props.ClearObservationPage();
-    
-    var event = new CustomEvent("name-of-event",{ "detail":{
-      taxonid:event.node.props.taxonid,
+
+    var event = new CustomEvent("getTaxon-filter",{ "detail":{
+      taxon:event.node.props.taxonid,
       title:event.node.props.title
     }
   });
@@ -128,12 +128,14 @@ constructor(){
       });
     };
     const treeNodes = loop(this.props.treeData);
+
     return (
       <div>
         <Tree
           onSelect={this.onSelect}
           checkable onCheck={this.onCheck} checkedKeys={this.state.checkedKeys}
           loadData={this.onLoadData}
+
         >
           {treeNodes}
         </Tree>

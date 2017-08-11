@@ -7,15 +7,14 @@ import {FetchGroupObservations} from '../actions/index';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 class GroupNameFilter extends Component{
-
-
+  
   componentDidMount(){
       this.props.FetchUserGroupName();
   }
 
 fetchGroupObservation(item,userGroup){
   this.props.ClearObservationPage();
-  var event = new CustomEvent("group-observation",{ "detail":{
+  var event = new CustomEvent("userGroup-filter",{ "detail":{
         id:item,
         userGroupName:userGroup
   }
@@ -24,9 +23,9 @@ fetchGroupObservation(item,userGroup){
 }
 
  logChange(val) {
-  console.log("Selected: " + val.value,val.id);
+
   this.props.ClearObservationPage();
-  var event = new CustomEvent("group-observation",{ "detail":{
+  var event = new CustomEvent("userGroup-filter",{ "detail":{
         id:val.id,
         userGroupName:val.value
   }
@@ -57,7 +56,7 @@ fetchGroupObservation(item,userGroup){
         <div className="pre-scrollable">
           <ul  className="list list-unstyled">
             {this.props.UserGroupNames.map((item,index)=>{
-              return <a onClick={this.fetchGroupObservation.bind(this,item.id,item.name)}><li key={item.id} >{index<7?item.name:null}</li> </a>
+              return <a  key={item.name} onClick={this.fetchGroupObservation.bind(this,item.id,item.name)}><li >{index<10?item.name:null}</li> </a>
             })}
           </ul>
         </div>

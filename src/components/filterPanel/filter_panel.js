@@ -14,7 +14,7 @@ class FilterPanel extends Component{
       active:true
     })
     this.props.ClearObservationPage();
-    var event = new CustomEvent("group-event",{ "detail":{
+    var event = new CustomEvent("sGroup-filter",{ "detail":{
         sGroup:value,
         groupName:groupName
     }

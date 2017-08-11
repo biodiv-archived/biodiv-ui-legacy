@@ -1,11 +1,12 @@
 import React  from 'react';
 import mystyle from './style/headerstyle.css';
+import {Link} from 'react-router-dom'
 const Header =(props)=>{
 
   return (
     <div>
        <nav className="navbar navbar-default navbar-inverse" role="navigation">
-         <div  className="container-fluid bg-primary">
+         <div  className="container-fluid bg-default">
     <div className="navbar-header">
       <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span className="sr-only">Toggle navigation</span>
@@ -13,7 +14,7 @@ const Header =(props)=>{
         <span className="icon-bar"></span>
         <span className="icon-bar"></span>
       </button>
-      <a className="navbar-brand" href="#">{props.title}</a>
+        <a style={{paddingTop:'10px'}} href="/"><span>{props.title}</span> </a>
     </div>
 
     <div className="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
@@ -29,7 +30,7 @@ const Header =(props)=>{
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown">Observation <span className="caret"></span></a>
           <ul className="dropdown-menu" role="menu">
-            <li><a href="#">Observations</a></li>
+            <li>Observations</li>
             <li><a href="#">Checklists</a></li>
             <li><a href="#">Datasets</a></li>
           </ul>

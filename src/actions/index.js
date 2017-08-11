@@ -7,8 +7,9 @@ export const GLOBAL_FILTER='GLOBAL_FILTER';
 export const GET_OBSERVATION_COUNT="GET_OBSERVATION_COUNT";
 export const GET_USERGROUPNAME="GET_USERGROUPNAME";
 export const FETCH_GROUP_OBSERVATIONS="FETCH_GROUP_OBSERVATIONS";
-
-const ROOT_URL="http://indiabiodiversity.org";
+export const FETCH_HOME_TOTAL_COUNT="FETCH_HOME_TOTAL_COUNT";
+export const FETCH_COMMENT_DATA="FETCH_COMMENT_DATA";
+const ROOT_URL="http://localhost.indiabiodiversity.org";
 
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
@@ -55,6 +56,14 @@ export function FetchGroupObservations(text) {
   const request = axios.get(url);
   return {
     type:FETCH_GROUP_OBSERVATIONS,
+    payload:request
+  }
+}
+export function fetchHomeTotalCount(text) {
+  const url="http://indiabiodiversity.org/chart/basicStat";
+  const request = axios.get(url);
+  return {
+    type:FETCH_HOME_TOTAL_COUNT,
     payload:request
   }
 }
