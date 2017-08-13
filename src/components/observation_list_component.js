@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 
 import ShowGallery from './imageGallery/image_display';
 import objstyle from './objstyle.css';
@@ -8,22 +8,45 @@ import ListItem from 'material-ui/List/ListItem';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import EllipsisText  from 'react-ellipsis-text';
-const ObservationListComponent=(props)=>{
+import Parser from 'html-react-parser';
+import ReactHtmlParser from 'react-html-parser';
 
-const imageArray=[];
-props.objs.resource.map((images)=>{
+class ObservationListComponent extends Component{
+
+  render(){
+   return(
+   <div>
+    {this.props.view?
+      <ListComponent objsa={this.props.objs} />
+            :
+      <GridComponent objsa={this.props.objs} />}
+   </div>
+   ) 
+  }
+
+}
+
+
+
+
+
+class ListComponent extends Component{
+
+
+
+display(objs,index){
+  const imageArray=[];
+objs.resource.map((images)=>{
   imageArray.push(images.url);
 })
-
-return(
-
-      <div className="container-fluid">
+  return (
+    <div key= {index} className="container-fluid">
 
           <div className="row" style={{border:'1px solid #acb3bf'}}>
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
-                        <ShowGallery thumbnail={props.objs.thumbnail} objs={props.objs} pos={props.index} objid={props.objs.id} imageArray={imageArray} noofimages={imageArray.length} />
+                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} pos={index} objid={objs.id} imageArray={imageArray} noofimages={imageArray.length} />
                     </div>
                   </div>
                   <div className=" col-xs-12 col-sm-9">
@@ -32,28 +55,28 @@ return(
                            <tbody>
                             <tr>
                                 <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true">Name</span></td>
-                                <td className="col-sm-6" dangerouslySetInnerHTML={{__html:props.objs.title}}></td>
+                                <td className="col-sm-6" dangerouslySetInnerHTML={{__html:objs.title}}></td>
                             </tr>
                             <tr>
                               <td className="col-sm-4"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Place </td>
-                              <td className="col-sm-8"> <EllipsisText text={props.objs.placeName} length={30} /> </td>
+                              <td className="col-sm-8"> <EllipsisText text={objs.placeName} length={30} /> </td>
                             </tr>
                             <tr>
                               <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Observed On </td>
-                              <td className="col-sm-8">{props.objs.fromDate }</td>
+                              <td className="col-sm-8">{objs.fromDate }</td>
                            </tr>
                            <tr>
                              <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> CreatedOn </td>
-                             <td className="col-sm-8">{props.objs.toDate }</td>
+                             <td className="col-sm-8">{objs.toDate }</td>
                           </tr>
                           <tr>
                             <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Updated On </td>
-                            <td className="col-sm-8">{props.objs.createdOn }</td>
+                            <td className="col-sm-8">{objs.createdOn }</td>
                          </tr>
 
                          <tr>
                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
-                           <td className="col-sm-8" dangerouslySetInnerHTML={{__html:props.objs.notes ? <EllipsisText text={props.objs.notes} length={13} />:"Not Provided"}}></td>
+                           <td className="col-sm-8" dangerouslySetInnerHTML={{__html:objs.notes ? <EllipsisText text={objs.notes} length={13} />:"Not Provided"}}></td>
                         </tr>
                       </tbody>
                       </table>
@@ -61,14 +84,14 @@ return(
                         <tbody>
                           <tr>
                             <td>
-                              <img src={props.objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={props.objs.author.name} />
+                              <img src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
                             </td>
                             <td>
-                             <span className="glyphicon glyphicon-check" aria-hidden="true" title={"species call"}></span> <span> {"   "}</span> {props.objs.recoVotes.length}
+                             <span className="glyphicon glyphicon-check" aria-hidden="true" title={"species call"}></span> <span> {"   "}</span> {objs.recoVotes.length}
                             </td>
                             <td>
                               <div className="pull-right">
-                               <strong>{props.objs.group.name}</strong>
+                               <strong>{objs.group.name}</strong>
                               </div>
                             </td>
                           </tr>
@@ -80,7 +103,7 @@ return(
 
                  </div>
               </div>
-              {props.objs.userGroups.map((item,index)=>{
+              {objs.userGroups.map((item,index)=>{
               return  (
                   <div key={index} className="chip">
 
@@ -96,7 +119,64 @@ return(
 
 
         </div>
+
+  )
+
+}
+
+render(){
+
+return(
+<div>
+    {this.props.objsa.map(this.display.bind(this))}
+
+</div>
+      
 )
+}
+
+}
+
+
+class GridComponent extends Component{
+
+
+
+display(objs,index){
+
+let title=ReactHtmlParser(objs.title);
+  return (
+    <li key= {index}>
+                 <div >
+                      
+                <div style={{height:'250px',width:'200px'}} className="card ">
+                    <img className="card-img-top" src={objs.thumbnail} />
+                    <div className="card-block">
+                        <figure className="profile">
+                            <img src={objs.author.icon} className="profile-avatar" alt="" />
+                        </figure>
+                        <p className="card-title"> {title}</p>
+                        
+                    </div>
+                    
+                </div>
+            
+                       
+                  </div>
+        </li>
+  )
+
+}
+
+render(){
+
+return(
+<ul className="list-inline responsive">
+    {this.props.objsa.map(this.display.bind(this))}
+</ul>
+      
+)
+}
 
 }
 export default ObservationListComponent;

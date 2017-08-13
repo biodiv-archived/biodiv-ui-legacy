@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {fetchObservations} from '../actions/index';
 import ObservationListComponent from '../components/observation_list_component';
+
 import {ClearObservationPage} from '../actions/index';
 import Button from 'material-ui/Button';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
@@ -24,7 +25,8 @@ class GetObservations extends Component{
         },
         title:[],
         groupName:[],
-        userGroupName:[]
+        userGroupName:[],
+        view:1
       }
       this.props.fetchObservations(this.state.params);
       this.loadMore=this.loadMore.bind(this);
@@ -347,12 +349,13 @@ class GetObservations extends Component{
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
 
       }
-      displayData(objs,index){
-        return(
+      displayData(view,objs){
+          return(
           <div key={objs.id}>
-            <ObservationListComponent objs={objs} index={index}/>
+            <ObservationListComponent objs={objs} view={view}/>
           </div>
         )
+      
       }
       loadMore(){
         let params=this.state.params;
@@ -387,23 +390,45 @@ class GetObservations extends Component{
           })
 
         }
+        showGridView(){
+          this.setState({
+            view:0
+          })
+        }
+         showListView(){
+          this.setState({
+            view:1
+          })
+        }
   render(){
     return(
-       <div>
-          <div className="pull-right">
-            <Right_stats />
-          </div>
-          {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}
-          <span>&nbsp;&nbsp;</span>
-         {this.state.title.length?this.state.title.map(this.showtaxonButton.bind(this)):null}
-         <span>&nbsp;&nbsp;</span>
-         {this.state.groupName?this.state.groupName.map(this.showGroupNameButton.bind(this)):null}
-         <span>&nbsp;&nbsp;</span>
-         {this.state.userGroupName?this.state.userGroupName.map(this.showUserGroupNameButton.bind(this)):null}
-         <hr />
-         {this.props.Observation.all?this.props.Observation.all.map(this.displayData):null}
-         {this.props.Observation.all.length ?(this.props.Observation.count)>(this.state.params.offset*10+10)?<button onClick={this.loadMore} type="submit" className="btn btn-primary">LoadMore</button>:null:null }
+      <div>
+            <div className="pull-right">
+              <Right_stats />
             </div>
+
+            
+            {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}
+
+            {this.state.title.length?this.state.title.map(this.showtaxonButton.bind(this)):null}
+            {this.state.groupName?this.state.groupName.map(this.showGroupNameButton.bind(this)):null}
+            {this.state.userGroupName?this.state.userGroupName.map(this.showUserGroupNameButton.bind(this)):null}
+            <br />
+            <br />
+            <div className="btn-group">
+            <button className="btn btn-default" onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
+            <button className="btn btn-default" onClick={this.showGridView.bind(this,0)} > <span className="glyphicon glyphicon-th"> </span> Grid</button>
+            </div>
+            <br />
+            <br />
+
+            {this.props.Observation.all?this.displayData(this.state.view,this.props.Observation.all):null}
+            {this.props.Observation.all.length ?(this.props.Observation.count)>(this.state.params.offset*10+10)?<button onClick={this.loadMore} type="submit" className="btn btn-primary">LoadMore</button>:null:null }
+             
+            
+      </div>
+
+
     )
   }
 }

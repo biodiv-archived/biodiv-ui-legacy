@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Lightbox from 'react-image-lightbox';
 import {Link} from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory'
-
 export default class LightboxExample extends Component {
     constructor(props) {
         super(props);

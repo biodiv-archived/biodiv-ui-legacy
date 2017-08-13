@@ -1,7 +1,10 @@
 import {FETCH_OBSERVATION} from '../actions/index';
 import {DELETE_OBSERVATION} from '../actions/index';
+
 const DEFAULT_STATE={all:[],count:null}
+
 export default function(state=DEFAULT_STATE,action){
+
   switch (action.type) {
     case FETCH_OBSERVATION:
      return{
@@ -10,8 +13,9 @@ export default function(state=DEFAULT_STATE,action){
      }
     case DELETE_OBSERVATION:
     return DEFAULT_STATE;
+
     default:
-    return DEFAULT_STATE
+    return state;
 
   }
   return DEFAULT_STATE;
