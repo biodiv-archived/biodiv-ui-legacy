@@ -149,10 +149,10 @@ let title=ReactHtmlParser(objs.title);
     <li key= {index}>
                  <div >
                       
-                <div style={{height:'250px',width:'200px'}} className="card ">
+                <div style={{height:'280px',width:'200px'}} className="card ">
                     <img className="card-img-top" src={objs.thumbnail} />
                     <div className="card-block">
-                        <figure className="profile">
+                        <figure className="profile"  style={{height:'40px',width:'40px'}}>
                             <img src={objs.author.icon} className="profile-avatar" alt="" />
                         </figure>
                         <p className="card-title"> {title}</p>
