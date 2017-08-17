@@ -13,7 +13,7 @@ class GroupNameFilter extends Component{
   }
 
 fetchGroupObservation(item,userGroup){
-  this.props.ClearObservationPage();
+    this.props.ClearObservationPage();
   var event = new CustomEvent("userGroup-filter",{ "detail":{
         id:item,
         userGroupName:userGroup
