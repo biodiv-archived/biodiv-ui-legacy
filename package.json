@@ -19,6 +19,7 @@
     "material-ui": "^1.0.0-beta.3",
     "material-ui-icons": "^1.0.0-alpha.19",
     "material-ui-responsive-drawer": "^1.1.31",
+    "query-string": "^5.0.0",
     "rc-tree": "^1.5.0",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
