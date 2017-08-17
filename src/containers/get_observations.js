@@ -12,7 +12,7 @@ import createHistory from 'history/createBrowserHistory'
 const history = createHistory();
 
 class GetObservations extends Component{
-    constructor(props,match){
+    constructor(props){
       super(props);
       this.state={
         params:{
@@ -400,7 +400,11 @@ class GetObservations extends Component{
             view:1
           })
         }
+
+
+            
   render(){
+
     return(
       <div>
             <div className="pull-right">

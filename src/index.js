@@ -19,7 +19,7 @@ const createStoreWithMiddleware = applyMiddleware(ReduxPromise,logger)(createSto
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
-      <Route exact path="/observations/list" component={App} />
+      <Route exact path="/observations/list/:sGroup?" component={App} />
     </BrowserRouter>
   </Provider>
   , document.querySelector('.container-fluid'));

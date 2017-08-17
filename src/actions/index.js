@@ -9,7 +9,7 @@ export const GET_USERGROUPNAME="GET_USERGROUPNAME";
 export const FETCH_GROUP_OBSERVATIONS="FETCH_GROUP_OBSERVATIONS";
 export const FETCH_HOME_TOTAL_COUNT="FETCH_HOME_TOTAL_COUNT";
 export const FETCH_COMMENT_DATA="FETCH_COMMENT_DATA";
-const ROOT_URL="http://indiabiodiversity.org";
+const ROOT_URL="https://pamba.strandls.com";
 
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;

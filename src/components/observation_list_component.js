@@ -150,7 +150,7 @@ let title=ReactHtmlParser(objs.title);
                  <div >
                       
                 <div style={{height:'280px',width:'200px'}} className="card ">
-                    <img className="card-img-top" src={objs.thumbnail} />
+                    <img className="card-img-top" style={{height:'200px',width:'200px'}} src={objs.thumbnail} />
                     <div className="card-block">
                         <figure className="profile"  style={{height:'40px',width:'40px'}}>
                             <img src={objs.author.icon} className="profile-avatar" alt="" />
