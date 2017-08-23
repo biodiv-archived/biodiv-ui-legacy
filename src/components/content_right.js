@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import Right_bar from './taxon_browser/main';
 import FilterPanel from './filterPanel/filter_panel';
-import GroupNameFilter from './groupname_filter';
-import AllFilter from './all_filter';
+import UserGroupNameFilter from './user_groupname_filter';
+import SpeciesNameFilter from './speciesname_filter';
+import FlaggedFilter from './flag_filter';
+import MediaFilter from './media_filter';
+
 class Right extends Component {
 render(){
   return (
@@ -39,7 +42,6 @@ render(){
             </a>
             <div id="collapse2" className="panel-collapse collapse">
               <div className="panel-body">
-
                 <FilterPanel />
               </div>
             </div>
@@ -54,7 +56,7 @@ render(){
             </a>
             <div id="collapse3" className="panel-collapse collapse">
               <div className="panel-body">
-                <GroupNameFilter />
+                <UserGroupNameFilter />
               </div>
             </div>
           </div>
@@ -62,13 +64,13 @@ render(){
               <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
             <div className="panel-heading bg-primary">
               <h4 className="panel-title">
-              All Filters
+              SpeciesName Filter
               </h4>
             </div>
             </a>
             <div id="collapse4" className="panel-collapse collapse">
               <div className="panel-body">
-                <AllFilter />
+                <SpeciesNameFilter />
               </div>
             </div>
           </div>
@@ -76,12 +78,13 @@ render(){
               <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
             <div className="panel-heading bg-primary">
               <h4 className="panel-title">
-                Habitat Filter
+                Flag Filter
               </h4>
             </div>
             </a>
             <div id="collapse5" className="panel-collapse collapse">
               <div className="panel-body">
+
               </div>
             </div>
           </div>
@@ -89,12 +92,13 @@ render(){
               <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
             <div className="panel-heading bg-primary">
               <h4 className="panel-title">
-                Habitat Filter
+                Media Filter
               </h4>
             </div>
             </a>
             <div id="collapse6" className="panel-collapse collapse">
               <div className="panel-body">
+              
               </div>
             </div>
           </div>

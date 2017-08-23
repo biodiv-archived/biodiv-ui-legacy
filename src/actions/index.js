@@ -9,8 +9,9 @@ export const GET_USERGROUPNAME="GET_USERGROUPNAME";
 export const FETCH_GROUP_OBSERVATIONS="FETCH_GROUP_OBSERVATIONS";
 export const FETCH_HOME_TOTAL_COUNT="FETCH_HOME_TOTAL_COUNT";
 export const FETCH_COMMENT_DATA="FETCH_COMMENT_DATA";
-const ROOT_URL="https://pamba.strandls.com";
+export const FETCH_EDIT_GROUP_DATA="FETCH_EDIT_GROUP_DATA";
 
+const ROOT_URL="https://pamba.strandls.com";
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
@@ -60,10 +61,18 @@ export function FetchGroupObservations(text) {
   }
 }
 export function fetchHomeTotalCount(text) {
-  const url="http://indiabiodiversity.org/chart/basicStat";
+    const url=`${ROOT_URL}/chart/basicStat`;
   const request = axios.get(url);
   return {
     type:FETCH_HOME_TOTAL_COUNT,
+    payload:request
+  }
+}
+export function fetchEditUserGroupData() {
+  const url=`${ROOT_URL}/api/speciesGroup/list?format=json`;
+  const request = axios.get(url);
+  return {
+    type:FETCH_EDIT_GROUP_DATA,
     payload:request
   }
 }

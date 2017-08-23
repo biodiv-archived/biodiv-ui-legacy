@@ -1,11 +1,10 @@
 import React from 'react';
 import Content from './content';
-import Footer from './footer/footer';
-import Header from './header/header';
 import axios from 'axios';
 import {fetchHomeTotalCount} from '../actions/index';
 import {connect} from 'react-redux';
-import HomeMainContent from './home_main_content'
+import HomeMainContent from './home_main_content';
+
 class HomeContent extends React.Component {
   constructor(){
     super();

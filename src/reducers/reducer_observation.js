@@ -7,10 +7,17 @@ export default function(state=DEFAULT_STATE,action){
 
   switch (action.type) {
     case FETCH_OBSERVATION:
-     return{
-       all:state.all.concat(action.payload.data.model.observationInstanceList),
-       count:action.payload.data.model.observationCount
-     }
+      if(action.payload.data){
+        return{
+          all:state.all.concat(action.payload.data.model.observationInstanceList),
+          count:action.payload.data.model.observationCount
+        }
+      }
+      else {
+        return DEFAULT_STATE;
+        
+      }
+
     case DELETE_OBSERVATION:
     return DEFAULT_STATE;
 

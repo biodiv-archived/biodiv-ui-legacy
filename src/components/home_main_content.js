@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-
+import {NavLink} from 'react-router-dom';
 class HomeMainContent extends Component{
 
   render(){
@@ -20,7 +20,7 @@ class HomeMainContent extends Component{
     </div>
   </div>
   <div className="col-sm-2">
-    <Link to="/observations">
+
     <div className="thumbnail">
       <img src="http://indiabiodiversity.org/biodiv/observations//93c65065-0bac-44e6-a035-b16bff154556/587_gall.jpg" style={{height:'200px',width:'200px'}} />
       <div  style={{backgroundColor:'#5ae84a'}} className="caption">
@@ -28,7 +28,7 @@ class HomeMainContent extends Component{
         <h1> <strong>{this.props.data.observationCount}</strong></h1>
       </div>
     </div>
-    </Link>
+  
   </div>
   <div className="col-sm-2">
     <div className="thumbnail">

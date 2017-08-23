@@ -6,8 +6,8 @@ import {ClearObservationPage} from '../actions/index';
 import {FetchGroupObservations} from '../actions/index';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-class GroupNameFilter extends Component{
-  
+class UserGroupNameFilter extends Component{
+
   componentDidMount(){
       this.props.FetchUserGroupName();
   }
@@ -70,4 +70,4 @@ return {
   UserGroupNames:state.UserGroupNames,
 };
 }
-export default connect(mapStateToProps, {FetchUserGroupName,ClearObservationPage,FetchGroupObservations})(GroupNameFilter);
+export default connect(mapStateToProps, {FetchUserGroupName,ClearObservationPage,FetchGroupObservations})(UserGroupNameFilter);

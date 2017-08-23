@@ -1,8 +1,13 @@
-import React  from 'react';
+import React, {Component} from 'react';
 import mystyle from './style/headerstyle.css';
-import {Link} from 'react-router-dom'
-const Header =(props)=>{
+import {NavLink} from 'react-router-dom';
 
+class Header extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+
+  render(){
   return (
     <div>
        <nav className="navbar navbar-default navbar-inverse" role="navigation">
@@ -14,7 +19,7 @@ const Header =(props)=>{
         <span className="icon-bar"></span>
         <span className="icon-bar"></span>
       </button>
-        <a style={{paddingTop:'10px'}} href="/"><span>{props.title}</span> </a>
+      <NavLink to="/" className="navbar-brand" >{this.props.title}</NavLink>
     </div>
 
     <div className="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
@@ -30,7 +35,7 @@ const Header =(props)=>{
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown">Observation <span className="caret"></span></a>
           <ul className="dropdown-menu" role="menu">
-            <li>Observations</li>
+            <li><NavLink to="/Observation/list">Observations</NavLink></li>
             <li><a href="#">Checklists</a></li>
             <li><a href="#">Datasets</a></li>
           </ul>
@@ -68,54 +73,19 @@ const Header =(props)=>{
         <button type="submit" className="btn btn-default"><i className="fa fa fa-search"></i></button>
       </form>
       <ul className="nav navbar-nav navbar-right">
-        <li className="dropdown">
-          <a href="#" className="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span className="caret"></span></a>
-			       <ul id="login-dp" className="dropdown-menu">
-      				 <li>
-      					 <div className="row">
-      							<div className="col-md-12">
-      								Login via
-      								<div className="social-buttons">
-      									<a href="#" className="btn btn-fb btn-primary btn-sm"><i className="fa fa-facebook"></i> Facebook</a>
-      									<a href="#" className="btn btn-tw btn-primary btn-sm"><i className="fa fa-twitter"></i> Twitter</a>
-      								</div>
-                                      or
-      								<form className="form" role="form" method="post" action="login"  id="login-nav">
-      										<div className="form-group">
-      											 <label className="sr-only" htmlFor="exampleInputEmail2">Email address</label>
-      											 <input type="email" className="form-control" id="exampleInputEmail2" placeholder="Email address" required />
-      										</div>
-      										<div className="form-group">
-      											 <label className="sr-only" htmlFor="exampleInputPassword2">Password</label>
-      											 <input type="password" className="form-control" id="exampleInputPassword2" placeholder="Password" required />
-                                                   <div className="help-block text-right"><a href="">Forget the password ?</a></div>
-      										</div>
-      										<div className="form-group">
-      											 <button type="submit" className="btn btn-primary btn-block">Sign in</button>
-      										</div>
-      										<div className="checkbox">
-      											 <label>
-      											 <input type="checkbox" /> keep me logged-in
-      											 </label>
-      										</div>
-      								 </form>
-      							</div>
-      							<div className="bottom text-center">
-      								New here ? <a href="#"><b>Join Us</b></a>
-      							</div>
-      					 </div>
-      				</li>
-			    </ul>
+        <li className="login">
+          <NavLink to="/login"><b>Login</b></NavLink>
         </li>
       </ul>
 
     </div> {/* <!-- /.navbar-collapse -->*/}
   </div> {/*<!-- /.container-fluid -->*/}
 </nav>
-      <div className="jumbotron">
+      <div className="jumbotron ">
           <h2 className="display-3"> <span className="jumboh"></span></h2>
       </div>
 </div>
   )
+}
 }
 export default Header;
