@@ -36,12 +36,7 @@ class GetObservations extends Component{
         view:1
       }
 
-      const query=queryString.stringify(this.state.params);
 
-      history.push({
-        pathname:"/observation/list",
-        search:query
-      })
       this.props.fetchObservations(this.state.params);
       this.loadMore=this.loadMore.bind(this);
     };
@@ -58,7 +53,7 @@ class GetObservations extends Component{
           titleobject.taxon=e.detail.taxon;
           titleobject.title=e.detail.title;
           title.push(titleobject);
-          params.classification=265799;
+          params.classification=e.detail.classification;
           let sGroup=params.sGroup;
           let isFlagged=params.isFlagged;
           let speciesName=params.speciesName;
@@ -66,7 +61,7 @@ class GetObservations extends Component{
           this.setState({
               params:{
                 taxon:params.taxon,
-                classification:265799,
+                classification:params.classification,
                 offset:0,
                 sGroup:sGroup,
                 userGroupList:params.userGroupList,
@@ -98,7 +93,7 @@ class GetObservations extends Component{
         titleobject.sGroup=e.detail.sGroup;
         titleobject.groupName=e.detail.groupName;
         groupName.push(titleobject);
-        params.classification=265799;
+        params.classification=params.classification;
         let isFlagged=params.isFlagged;
         let speciesName=params.speciesName;
         let MediaFilter=params.isMediaFilter;
@@ -113,7 +108,7 @@ class GetObservations extends Component{
         let newparams={
                   max:10,
                   sGroup:sGroupParams,
-                  classification:265799,
+                  classification:params.classification,
                   offset:0,
                   taxon:taxonparams,
                   userGroupList:userGroupParams,
@@ -129,7 +124,7 @@ class GetObservations extends Component{
                 params:{
                   max:10,
                   sGroup:params.sGroup,
-                  classification:265799,
+                  classification:params.classification,
                   offset:0,
                   taxon:params.taxon,
                   userGroupList:params.userGroupList,
@@ -155,6 +150,7 @@ class GetObservations extends Component{
         var titleobject={};
         titleobject.userGroupList=e.detail.id;
         titleobject.userGroupName=e.detail.userGroupName;
+        
         userGroupName.push(titleobject);
 
         params.offset=0;
@@ -172,7 +168,7 @@ class GetObservations extends Component{
       let newparams={
         max:10,
         offset:0,
-        classification:265799,
+        classification:params.classification,
         sGroup:sGroup,
         taxon:taxon,
         userGroupList:userGroupList,
@@ -187,7 +183,7 @@ class GetObservations extends Component{
       params:{
         max:10,
         offset:0,
-        classification:265799,
+        classification:params.classification,
         sGroup:params.sGroup,
         taxon:params.taxon,
         userGroupList:params.userGroupList,
@@ -213,7 +209,7 @@ class GetObservations extends Component{
         let speciesNameFilter=params.speciesName;
       let newparams={
         max:10,
-        classification:265799,
+        classification:params.classification,
         offset:0,
         taxon:taxon,
         sGroup:sGroup,
@@ -227,7 +223,7 @@ class GetObservations extends Component{
       this.setState({
               params:{
                 max:10,
-                classification:265799,
+                classification:params.classification,
                 offset:0,
                 taxon:params.taxon,
                 sGroup:params.sGroup,
@@ -253,7 +249,7 @@ class GetObservations extends Component{
 
       let newparams={
         max:10,
-        classification:265799,
+        classification:params.classification,
         offset:0,
         taxon:taxon,
         sGroup:sGroup,
@@ -267,7 +263,7 @@ class GetObservations extends Component{
       this.setState({
               params:{
                 max:10,
-                classification:265799,
+                classification:params.classification,
                 offset:0,
                 taxon:params.taxon,
                 sGroup:params.sGroup,
@@ -305,7 +301,7 @@ class GetObservations extends Component{
         const newparams={
             max:10,
             offset:0,
-            classification:265799,
+            classification:params.classification,
             sGroup:sGroupParams,
             taxon:taxonparams,
             userGroupList:userGroup,
@@ -320,7 +316,7 @@ class GetObservations extends Component{
             params:{
                   max:10,
                   offset:0,
-                  classification:265799,
+                  classification:params.classification,
                   sGroup:params.sGroup,
                   taxon:params.taxon,
                   userGroupList:params.userGroupList,
@@ -361,7 +357,7 @@ class GetObservations extends Component{
         const newparams={
             max:10,
             offset:0,
-            classification:265799,
+            classification:params.classification,
             sGroup:sGroupName,
             taxon,
             userGroupList:userGroupNew,
@@ -377,7 +373,7 @@ class GetObservations extends Component{
           params:{
             max:10,
             offset:0,
-            classification:265799,
+            classification:params.classification,
             sGroup:params.sGroup,
             taxon:params.taxon,
             userGroupList:params.userGroupList,
@@ -417,7 +413,7 @@ class GetObservations extends Component{
         const newparams={
             max:10,
             offset:0,
-            classification:265799,
+            classification:params.classification,
             sGroup,
             taxon,
             userGroupList:userGroupid,
@@ -433,7 +429,7 @@ class GetObservations extends Component{
             params:{
               max:10,
               offset:0,
-              classification:265799,
+              classification:params.classification,
               sGroup:params.sGroup,
               taxon:params.taxon,
               userGroupList:params.userGroupList,
@@ -496,7 +492,7 @@ class GetObservations extends Component{
                 offset:offset,
                 sGroup:newsGroup,
                 taxon:newtaxon,
-                classification:265799,
+                classification:params.classification,
                 userGroupList:newUserGroup,
                 sort:params.sort,
                 speciesName:params.speciesName,
@@ -510,7 +506,7 @@ class GetObservations extends Component{
               offset:count,
               sGroup:params.sGroup,
               taxon:params.taxon,
-              classification:265799,
+              classification:params.classification,
               userGroupList:params.userGroupList,
               sort:params.sort,
               speciesName:params.speciesName,

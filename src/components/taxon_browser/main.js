@@ -10,14 +10,14 @@ import {fetchTaxonList} from '../../actions/index';
 import {ClearObservationPage} from '../../actions/index';
 
 
-function generateTreeNodes(treeNode) {
+function generateTreeNodes(treeNode,classSystem) {
   const arr = [];
   const key = treeNode.props.eventKey;
   $.ajax({
     async:false,
    url:"http://indiabiodiversity.org/taxon/listHierarchy",
    data:{
-      classSystem:265799,
+      classSystem:classSystem,
       id:key
    },
    success:(data)=>{
@@ -71,14 +71,15 @@ constructor(){
   super();
   this.taxon;
   this.state={
-    checkedKeys: []
+    checkedKeys: [],
+    classification:"265799"
   }
   this.onLoadData =this.onLoadData.bind(this);
   this.onCheck =this.onCheck.bind(this);
   this.onSelect =this.onSelect.bind(this);
 }
   componentDidMount() {
-    this.props.fetchTaxonList();
+    this.props.fetchTaxonList(this.state.classification);
   }
 
   onSelect(info,event) {
@@ -86,7 +87,9 @@ constructor(){
 
     var event = new CustomEvent("getTaxon-filter",{ "detail":{
       taxon:event.node.props.taxonid,
-      title:event.node.props.title
+      title:event.node.props.title,
+      classification:this.state.classification
+
     }
   });
 
@@ -100,17 +103,28 @@ constructor(){
     })
   }
 
+
+
   onLoadData(treeNode) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const treeData = [...this.props.treeData];
-        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode));
+
+        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode,this.state.classification));
         this.setState({
            treeData:treeData,
          });
         resolve();
       }, 500);
     });
+  }
+
+  changeTaxonomy(event){
+    this.props.fetchTaxonList(event.target.value);
+    this.setState({
+      classification:event.target.value
+    })
+
   }
 
   render() {
@@ -131,6 +145,20 @@ constructor(){
 
     return (
       <div>
+        {/*
+          <div style={{paddingBottom:'0px',marginBottom:'0px'}} className="form-group form-inline"  >
+            <select style={{width:'100%'}} onChange={this.changeTaxonomy.bind(this)}  className=" form-control" >
+                <option  value="265799">IBP (India Biodiversity portal )</option>
+                <option  value="819">IUCN Taxonomy Hierarchy </option>
+                <option  value="818">GBIF Taxonomy  </option>
+                <option  value="820"> FishBase Taxonomy Hierarchy  </option>
+                <option  value="265798">Combined Taxonomy Hierarchy </option>
+                <option  value="821">Catalogue of Life  </option>
+                <option  value="817">Author Contributed </option>
+              </select>
+            </div>
+
+          */}
         <Tree
           onSelect={this.onSelect}
           checkable onCheck={this.onCheck} checkedKeys={this.state.checkedKeys}

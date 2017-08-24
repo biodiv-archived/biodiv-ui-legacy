@@ -30,8 +30,8 @@ callShowPage(objs){
                 <div className="carousel-inner">
                   <div className="item active">
 
-                    <img src={this.props.thumbnail}
-                    className="media-object img-responsive" onClick={this.callShowPage.bind(this,this.props.objs)} />
+                    <img src={this.props.thumbnail} style={{paddingTop:'5px',paddingBottom:'5px'}}
+                    className="media-object img-responsive img-rounded"  onClick={this.callShowPage.bind(this,this.props.objs)} />
 
                     <div className="carousel-caption ">
                          <strong onClick={() => this.setState({ isOpen: true })}>View Gallery {this.props.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>

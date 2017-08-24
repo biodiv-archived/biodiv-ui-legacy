@@ -11,7 +11,7 @@ export const FETCH_HOME_TOTAL_COUNT="FETCH_HOME_TOTAL_COUNT";
 export const FETCH_COMMENT_DATA="FETCH_COMMENT_DATA";
 export const FETCH_EDIT_GROUP_DATA="FETCH_EDIT_GROUP_DATA";
 
-const ROOT_URL="https://pamba.strandls.com";
+const ROOT_URL="http://indiabiodiversity.org";
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
@@ -29,8 +29,8 @@ const request = axios.get(url);
     payload:request
   }
 }
-export function fetchTaxonList() {
-const url=`${ROOT_URL}/taxon/listHierarchy?classSystem=265799`;
+export function fetchTaxonList(classification) {
+const url=`${ROOT_URL}/taxon/listHierarchy?classSystem=${classification}`;
 const request = axios.get(url);
   return {
     type:FETCH_TAXON_LIST,

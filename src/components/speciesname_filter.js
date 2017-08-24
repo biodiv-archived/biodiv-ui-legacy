@@ -10,7 +10,9 @@ class SpeciesNameFilter extends Component{
   }
 
   handleInputChange(event){
-
+    this.setState({
+      checked:event.target.value
+    })
   if(event.target.checked){
     var event = new CustomEvent("speciesName-filter",{ "detail":{
         SpeciesName:event.target.value
@@ -20,6 +22,7 @@ class SpeciesNameFilter extends Component{
 
     document.dispatchEvent(event);
       event.preventDefault();
+
   }
   clearSpeciesName(){
     var event = new CustomEvent("speciesName-filter",{ "detail":{
@@ -33,9 +36,9 @@ class SpeciesNameFilter extends Component{
       <div>
         <form className="form from-control">
           <div className="radio">
-            <label><input type="radio" name="same" value="UNIDENTIFED" onChange={this.handleInputChange.bind(this)} />Unknown</label>
+            <label><input type="radio" name="same" checked={this.state.checked === 'UNIDENTIFED'} value="UNIDENTIFED" onChange={this.handleInputChange.bind(this)} />Unknown</label>
             <br />
-            <label><input  type="radio" name="same" value="IDENTIFED" onChange={this.handleInputChange.bind(this)} />Known</label>
+            <label><input  type="radio" name="same" checked={this.state.checked === 'IDENTIFED'} value="IDENTIFED" onChange={this.handleInputChange.bind(this)} />Known</label>
           </div>
           <button onClick={this.clearSpeciesName.bind(this)} className="btn btn-xs btn-danger"><span className="glyphicon glyphicon-trash"></span></button>
         </form>
