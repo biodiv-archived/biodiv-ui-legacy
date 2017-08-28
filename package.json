@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "bootstrap": "^3.3.7",
+    "bootstrap-modal": "^2.2.0",
     "d3": "^3.5.17",
     "d3-array": "^0.8.1",
     "d3-scale": "^0.9.3",
@@ -27,6 +29,7 @@
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-autocomplete": "^1.5.10",
+    "react-autosuggest": "^9.3.2",
     "react-collapsible": "^2.0.0",
     "react-dom": "^15.6.1",
     "react-easy-chart": "^0.1.13",

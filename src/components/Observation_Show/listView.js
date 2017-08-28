@@ -4,9 +4,7 @@ import objstyle from './objstyle.css';
 import EllipsisText  from 'react-ellipsis-text';
 import Parser from 'html-react-parser';
 import Moment from 'react-moment';
-import {getEditUserGroup} from '../../Utils/Observations_API/index';
 import Tabs from './tabs';
-import {getAllUserGroup} from '../../Utils/Observations_API/index';
 import {ROOT_URL} from '../../actions';
 class ListComponent extends Component{
 
@@ -151,6 +149,8 @@ objs.resource.map((images)=>{
                   </div>
               )
           })}
+          <Tabs objs={objs}/>
+
             </div>
           <br />
         </div>

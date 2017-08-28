@@ -6,6 +6,10 @@ import  UserGroupNames from './reducer_fetch_userGroup';
 import  UserGroupObservations from './reducer_fetch_groupobservations';
 import  HomeTotalCount from './reducer_home_total_count';
 import  EditUserGroupData from './reducer_edit_user_group_data';
+import Language_reducer from './reducer_languages.js'
+import Login_reducer from './reducer_login.js'
+import Register_reducer from './reducer_login.js'
+
 
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
@@ -14,7 +18,10 @@ const rootReducer = combineReducers({
   UserGroupNames:UserGroupNames,
   UserGroupObservations:UserGroupObservations,
   HomeTotalCount:HomeTotalCount,
-  EditUserGroupData:EditUserGroupData
+  EditUserGroupData:EditUserGroupData,
+  Languages:Language_reducer,
+  Login:Login_reducer,
+  Regsiter:Register_reducer
 });
 
 export default rootReducer;

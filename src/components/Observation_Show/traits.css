@@ -1,0 +1,11 @@
+#radio_select.active {
+    background-color: green;
+}
+
+#checkbox_select.active{
+  background-color: green;
+}
+
+#trait_facts.active{
+  background-color: green;
+}

@@ -11,7 +11,7 @@ import App from './components/app';
 import Footer from './components/footer/footer';
 import Header from './components/header/header';
 import HomePage from './components/home_page';
-import Login from './components/login/login';
+import Login from './components/Observation_Show/login.js';
 import Single_Obj_Show from './components/Observation_Show/single_show';
 import {
   BrowserRouter,
