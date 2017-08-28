@@ -1,4 +1,9 @@
 import axios from 'axios';
+import history from '../history';
+export const AUTH_USER ='AUTH_USER';
+export const UNAUTH_USER ='UNAUTH_USER';
+export const AUTH_ERROR ='AUTH_ERROR';
+export const FETCH_MESSAGE ='FETCH_MESSAGE';
 export const FETCH_OBSERVATION='FETCH_OBSERVATION';
 export const FETCH_SPECIES_CHART='FETCH_SPECIES_CHART';
 export const FETCH_TAXON_LIST='FETCH_TAXON_LIST';
@@ -12,6 +17,7 @@ export const FETCH_COMMENT_DATA="FETCH_COMMENT_DATA";
 export const FETCH_EDIT_GROUP_DATA="FETCH_EDIT_GROUP_DATA";
 
 export const ROOT_URL="http://indiabiodiversity.org";
+
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
@@ -74,5 +80,68 @@ export function fetchEditUserGroupData() {
   return {
     type:FETCH_EDIT_GROUP_DATA,
     payload:request
+  }
+}
+
+export function signinUser({ email, password }) {
+let username=email;
+  return function(dispatch) {
+    // Submit email/password to the server
+    axios.post(
+      `${ROOT_URL}/api/login?username=${email}&password=${password}`)
+      .then(response => {
+
+        // If request is good...
+        // - Update state to indicate user is authenticated
+        dispatch({ type: AUTH_USER });
+
+        localStorage.setItem('token', response.data.token);
+        // - redirect to the route '/feature'
+        this.props.history.push('/observation/list');
+      }).catch(() => {
+        // If request is bad...
+        // - Show an error to the user
+        dispatch(authError('Bad Login Info'));
+      });
+
+  }
+}
+
+export function signupUser({ email, password }) {
+  return function(dispatch) {
+    axios.post(`${ROOT_URL}/signup`, { email, password })
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        localStorage.setItem('token', response.data.token);
+        history.push('/feature');
+      })
+      .catch(response => dispatch(authError(response.data.error)));
+  }
+}
+
+export function authError(error) {
+  return {
+    type: AUTH_ERROR,
+    payload: error
+  };
+}
+
+export function signoutUser() {
+  localStorage.removeItem('token');
+
+  return { type: UNAUTH_USER };
+}
+
+export function fetchMessage() {
+  return function(dispatch) {
+    axios.get(ROOT_URL, {
+      headers: { authorization: localStorage.getItem('token') }
+    })
+      .then(response => {
+        dispatch({
+          type: FETCH_MESSAGE,
+          payload: response.data.message
+        });
+      });
   }
 }

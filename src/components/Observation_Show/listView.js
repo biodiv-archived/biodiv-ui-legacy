@@ -12,10 +12,34 @@ class ListComponent extends Component{
 
 constructor(){
   super();
+  this.state={
+    data:"",
+    AllUserGroup:""
+  }
+
+}
+getEditUserGroupMethod(){
+  console.log("i called")
+  getAllUserGroup().then((response)=>{
+    console.log(response.model.userGroupInstanceList)
+  this.setState({
+    AllUserGroup:response.model.userGroupInstanceList
+  })
+  })
+}
+showEditGroupList(){
+  getEditUserGroup().then((data)=>{
+    this.setState({
+      data:data
+    })
+  })
 }
 
+componentDidMount(){
+  this.showEditGroupList();
+  this.getEditUserGroupMethod()
 
-
+}
 
 changeStyle(id){
 
@@ -105,28 +129,17 @@ objs.resource.map((images)=>{
                                   <tr className="pull-right" >
                                     <td >
                                       <div style={{display:"block"}} ref={objs.id+"1"} >
-                                        <strong>{objs.group.name}</strong> <span>{'\u00A0'}</span>
+                                        <strong>{objs.group.name}</strong>
                                         <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">Edit</button>
                                       </div>
                                     </td>
                                     <td>
                                       <div  style={{display:"none"}} ref={objs.id+"2"}>
                                         <div  className="form-group form-inline"  >
-
                                           <select defaultValue={objs.group.name} className="bg-primary form-control-sm" >
-
-                                                <option  value="All">All</option>
-                                                <option value="Mammals">Mammals</option>
-                                                <option value="Birds">Birds</option>
-                                                <option  value="Fish">Fish</option>
-                                                <option value="Amphibians">Amphibians</option>
-                                                <option value="Reptiles">Reptiles</option>
-                                                <option  value="Molluscs">Molluscs</option>
-                                                <option  value="Arthropods">Arthropods</option>
-                                                <option  value="Plants">Plants</option>
-                                                <option value="Fungi">Fungi</option>
-                                                <option  value="Others">Others</option>
-
+                                            {this.state.data?this.state.data.map((item)=>{
+                                            return   <option key={item.name} value={item.name}>{item.name}</option>
+                                            }):null}
                                             </select>
                                             <button className={"btn btn-warning btn-xs"} onClick={this.changeStyle2.bind(this,objs.id)}>Cancel</button>
                                             <button className={"btn btn-success btn-xs"} onClick={this.changeStyle.bind(this,objs.id)}>Save</button>
