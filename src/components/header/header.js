@@ -19,7 +19,8 @@ class Header extends React.Component {
         <span className="icon-bar"></span>
         <span className="icon-bar"></span>
       </button>
-      <NavLink to="/" className="navbar-brand" >{this.props.title}</NavLink>
+      <NavLink to="/" className="navbar-brand" >{this.props.title}
+    </NavLink>
     </div>
 
     <div className="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
@@ -74,7 +75,8 @@ class Header extends React.Component {
       </form>
       <ul className="nav navbar-nav navbar-right">
         <li className="login">
-          <NavLink to="/login"><b>Login</b></NavLink>
+          <NavLink to="/login"><b>Login</b>
+        </NavLink>
         </li>
       </ul>
 

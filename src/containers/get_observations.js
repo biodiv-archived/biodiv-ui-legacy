@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {fetchObservations} from '../actions/index';
-import ObservationListComponent from '../components/observation_list_component';
+import ObservationListComponent from '../components/Observation_Show/observation_list_component';
 import {ClearObservationPage} from '../actions/index';
 import Button from 'material-ui/Button';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
@@ -12,6 +12,7 @@ import EllipsisText  from 'react-ellipsis-text';
 import  queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
+import _ from "lodash";
 const history=createHistory();
 class GetObservations extends Component{
     constructor(props){
@@ -46,13 +47,17 @@ class GetObservations extends Component{
         if(!params.taxon){
           params.taxon=[];
         }
-        params.taxon.push(e.detail.taxon)
 
-          const title=this.state.title;
+        params.taxon.push(e.detail.taxon)
+        params.taxon= params.taxon.filter((val,ind)=> { return params.taxon.indexOf(val) == ind; })
+          let title=this.state.title;
           var titleobject={};
           titleobject.taxon=e.detail.taxon;
           titleobject.title=e.detail.title;
           title.push(titleobject);
+
+          let newtitle=_.uniqBy(title,"taxon")
+
           params.classification=e.detail.classification;
           let sGroup=params.sGroup;
           let isFlagged=params.isFlagged;
@@ -70,7 +75,7 @@ class GetObservations extends Component{
                 isMediaFilter:MediaFilter,
                 sort:params.sort
               },
-                title:title
+                title:newtitle
           })
 
           params.taxon=params.taxon.join(",");
@@ -87,12 +92,14 @@ class GetObservations extends Component{
         }
         console.log("params.sGroup",params.taxon)
         params.sGroup.push(e.detail.sGroup)
-
+        params.sGroup=_.uniqBy(params.sGroup)
         const groupName=this.state.groupName;
         var titleobject={};
         titleobject.sGroup=e.detail.sGroup;
         titleobject.groupName=e.detail.groupName;
         groupName.push(titleobject);
+        let newgroupname=_.uniqBy(groupName,"sGroup")
+
         params.classification=params.classification;
         let isFlagged=params.isFlagged;
         let speciesName=params.speciesName;
@@ -134,7 +141,7 @@ class GetObservations extends Component{
                   sort:params.sort
 
                 },
-              groupName:groupName
+              groupName:newgroupname
         })
       }
 
@@ -145,13 +152,15 @@ class GetObservations extends Component{
         params.userGroupList=[];
       }
         params.userGroupList.push(e.detail.id)
-        console.log(params.userGroupList,"params.userGroupList")
+          params.userGroupList=_.uniqBy(params.userGroupList)
+
         const title=this.state.title;
         var titleobject={};
         titleobject.userGroupList=e.detail.id;
         titleobject.userGroupName=e.detail.userGroupName;
-        
+
         userGroupName.push(titleobject);
+        let newuserGroupName=_.uniqBy(  userGroupName,"userGroupName")
 
         params.offset=0;
         let isFlagged=params.isFlagged;
@@ -192,7 +201,7 @@ class GetObservations extends Component{
         isMediaFilter:MediaFilter,
         sort:params.sort
       },
-      userGroupName:userGroupName
+      userGroupName:newuserGroupName
       })
     }
 
@@ -468,10 +477,11 @@ class GetObservations extends Component{
         this.props.ClearObservationPage();
 
       }
-      displayData(view,objs,EditUserGroupData){
+      displayData(view,objs,count){
+      
           return(
           <div key={objs.id}>
-            <ObservationListComponent objs={objs} view={view}/>
+            <ObservationListComponent objs={objs} view={view} count={count}/>
           </div>
         )
       }
@@ -622,13 +632,9 @@ class GetObservations extends Component{
             </div>
             <br />
             <br />
-            {this.props.Observation.all?this.displayData(this.state.view,this.props.Observation.all):null}
+            {this.props.Observation.all?this.displayData(this.state.view,this.props.Observation.all,this.props.Observation.count):null}
             {this.props.Observation.all.length ?(this.props.Observation.count)>(this.state.params.offset*10+10)?<button onClick={this.loadMore} type="submit" className="btn btn-primary">LoadMore</button>:null:null }
-
-
       </div>
-
-
     )
   }
 }

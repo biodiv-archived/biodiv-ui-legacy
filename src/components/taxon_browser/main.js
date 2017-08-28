@@ -96,7 +96,7 @@ constructor(){
   document.dispatchEvent(event);
 
   }
-  onCheck(checkedKeys) {
+  onCheck(checkedKeys,event) {
     console.log(checkedKeys)
     this.setState({
       checkedKeys
@@ -120,6 +120,8 @@ constructor(){
   }
 
   changeTaxonomy(event){
+    
+
     this.props.fetchTaxonList(event.target.value);
     this.setState({
       classification:event.target.value
@@ -135,7 +137,7 @@ constructor(){
           return <TreeNode title={item.text} key={item.id} taxonid={item.taxonid}>{loop(item.children)}</TreeNode>;
         }
         return (
-          <TreeNode title={item.text} key={item.id} isLeaf={item.isLeaf}
+          <TreeNode  title={item.text} key={item.id} isLeaf={item.isLeaf}
             disabled={item.rank === 10} taxonid={item.taxonid}
           />
         );
@@ -145,7 +147,7 @@ constructor(){
 
     return (
       <div>
-        {/*
+
           <div style={{paddingBottom:'0px',marginBottom:'0px'}} className="form-group form-inline"  >
             <select style={{width:'100%'}} onChange={this.changeTaxonomy.bind(this)}  className=" form-control" >
                 <option  value="265799">IBP (India Biodiversity portal )</option>
@@ -158,12 +160,13 @@ constructor(){
               </select>
             </div>
 
-          */}
+
         <Tree
           onSelect={this.onSelect}
           checkable onCheck={this.onCheck} checkedKeys={this.state.checkedKeys}
           loadData={this.onLoadData}
-
+          showLine={true}
+          showIcon={false}
         >
           {treeNodes}
         </Tree>
@@ -177,4 +180,4 @@ return {
   treeData:state.treeData
 };
 }
-export default connect(mapStateToProps,{fetchTaxonList,ClearObservationPage})(Demo);
+export default connect(mapStateToProps,{fetchTaxonList,fetchObservations,ClearObservationPage})(Demo);

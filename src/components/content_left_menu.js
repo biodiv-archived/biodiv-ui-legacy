@@ -17,7 +17,7 @@ render(){
       <Collapsible  open={true} trigger="Taxon Browser">
           <div className="pre-scrollable">
             <Taxon_Filter />
-            
+
           </div>
           </Collapsible>
           <Collapsible trigger="  Species Groups Filter">

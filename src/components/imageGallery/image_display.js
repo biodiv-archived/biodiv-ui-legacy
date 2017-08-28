@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Lightbox from 'react-image-lightbox';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory'
 export default class LightboxExample extends Component {
     constructor(props) {
@@ -12,9 +12,11 @@ export default class LightboxExample extends Component {
     }
 
 callShowPage(objs){
+
   const history = createHistory();
     console.log("history",history);
-  history.push(`/show/${this.props.objid}`, { some:objs  })
+  history.push(`/show/${this.props.objs.id}`, { some:objs  })
+
 }
     render() {
       const images = this.props.imageArray;
@@ -29,10 +31,10 @@ callShowPage(objs){
               <div id="mycarousel" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                   <div className="item active">
-
+                        <NavLink to={`show/${this.props.objs.id}`} >
                     <img src={this.props.thumbnail} style={{paddingTop:'5px',paddingBottom:'5px'}}
                     className="media-object img-responsive img-rounded"  onClick={this.callShowPage.bind(this,this.props.objs)} />
-
+                     </NavLink>
                     <div className="carousel-caption ">
                          <strong onClick={() => this.setState({ isOpen: true })}>View Gallery {this.props.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
                     </div>

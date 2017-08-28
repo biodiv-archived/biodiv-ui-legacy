@@ -43,12 +43,14 @@
     "react-select": "^1.0.0-rc.5",
     "react-simple-autocomplete": "^1.0.2",
     "react-sparklines": "^1.6.0",
+    "react-tabs": "^1.1.0",
     "react-time": "^4.3.0",
     "redux": "^3.7.1",
     "redux-logger": "^3.0.6",
     "redux-promise": "^0.5.3",
     "redux-responsive": "^4.3.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "url-search-params": "^0.10.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"
