@@ -2,10 +2,12 @@ import {AUTH_USER} from '../actions';
 import {UNAUTH_USER} from '../actions';
 import {AUTH_ERROR} from '../actions';
 import {FETCH_MESSAGE} from '../actions';
+
 export default function(state = {}, action) {
   switch(action.type) {
+
     case AUTH_USER:
-      return { ...state, error: '', authenticated: true };
+      return { ...state, error: '', authenticated: true, userData:action.payload.model};
     case UNAUTH_USER:
       return { ...state, authenticated: false };
     case AUTH_ERROR:

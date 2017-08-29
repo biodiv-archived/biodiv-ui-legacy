@@ -11,7 +11,6 @@ import App from './components/app';
 import Footer from './components/footer/footer';
 import Header from './components/header/header';
 import HomePage from './components/home_page';
-import Login from './components/login/login';
 import Single_Obj_Show from './components/Observation_Show/single_show';
 import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
@@ -28,10 +27,10 @@ const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise,logger
 
 let store=createStoreWithMiddleware(reducers);
 const token = localStorage.getItem('token');
+const userData=JSON.parse(localStorage.getItem('token'));
 // If we have a token, consider the user to be signed in
 if (token) {
-  
-  store.dispatch({ type: AUTH_USER });
+  store.dispatch({ type: AUTH_USER,payload:userData});
 }
 ReactDOM.render(
   <Provider store={store}>
@@ -45,7 +44,6 @@ ReactDOM.render(
           <Route exact path="/signout" component={Signout} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/observation/show/:id" component={Single_Obj_Show} />
-
         </div>
 
         <Footer />

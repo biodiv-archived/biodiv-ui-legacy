@@ -4,10 +4,14 @@ import objstyle from './objstyle.css';
 import EllipsisText  from 'react-ellipsis-text';
 import Parser from 'html-react-parser';
 import Moment from 'react-moment';
-import {getEditUserGroup} from '../../Utils/Observations_API/index';
 import Tabs from './tabs';
-import {getAllUserGroup} from '../../Utils/Observations_API/index';
+import { connect } from 'react-redux';
 import {ROOT_URL} from '../../actions';
+import {getAllUserGroup} from '../../Utils/Observations_API';
+import {getEditUserGroup} from '../../Utils/Observations_API';
+import {NavLink} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+
 class ListComponent extends Component{
 
 constructor(){
@@ -41,6 +45,13 @@ componentDidMount(){
 
 }
 
+submitUserGroup(){
+  console.log("submitted....................")
+}
+
+handleEditUserGroupButton(){
+this.props.authenticated? this.submitUserGroup() : this.props.history.push("/login")
+}
 changeStyle(id){
 
   let sid1=id+"1";
@@ -54,6 +65,7 @@ changeStyle2(id){
   let sid2=id+"2"
 this.refs[sid1].style.display='block';
 this.refs[sid2].style.display='none';
+
 }
 textBackground(position){
   if(position=="working"){
@@ -142,7 +154,7 @@ objs.resource.map((images)=>{
                                             }):null}
                                             </select>
                                             <button className={"btn btn-warning btn-xs"} onClick={this.changeStyle2.bind(this,objs.id)}>Cancel</button>
-                                            <button className={"btn btn-success btn-xs"} onClick={this.changeStyle.bind(this,objs.id)}>Save</button>
+                                            <button className={"btn btn-success btn-xs"} onClick={this.handleEditUserGroupButton.bind(this)}> Save</button>
                                         </div>
                                     </div>
                                     </td>
@@ -164,6 +176,7 @@ objs.resource.map((images)=>{
                   </div>
               )
           })}
+          <Tabs objs={objs} />
             </div>
           <br />
         </div>
@@ -185,4 +198,11 @@ return(
 }
 
 }
-export default ListComponent
+
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated,
+    userData:state.auth.userData
+  };
+}
+export default  withRouter(connect(mapStateToProps)(ListComponent));

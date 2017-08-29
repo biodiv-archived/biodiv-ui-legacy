@@ -8,6 +8,7 @@ import  HomeTotalCount from './reducer_home_total_count';
 import  EditUserGroupData from './reducer_edit_user_group_data';
 import AuthReducer from './auth_reducer';
 import { reducer as form} from 'redux-form';
+
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
   ChartData:SpeciesChartReducer,

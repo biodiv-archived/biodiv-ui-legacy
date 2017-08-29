@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history';
+
 export const AUTH_USER ='AUTH_USER';
 export const UNAUTH_USER ='UNAUTH_USER';
 export const AUTH_ERROR ='AUTH_ERROR';
@@ -15,6 +16,12 @@ export const FETCH_GROUP_OBSERVATIONS="FETCH_GROUP_OBSERVATIONS";
 export const FETCH_HOME_TOTAL_COUNT="FETCH_HOME_TOTAL_COUNT";
 export const FETCH_COMMENT_DATA="FETCH_COMMENT_DATA";
 export const FETCH_EDIT_GROUP_DATA="FETCH_EDIT_GROUP_DATA";
+export const FETCH_TRAITS_TYPE='FETCH_TRAITS_TYPE';
+export const FETCH_RECO_NAME='FETCH_RECO_NAME';
+export const FETCH_RECO_COMMENT='FETCH_RECO_COMMENT';
+export const FETCH_LANGUAGES='FETCH_LANGUAGES';
+export const LOGIN='LOGIN';
+export const REGISTER='REGISTER';
 
 export const ROOT_URL="http://indiabiodiversity.org";
 
@@ -83,6 +90,7 @@ export function fetchEditUserGroupData() {
   }
 }
 
+
 export function signinUser({ email, password }) {
 let username=email;
   return function(dispatch) {
@@ -90,18 +98,14 @@ let username=email;
     axios.post(
       `${ROOT_URL}/api/login?username=${email}&password=${password}`)
       .then(response => {
-
         // If request is good...
         // - Update state to indicate user is authenticated
-        dispatch({ type: AUTH_USER });
-
-        localStorage.setItem('token', response.data.token);
+        dispatch({ type: AUTH_USER,
+                  payload:response.data});
+        localStorage.setItem('token', JSON.stringify(response.data));
         // - redirect to the route '/feature'
-        this.props.history.push('/observation/list');
       }).catch(() => {
-        // If request is bad...
-        // - Show an error to the user
-        dispatch(authError('Bad Login Info'));
+        dispatch(authError('Bad sdsg Info'));
       });
 
   }
@@ -112,7 +116,7 @@ export function signupUser({ email, password }) {
     axios.post(`${ROOT_URL}/signup`, { email, password })
       .then(response => {
         dispatch({ type: AUTH_USER });
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('token', JSON.stringify(response.data));
         history.push('/feature');
       })
       .catch(response => dispatch(authError(response.data.error)));
@@ -128,6 +132,7 @@ export function authError(error) {
 
 export function signoutUser() {
   localStorage.removeItem('token');
+  localStorage.removeItem('username');
 
   return { type: UNAUTH_USER };
 }
@@ -143,5 +148,43 @@ export function fetchMessage() {
           payload: response.data.message
         });
       });
+    }
+  }
+
+export function fetchTraits(id,sGroup) {
+const url=ROOT_URL+"/trait/list?objectId="+ id+"&objectType=species.participation.Observation&sGroup="+sGroup+"&isObservationTrait=true&ifOwns=false&showInObservation=true&loadMore=true&displayAny=false&editable=true&fromObservationShow=show&filterable=false&_=1500873700939&format=json";
+const request = axios.get(url);
+
+  return {
+    type:FETCH_TRAITS_TYPE,
+    payload:request
+
+  }
+}
+export function fetchRecoName(id){
+  const url=ROOT_URL+"/api/observation/getRecommendationVotes?id="+ id;
+  const request =axios.get(url);
+
+    return{
+      type:FETCH_RECO_NAME,
+      payload:request
+    }
+}
+export function fetchRecoComment(id){
+  const url=ROOT_URL+"/api/comment/getComments?commentHolderId=268292&commentHolderType=species.participation.Observation&rootHolderId=268292&max=3%20&rootHolderType=species.participation.Observation&refTime=1403071938526&%20timeLine=older&format=json";
+  const request =axios.get(url);
+
+  return{
+    type:FETCH_RECO_COMMENT,
+    payload:request
+  }
+}
+export function fetchLanguages(){
+  console.log("langauaROOT_URLed")
+  const url=ROOT_URL+"/language/filteredList?format=json"
+  const request =axios.get(url);
+  return{
+    type:FETCH_LANGUAGES,
+    payload:request
   }
 }

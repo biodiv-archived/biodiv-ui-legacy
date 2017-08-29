@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 import mystyle from './style/headerstyle.css';
 import {NavLink} from 'react-router-dom';
+import { connect } from 'react-redux';
+
 
 class Header extends React.Component {
     constructor(props) {
       super(props);
+      const tokenData=JSON.parse(localStorage.getItem('token'));
+      this.state={
+        token:tokenData
+      }
     }
-
   render(){
   return (
     <div>
@@ -75,8 +80,10 @@ class Header extends React.Component {
       </form>
       <ul className="nav navbar-nav navbar-right">
         <li className="login">
-          <NavLink to="/login"><b>Login</b>
-        </NavLink>
+
+        {this.props.authenticated?<NavLink to="/signout">Logout {this.props.userData? this.props.userData.id:null} </NavLink>:<NavLink to="/login">Login</NavLink>}
+
+
         </li>
       </ul>
 
@@ -84,10 +91,18 @@ class Header extends React.Component {
   </div> {/*<!-- /.container-fluid -->*/}
 </nav>
       <div className="jumbotron ">
-          <h2 className="display-3"> <span className="jumboh"></span></h2>
+          <h2 className="display-3"> <span className="jumbotron"></span></h2>
       </div>
 </div>
   )
 }
 }
-export default Header;
+function mapStateToProps(state) {
+  console.log("state inside header", state.auth)
+  return {
+    authenticated: state.auth.authenticated,
+    userData:state.auth.userData
+  };
+}
+
+export default connect(mapStateToProps)(Header);
