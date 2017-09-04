@@ -17,7 +17,7 @@ export const FETCH_LANGUAGES='FETCH_LANGUAGES';
 export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 
-export const ROOT_URL="http://indiabiodiversity.org";
+export const ROOT_URL="https://pamba.strandls.com";
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
@@ -116,22 +116,6 @@ export function fetchLanguages(){
   const request =axios.get(url);
   return{
     type:FETCH_LANGUAGES,
-    payload:request
-  }
-}
-export function login(name,pass){
-  const url=ROOT_URL+"/api/login?username="+name+"&password="+pass
-  const request =axios.post(url);
-  return{
-    type:LOGIN,
-    payload:request
-  }
-}
-export function register(args){
-  const url=ROOT_URL+"/api/register/user?email=test1@gmail.com&password=kmvrgbsr&password2=kmvrgbsr&name=asd"
-  const request =axios.post(url);
-  return{
-    type:REGISTER,
     payload:request
   }
 }

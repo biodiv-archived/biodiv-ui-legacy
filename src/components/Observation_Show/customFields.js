@@ -34,7 +34,7 @@ class CustomFields extends React.Component {
 
 
   customFieldPost(cfId){
-    var token=this.props.Login
+
     var id=this.props.id
     var custom1="custom"+this.props.id+cfId
     var value1=this.refs[custom1].value
@@ -42,7 +42,7 @@ class CustomFields extends React.Component {
       method:'POST',
       url :   ROOT_URL+"/api/observation/updateCustomField?fieldValue="+value1+"&cfId="+cfId+"&obvId="+id,
       headers :{
-        'X-Auth-Token' : token,
+        'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
         'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
         'Accept'        :"application/json"
       },
@@ -94,13 +94,4 @@ class CustomFields extends React.Component {
     }
   }
 
-  function mapStateToProps(state){
-  return {Login:state.Login};
-  }
-
-  function mapDispatchToProps(dispatch){
-
-
-  }
-
-   export default connect(mapStateToProps,mapDispatchToProps)(CustomFields);
+  export default CustomFields;

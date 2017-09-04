@@ -11,7 +11,6 @@ import App from './components/app';
 import Footer from './components/footer/footer';
 import Header from './components/header/header';
 import HomePage from './components/home_page';
-import Login from './components/Observation_Show/login.js';
 import Single_Obj_Show from './components/Observation_Show/single_show';
 import {
   BrowserRouter,
@@ -27,7 +26,6 @@ ReactDOM.render(
         <div className="container-fluid">
           <Route exact path="/" component={HomePage} />
           <Route exact path="/observation/list" component={App} />
-          <Route exact path="/login" component={Login} />
           <Route exact path="/observation/show/:id" component={Single_Obj_Show} />
 
         </div>

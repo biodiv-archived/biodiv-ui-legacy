@@ -7,8 +7,7 @@ import  UserGroupObservations from './reducer_fetch_groupobservations';
 import  HomeTotalCount from './reducer_home_total_count';
 import  EditUserGroupData from './reducer_edit_user_group_data';
 import Language_reducer from './reducer_languages.js'
-import Login_reducer from './reducer_login.js'
-import Register_reducer from './reducer_login.js'
+
 
 
 const rootReducer = combineReducers({
@@ -20,8 +19,7 @@ const rootReducer = combineReducers({
   HomeTotalCount:HomeTotalCount,
   EditUserGroupData:EditUserGroupData,
   Languages:Language_reducer,
-  Login:Login_reducer,
-  Regsiter:Register_reducer
+
 });
 
 export default rootReducer;
