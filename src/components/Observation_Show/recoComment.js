@@ -36,8 +36,6 @@ show(id2,id1){
 
 
 agreePost(){
-  console.log(this.props.Login)
-  var token=this.props.Login
   var obId=this.props.id2;
   var recId=this.props.id1;
   var votes=this.props.votes;
@@ -46,7 +44,7 @@ agreePost(){
     method: 'POST',
     url :   ROOT_URL+"/api/observation/addAgreeRecommendationVote?obvId="+obId+"&recoId="+recId+"&currentVotes="+votes,
     headers :{
-      'X-Auth-Token' : token,
+      'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
       'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
       'Accept'        :"text/json"
     },
@@ -60,7 +58,7 @@ agreePost(){
 
 recoCommentPost(e){
   e.preventDefault();
-  var token=this.props.Login
+
   var id1=this.props.id1;
   var id2=this.props.id2;
   var recoComment1="recoComment"+this.props.id2+this.props.id1
@@ -71,7 +69,7 @@ recoCommentPost(e){
     method:'POST',
     url :   ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
     headers :{
-      'X-Auth-Token' : token,
+      'X-Auth-Token' :"1t2l9rdqkc3f899e4cvd159ibfk56h6j",
       'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
       'Accept'        :"application/json"
     },
@@ -188,13 +186,4 @@ render(){
 
 }
 
-function mapStateToProps(state){
-return {Login:state.Login};
-}
-
-function mapDispatchToProps(dispatch){
-
-
-}
-
- export default connect(mapStateToProps,mapDispatchToProps)(RecoComment);
+export default RecoComment;

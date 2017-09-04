@@ -14,12 +14,12 @@ class CommentsFeeds extends React.Component {
 
   commentPost(e){
     e.preventDefault();
-    var token=this.props.Login
+
     var options={
       method:'POST',
       url :   ROOT_URL+"/api/comment/addComment?commentHolderId=245&commentHolderType=species.participation.Observation&rootHolderId=245&rootHolderType=species.participation.Observation&commentBody=test comment&newerTimeRef=1403071938526",
       headers :{
-        'X-Auth-Token' : token,
+        'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
         'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
         'Accept'        :"application/json"
       },
@@ -49,7 +49,7 @@ class CommentsFeeds extends React.Component {
 
   commentPost(e){
     e.preventDefault();
-    var token=this.props.Login
+
     var id1=this.props.id;
     var obvComment1="obvComment"+this.props.id
     var value1=this.refs[obvComment1].value
@@ -59,7 +59,7 @@ class CommentsFeeds extends React.Component {
       method:'POST',
       url :   ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
       headers :{
-        'X-Auth-Token' : token,
+        'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
         'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
         'Accept'        :"application/json"
       },
@@ -167,13 +167,4 @@ class CommentsFeeds extends React.Component {
     )
   }
 }
-function mapStateToProps(state){
-return {Login:state.Login};
-}
-
-function mapDispatchToProps(dispatch){
-
-
-}
-
- export default connect(mapStateToProps,mapDispatchToProps)(CommentsFeeds);
+export default CommentsFeeds;

@@ -35,7 +35,7 @@ componentDidMount(){
 }
   suggestIdPost(e){
     e.preventDefault();
-    var token=this.props.Login
+
     var cName1="cName"+this.props.id2
     var cNameValue=this.refs[cName1].autowhatever.input.defaultValue
     var lang1="lang"+this.props.id2
@@ -51,7 +51,7 @@ componentDidMount(){
       method:'POST',
       url :   ROOT_URL+"/api/observation/addRecommendationVote?commonName="+cNameValue+"&languageName="+langValue+"&recoName="+sNameValue+"&recoId=&recoComment="+value1+"&obvId="+obvId+"&format=json",
       headers :{
-        'X-Auth-Token' : token,
+        'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
         'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
         'Accept'        :"application/json"
       },
@@ -278,7 +278,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
 }
 
 function mapStateToProps(state){
-return {Login:state.Login,Languages:state.Languages};
+return {Languages:state.Languages};
 }
 
 function mapDispatchToProps(dispatch){

@@ -28,10 +28,8 @@ const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise,logger
 
 let store=createStoreWithMiddleware(reducers);
 const token = localStorage.getItem('token');
-const userData=JSON.parse(localStorage.getItem('token'));
-// If we have a token, consider the user to be signed in
 if (token) {
-  store.dispatch({ type: AUTH_USER,payload:userData});
+  store.dispatch({ type: AUTH_USER});
 }
 const Test=()=>{
   return(

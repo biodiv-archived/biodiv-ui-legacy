@@ -24,8 +24,7 @@ export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 
-export const ROOT_URL="http://indiabiodiversity.org";
-
+export const ROOT_URL="https://pamba.strandls.com";
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
@@ -101,9 +100,8 @@ let username=email;
       .then(response => {
         // If request is good...
         // - Update state to indicate user is authenticated
-        dispatch({ type: AUTH_USER,
-                  payload:response.data});
-        localStorage.setItem('token', JSON.stringify(response.data));
+        dispatch({ type: AUTH_USER});
+        localStorage.setItem('token', response);
         // - redirect to the route '/feature'
       }).catch(() => {
         dispatch(authError('Bad sdsg Info'));
@@ -112,19 +110,7 @@ let username=email;
   }
 }
 
-/*
-export function signupUser({ email, password }) {
-  return function(dispatch) {
-    axios.post(`${ROOT_URL}/signup`, { email, password })
-      .then(response => {
-        dispatch({ type: AUTH_USER });
-        localStorage.setItem('token', JSON.stringify(response.data));
-        history.push('/feature');
-      })
-      .catch(response => dispatch(authError(response.data.error)));
-  }
-}
-*/
+
 export function authError(error) {
   return {
     type: AUTH_ERROR,
