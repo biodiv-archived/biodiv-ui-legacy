@@ -5,16 +5,53 @@ import EllipsisText  from 'react-ellipsis-text';
 import Parser from 'html-react-parser';
 import Moment from 'react-moment';
 import Tabs from './tabs';
+import { connect } from 'react-redux';
 import {ROOT_URL} from '../../actions';
+import {getAllUserGroup} from '../../Utils/Observations_API';
+import {getEditUserGroup} from '../../Utils/Observations_API';
+import {NavLink} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
+
 class ListComponent extends Component{
 
 constructor(){
   super();
+  this.state={
+    data:"",
+    AllUserGroup:""
+  }
+
+}
+getEditUserGroupMethod(){
+  console.log("i called")
+  getAllUserGroup().then((response)=>{
+    console.log(response.model.userGroupInstanceList)
+  this.setState({
+    AllUserGroup:response.model.userGroupInstanceList
+  })
+  })
+}
+showEditGroupList(){
+  getEditUserGroup().then((data)=>{
+    this.setState({
+      data:data
+    })
+  })
 }
 
+componentDidMount(){
+  this.showEditGroupList();
+  this.getEditUserGroupMethod()
 
+}
 
+submitUserGroup(){
+  console.log("submitted....................")
+}
 
+handleEditUserGroupButton(){
+this.props.authenticated? this.submitUserGroup() : this.props.history.push("/login")
+}
 changeStyle(id){
 
   let sid1=id+"1";
@@ -28,6 +65,7 @@ changeStyle2(id){
   let sid2=id+"2"
 this.refs[sid1].style.display='block';
 this.refs[sid2].style.display='none';
+
 }
 textBackground(position){
   if(position=="working"){
@@ -103,31 +141,20 @@ objs.resource.map((images)=>{
                                   <tr className="pull-right" >
                                     <td >
                                       <div style={{display:"block"}} ref={objs.id+"1"} >
-                                        <strong>{objs.group.name}</strong> <span>{'\u00A0'}</span>
+                                        <strong>{objs.group.name}</strong>
                                         <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">Edit</button>
                                       </div>
                                     </td>
                                     <td>
                                       <div  style={{display:"none"}} ref={objs.id+"2"}>
                                         <div  className="form-group form-inline"  >
-
                                           <select defaultValue={objs.group.name} className="bg-primary form-control-sm" >
-
-                                                <option  value="All">All</option>
-                                                <option value="Mammals">Mammals</option>
-                                                <option value="Birds">Birds</option>
-                                                <option  value="Fish">Fish</option>
-                                                <option value="Amphibians">Amphibians</option>
-                                                <option value="Reptiles">Reptiles</option>
-                                                <option  value="Molluscs">Molluscs</option>
-                                                <option  value="Arthropods">Arthropods</option>
-                                                <option  value="Plants">Plants</option>
-                                                <option value="Fungi">Fungi</option>
-                                                <option  value="Others">Others</option>
-
+                                            {this.state.data?this.state.data.map((item)=>{
+                                            return   <option key={item.name} value={item.name}>{item.name}</option>
+                                            }):null}
                                             </select>
                                             <button className={"btn btn-warning btn-xs"} onClick={this.changeStyle2.bind(this,objs.id)}>Cancel</button>
-                                            <button className={"btn btn-success btn-xs"} onClick={this.changeStyle.bind(this,objs.id)}>Save</button>
+                                            <button className={"btn btn-success btn-xs"} onClick={this.handleEditUserGroupButton.bind(this)}> Save</button>
                                         </div>
                                     </div>
                                     </td>
@@ -149,8 +176,7 @@ objs.resource.map((images)=>{
                   </div>
               )
           })}
-          <Tabs objs={objs}/>
-
+          <Tabs objs={objs} />
             </div>
           <br />
         </div>
@@ -172,4 +198,11 @@ return(
 }
 
 }
-export default ListComponent
+
+function mapStateToProps(state) {
+  return {
+    authenticated: state.auth.authenticated,
+    userData:state.auth.userData
+  };
+}
+export default  withRouter(connect(mapStateToProps)(ListComponent));

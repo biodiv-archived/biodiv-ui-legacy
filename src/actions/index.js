@@ -1,4 +1,10 @@
 import axios from 'axios';
+import history from '../history';
+
+export const AUTH_USER ='AUTH_USER';
+export const UNAUTH_USER ='UNAUTH_USER';
+export const AUTH_ERROR ='AUTH_ERROR';
+export const FETCH_MESSAGE ='FETCH_MESSAGE';
 export const FETCH_OBSERVATION='FETCH_OBSERVATION';
 export const FETCH_SPECIES_CHART='FETCH_SPECIES_CHART';
 export const FETCH_TAXON_LIST='FETCH_TAXON_LIST';
@@ -82,7 +88,69 @@ export function fetchEditUserGroupData() {
     payload:request
   }
 }
-export  function fetchTraits(id,sGroup) {
+
+
+export function signinUser({ email, password }) {
+let username=email;
+  return function(dispatch) {
+    // Submit email/password to the server
+    axios.post(
+      `${ROOT_URL}/api/login?username=${email}&password=${password}`)
+      .then(response => {
+        // If request is good...
+        // - Update state to indicate user is authenticated
+        dispatch({ type: AUTH_USER,
+                  payload:response.data});
+        localStorage.setItem('token', JSON.stringify(response.data));
+        // - redirect to the route '/feature'
+      }).catch(() => {
+        dispatch(authError('Bad sdsg Info'));
+      });
+
+  }
+}
+
+export function signupUser({ email, password }) {
+  return function(dispatch) {
+    axios.post(`${ROOT_URL}/signup`, { email, password })
+      .then(response => {
+        dispatch({ type: AUTH_USER });
+        localStorage.setItem('token', JSON.stringify(response.data));
+        history.push('/feature');
+      })
+      .catch(response => dispatch(authError(response.data.error)));
+  }
+}
+
+export function authError(error) {
+  return {
+    type: AUTH_ERROR,
+    payload: error
+  };
+}
+
+export function signoutUser() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('username');
+
+  return { type: UNAUTH_USER };
+}
+
+export function fetchMessage() {
+  return function(dispatch) {
+    axios.get(ROOT_URL, {
+      headers: { authorization: localStorage.getItem('token') }
+    })
+      .then(response => {
+        dispatch({
+          type: FETCH_MESSAGE,
+          payload: response.data.message
+        });
+      });
+    }
+  }
+
+export function fetchTraits(id,sGroup) {
 const url=ROOT_URL+"/trait/list?objectId="+ id+"&objectType=species.participation.Observation&sGroup="+sGroup+"&isObservationTrait=true&ifOwns=false&showInObservation=true&loadMore=true&displayAny=false&editable=true&fromObservationShow=show&filterable=false&_=1500873700939&format=json";
 const request = axios.get(url);
 

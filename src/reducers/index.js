@@ -7,8 +7,8 @@ import  UserGroupObservations from './reducer_fetch_groupobservations';
 import  HomeTotalCount from './reducer_home_total_count';
 import  EditUserGroupData from './reducer_edit_user_group_data';
 import Language_reducer from './reducer_languages.js'
-
-
+import AuthReducer from './auth_reducer';
+import { reducer as form} from 'redux-form';
 
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
   HomeTotalCount:HomeTotalCount,
   EditUserGroupData:EditUserGroupData,
   Languages:Language_reducer,
-
+  auth: AuthReducer,
+  form:form
 });
 
 export default rootReducer;

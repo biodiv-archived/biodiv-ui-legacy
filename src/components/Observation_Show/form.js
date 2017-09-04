@@ -231,7 +231,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                    <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'100%'}}/>
                    <datalist id="browsers">
                    {
-                       this.props.Languages.length>0?(
+                       this.props.Languages>0?(
                          this.props.Languages.map((item)=>{
                            return(
                            <div><option value={item}/></div>
@@ -261,7 +261,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
             </div>
           </div>
           <div className="form-group row">
-              <label className="control-label col-sm-2" hhtmlFor="comments">Comments:</label>
+              <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
               <div className="col-sm-10">
                   <input type="text" className="form-control" id="comments" placeholder="give Comments" ref={"suggestIdComment"+this.props.id2} style={{width:'100%'}}/>
               </div>
