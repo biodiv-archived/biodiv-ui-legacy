@@ -11,13 +11,7 @@ export default class LightboxExample extends Component {
         };
     }
 
-callShowPage(objs){
 
-  const history = createHistory();
-    console.log("history",history);
-  history.push(`/show/${this.props.objs.id}`, { some:objs  })
-
-}
     render() {
       const images = this.props.imageArray;
         const {
@@ -33,7 +27,7 @@ callShowPage(objs){
                   <div className="item active">
                         <NavLink to={`show/${this.props.objs.id}`} >
                     <img src={this.props.thumbnail} style={{paddingTop:'5px',paddingBottom:'5px'}}
-                    className="media-object img-responsive img-rounded"  onClick={this.callShowPage.bind(this,this.props.objs)} />
+                    className="media-object img-responsive img-rounded"   />
                      </NavLink>
                     <div className="carousel-caption ">
                          <strong onClick={() => this.setState({ isOpen: true })}>View Gallery {this.props.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>

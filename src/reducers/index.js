@@ -8,7 +8,7 @@ import  HomeTotalCount from './reducer_home_total_count';
 import  EditUserGroupData from './reducer_edit_user_group_data';
 import AuthReducer from './auth_reducer';
 import { reducer as form} from 'redux-form';
-
+import FetchUserProfile from './reducer_fetch_user_profile'
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
   ChartData:SpeciesChartReducer,
@@ -18,7 +18,8 @@ const rootReducer = combineReducers({
   HomeTotalCount:HomeTotalCount,
   EditUserGroupData:EditUserGroupData,
   auth: AuthReducer,
-  form:form
+  form:form,
+  UserProfile:FetchUserProfile
 });
 
 export default rootReducer;

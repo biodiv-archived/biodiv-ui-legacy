@@ -22,6 +22,7 @@ export const FETCH_RECO_COMMENT='FETCH_RECO_COMMENT';
 export const FETCH_LANGUAGES='FETCH_LANGUAGES';
 export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
+export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 
 export const ROOT_URL="http://indiabiodiversity.org";
 
@@ -111,6 +112,7 @@ let username=email;
   }
 }
 
+/*
 export function signupUser({ email, password }) {
   return function(dispatch) {
     axios.post(`${ROOT_URL}/signup`, { email, password })
@@ -122,7 +124,7 @@ export function signupUser({ email, password }) {
       .catch(response => dispatch(authError(response.data.error)));
   }
 }
-
+*/
 export function authError(error) {
   return {
     type: AUTH_ERROR,
@@ -185,6 +187,14 @@ export function fetchLanguages(){
   const request =axios.get(url);
   return{
     type:FETCH_LANGUAGES,
+    payload:request
+  }
+}
+export function fetchUserProfile(id){
+  const url=ROOT_URL+"/user/show/"+id;
+  const request =axios.get(url);
+  return{
+    type:FETCH_USER_PROFILE,
     payload:request
   }
 }

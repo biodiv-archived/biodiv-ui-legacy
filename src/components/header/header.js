@@ -3,14 +3,10 @@ import mystyle from './style/headerstyle.css';
 import {NavLink} from 'react-router-dom';
 import { connect } from 'react-redux';
 
-
 class Header extends React.Component {
     constructor(props) {
       super(props);
-      const tokenData=JSON.parse(localStorage.getItem('token'));
-      this.state={
-        token:tokenData
-      }
+      
     }
   render(){
   return (
@@ -81,9 +77,13 @@ class Header extends React.Component {
       <ul className="nav navbar-nav navbar-right">
         <li className="login">
 
-        {this.props.authenticated?<NavLink to="/signout">Logout {this.props.userData? this.props.userData.id:null} </NavLink>:<NavLink to="/login">Login</NavLink>}
-
-
+         {this.props.authenticated?
+           <div style={{paddingTop:'15px'}}>
+           <NavLink to={`/user/show/${this.props.userData? this.props.userData.id:null}`}>{this.props.userData? this.props.userData.id:null} </NavLink>
+           {`\u00A0`}
+           <NavLink to="/signout">Logout</NavLink>
+         </div>
+          :<NavLink to="/login">Login</NavLink>}
         </li>
       </ul>
 
@@ -101,7 +101,8 @@ function mapStateToProps(state) {
   console.log("state inside header", state.auth)
   return {
     authenticated: state.auth.authenticated,
-    userData:state.auth.userData
+    userData:state.auth.userData,
+    UserProfile:state.UserProfile
   };
 }
 

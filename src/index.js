@@ -11,18 +11,19 @@ import App from './components/app';
 import Footer from './components/footer/footer';
 import Header from './components/header/header';
 import HomePage from './components/home_page';
-import Single_Obj_Show from './components/Observation_Show/single_show';
 import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
-import Signup from './components/auth/signup';
+import UserGroupHomes from './components/UserGroupHomes/userGroup';
+import UserGroup from './components/UserGroupHomes/index';
+import  queryString from 'query-string';
+
 import {AUTH_USER} from './actions'
 import {
   BrowserRouter,
-   Route
+   Route,
+   Switch
   } from 'react-router-dom';
-
-  import history from './history';
-
+import history from './history';
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise,logger)(createStore);
 
 let store=createStoreWithMiddleware(reducers);
@@ -32,6 +33,18 @@ const userData=JSON.parse(localStorage.getItem('token'));
 if (token) {
   store.dispatch({ type: AUTH_USER,payload:userData});
 }
+const Test=()=>{
+  return(
+  <div>
+<h1>hfds</h1>
+  </div>
+  )
+}
+const newparams=  queryString.parse(document.location.search);
+let search1=queryString.stringify(newparams);
+
+ let search2 = decodeURIComponent( search1 );
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter history={history}>
@@ -39,13 +52,13 @@ ReactDOM.render(
         <Header title={"IBP"}/>
         <div className="container-fluid">
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/observation/list" component={App} />
+          <Route exact path="/observation/list" component={App} props={search2} />
           <Route exact path="/login" component={Signin} />
           <Route exact path="/signout" component={Signout} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/observation/show/:id" component={Single_Obj_Show} />
+          <Route  exact path="/group" component={Test} />
+          <Route  exact path="/group/:groupName" component={UserGroup} />
+          <Route  exact path="/group/:groupName/observation/list" component={UserGroupHomes} />
         </div>
-
         <Footer />
       </div>
     </BrowserRouter>

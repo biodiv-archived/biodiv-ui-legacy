@@ -8,8 +8,7 @@ import {connect} from 'react-redux';
 import {fetchObservations} from '../../actions/index';
 import {fetchTaxonList} from '../../actions/index';
 import {ClearObservationPage} from '../../actions/index';
-
-
+import  queryString from 'query-string';
 function generateTreeNodes(treeNode,classSystem) {
   const arr = [];
   const key = treeNode.props.eventKey;
@@ -69,11 +68,17 @@ function getNewTreeData(treeData, curKey, child, level) {
 class Demo extends  React.Component{
 constructor(){
   super();
-  this.taxon;
+  const newparams=  queryString.parse(document.location.search);
+  let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
+  {/* checkedKey.map(()=>{
+
+  })*/}
   this.state={
-    checkedKeys: [],
+    checkedKeys:checkedKey,
     classification:"265799"
   }
+
+
   this.onLoadData =this.onLoadData.bind(this);
   this.onCheck =this.onCheck.bind(this);
   this.onSelect =this.onSelect.bind(this);
@@ -83,24 +88,25 @@ constructor(){
   }
 
   onSelect(info,event) {
-    this.props.ClearObservationPage();
 
-    var event = new CustomEvent("getTaxon-filter",{ "detail":{
-      taxon:event.node.props.taxonid,
-      title:event.node.props.title,
-      classification:this.state.classification
-
-    }
-  });
-
-  document.dispatchEvent(event);
 
   }
   onCheck(checkedKeys,event) {
-    console.log(checkedKeys)
+
+    this.props.ClearObservationPage();
     this.setState({
       checkedKeys
     })
+    var event = new CustomEvent("getTaxon-filter",{ "detail":{
+
+      taxon:checkedKeys,
+      title:event.node.props.title,
+      classification:this.state.classification,
+      checked:event.checked
+    }
+  });
+  document.dispatchEvent(event);
+
   }
 
 
@@ -120,8 +126,6 @@ constructor(){
   }
 
   changeTaxonomy(event){
-    
-
     this.props.fetchTaxonList(event.target.value);
     this.setState({
       classification:event.target.value
@@ -163,10 +167,14 @@ constructor(){
 
         <Tree
           onSelect={this.onSelect}
-          checkable onCheck={this.onCheck} checkedKeys={this.state.checkedKeys}
+          selectable={false}
+          checkable={true}
+          onCheck={this.onCheck}
+          checkedKeys={this.state.checkedKeys}
           loadData={this.onLoadData}
           showLine={true}
           showIcon={false}
+          checkStrictly={true}
         >
           {treeNodes}
         </Tree>

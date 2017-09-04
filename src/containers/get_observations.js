@@ -13,6 +13,7 @@ import  queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
 import _ from "lodash";
+import $ from "jquery-param";
 const history=createHistory();
 class GetObservations extends Component{
     constructor(props){
@@ -28,7 +29,8 @@ class GetObservations extends Component{
           isFlagged:undefined,
           speciesName:undefined,
           isMediaFilter:undefined,
-          sort:"lastRevised"
+          sort:"lastRevised",
+          webaddress:undefined
 
         },
         title:[],
@@ -36,28 +38,50 @@ class GetObservations extends Component{
         userGroupName:[],
         view:1
       }
+      const newparams=  queryString.parse(document.location.search);
+      let search1=queryString.stringify(newparams);
 
+       let search2 = decodeURIComponent( search1 );
 
-      this.props.fetchObservations(this.state.params);
+      if(!deepEqual(this.state.params,newparams)){
+        history.push({
+          pathname:'/observation/list',
+          search:search2
+        })
+        this.props.fetchObservations(newparams)
+      }
+      else {
+        history.push({
+          pathname:'/observation/list',
+          search:search2
+        })
+        this.props.fetchObservations(this.state.params)
+      }
       this.loadMore=this.loadMore.bind(this);
     };
 
       taxonFilterEventListner(e){
         const params=this.state.params;
+        let title=this.state.title;
         if(!params.taxon){
           params.taxon=[];
         }
-
-        params.taxon.push(e.detail.taxon)
-        params.taxon= params.taxon.filter((val,ind)=> { return params.taxon.indexOf(val) == ind; })
-          let title=this.state.title;
+        if(e.detail.checked){
+          let titleobject={};
+          titleobject.title=e.detail.title;
+          titleobject.taxon=e.detail.taxon;
+          title.push(titleobject);
+          params.taxon=e.detail.taxon
+        }
+        else{
+          params.taxon=e.detail.taxon
+          const title=this.state.title;
+          const indexoftitile=title.indexOf(e.detail.title);
+          title.splice(indexoftitile,1);
+        }
           var titleobject={};
           titleobject.taxon=e.detail.taxon;
-          titleobject.title=e.detail.title;
-          title.push(titleobject);
-
           let newtitle=_.uniqBy(title,"taxon")
-
           params.classification=e.detail.classification;
           let sGroup=params.sGroup;
           let isFlagged=params.isFlagged;
@@ -81,37 +105,36 @@ class GetObservations extends Component{
           params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");
-
+          const seacrh=queryString.stringify(params)
+          const search1=decodeURIComponent(seacrh);
+          history.push({
+            pathname:'/observation/list',
+            search:search1
+          })
           this.props.fetchObservations(params);
       }
-
       sGroupFilterEventListner(e){
+        
         const params=this.state.params;
+        console.log(e.detail.groupName,"groupma,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
+        if(e.detail.sGroup){
+        this.props.ClearObservationPage();
         if(!params.sGroup){
           params.sGroup=[];
         }
         console.log("params.sGroup",params.taxon)
-        params.sGroup.push(e.detail.sGroup)
-        params.sGroup=_.uniqBy(params.sGroup)
-        const groupName=this.state.groupName;
-        var titleobject={};
-        titleobject.sGroup=e.detail.sGroup;
-        titleobject.groupName=e.detail.groupName;
-        groupName.push(titleobject);
-        let newgroupname=_.uniqBy(groupName,"sGroup")
-
+        params.sGroup=e.detail.sGroup;
+        let groupName=e.detail.groupName;
         params.classification=params.classification;
         let isFlagged=params.isFlagged;
         let speciesName=params.speciesName;
         let MediaFilter=params.isMediaFilter;
-
         let taxonparams=params.taxon;
         taxonparams= taxonparams.join(",");
         let sGroupParams=params.sGroup;
             sGroupParams=sGroupParams.join(",");
         let userGroupParams=params.userGroupList;
          userGroupParams=userGroupParams.join(",");
-
         let newparams={
                   max:10,
                   sGroup:sGroupParams,
@@ -123,9 +146,13 @@ class GetObservations extends Component{
                   speciesName:speciesName,
                   isMediaFilter:MediaFilter,
                   sort:params.sort
-
                 }
-
+                const seacrh=queryString.stringify(newparams)
+                const search1=decodeURIComponent(seacrh);
+                history.push({
+                  pathname:'/observation/list',
+                  search:search1
+                })
         this.props.fetchObservations(newparams);
         this.setState({
                 params:{
@@ -139,10 +166,28 @@ class GetObservations extends Component{
                   speciesName:speciesName,
                   isMediaFilter:MediaFilter,
                   sort:params.sort
-
                 },
-              groupName:newgroupname
+              groupName:groupName
         })
+      }
+      else{
+        this.setState({
+                params:{
+                  max:params.max,
+                  sGroup:params.sGroup,
+                  classification:params.classification,
+                  offset:params.offset,
+                  taxon:params.taxon,
+                  userGroupList:params.userGroupList,
+                  isFlagged:params.isFlagged,
+                  speciesName:params.peciesName,
+                  isMediaFilter:params.MediaFilter,
+                  sort:params.sort
+                },
+              groupName:e.detail.groupName
+        })
+      }
+
       }
 
     userGroupFilterEventListner(e){
@@ -186,6 +231,12 @@ class GetObservations extends Component{
         isMediaFilter:MediaFilter,
         sort:params.sort
       }
+      const seacrh=queryString.stringify(newparams)
+      const search1=decodeURIComponent(seacrh);
+      history.push({
+        pathname:'/observation/list',
+        search:search1
+      })
 
       this.props.fetchObservations(newparams);
       this.setState({
@@ -206,7 +257,6 @@ class GetObservations extends Component{
     }
 
     isMediaFilterEventListner(e){
-
       this.props.ClearObservationPage();
       const params=this.state.params;
       let taxon=params.taxon;
@@ -227,7 +277,12 @@ class GetObservations extends Component{
         isMediaFilter:e.detail.MediaFilter,
         sort:params.sort
       }
-        console.log(newparams,"this.state.params")
+      const seacrh=queryString.stringify(newparams)
+      const search1=decodeURIComponent(seacrh);
+      history.push({
+        pathname:'/observation/list',
+        search:search1
+      })
       this.props.fetchObservations(newparams);
       this.setState({
               params:{
@@ -255,7 +310,10 @@ class GetObservations extends Component{
       sGroup=sGroup.join(",");
       let userGroupList=params.userGroupList;
       userGroupList=userGroupList.join(",");
-
+      history.push({
+        pathname:'/observation/list',
+        search:queryString.stringify(params)
+      })
       let newparams={
         max:10,
         classification:params.classification,
@@ -267,7 +325,12 @@ class GetObservations extends Component{
         sort:params.sort,
         isMediaFilter:params.isMediaFilter
       }
-
+      const seacrh=queryString.stringify(newparams)
+      const search1=decodeURIComponent(seacrh);
+      history.push({
+        pathname:'/observation/list',
+        search:search1
+      })
       this.props.fetchObservations(newparams);
       this.setState({
               params:{
@@ -319,7 +382,12 @@ class GetObservations extends Component{
             isMediaFilter:MediaFilter,
             sort:params.sort
         }
-
+        const seacrh=queryString.stringify(newparams)
+        const search1=decodeURIComponent(seacrh);
+        history.push({
+          pathname:'/observation/list',
+          search:search1
+        })
         this.props.fetchObservations(newparams);
           this.setState({
             params:{
@@ -337,25 +405,20 @@ class GetObservations extends Component{
             title:title,
             groupName:this.state.groupName
           })
-
       }
-
-
-
       removesGroup(sGroup,item){
         const params=this.state.params;
 
         const index1=params.sGroup.indexOf(sGroup);
         params.sGroup.splice(index1, 1);
-
         const groupName=this.state.groupName;
+
         const indexoftitile=groupName.indexOf(item);
         groupName.splice(indexoftitile,1);
-
         let isFlagged=params.isFlagged;
+
         let speciesName=params.speciesName;
         let MediaFilter=params.isMediaFilter;
-
         let taxon=params.taxon;
 
         taxon=taxon.join(",");
@@ -376,6 +439,12 @@ class GetObservations extends Component{
             sort:params.sort
         }
         this.props.ClearObservationPage();
+        const seacrh=queryString.stringify(newparams)
+        const search1=decodeURIComponent(seacrh);
+        history.push({
+          pathname:'/observation/list',
+          search:search1
+        })
         this.props.fetchObservations(newparams)
 
         this.setState({
@@ -432,7 +501,12 @@ class GetObservations extends Component{
             sort:params.sort
         }
         this.props.ClearObservationPage();
-
+        const seacrh=queryString.stringify(newparams)
+        const search1=decodeURIComponent(seacrh);
+        history.push({
+          pathname:'/observation/list',
+          search:search1
+        })
         this.props.fetchObservations(newparams);
         this.setState({
             params:{
@@ -453,20 +527,47 @@ class GetObservations extends Component{
 
 
       showtaxonButton(item,index){
-      return  <button className="btn btn-default btn-xs " key={index}  onClick={this.removeTaxon.bind(this,item.taxon,item)} ><EllipsisText text={item.title} length={10} /> <span className="glyphicon glyphicon-remove"></span>    <span>&nbsp;&nbsp;</span></button>
+      return  <button className="btn btn-default btn-xs " key={index}  ><EllipsisText text={item.title} length={10} />     <span>&nbsp;&nbsp;</span></button>
       }
       showGroupNameButton(item,index){
-        return <button  className="btn btn-danger btn-xs" onClick={this.removesGroup.bind(this,item.sGroup,item)} key={index} ><EllipsisText text={item.groupName} length={10} /> <span className="glyphicon glyphicon-remove"></span></button>
+        return <button  className="btn btn-danger btn-xs"  key={index} ><EllipsisText text={item?item:null} length={10} /> </button>
       }
       showUserGroupNameButton(item,index){
         return <button className="btn btn-warning btn-xs " onClick={this.removeUserGroup.bind(this,item.userGroup,item)} key={index} ><EllipsisText text={item.userGroupName} length={10} /> <span className="glyphicon glyphicon-remove"></span></button>
       }
+      setParameter(){
+        const newparams=  queryString.parse(document.location.search);
+        if(newparams.sGroup){
+          newparams.sGroup=newparams.sGroup.split(",");
+        }
+        else{
+          newparams.sGroup=[];
+        }
+        if(newparams.taxon){
+          newparams.taxon=newparams.taxon.split(",");
+        }
+        else{
+          newparams.taxon=[];
+        }
+        if(newparams.userGroupList){
+          newparams.userGroupList=newparams.userGroupList.split(",");
+        }
+        else{
+          newparams.userGroupList=[]
+        }
+        console.log("console.logoooooooooooooooooooo",newparams)
+        this.setState({
+          params:newparams
+        })
+      }
       componentDidMount(){
+        this.setParameter();
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
         document.addEventListener("isMediaFilter-filter", this.isMediaFilterEventListner.bind(this));
         document.addEventListener("getTaxon-filter", this.taxonFilterEventListner.bind(this));
         document.addEventListener("userGroup-filter", this.userGroupFilterEventListner.bind(this));
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
+
       }
       componentWillUnmount(){
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
@@ -474,11 +575,12 @@ class GetObservations extends Component{
         document.addEventListener("userGroup-filter", this.taxonFilterEventListner.bind(this));
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
         document.addEventListener("isMediaFilter-filter", this.isMediaFilterEventListner.bind(this));
+
         this.props.ClearObservationPage();
 
       }
       displayData(view,objs,count){
-      
+
           return(
           <div key={objs.id}>
             <ObservationListComponent objs={objs} view={view} count={count}/>
@@ -506,9 +608,15 @@ class GetObservations extends Component{
                 userGroupList:newUserGroup,
                 sort:params.sort,
                 speciesName:params.speciesName,
-                isMediaFilter:params.isMediaFilter
+                isMediaFilter:params.isMediaFilter,
+                webaddress:params.webaddress
               }
-
+              const seacrh=queryString.stringify(newparams)
+              const search1=decodeURIComponent(seacrh);
+              history.push({
+                pathname:'/observation/list',
+                search:search1
+              })
           this.props.fetchObservations(newparams);
           this.setState({
             params:{
@@ -520,7 +628,8 @@ class GetObservations extends Component{
               userGroupList:params.userGroupList,
               sort:params.sort,
               speciesName:params.speciesName,
-              isMediaFilter:params.isMediaFilter
+              isMediaFilter:params.isMediaFilter,
+              webaddress:params.webaddress
 
             }
           })
@@ -583,12 +692,8 @@ class GetObservations extends Component{
 
             })
               this.props.fetchObservations(newparams)
-
-
         }
-
         handleChangeCheckbox(event){
-
         if(event.target.value.trim()==="Last Visited".trim()){
         this.sortObservation("lastRevised")
         }
@@ -603,7 +708,6 @@ class GetObservations extends Component{
 
 
   render(){
-
     return(
       <div>
             <div className="pull-right">
@@ -614,6 +718,7 @@ class GetObservations extends Component{
             {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}
 
             {this.state.title.length?this.state.title.map(this.showtaxonButton.bind(this)):null}
+            {console.log("this.state.groupNameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",this.state.groupName)}
             {this.state.groupName?this.state.groupName.map(this.showGroupNameButton.bind(this)):null}
             {this.state.userGroupName?this.state.userGroupName.map(this.showUserGroupNameButton.bind(this)):null}
             <br />
@@ -621,10 +726,9 @@ class GetObservations extends Component{
             <div className="btn-group">
             <button className={`btn ${this.state.view?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
            <button className={`btn ${this.state.view?"btn-default":"btn-success"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
-
             </div>
             <div className="pull-right">
-              <select className="form-control btn-default" value={this.state.value} onChange={this.handleChangeCheckbox.bind(this)}>
+              <select className="form-control btn-default"  onChange={this.handleChangeCheckbox.bind(this)}>
                  <option  value="Last Visited">Last Visited</option>
                  <option value="Latest">Latest</option>
                  <option value="Most Viewed">Most Viewed</option>
@@ -639,9 +743,10 @@ class GetObservations extends Component{
   }
 }
 function mapStateToProps(state){
-  console.log("inside observation",state.Observation)
+
 return {
-  Observation:state.Observation
+  Observation:state.Observation,
+  queryParams:state.Observation.queryParameter
 
 };
 }

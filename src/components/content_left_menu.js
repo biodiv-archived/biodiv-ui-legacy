@@ -20,9 +20,8 @@ render(){
 
           </div>
           </Collapsible>
-          <Collapsible trigger="  Species Groups Filter">
+          <Collapsible open={true} trigger="  Species Groups Filter">
             <FilterPanel />
-
           </Collapsible>
            <Collapsible trigger=" Group Filter">
              <UserGroupNameFilter />

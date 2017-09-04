@@ -8,10 +8,11 @@ export default function(state=DEFAULT_STATE,action){
   switch (action.type) {
     case FETCH_OBSERVATION:
       if(action.payload.data){
-    
+
         return{
           all:_.values(_.mapKeys(state.all.concat(action.payload.data.model.observationInstanceList), "id")),
-          count:action.payload.data.model.observationCount
+          count:action.payload.data.model.observationCount,
+          queryParameter:action.payload.data.model.queryParams
         }
       }
       else {
