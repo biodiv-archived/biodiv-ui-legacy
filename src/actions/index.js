@@ -1,6 +1,7 @@
 import axios from 'axios';
 import history from '../history';
 
+
 export const AUTH_USER ='AUTH_USER';
 export const UNAUTH_USER ='UNAUTH_USER';
 export const AUTH_ERROR ='AUTH_ERROR';
@@ -23,8 +24,7 @@ export const FETCH_LANGUAGES='FETCH_LANGUAGES';
 export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
-
-export const ROOT_URL="https://pamba.strandls.com";
+export const ROOT_URL="http://localhost.indiabiodiversity.org/biodiv";
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
@@ -42,8 +42,16 @@ const request = axios.get(url);
     payload:request
   }
 }
-export function fetchTaxonList(classification) {
-const url=`${ROOT_URL}/taxon/listHierarchy?classSystem=${classification}`;
+export function fetchTaxonList(classification,expand_taxon,id) {
+  let url;
+  if(expand_taxon){
+ url=`${ROOT_URL}/taxon/list?classSystem=${classification}&expand_taxon=${expand_taxon}&taxonIds=${id}`;
+
+  }
+  else{
+ url=`${ROOT_URL}/taxon/list?classSystem=${classification}`;
+
+  }
 const request = axios.get(url);
   return {
     type:FETCH_TAXON_LIST,

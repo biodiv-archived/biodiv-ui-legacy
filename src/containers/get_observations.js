@@ -39,11 +39,22 @@ class GetObservations extends Component{
         view:1
       }
       const newparams=  queryString.parse(document.location.search);
+      if(!newparams.sort){
+        newparams.sort="lastRevised"
+      }
+      if(!newparams.max){
+        newparams.max=10;
+      }
+      if(!newparams.offset){
+        newparams.offset=0
+      }
       let search1=queryString.stringify(newparams);
 
-       let search2 = decodeURIComponent( search1 );
 
-      if(!deepEqual(this.state.params,newparams)){
+       let search2 = decodeURIComponent( search1 );
+       const {groupName}=this.props.match.params;
+       if(!groupName){
+          if(!deepEqual(this.state.params,newparams) ){
         history.push({
           pathname:'/observation/list',
           search:search2
@@ -57,6 +68,15 @@ class GetObservations extends Component{
         })
         this.props.fetchObservations(this.state.params)
       }
+
+      }
+      else{
+        const newparams=this.state.params;
+        newparams.webaddress=groupName;
+        this.props.fetchObservations(newparams)
+          
+       }
+      
       this.loadMore=this.loadMore.bind(this);
     };
 
@@ -113,18 +133,22 @@ class GetObservations extends Component{
           })
           this.props.fetchObservations(params);
       }
+
+
+
       sGroupFilterEventListner(e){
         
+        
         const params=this.state.params;
-        console.log(e.detail.groupName,"groupma,,,,,,,,,,,,,,,,,,,,,,,,,,,,,")
         if(e.detail.sGroup){
         this.props.ClearObservationPage();
         if(!params.sGroup){
           params.sGroup=[];
         }
-        console.log("params.sGroup",params.taxon)
+
         params.sGroup=e.detail.sGroup;
         let groupName=e.detail.groupName;
+
         params.classification=params.classification;
         let isFlagged=params.isFlagged;
         let speciesName=params.speciesName;
@@ -536,7 +560,12 @@ class GetObservations extends Component{
         return <button className="btn btn-warning btn-xs " onClick={this.removeUserGroup.bind(this,item.userGroup,item)} key={index} ><EllipsisText text={item.userGroupName} length={10} /> <span className="glyphicon glyphicon-remove"></span></button>
       }
       setParameter(){
+
+        const {groupName}=this.props.match.params;
+
+
         const newparams=  queryString.parse(document.location.search);
+
         if(newparams.sGroup){
           newparams.sGroup=newparams.sGroup.split(",");
         }
@@ -555,10 +584,21 @@ class GetObservations extends Component{
         else{
           newparams.userGroupList=[]
         }
+        if(groupName){
+          newparams.webaddress=groupName;
+        }
+        if(!newparams.max){
+          newparams.max=10;
+        }
+
+        if(!newparams.offset){
+          newparams.offset=0;
+        }
         console.log("console.logoooooooooooooooooooo",newparams)
         this.setState({
           params:newparams
         })
+
       }
       componentDidMount(){
         this.setParameter();

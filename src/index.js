@@ -54,8 +54,7 @@ ReactDOM.render(
           <Route exact path="/login" component={Signin} />
           <Route exact path="/signout" component={Signout} />
           <Route  exact path="/group" component={Test} />
-          <Route  exact path="/group/:groupName" component={UserGroup} />
-          <Route  exact path="/group/:groupName/observation/list" component={UserGroupHomes} />
+          <Route  exact path="/group/:groupName/observation/list" component={App} />
         </div>
         <Footer />
       </div>

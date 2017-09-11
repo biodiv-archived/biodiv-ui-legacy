@@ -9,49 +9,197 @@ import {fetchObservations} from '../../actions/index';
 import {fetchTaxonList} from '../../actions/index';
 import {ClearObservationPage} from '../../actions/index';
 import  queryString from 'query-string';
-function generateTreeNodes(treeNode,classSystem) {
+import _ from "lodash";
+import style from './style.css';
+import  scrollIntoView  from 'dom-scroll-into-view';
+
+
+class TaxonBrowser extends  React.Component{
+constructor(){
+  super();
+  this.state={
+    checkedKeys:[],
+    classification:"265799",
+    Expanded:[],
+    Selected:[],
+    current:0,
+    showButton:[]
+}
+  this.onLoadData =this.onLoadData.bind(this);
+  this.onCheck =this.onCheck.bind(this);
+  this.onExpand =this.onExpand.bind(this);
+  
+  this.notDisplay={
+    'display':'none'
+  }
+
+}
+
+
+gettaxonData(){
+    const newparams=  queryString.parse(document.location.search);
+    let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
+    let expand_taxon=undefined;
+    let parent=undefined;
+
+console.log("checkedKey",checkedKey)
+
+    this.setState({
+        checkedKeys:checkedKey,
+        Expanded:checkedKey
+    })
+
+    if(checkedKey.length==1){
+        if(checkedKey.includes("872")|| checkedKey.includes("122888")|| checkedKey.includes("2998")
+        || checkedKey.includes("124658")|| checkedKey.includes("94899")|| checkedKey.includes("123467")||
+        checkedKey.includes("64231")){
+
+    this.props.fetchTaxonList(this.state.classification);
+
+    }
+    else{
+        expand_taxon=true;
+        parent=checkedKey.join(",")
+        this.props.fetchTaxonList(this.state.classification,expand_taxon,parent).then(()=>{
+        this.setScrollClass();
+
+        });
+    }
+    }
+    else if(checkedKey.length>1){
+      expand_taxon=true;
+    this.props.fetchTaxonList(this.state.classification,expand_taxon,checkedKey.join(",")).then((data)=>{
+      this.setScrollClass();
+    });
+
+    }
+    else{
+      this.props.fetchTaxonList(this.state.classification);
+
+    }
+    
+
+
+}
+
+
+getSearchNodeData(e){
+
+let taxonToshow=e.detail.taxonValue;
+let expand_taxon=true;
+let taxonToshow1=taxonToshow.join(",");
+taxonToshow1=taxonToshow1.split(",");
+
+taxonToshow1= _.uniqBy(taxonToshow1);
+
+this.setState({
+  Expanded:taxonToshow1,
+  Selected:taxonToshow1[0].split(","),
+  showButton:taxonToshow1
+})
+this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1[0]).then((data)=>{
+  console.log(this.state.Selected)
+  this.setScrollClass();
+});
+
+  
+
+}
+
+nextFetch(){
+  let expand_taxon=true;
+  let data=this.state.Expanded;
+ 
+  let dataMax=data.length;
+  let current=this.state.current;
+  let parent = (dataMax + current + 1) % dataMax;
+  this.props.fetchTaxonList(this.state.classification,expand_taxon,data[parent]).then((data)=>{
+    this.setScrollClass();
+  });
+  let SelectedData=data[parent];
+    SelectedData=SelectedData.toString();
+    let Selected=SelectedData.split(",");
+    current=current+1;
+  this.setState({
+    current,
+    Selected
+  })
+}
+prevFetch(){
+  let expand_taxon=true;
+  let data=this.state.Expanded;
+  let dataMax=data.length;
+  let current=this.state.current;
+  let parent = (dataMax + current - 1) % dataMax;
+  this.props.fetchTaxonList(this.state.classification,expand_taxon,data[parent]).then((data)=>{
+    this.setScrollClass();
+  });
+ let SelectedData=data[parent];
+    SelectedData=SelectedData.toString();
+    let Selected=SelectedData.split(",");
+    current=current-1;
+  this.setState({
+    current,
+    Selected
+  })
+
+}
+
+setScrollClass(){
+
+  let scrollTo = $('#container-sunil');
+  if(scrollTo && scrollTo.offset()) {
+   let myContainer = $('ul li .rc-tree-node-selected')
+    let myContainer1=$('ul li .rc-tree-checkbox-checked');
+    if(myContainer.length){
+       myContainer[0].scrollIntoView();
+    }
+    if(myContainer1.length){
+
+       myContainer1[0].scrollIntoView({});
+    }
+  
+}
+console.log("set scroll class called")               
+
+}
+
+  componentDidMount() {
+    this.gettaxonData();
+  document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
+  
+  }
+
+  componentWillunmount(){
+  document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
+
+  }
+
+generateTreeNodes(treeNode,classSystem,treeData,key) {
+    const parent=treeNode.props.path;
   const arr = [];
-  const key = treeNode.props.eventKey;
   $.ajax({
-    async:false,
-   url:"http://indiabiodiversity.org/taxon/listHierarchy",
+   url:"http://localhost.indiabiodiversity.org/biodiv/taxon/list",
    data:{
       classSystem:classSystem,
-      id:key
+      parent:parent
    },
+
    success:(data)=>{
      data.map((item)=>{
-        console.log(item.taxonid)
-         arr.push({ text:item.text, id: item.id,taxonid:item.taxonid});
+          if(item){
+         arr.push({ text:item.text, id: item.id,taxonid:item.taxonid,parent:item.parent,path:item.path});
+          }
      })
+     this.getNewTreeData(treeData,key,arr)
  }
 })
-  return arr;
 }
 
-function setLeaf(treeData, curKey, level) {
-  const loopLeaf = (data, lev) => {
-    const l = lev - 1;
-    data.forEach((item) => {
-      if ((item.id.length > curKey.length) ? item.id.indexOf(curKey) !== 0 :
-        curKey.indexOf(item.id) !== 0) {
-        return;
-      }
-      if (item.children) {
-        loopLeaf(item.children, l);
-      } else if (l < 1) {
-        item.isLeaf = true;
-      }
-    });
-  };
-  loopLeaf(treeData, level + 1);
-}
-
-function getNewTreeData(treeData, curKey, child, level) {
+ getNewTreeData(treeData, curKey, child) {
   const loop = (data) => {
-    //if (level < 1 || curKey.length - 3 > level * 2) return;
     data.forEach((item) => {
-      if (curKey.indexOf(item.id) === 0) {
+      if (curKey.indexOf(item.path) === 0) {
         if (item.children) {
           loop(item.children);
         } else {
@@ -62,37 +210,13 @@ function getNewTreeData(treeData, curKey, child, level) {
   };
 
   loop(treeData);
-  setLeaf(treeData, curKey, level);
+  this.setState({
+     treeData:treeData
+   });
+
 }
 
-class Demo extends  React.Component{
-constructor(){
-  super();
-  const newparams=  queryString.parse(document.location.search);
-  let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
-  {/* checkedKey.map(()=>{
-
-  })*/}
-  this.state={
-    checkedKeys:checkedKey,
-    classification:"265799"
-  }
-
-
-  this.onLoadData =this.onLoadData.bind(this);
-  this.onCheck =this.onCheck.bind(this);
-  this.onSelect =this.onSelect.bind(this);
-}
-  componentDidMount() {
-    this.props.fetchTaxonList(this.state.classification);
-  }
-
-  onSelect(info,event) {
-
-
-  }
   onCheck(checkedKeys,event) {
-
     this.props.ClearObservationPage();
     this.setState({
       checkedKeys
@@ -106,17 +230,21 @@ constructor(){
     }
   });
   document.dispatchEvent(event);
+  event.preventDefault();
 
   }
+  onExpand(expandedKeys){
 
-
+    this.setState({
+        Expanded:expandedKeys,
+    })
+  }
 
   onLoadData(treeNode) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const treeData = [...this.props.treeData];
-
-        getNewTreeData(treeData, treeNode.props.eventKey, generateTreeNodes(treeNode,this.state.classification));
+        this.generateTreeNodes(treeNode,this.state.classification,treeData,treeNode.props.path);
         this.setState({
            treeData:treeData,
          });
@@ -130,7 +258,14 @@ constructor(){
     this.setState({
       classification:event.target.value
     })
+  }
+  handleSubmit(){
+    console.log("changed")
+  }
 
+
+  componentDidReceiveProps(nextProps){
+    console.log("received props")
   }
 
   render() {
@@ -138,20 +273,19 @@ constructor(){
     const loop = (data) => {
       return data.map((item) => {
         if (item.children) {
-          return <TreeNode title={item.text} key={item.id} taxonid={item.taxonid}>{loop(item.children)}</TreeNode>;
+          return <TreeNode title={item.text}  path={item.path} key={item.taxonid} taxonid={item.taxonid}>{loop(item.children)}</TreeNode>;
         }
         return (
-          <TreeNode  title={item.text} key={item.id} isLeaf={item.isLeaf}
-            disabled={item.rank === 10} taxonid={item.taxonid}
+
+          <TreeNode  title={item.text} key={item.taxonid} isLeaf={item.isLeaf}
+            disabled={item.rank === 10} path={item.path} taxonid={item.taxonid}
           />
         );
       });
     };
     const treeNodes = loop(this.props.treeData);
-
     return (
       <div>
-
           <div style={{paddingBottom:'0px',marginBottom:'0px'}} className="form-group form-inline"  >
             <select style={{width:'100%'}} onChange={this.changeTaxonomy.bind(this)}  className=" form-control" >
                 <option  value="265799">IBP (India Biodiversity portal )</option>
@@ -161,24 +295,31 @@ constructor(){
                 <option  value="265798">Combined Taxonomy Hierarchy </option>
                 <option  value="821">Catalogue of Life  </option>
                 <option  value="817">Author Contributed </option>
-              </select>
-            </div>
-
-
-        <Tree
-          onSelect={this.onSelect}
-          selectable={false}
-          checkable={true}
-          onCheck={this.onCheck}
-          checkedKeys={this.state.checkedKeys}
-          loadData={this.onLoadData}
-          showLine={true}
-          showIcon={false}
-          checkStrictly={true}
-        >
-          {treeNodes}
-        </Tree>
-
+             </select>
+            </div >
+                <div id="container-sunil" className="pre-scrollable">
+                <Tree 
+                  selectable={true}
+                  multiple={true}
+                  checkable={true}
+                  onCheck={this.onCheck}
+                  checkedKeys={this.state.checkedKeys}
+                  loadData={this.onLoadData}
+                  showLine={true}
+                  showIcon={false}
+                  checkStrictly={true}
+                  onExpand={this.onExpand}
+                  expandedKeys={this.state.Expanded}
+                  selectedKeys={this.state.Selected}
+                >
+                  {treeNodes}
+                </Tree >
+                </div>
+              <div>
+               <button onClick={this.prevFetch.bind(this)} className={`btn btn-default btn-xs  ${this.state.showButton.length<2?"disabled":null}`}> <span className="glyphicon glyphicon-chevron-left">Prev</span></button>
+               <button onClick={this.nextFetch.bind(this)} className={`btn btn-default btn-xs ${this.state.showButton.length<2?"disabled":null}`}><span className="glyphicon glyphicon-chevron-right">Next</span> </button>
+              </div>
+               
       </div>
     );
   }
@@ -188,4 +329,4 @@ return {
   treeData:state.treeData
 };
 }
-export default connect(mapStateToProps,{fetchTaxonList,fetchObservations,ClearObservationPage})(Demo);
+export default connect(mapStateToProps,{fetchTaxonList,fetchObservations,ClearObservationPage})(TaxonBrowser);
