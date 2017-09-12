@@ -162,19 +162,28 @@ class FilterPanel extends Component {
   render() {
     return (
        < div >
-       <CheckboxGroup className="Collapsible__contentInner"
+       <CheckboxGroup
          name="groups"
          value={this.state.sGroupId}
          onChange={this.sChanged.bind(this)}>
          <label><Checkbox value="841"/> Mammals</label>
+         <br/>
          <label><Checkbox value="837"/> Birds</label>
+         <br/>
          <label><Checkbox value="845"/> Fish</label>
+         <br/>
          <label><Checkbox value="835"/> Amphibians</label>
+         <br/>
          <label><Checkbox value="843"/> Reptiles</label>
+         <br/>
          <label><Checkbox value="856"/> Molluscs</label>
+         <br/>
          <label><Checkbox value="839"/> Arthropods</label>
+         <br/>
          <label><Checkbox value="833"/> Plants</label>
+         <br/>
          <label><Checkbox value="831"/> Fungi</label>
+         <br/>
          <label><Checkbox value="830"/> Others</label>
        </CheckboxGroup>
 {/*

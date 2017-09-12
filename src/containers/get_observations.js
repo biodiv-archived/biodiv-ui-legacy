@@ -81,28 +81,29 @@ class GetObservations extends Component{
     };
 
       taxonFilterEventListner(e){
+
         const params=this.state.params;
+
         let title=this.state.title;
         if(!params.taxon){
           params.taxon=[];
         }
         if(e.detail.checked){
-          let titleobject={};
-          titleobject.title=e.detail.title;
-          titleobject.taxon=e.detail.taxon;
-          title.push(titleobject);
+          title.push(e.detail.title);
           params.taxon=e.detail.taxon
         }
         else{
           params.taxon=e.detail.taxon
           const title=this.state.title;
+          console.log("title",title);
           const indexoftitile=title.indexOf(e.detail.title);
           title.splice(indexoftitile,1);
+           console.log("title",title);
         }
-          var titleobject={};
-          titleobject.taxon=e.detail.taxon;
-          let newtitle=_.uniqBy(title,"taxon")
+
+       
           params.classification=e.detail.classification;
+
           let sGroup=params.sGroup;
           let isFlagged=params.isFlagged;
           let speciesName=params.speciesName;
@@ -119,7 +120,7 @@ class GetObservations extends Component{
                 isMediaFilter:MediaFilter,
                 sort:params.sort
               },
-                title:newtitle
+                title:title
           })
 
           params.taxon=params.taxon.join(",");
@@ -137,8 +138,6 @@ class GetObservations extends Component{
 
 
       sGroupFilterEventListner(e){
-        
-        
         const params=this.state.params;
         if(e.detail.sGroup){
         this.props.ClearObservationPage();
@@ -551,7 +550,7 @@ class GetObservations extends Component{
 
 
       showtaxonButton(item,index){
-      return  <button className="btn btn-default btn-xs " key={index}  ><EllipsisText text={item.title} length={10} />     <span>&nbsp;&nbsp;</span></button>
+      return  <button className="btn btn-default btn-xs " key={index}  ><EllipsisText text={item} length={10} />     <span>&nbsp;&nbsp;</span></button>
       }
       showGroupNameButton(item,index){
         return <button  className="btn btn-danger btn-xs"  key={index} ><EllipsisText text={item?item:null} length={10} /> </button>
@@ -756,7 +755,7 @@ class GetObservations extends Component{
 
 
             {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}
-
+            {console.log("this.state.title",this.state.title)}
             {this.state.title.length?this.state.title.map(this.showtaxonButton.bind(this)):null}
             {console.log("this.state.groupNameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",this.state.groupName)}
             {this.state.groupName?this.state.groupName.map(this.showGroupNameButton.bind(this)):null}

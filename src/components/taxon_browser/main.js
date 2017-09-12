@@ -12,7 +12,7 @@ import  queryString from 'query-string';
 import _ from "lodash";
 import style from './style.css';
 import  scrollIntoView  from 'dom-scroll-into-view';
-
+import {ROOT_URL} from '../../actions';
 
 class TaxonBrowser extends  React.Component{
 constructor(){
@@ -37,6 +37,7 @@ constructor(){
 
 
 gettaxonData(){
+
     const newparams=  queryString.parse(document.location.search);
     let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
     let expand_taxon=undefined;
@@ -69,6 +70,7 @@ console.log("checkedKey",checkedKey)
     else if(checkedKey.length>1){
       expand_taxon=true;
     this.props.fetchTaxonList(this.state.classification,expand_taxon,checkedKey.join(",")).then((data)=>{
+      
       this.setScrollClass();
     });
 
@@ -160,7 +162,6 @@ setScrollClass(){
     }
   
 }
-console.log("set scroll class called")               
 
 }
 
@@ -179,7 +180,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const parent=treeNode.props.path;
   const arr = [];
   $.ajax({
-   url:"http://localhost.indiabiodiversity.org/biodiv/taxon/list",
+   url:`${ROOT_URL}/taxon/list`,
    data:{
       classSystem:classSystem,
       parent:parent
@@ -221,12 +222,13 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     this.setState({
       checkedKeys
     })
-    var event = new CustomEvent("getTaxon-filter",{ "detail":{
 
+    var event = new CustomEvent("getTaxon-filter",{ "detail":{
       taxon:checkedKeys,
       title:event.node.props.title,
       classification:this.state.classification,
-      checked:event.checked
+      checked:event.checked,
+      taxonRemoved:event.node.props.taxonid
     }
   });
   document.dispatchEvent(event);
@@ -318,6 +320,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
               <div>
                <button onClick={this.prevFetch.bind(this)} className={`btn btn-default btn-xs  ${this.state.showButton.length<2?"disabled":null}`}> <span className="glyphicon glyphicon-chevron-left">Prev</span></button>
                <button onClick={this.nextFetch.bind(this)} className={`btn btn-default btn-xs ${this.state.showButton.length<2?"disabled":null}`}><span className="glyphicon glyphicon-chevron-right">Next</span> </button>
+                <span>{this.state.showButton.length>0?this.state.showButton.length:null}</span>
               </div>
                
       </div>

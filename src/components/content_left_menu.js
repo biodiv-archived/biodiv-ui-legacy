@@ -9,6 +9,9 @@ import Collapsible from 'react-collapsible';
 import style from './content_right.css';
 import Search_bar from './taxon_browser/search_bar';
 import Year_Filter from './year_filter';
+import Month_Filter from './month_filter';
+import Traits_Filter from './traits_filter';
+
 class Right extends Component {
 render(){
   return (
@@ -27,20 +30,23 @@ render(){
           </Collapsible>
            <Collapsible trigger=" Group Filter">
              <UserGroupNameFilter />
-            </Collapsible>
+          </Collapsible>
 
-             <Collapsible trigger="SpeciesName Filter">
-               <SpeciesNameFilter />
-              </Collapsible>
-              <Collapsible trigger="Flag Filter">
-                <SpeciesNameFilter />
-               </Collapsible>
-
-                <Collapsible trigger="Year Filter">
-
-                    <Year_Filter />
-                    
-                    </Collapsible>   
+          <Collapsible trigger="SpeciesName Filter">
+            <SpeciesNameFilter />
+          </Collapsible>
+          <Collapsible trigger="Flag Filter">
+            <SpeciesNameFilter />
+          </Collapsible>
+          <Collapsible trigger="Year Filter">
+          <Year_Filter />
+          </Collapsible>   
+          <Collapsible trigger="Month Filter">
+          <Month_Filter />
+          </Collapsible>  
+           <Collapsible trigger="Traits Filter">
+          <Traits_Filter />
+          </Collapsible>  
 
 
                 

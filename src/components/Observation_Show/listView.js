@@ -25,7 +25,6 @@ constructor(){
 getEditUserGroupMethod(){
   console.log("i called")
   getAllUserGroup().then((response)=>{
-    console.log(response.model.userGroupInstanceList)
   this.setState({
     AllUserGroup:response.model.userGroupInstanceList
   })
@@ -171,7 +170,7 @@ objs.resource.map((images)=>{
               {objs.userGroups.map((item,index)=>{
               return  (
                   <div key={index} className="chip">
-                    <img src={`${ROOT_URL}/biodiv/userGroups/${item.icon}`}title={item.name}/>
+                    <img src={`${ROOT_URL}/biodiv/userGroups/${item.icon}`}/>
                     <EllipsisText text={item.name} length={13} />
                   </div>
               )

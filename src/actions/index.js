@@ -1,7 +1,5 @@
 import axios from 'axios';
 import history from '../history';
-
-
 export const AUTH_USER ='AUTH_USER';
 export const UNAUTH_USER ='UNAUTH_USER';
 export const AUTH_ERROR ='AUTH_ERROR';
@@ -24,7 +22,11 @@ export const FETCH_LANGUAGES='FETCH_LANGUAGES';
 export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
+
+
+
 export const ROOT_URL="http://localhost.indiabiodiversity.org/biodiv";
+
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
