@@ -175,8 +175,9 @@ objs.resource.map((images)=>{
                   </div>
               )
           })}
-          
+        
             </div>
+          }
           <br />
         </div>
 

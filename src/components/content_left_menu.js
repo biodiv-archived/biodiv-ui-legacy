@@ -11,13 +11,38 @@ import Search_bar from './taxon_browser/search_bar';
 import Year_Filter from './year_filter';
 import Month_Filter from './month_filter';
 import Traits_Filter from './traits_filter';
+import  queryString from 'query-string';
+import UserFilter from './User_Filter/user_filter';
 
 class Right extends Component {
+constructor(){
+  super();
+  this.state={
+    sGroupOpen:false
+  }
+}
+
+openFilter(){
+   const newparams = queryString.parse(document.location.search);
+   if(newparams.sGroup){
+    this.setState({
+      sGroupOpen:true
+    })
+   }
+
+}
+
+componentDidMount(){
+this.openFilter();
+}
+
+
+
 render(){
   return (
     <div>
 
-      <Collapsible  open={true} trigger="Taxon Browser">
+      <Collapsible open={true} trigger="Taxon Browser">
           <div>
             <div  >
             <Taxon_Filter />
@@ -25,9 +50,13 @@ render(){
              <Search_bar />
           </div>
           </Collapsible>
-          <Collapsible open={true} trigger="Species Groups Filter">
+
+          <Collapsible open={this.state.sGroupOpen} trigger="Species Groups Filter">
+
             <FilterPanel />
+
           </Collapsible>
+
            <Collapsible trigger=" Group Filter">
              <UserGroupNameFilter />
           </Collapsible>
@@ -38,6 +67,11 @@ render(){
           <Collapsible trigger="Flag Filter">
             <SpeciesNameFilter />
           </Collapsible>
+
+          <Collapsible trigger="User Filter">
+          <UserFilter/>
+          </Collapsible>  
+
           <Collapsible trigger="Year Filter">
           <Year_Filter />
           </Collapsible>   

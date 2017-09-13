@@ -14,6 +14,7 @@ import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
 import _ from "lodash";
 import $ from "jquery-param";
+import Left_stats from '../components/mobile_right_slider'
 const history=createHistory();
 class GetObservations extends Component{
     constructor(props){
@@ -31,7 +32,6 @@ class GetObservations extends Component{
           isMediaFilter:undefined,
           sort:"lastRevised",
           webaddress:undefined
-
         },
         title:[],
         groupName:[],
@@ -80,30 +80,8 @@ class GetObservations extends Component{
       this.loadMore=this.loadMore.bind(this);
     };
 
-      taxonFilterEventListner(e){
 
-        const params=this.state.params;
-
-        let title=this.state.title;
-        if(!params.taxon){
-          params.taxon=[];
-        }
-        if(e.detail.checked){
-          title.push(e.detail.title);
-          params.taxon=e.detail.taxon
-        }
-        else{
-          params.taxon=e.detail.taxon
-          const title=this.state.title;
-          console.log("title",title);
-          const indexoftitile=title.indexOf(e.detail.title);
-          title.splice(indexoftitile,1);
-           console.log("title",title);
-        }
-
-       
-          params.classification=e.detail.classification;
-
+    GlobalCall(params,title,key){
           let sGroup=params.sGroup;
           let isFlagged=params.isFlagged;
           let speciesName=params.speciesName;
@@ -122,8 +100,8 @@ class GetObservations extends Component{
               },
                 title:title
           })
-
-          params.taxon=params.taxon.join(",");
+          if(key){
+            params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");
           const seacrh=queryString.stringify(params)
@@ -133,12 +111,56 @@ class GetObservations extends Component{
             search:search1
           })
           this.props.fetchObservations(params);
+          }
+          
+    }
+
+
+
+      taxonFilterEventListner(e){
+
+           const params=this.state.params;
+
+          let title=this.state.title;
+
+           if(!params.taxon){
+          params.taxon=[];
+        }
+
+        params.classification=e.detail.classification;
+
+
+        if(e.detail.noTaxon){
+        if(e.detail.checked){
+          title.push(e.detail.title);
+          params.taxon=e.detail.taxon;
+        }
+        else{
+          params.taxon=e.detail.taxon
+          const title=this.state.title;
+          const indexoftitile=title.indexOf(e.detail.title);
+          title.splice(indexoftitile,1);
+
+        }
+
+        this.GlobalCall(params,title,true);
+        }
+        else{
+          console.log(e.detail.title)
+          let title=e.detail.title;
+          
+           this.GlobalCall(params,title,false);
+        }
+       
+         
       }
 
 
 
       sGroupFilterEventListner(e){
+
         const params=this.state.params;
+
         if(e.detail.sGroup){
         this.props.ClearObservationPage();
         if(!params.sGroup){
@@ -214,15 +236,23 @@ class GetObservations extends Component{
       }
 
     userGroupFilterEventListner(e){
+
       let params=this.state.params;
+
       let userGroupName=this.state.userGroupName;
+
+
       if(!params.userGroupList){
         params.userGroupList=[];
       }
+
         params.userGroupList.push(e.detail.id)
+
           params.userGroupList=_.uniqBy(params.userGroupList)
 
+
         const title=this.state.title;
+        
         var titleobject={};
         titleobject.userGroupList=e.detail.id;
         titleobject.userGroupName=e.detail.userGroupName;
@@ -706,9 +736,8 @@ class GetObservations extends Component{
             taxon:newTaxon,
             sGroup:newsGroup,
             userGroupList:newUsergroupList,
-
             classification:params.classification,
-              sort:sortby,
+            sort:sortby,
             isFlagged:params.isFlagged,
             speciesName:params.speciesName,
             isMediaFilter:params.MediaFilter
@@ -730,7 +759,13 @@ class GetObservations extends Component{
             }
 
             })
-              this.props.fetchObservations(newparams)
+             const seacrh=queryString.stringify(newparams)
+          const search1=decodeURIComponent(seacrh);
+          history.push({
+            pathname:'/observation/list',
+            search:search1
+          })
+          this.props.fetchObservations(newparams)
         }
         handleChangeCheckbox(event){
         if(event.target.value.trim()==="Last Visited".trim()){
@@ -749,6 +784,9 @@ class GetObservations extends Component{
   render(){
     return(
       <div>
+            <div className=" hidden-lg-sm hidden-md hidden-lg">
+              <Left_stats />
+              </div>
             <div className="pull-right">
               <Right_stats />
             </div>

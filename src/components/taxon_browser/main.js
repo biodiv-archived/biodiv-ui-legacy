@@ -23,7 +23,8 @@ constructor(){
     Expanded:[],
     Selected:[],
     current:0,
-    showButton:[]
+    showButton:[],
+    title:[]
 }
   this.onLoadData =this.onLoadData.bind(this);
   this.onCheck =this.onCheck.bind(this);
@@ -55,7 +56,9 @@ console.log("checkedKey",checkedKey)
         || checkedKey.includes("124658")|| checkedKey.includes("94899")|| checkedKey.includes("123467")||
         checkedKey.includes("64231")){
 
-    this.props.fetchTaxonList(this.state.classification);
+    this.props.fetchTaxonList(this.state.classification).then(()=>{
+      this.setScrollClass();
+    });
 
     }
     else{
@@ -153,6 +156,30 @@ setScrollClass(){
   if(scrollTo && scrollTo.offset()) {
    let myContainer = $('ul li .rc-tree-node-selected')
     let myContainer1=$('ul li .rc-tree-checkbox-checked');
+    let title=[];
+    if(myContainer1 && myContainer1.length){
+      for(let i=0;i<myContainer1.length;i++){
+        title.push(myContainer1[i].parentElement.innerText);
+      }
+
+      this.setState({
+        title
+      },()=>{
+         var event = new CustomEvent("getTaxon-filter",{ "detail":{
+        noTaxon:false,
+        title:title
+        }
+        });
+        document.dispatchEvent(event);
+      })
+      
+
+
+    }
+    
+
+
+
     if(myContainer.length){
        myContainer[0].scrollIntoView();
     }
@@ -160,6 +187,7 @@ setScrollClass(){
 
        myContainer1[0].scrollIntoView({});
     }
+
   
 }
 
@@ -225,6 +253,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 
     var event = new CustomEvent("getTaxon-filter",{ "detail":{
       taxon:checkedKeys,
+      noTaxon:true,
       title:event.node.props.title,
       classification:this.state.classification,
       checked:event.checked,

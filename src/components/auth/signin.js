@@ -16,7 +16,8 @@ class Signin extends Component {
 
     handleFormSubmit({ email, password }) {
         this.props.signinUser({ email, password });
-
+        this.props.authenticated?
+        this.props.history.push("/observation/list"):null
 
     }
 

@@ -5,9 +5,20 @@ import GridComponent from './gridView';
 import {connect} from 'react-redux';
 
 class ObservationListComponent extends Component{
+
+  constructor(){
+    super();
+    this.state={
+      count:0
+    }
+
+
+  
+  }
+
+
+
   render(){
-    console.log(this.props.Observation.count,"ccccccccccccccccccccccccccccccccc")
-    console.log("this.props.count",this.props.count)
    return(
 
    <div>
@@ -24,6 +35,7 @@ class ObservationListComponent extends Component{
            </div>
         </div>
     </div>}
+
     
 
    </div>
