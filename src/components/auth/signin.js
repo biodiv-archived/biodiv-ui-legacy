@@ -18,6 +18,14 @@ class Signin extends Component {
         this.props.signinUser({ email, password });
 
 
+
+    }
+    isAuthenticated(){
+      const loggedIn= this.props.authenticated;
+      if(loggedIn){
+        console.log("history",this.props.history)
+        this.props.closeModal?this.props.closeModal():null
+      }
     }
 
     renderAlert() {
@@ -47,6 +55,7 @@ class Signin extends Component {
                     <Field name="password"
                         type="password" component={renderInput} />
                 </div>
+                {this.isAuthenticated()}
                 {this.renderAlert()}
                 <button action="submit" className="btn btn-primary">Sign in</button>
             </Form>

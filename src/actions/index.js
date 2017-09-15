@@ -24,7 +24,7 @@ export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 
-export const ROOT_URL="https://pamba.strandls.com";
+export const ROOT_URL="http://localhost.indiabiodiversity.org";
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})
@@ -100,8 +100,15 @@ let username=email;
       .then(response => {
         // If request is good...
         // - Update state to indicate user is authenticated
-        dispatch({ type: AUTH_USER});
-        localStorage.setItem('token', response);
+        localStorage.setItem('token', response.data.model.token);
+        localStorage.setItem('id', response.data.model.id);
+        dispatch({ type: AUTH_USER, payload:response});
+
+        var Role=[];
+        response.data.model.roles.map((item)=>{
+          Role=Role.concat(item)
+        })
+        localStorage.setItem('roles',JSON.stringify(Role))
         // - redirect to the route '/feature'
       }).catch(() => {
         dispatch(authError('Bad sdsg Info'));
@@ -168,7 +175,7 @@ export function fetchRecoComment(id){
   }
 }
 export function fetchLanguages(){
-  console.log("langauaROOT_URLed")
+
   const url=ROOT_URL+"/language/filteredList?format=json"
   const request =axios.get(url);
   return{

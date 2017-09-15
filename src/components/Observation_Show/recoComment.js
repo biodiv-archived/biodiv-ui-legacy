@@ -4,13 +4,19 @@ import {ROOT_URL} from '../../actions/index.js'
 import Moment from 'react-moment'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import ModalPopup from '../auth/modal.js';
+import { MentionsInput, Mention } from 'react-mentions'
+import commentWithTagStyle from './commentWithTagStyle.js'
 
 class RecoComment extends React.Component {
 
   constructor(props) {
     super(props);
     this.state={
-      response:''
+      response:'',
+      login_modal:false,
+      options:'',
+      value:''
     }
 
     this.getRecoComment=this.getRecoComment.bind(this)
@@ -18,10 +24,44 @@ class RecoComment extends React.Component {
 
   }
 
+  getUsers(query, callback){
+    var userData
+   console.log(query)
+   console.log(callback)
+   axios.get(ROOT_URL+"/user/terms?term="+query+"&format=json")
+       .then((response)=>{
+         console.log("user response",response)
+        let data1= response.data.map((user)=>{
+            let data={}
+           data.id=JSON.stringify(user.userId)
+           data.display=user.value
+           return data
+         })
+          userData=data1
+          callback(userData)
+       })
+ }
+
+ handleChange(e){
+    this.setState({
+        value: e.target.value
+    })
+ }
+
   getRecoComment(id1,id2){
     var d = new Date();
     var tym = d.getTime();
     axios.get(ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+        .then((response)=>{
+          this.setState({
+            response:response
+          });
+        })
+  }
+  getRecoCommentAgain(id1,id2){
+    var d = new Date();
+    var tym = d.getTime();
+    axios.get(ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -35,78 +75,83 @@ show(id2,id1){
 }
 
 
-agreePost(){
-  var obId=this.props.id2;
-  var recId=this.props.id1;
-  var votes=this.props.votes;
-  console.log(obId,recId)
-  var options={
-    method: 'POST',
-    url :   ROOT_URL+"/api/observation/addAgreeRecommendationVote?obvId="+obId+"&recoId="+recId+"&currentVotes="+votes,
-    headers :{
-      'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
-      'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
-      'Accept'        :"text/json"
-    },
-    json: 'true'
-  }
-  axios(options)
-        .then((response)=>{
-          console.log("agree",response)
-        })
-}
+
 
 recoCommentPost(e){
   e.preventDefault();
-
   var id1=this.props.id1;
   var id2=this.props.id2;
   var recoComment1="recoComment"+this.props.id2+this.props.id1
-  var value1=this.refs[recoComment1].value
+  var value1=this.refs[recoComment1].props.value
   var d = new Date();
   var tym = d.getTime();
   var options={
     method:'POST',
     url :   ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
     headers :{
-      'X-Auth-Token' :"1t2l9rdqkc3f899e4cvd159ibfk56h6j",
-      'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
+      'X-Auth-Token' :localStorage.getItem('token'),
+      'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
       'Accept'        :"application/json"
     },
     json: 'true'
   }
-
+  this.setState({
+    value:''
+  })
   axios(options)
       .then((response)=>{
         console.log("comment",response)
+        this.getRecoComment(this.props.id1,this.props.id2)
+      })
+      .catch((response)=>{
+        (response=="Error: Request failed with status code 401")?
+        (
+          this.setState({
+          login_modal:!(this.state.login_modal),
+          options:options
+        })
+
+        ):console.log("fofoofof")
       })
 
-    this.refs[recoComment1].value="";
   }
 
 
 render(){
       return(
-      <div>{
+      <div>
+      {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoComment} id={this.props.id2} id1={this.props.id1}/>):null}
+      {
         this.state.response.hasOwnProperty('data')?
         (
         <div className="btnagree row ">
-                <div className="col-sm-7">
-                    <button id={"agreeBtn"+this.props.id2+this.props.id1} className="btn btn-primary btn-small nameAgree "  onClick={this.agreePost.bind(this)}>agree</button>
-                </div>
-                <div className="comment-popup dropdown col-sm-5" ref={"popup"}>
 
-                    <a className="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.show.bind(this,this.props.id2,this.props.id1)}>
+                <div className="comment-popup dropdown col-sm-12" ref={"popup"}>
+
+                    <a className="btn btn-mini btn-warning dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.show.bind(this,this.props.id2,this.props.id1)}>
                                 <span className="glyphicon glyphicon-comment"></span>
                                 {" "}
-                    {this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.length):null}
+                    {this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.length+this.state.response.data.model.remainingCommentCount):null}
                     </a>
                     <ul className="dropdown-menu dropdown-menu-right container col-sm-12" style={{width:'500px'}}>
                           <div className="reco-comment-table" ref={"comment_table"+this.props.id2+this.props.id1} style={{display:'none'}} >
                               <div className="post-comment" style={{width:'100%'}}>
                                   <form className="form-horizontal post-comment-form" style={{top:'3px'}} onSubmit={this.recoCommentPost.bind(this)}>
-  		                                <textarea ref={"recoComment"+this.props.id2+this.props.id1} name="commentBody" className="comment-textbox col-md-offset-1" placeholder="Write comment on species call" style={{width:'80%'}}></textarea>
-  		                                <span style={{color:'#B84A48',display:'none'}}>Please write comment</span>
+  		                                <textarea  name="commentBody" className="comment-textbox col-md-offset-1" placeholder="Write comment on species call" style={{width:'80%'}}></textarea>
+                                      <MentionsInput
+                                          ref={"recoComment"+this.props.id2+this.props.id1}
+                                          value={this.state.value}
+                                          onChange={this.handleChange.bind(this)}
+                                          style={commentWithTagStyle}
+                                          placeholder="Write Comment on Species call"
+                                       >
+                                          <Mention trigger="@"
+                                              data={this.getUsers.bind(this)}
+                                              style={{backgroundColor: '#90D547'}}
+                                            />
+
+                                      </MentionsInput>
+                                      <span style={{color:'#B84A48',display:'none'}}>Please write comment</span>
   		                                <input type="hidden" name="commentHolderId" value="954769"/>
   		                                <input type="hidden" name="commentHolderType" value="species.participation.Recommendation"/>
   		                                <input type="hidden" name="rootHolderId" value="1748655"/>
@@ -118,13 +163,13 @@ render(){
   	                              </form>
                               </div>
                               <li className="divider row"></li>
-                              <div className="previous-comments-container">
+                              <div className="previous-comments-container pre-scrollable">
                                    <ul>
                                       {
                                           this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.map((item)=>{
                                             return(
                                               <li className="list-unstyled">
-                                                  <div className="comment-container well well-sm" style={{width:'90%'}}>
+                                                  <div className="comment-container well well-sm" style={{width:'90%',marginLeft:'5%'}}>
                                                       <div className="row">
                                                             <div className="author-icon col-md-2">
                                                                   <a href={"http://indiabiodiversity.org/biodiv/user/show/"+ item.author.id}>
@@ -155,7 +200,7 @@ render(){
                                                                   }
                                                                   </div>
                                                                   <div className="comment-attributes">
-                                                                      <time className="timeago" datetime={this.state.response.data.model.olderTimeRef}>
+                                                                      <time className="timeago" dateTime={this.state.response.data.model.olderTimeRef}>
                                                                       {
                                                                         <Moment date={item.lastUpdated}/>
                                                                       }
@@ -170,6 +215,13 @@ render(){
                                           ):null
                                         }
                                     </ul>
+
+                                    {
+                                      this.state.response.data.model.remainingCommentCount>0?
+                                      (
+                                        <a className="btn btn-small" onClick={this.getRecoCommentAgain.bind(this,this.props.id1,this.props.id2)}>Show {this.state.response.data.model.remainingCommentCount} more Comments</a>
+                                      ):null
+                                    }
                               </div>
                               <input type="hidden" name="olderTimeRef" value/>
                           </div>

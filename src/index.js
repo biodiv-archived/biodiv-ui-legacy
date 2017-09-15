@@ -45,13 +45,13 @@ let search1=queryString.stringify(newparams);
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter history={history}>
+    <BrowserRouter  forceRefresh={true}>
       <div>
         <Header title={"IBP"}/>
         <div className="container-fluid">
           <Route exact path="/" component={HomePage} />
           <Route exact path="/observation/list" component={App} props={search2} />
-          <Route exact path="/login" component={Signin} />
+          <Route exact path="/login" component={Signin} history={history}/>
           <Route exact path="/signout" component={Signout} />
           <Route  exact path="/group" component={Test} />
           <Route  exact path="/group/:groupName" component={UserGroup} />

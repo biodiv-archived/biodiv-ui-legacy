@@ -11,6 +11,7 @@ class Tabs extends React.Component {
     this.state={
       Traitflag:0,
       Customflag:0
+
     }
   }
 
@@ -42,10 +43,10 @@ class Tabs extends React.Component {
                   <div className="tab-pane fade in active" id={this.props.objs.id+"_tab1"}>
 
                         <div>
-                        <RecoName id={this.props.objs.id}/>
+                        <RecoName id={this.props.objs.id} isLocked={this.props.objs.isLocked}/>
                         </div>
-                        <hr style={{height:'2px'}}/>
-                        <Formsuggest  id2={this.props.objs.id}/>
+
+                        
 
                   </div>
 

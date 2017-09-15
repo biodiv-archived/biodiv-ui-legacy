@@ -4,35 +4,46 @@ import Moment from 'react-moment'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ROOT_URL} from '../../actions/index.js'
+import ModalPopup from '../auth/modal.js';
+import { MentionsInput, Mention } from 'react-mentions'
+import commentWithTagStyle from './commentWithTagStyle.js'
+
 class CommentsFeeds extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      response:null
+      response:null,
+      login_modal:false,
+      options:'',
+      value:''
     }
   }
 
-  commentPost(e){
-    e.preventDefault();
+  getUsers(query, callback){
+    var userData
+   console.log(query)
+   console.log(callback)
+   axios.get(ROOT_URL+"/user/terms?term="+query+"&format=json")
+       .then((response)=>{
+         console.log("user response",response)
+        let data1= response.data.map((user)=>{
+            let data={}
+           data.id=JSON.stringify(user.userId)
+           data.display=user.value
+           return data
+         })
+          userData=data1
+          callback(userData)
+       })
+ }
 
-    var options={
-      method:'POST',
-      url :   ROOT_URL+"/api/comment/addComment?commentHolderId=245&commentHolderType=species.participation.Observation&rootHolderId=245&rootHolderType=species.participation.Observation&commentBody=test comment&newerTimeRef=1403071938526",
-      headers :{
-        'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
-        'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
-        'Accept'        :"application/json"
-      },
-      json: 'true'
-    }
+ handleChange(e){
+    this.setState({
+        value: e.target.value
+    })
+ }
 
-    axios(options)
-        .then((response)=>{
-          console.log("comment",response)
-        })
-  }
-
-  fetchFeeds(id){
+ fetchFeeds(id){
     var d = new Date();
     var tym = d.getTime();
     console.log(tym)
@@ -49,35 +60,47 @@ class CommentsFeeds extends React.Component {
 
   commentPost(e){
     e.preventDefault();
-
     var id1=this.props.id;
     var obvComment1="obvComment"+this.props.id
-    var value1=this.refs[obvComment1].value
+    console.log("tag",this.refs[obvComment1].props.value)
+    var value1=this.refs[obvComment1].props.value
     var d = new Date();
     var tym = d.getTime();
     var options={
       method:'POST',
       url :   ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
       headers :{
-        'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
-        'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
+        'X-Auth-Token' : localStorage.getItem('token'),
+        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
         'Accept'        :"application/json"
       },
       json: 'true'
     }
-
+    this.setState({
+      value:''
+    })
     axios(options)
         .then((response)=>{
           console.log("comment",response)
         })
+        .catch((response)=>{
+          (response=="Error: Request failed with status code 401")?
+          (
+            this.setState({
+            login_modal:!(this.state.login_modal),
+            options:options
+          })
 
-      this.refs[obvComment1].value="";
+          ):console.log("fofoofof")
+        })
+
   }
 
 
   render(){
     return(
       <div>
+      {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} />):null}
         <div className=" union-comment" id={this.props.id+"_comments"} >
             <div className="activityfeed activityfeedSpecific" >
                   <input type="hidden" name="newerTimeRef" value="1502258631007"/>
@@ -142,13 +165,22 @@ class CommentsFeeds extends React.Component {
                   </ul>
             </div>
             <div className="comment row" style={{width:'95%',margin:'2%'}}>
-                    <form className="form-horizontal post-comment-form" onsubmit={this.commentPost.bind(this)}>
-                        <textarea name="commentBody" ref={"obvComment"+this.props.id} className="comment-textbox" placeholder="Write comment on observation" style={{display:'block',width:'100%'}}></textarea>
-                        <div className="commentContainer">
-                            <div className="contentbox" contenteditable="true"></div>
-                            <div className="display"></div>
-                            <div className="msgbox"></div>
-                        </div>
+                    <form className="form-horizontal post-comment-form" onSubmit={this.commentPost.bind(this)}>
+                        <textarea name="commentBody"  className="comment-textbox" placeholder="Write comment on observation" style={{display:'block',width:'100%'}}></textarea>
+                        <MentionsInput
+                            ref={"obvComment"+this.props.id}
+                            value={this.state.value}
+                            onChange={this.handleChange.bind(this)}
+                            style={commentWithTagStyle}
+                            placeholder="Write Comment on Observation"
+                         >
+                            <Mention trigger="@"
+                                data={this.getUsers.bind(this)}
+                                style={{backgroundColor: '#90D547'}}
+                              />
+
+                        </MentionsInput>
+
                         <input type="hidden" name="tagUserId" className="tagUserId" value=""/>
                         <span style={{color:'#B84A48', display:'none'}}>Please write comment</span>
                         <input type="hidden" name="commentHolderId" value="1747730"/>

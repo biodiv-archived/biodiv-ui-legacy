@@ -5,37 +5,49 @@ import {ROOT_URL} from '../../actions/index.js'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {fetchLanguages} from '../../actions/index';
+import ModalPopup from '../auth/modal.js';
+
 
 var Csuggest = []
 var Ssuggest = []
 
+
 class Formsuggest extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       Cvalue:'',
       Svalue:'',
       Csuggestions: [],
-      Ssuggestions: []
+      Ssuggestions: [],
+      login_modal:false,
+      options:''
     };
     this.theme={
       input:{
         width:'100%'
-      }
-    }
-    this.theme1={
-      input:{
-        width:'100%'
-      }
-    }
+      },
+      suggestionsContainerOpen:{
+        padding:'2px',
+        color:'red',
+        border:'2px solid #D89922',
+        height:'150px',
+        overflowY:'scroll',
 
+      },
+      suggestionHighlighted:{
+        backgroundColor: '#D5D822'
+      }
+    }
   }
 componentDidMount(){
   {this.props?this.props.fetchLanguages():null}
 }
   suggestIdPost(e){
+    console.log("abvcgdgddd",e.target)
     e.preventDefault();
 
+    var token=localStorage.getItem('token')
     var cName1="cName"+this.props.id2
     var cNameValue=this.refs[cName1].autowhatever.input.defaultValue
     var lang1="lang"+this.props.id2
@@ -51,8 +63,8 @@ componentDidMount(){
       method:'POST',
       url :   ROOT_URL+"/api/observation/addRecommendationVote?commonName="+cNameValue+"&languageName="+langValue+"&recoName="+sNameValue+"&recoId=&recoComment="+value1+"&obvId="+obvId+"&format=json",
       headers :{
-        'X-Auth-Token' : "1t2l9rdqkc3f899e4cvd159ibfk56h6j",
-        'X-AppKey'     : "87aae8c4-7b84-4539-b8a3-42ff737eda0a",
+        'X-Auth-Token' : localStorage.getItem('token'),
+        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
         'Accept'        :"application/json"
       },
       json: 'true'
@@ -61,8 +73,25 @@ componentDidMount(){
     axios(options)
         .then((response)=>{
           console.log("comment",response)
+          this.props.getReco(this.props.id2)
+        })
+        .catch((response)=>{
+          (response=="Error: Request failed with status code 401")?
+          (
+            this.setState({
+            login_modal:!(this.state.login_modal),
+            options:options
+          })
+
+          ):console.log("fofoofof")
         })
 
+    this.setState({
+      Cvalue:'',
+      Svalue:''
+    })
+    this.refs[lang1].defaultValue="English";
+    this.refs[suggestIdComment1].value="";
   }
 
  getC_Suggestions = (value,C_Callback) => {
@@ -113,11 +142,18 @@ componentDidMount(){
 
    renderSuggestion_c = (suggestion,{ query, isHighlighted }) => {
      return(
-    <div className="dropdown">
-    {console.log("chalrh hai")}
-        <img src={suggestion.icon } width="40" height="40"/>
-        {suggestion.value}
-      {"["+suggestion.acceptedName+"]"}
+    <div className="row ">
+        <div className="col-sm-2" style={{marginTop:'1%'}}>
+          <img src={suggestion.icon } width="40" height="40"/>
+        </div>
+        <div className="col-sm-7 " style={{marginTop:'1%',marginLeft:'5%'}}>
+            <div className="row ">
+              {suggestion.value}
+            </div>
+            <div className="row ">
+              {"["+suggestion.acceptedName+"]"}
+            </div>
+        </div>
     </div>
   )
   };
@@ -126,14 +162,18 @@ componentDidMount(){
      return suggestion.value
    };
 
-   renderSuggestion_s = (suggestion,{ query, isHighlighted }) => {
+   renderSuggestion_s (suggestion,{ query, isHighlighted }) {
      return(
-    <div className="dropdown">
-        <img src={suggestion.icon } width="40" height="40"/>
+    <div className="row">
+        <div className="col-sm-2" style={{marginTop:'1%'}}>
+          <img src={suggestion.icon } width="40" height="40"/>
+        </div>
+        <div className="col-sm-10 " style={{marginTop:'1%'}}>
         {suggestion.value}
+        </div>
     </div>
   )
-  };
+  }
 
 
   onChange1 = (event, { newValue }) => {
@@ -208,9 +248,9 @@ onSuggestionsFetchRequested_C = ({ value }) => {
     };
 
 
-
     return (
       <div>
+      {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.props.getReco} id={this.props.id2}/>):null}
       <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)}>
           <div className="form-group row">
             <label className="control-label col-sm-2" htmlFor="email">Common_Name:</label>
@@ -231,7 +271,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                    <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'100%'}}/>
                    <datalist id="browsers">
                    {
-                       this.props.Languages>0?(
+
                          this.props.Languages.map((item)=>{
                            return(
                            <div><option value={item}/></div>
@@ -239,7 +279,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                          }
                        )
 
-                    ):null
+
                   }
                    </datalist>
              </div>
@@ -249,7 +289,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
             <div className="col-sm-10">
                   <Autosuggest
                     id="sInput"
-                    theme={this.theme1}
+                    theme={this.theme}
                     ref={"sName"+this.props.id2}
                     suggestions={Ssuggestions}
                     onSuggestionsFetchRequested={this.onSuggestionsFetchRequested_S}
@@ -278,7 +318,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
 }
 
 function mapStateToProps(state){
-return {Languages:state.Languages};
+return {Languages:state.Languages,authenticated: state.auth.authenticated};
 }
 
 function mapDispatchToProps(dispatch){
