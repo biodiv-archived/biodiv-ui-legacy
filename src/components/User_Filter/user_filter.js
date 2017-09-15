@@ -6,16 +6,9 @@ let Ssuggest=[];
 class Example extends Component {
   constructor() {
     super();
-
-    // Autosuggest is a controlled component.
-    // This means that you need to provide an input value
-    // and an onChange handler that updates this value (see below).
-    // Suggestions also need to be provided to the Autosuggest,
-    // and they are initially empty because the Autosuggest is closed.
     this.state = {
       value:'',
       suggestions: [],
-        userId:[],
         userName:[]
     };
 
@@ -101,22 +94,17 @@ renderSuggestion = (suggestion) => {
 
  handleSubmit(event){
      event.preventDefault();
-     let userId=this.state.userId;
      let userName=this.state.userName;
+     let singleUser={};
      const data= this.refs["sunil"].autowhatever.input.defaultValue.split(":");
-      if(!userId.includes(data[1])){
-        userId.push(data[1])
-        userName.push(data[0])
-      }
-      else{
-        return;
-      }
+        singleUser.uid=data[1];
+        singleUser.uName=data[0];
+        userName.push(singleUser)
       this.setState({
-        userId
+        userName
       })
-      console.log(this.state.userId)
       var event = new CustomEvent("userFilter",{ "detail":{
-        userId:userId
+        userName:userName
       }
     });
   document.dispatchEvent(event);
@@ -127,8 +115,9 @@ renderSuggestion = (suggestion) => {
     };
 
 handleCheckboxes(event){
-  event.preventDefault();
-  console.log(event)
+
+  console.log(event.target.checked,event.target.value)
+
 }
 
 
@@ -149,7 +138,7 @@ handleCheckboxes(event){
     {this.state.userName.map((userName,index)=>{
       return  (
       <div key={index}>
-      <input type="checkbox" value={userName} onChange={this.handleCheckboxes.bind(this)} defaultChecked={false} />{userName}
+      <input type="checkbox" name={userName.uid} value={userName.uid} onChange={this.handleCheckboxes.bind(this)} defaultChecked={true?this.handleCheckboxes.bind(this):null} />{userName.uName}
       </div>
       )
     })}

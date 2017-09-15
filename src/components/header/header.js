@@ -29,9 +29,9 @@ class Header extends React.Component {
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown">Species <span className="caret"></span></a>
           <ul className="dropdown-menu" role="menu">
-            <li><a href="#">Species Pages</a></li>
-            <li><a href="#">Taxon Namelist</a></li>
-            <li><a href="#">Species Traits</a></li>
+            <li><a href="https://pamba.strandls.com/species/list">Species Pages</a></li>
+            <li><a href="https://pamba.strandls.com/namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN">Taxon Namelist</a></li>
+            <li><a href="https://pamba.strandls.com/trait/list/?max=&offset=0">Species Traits</a></li>
           </ul>
         </li>
         <li className="dropdown">
@@ -39,31 +39,31 @@ class Header extends React.Component {
           <ul className="dropdown-menu" role="menu">
             <li><NavLink to="/Observation/list">Observations</NavLink></li>
             <li><a href="#">Checklists</a></li>
-            <li><a href="#">Datasets</a></li>
+            <li><a href="https://pamba.strandls.com/datasource/list">Datasets</a></li>
           </ul>
         </li>
-        <li><a href="#">Maps</a></li>
-        <li><a href="#">Documents</a></li>
+        <li><a href="https://pamba.strandls.com/map">Maps</a></li>
+        <li><a href="https://pamba.strandls.com/document/list">Documents</a></li>
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown">Contribute<span className="caret"></span></a>
           <ul className="dropdown-menu" role="menu">
-            <li><a href="#">Contribute to Species page</a></li>
-            <li><a href="#">Add Observation</a></li>
-            <li><a href="#"> Add Multiple Observations</a></li>
-            <li><a href="#"> Add a list</a></li>
-            <li><a href="#"> Add Documents</a></li>
+            <li><a href="https://pamba.strandls.com/species/contribute">Contribute to Species page</a></li>
+            <li><a href="https://pamba.strandls.com/observation/create">Add Observation</a></li>
+            <li><a href="https://pamba.strandls.com/observation/bulkCreate"> Add Multiple Observations</a></li>
+            <li><a href="https://pamba.strandls.com/checklist/create"> Add a list</a></li>
+            <li><a href="https://pamba.strandls.com/document/create"> Add Documents</a></li>
           </ul>
         </li>
-        <li><a href="#">Discussions</a></li>
-        <li><a href="#">Groups</a></li>
-        <li><a href="#">Pages</a></li>
+        <li><a href="https://pamba.strandls.com/discussion/list">Discussions</a></li>
+        <li><a href="https://pamba.strandls.com/group/list">Groups</a></li>
+        <li><a href="https://pamba.strandls.com/page/4246006">Pages</a></li>
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown">More <span className="caret"></span></a>
           <ul className="dropdown-menu" role="menu">
-            <li><a href="#">Activity</a></li>
-            <li><a href="#">Participants</a></li>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">About Us</a></li>
+            <li><a href="https://pamba.strandls.com/activityFeed/list">Activity</a></li>
+            <li><a href="https://pamba.strandls.com/user/list">Participants</a></li>
+            <li><a href="https://pamba.strandls.com/chart/show">Dashboard</a></li>
+            <li><a href="https://pamba.strandls.com/theportal">About Us</a></li>
           </ul>
         </li>
       </ul>

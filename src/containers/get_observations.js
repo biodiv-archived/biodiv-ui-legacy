@@ -629,6 +629,7 @@ class GetObservations extends Component{
         })
 
       }
+
       componentDidMount(){
         this.setParameter();
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
@@ -644,7 +645,6 @@ class GetObservations extends Component{
         document.addEventListener("userGroup-filter", this.taxonFilterEventListner.bind(this));
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
         document.addEventListener("isMediaFilter-filter", this.isMediaFilterEventListner.bind(this));
-
         this.props.ClearObservationPage();
 
       }
