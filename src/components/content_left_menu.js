@@ -7,74 +7,83 @@ import FlaggedFilter from './flag_filter';
 import MediaFilter from './media_filter';
 import Collapsible from 'react-collapsible';
 import style from './content_right.css';
-
+import Search_bar from './taxon_browser/search_bar';
+import Year_Filter from './year_filter';
+import Month_Filter from './month_filter';
+import Traits_Filter from './traits_filter';
+import  queryString from 'query-string';
+import UserFilter from './User_Filter/user_filter';
 
 class Right extends Component {
+constructor(){
+  super();
+  this.state={
+    sGroupOpen:false
+  }
+}
+
+openFilter(){
+   const newparams = queryString.parse(document.location.search);
+   if(newparams.sGroup){
+    this.setState({
+      sGroupOpen:true
+    })
+   }
+
+}
+
+componentDidMount(){
+this.openFilter();
+}
+
+
+
 render(){
   return (
     <div>
 
-      <Collapsible  open={true} trigger="Taxon Browser">
-          <div className="pre-scrollable">
+      <Collapsible open={true} trigger="Taxon Browser">
+          <div>
+            <div  >
             <Taxon_Filter />
-
+            </div>
+             <Search_bar />
           </div>
           </Collapsible>
-          <Collapsible open={true} trigger="  Species Groups Filter">
+
+          <Collapsible open={this.state.sGroupOpen} trigger="Species Groups Filter">
+
             <FilterPanel />
+
           </Collapsible>
+
            <Collapsible trigger=" Group Filter">
              <UserGroupNameFilter />
-            </Collapsible>
+          </Collapsible>
 
-             <Collapsible trigger="SpeciesName Filter">
-               <SpeciesNameFilter />
-              </Collapsible>
-              <Collapsible trigger="Flag Filter">
-                <SpeciesNameFilter />
-               </Collapsible>
-               <Collapsible trigger="media filter">
-                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <Collapsible trigger="SpeciesName Filter">
+            <SpeciesNameFilter />
+          </Collapsible>
+          <Collapsible trigger="Flag Filter">
+            <SpeciesNameFilter />
+          </Collapsible>
 
-                </Collapsible>
-                <Collapsible trigger="Flag Filter">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <Collapsible trigger="User Filter">
+          <UserFilter/>
+          </Collapsible>  
 
-                 </Collapsible>
-                 <Collapsible trigger="Flag Filter">
-                   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-                  </Collapsible>
-
-                  <Collapsible trigger="Flag Filter">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-                   </Collapsible>
-
-                   <Collapsible trigger="Flag Filter">
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-                    </Collapsible>
+          <Collapsible trigger="Year Filter">
+          <Year_Filter />
+          </Collapsible>   
+          <Collapsible trigger="Month Filter">
+          <Month_Filter />
+          </Collapsible>  
+           <Collapsible trigger="Traits Filter">
+          <Traits_Filter />
+          </Collapsible>  
 
 
-                 {/*
-                   <div className="panel-group" id="accordion">
-                       <div className="panel panel-default">
-                           <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
-                         <div className="panel-heading bg-primary">
-                           <h4 className="panel-title">
-                             Media Filter
-                           </h4>
-                         </div>
-                         </a>
-                         <div id="collapse6" className="panel-collapse collapse">
-                           <div className="panel-body">
-                           </div>
-                         </div>
-                       </div>
-                 </div>
-
-                    */}
+                
 
   </div>
   )

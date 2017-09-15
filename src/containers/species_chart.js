@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { Chart } from 'react-google-charts';
 import {BarChart} from 'react-easy-chart';
 import {fetchSpeciesChart} from '../actions/index';
+
 class SpeciesChart extends Component{
 
 

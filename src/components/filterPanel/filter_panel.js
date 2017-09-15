@@ -25,22 +25,11 @@ class FilterPanel extends Component {
       title:[]
     }
   }
-  /*
-  handleInput(value, groupName) {
-    this.setState({active: true})
-    var event = new CustomEvent("sGroup-filter", {
-      "detail": {
-        sGroup: value,
-        groupName: groupName
-      }
-    });
-    document.dispatchEvent(event);
-  };
-   */
+  
   setParameter() {
 
     const newparams = queryString.parse(document.location.search);
-    if (newparams.sGroup) {
+    if (newparams.sGroup) { 
       const data = newparams.sGroup.split(",");
       let title=[];
       data.map((item)=>{
@@ -162,110 +151,31 @@ class FilterPanel extends Component {
   render() {
     return (
        < div >
-       <CheckboxGroup className="Collapsible__contentInner"
+       <CheckboxGroup
          name="groups"
          value={this.state.sGroupId}
          onChange={this.sChanged.bind(this)}>
          <label><Checkbox value="841"/> Mammals</label>
+         <br/>
          <label><Checkbox value="837"/> Birds</label>
+         <br/>
          <label><Checkbox value="845"/> Fish</label>
+         <br/>
          <label><Checkbox value="835"/> Amphibians</label>
+         <br/>
          <label><Checkbox value="843"/> Reptiles</label>
+         <br/>
          <label><Checkbox value="856"/> Molluscs</label>
+         <br/>
          <label><Checkbox value="839"/> Arthropods</label>
+         <br/>
          <label><Checkbox value="833"/> Plants</label>
+         <br/>
          <label><Checkbox value="831"/> Fungi</label>
+         <br/>
          <label><Checkbox value="830"/> Others</label>
        </CheckboxGroup>
-{/*
-       < div id = "speciesGroupFilter" data-toggle = "buttons-radio" > <table className="table">
-      <tbody>
-        <tr>
-          <td>
-            <button onClick={this.handleInput.bind(this, 829, "All")} className={`btn species_groups_sprites all_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("829")
-                ? "active"
-                : ""
-              : null}`} id="group_829" value="829" title="All"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 841, "Mammals")} className={`btn species_groups_sprites mammals_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("841")
-                ? "active"
-                : ""
-              : null}`} id="group_841" value="841" title="Mammals"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 837, "Birds")} className={`btn species_groups_sprites birds_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("837")
-                ? "active"
-                : ""
-              : null}`} id="group_837" value="837" title="Birds"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 845, " Fish")} className={`btn species_groups_sprites fish_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("845")
-                ? "active"
-                : ""
-              : null}`} id="group_845" value="845" title="Fish"></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button onClick={this.handleInput.bind(this, 835, "Amphibians")} className={`btn species_groups_sprites amphibians_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("835")
-                ? "active"
-                : ""
-              : null}`} id="group_835" value="835" title="Amphibians"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 843, "Reptiles")} id="group_843" className={`btn species_groups_sprites reptiles_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("843")
-                ? "active"
-                : ""
-              : null}`} value="843" title="Reptiles"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 856, " Molluscs")} className={`btn species_groups_sprites molluscs_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("856")
-                ? "active"
-                : ""
-              : null}`} id="group_856" value="856" title="Molluscs"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 839, "Arthropods")} className={`btn species_groups_sprites arthropods_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("839")
-                ? "active"
-                : ""
-              : null}`} id="group_839" value="839" title="Arthropods"></button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button onClick={this.handleInput.bind(this, 833, "Plants")} className={`btn species_groups_sprites plants_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("833")
-                ? "active"
-                : ""
-              : null}`} id="group_833" value="833" title="Plants"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 831, "Fungi")} className={`btn species_groups_sprites fungi_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("831")
-                ? "active"
-                : ""
-              : null}`} id="group_831" value="831" title="Fungi"></button>
-          </td>
-          <td>
-            <button onClick={this.handleInput.bind(this, 830, "Others")} className={`btn species_groups_sprites others_gall_th ${this.state.queryParams
-              ? this.state.queryParams.includes("830")
-                ? "active"
-                : ""
-              : null}`} id="group_830" value="830" title="Others"></button>
-          </td>
-        </tr>
-      </tbody>
-    </table> < /div>
-    */}
+
       </div >)
   }
 }
