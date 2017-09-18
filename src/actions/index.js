@@ -26,7 +26,7 @@ export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 export const ROOT_URL="http://localhost.indiabiodiversity.org";
 
 export  function  fetchObservations(parameter) {
-const url=`${ROOT_URL}/observation/list`;
+const url=`${ROOT_URL}/api/observation/list`;
 const request = axios.get(url,{params:parameter})
   return {
     type:FETCH_OBSERVATION,
