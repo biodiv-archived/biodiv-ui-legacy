@@ -45,11 +45,8 @@
     "react-html-parser": "^1.0.3",
     "react-image": "^1.0.1",
     "react-image-lightbox": "^4.1.0",
-<<<<<<< HEAD
-    "react-mentions": "^1.2.1",
-=======
     "react-input-range": "^1.2.1",
->>>>>>> a1a48cc47bc65d478bfb31e9f96e50d4bbc71688
+    "react-mentions": "^1.2.1",
     "react-moment": "^0.6.4",
     "react-redux": "^5.0.5",
     "react-router": "^4.2.0",
