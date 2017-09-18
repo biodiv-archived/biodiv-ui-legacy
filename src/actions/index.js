@@ -23,14 +23,8 @@ export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 
-<<<<<<< HEAD
 export const ROOT_URL="http://localhost.indiabiodiversity.org";
-=======
 
-
-export const ROOT_URL="http://localhost.indiabiodiversity.org/biodiv";
-
->>>>>>> a1a48cc47bc65d478bfb31e9f96e50d4bbc71688
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/observation/list`;
 const request = axios.get(url,{params:parameter})

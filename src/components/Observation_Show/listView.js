@@ -175,14 +175,8 @@ objs.resource.map((images)=>{
                   </div>
               )
           })}
-<<<<<<< HEAD
           <Tabs objs={objs}/>
-=======
-        
->>>>>>> a1a48cc47bc65d478bfb31e9f96e50d4bbc71688
             </div>
-          }
-          <br />
         </div>
 
   )

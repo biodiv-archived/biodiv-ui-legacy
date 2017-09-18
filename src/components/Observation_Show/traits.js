@@ -138,7 +138,7 @@ submitTraits(id1,id2){
                         return(
                         <div className="well well-sm ">
                             <div className="name-and-button row">
-                                <div className="name col-sm-8">
+                                <div className="name col-sm-8" style={{margin:'0%'}}>
                                     <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
                                          <h2>{item.name}  </h2>
                                      </a>
@@ -268,7 +268,7 @@ submitTraits(id1,id2){
                                  return(
                                    <div className="well well-sm ">
                                        <div className="name-and-button row">
-                                           <div className="name col-sm-8">
+                                           <div className="name col-sm-8" style={{margin:'0%'}}>
                                                <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
                                                     <h2>{item.name}  </h2>
                                                 </a>
@@ -401,8 +401,8 @@ submitTraits(id1,id2){
                                  if((localStorage.getItem('id')===this.props.owner) || isAdmin()) {
                                     return(
                                       <div className="well well-sm ">
-                                          <div className="name-and-button row">
-                                              <div className="name col-sm-8">
+                                          <div className="name-and-button row" >
+                                              <div className="name col-sm-8" style={{margin:'0%'}}>
                                                   <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
                                                        <h2>{item.name}  </h2>
                                                    </a>
@@ -533,8 +533,8 @@ submitTraits(id1,id2){
                               {
                                 return(
                                   <div className="well well-sm ">
-                                      <div className="name-and-button row">
-                                          <div className="name col-sm-8">
+                                      <div className="name-and-button row" >
+                                          <div className="name col-sm-8" style={{margin:'0%'}}>
                                               <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
                                                    <h2>{item.name}  </h2>
                                                </a>
