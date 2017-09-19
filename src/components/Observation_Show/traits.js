@@ -5,14 +5,19 @@ import './traits.css'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import $ from 'jquery'
+import {isAdmin,isLoggedIn} from '../auth/roles.js';
+import ModalPopup from '../auth/modal.js';
 
 class Traits extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      response:null
+      response:null,
+      login_modal:false,
+      options:''
     }
     this.fact=[];
+    this.myMap= new Map();
     this.getTraits=this.getTraits.bind(this)
     this.getTraits(this.props.id,this.props.sGroup)
 }
@@ -20,14 +25,71 @@ class Traits extends React.Component {
    getTraits(id,sGroup){
     axios.get(ROOT_URL+"/trait/list?objectId="+id+"&objectType=species.participation.Observation&sGroup="+sGroup+"&isObservationTrait=true&ifOwns=false&showInObservation=true&loadMore=true&displayAny=false&editable=true&fromObservationShow=show&filterable=false&_=1500873700939&format=json")
         .then((response)=>{
-
+          console.log("traityy",response)
           this.setState({
             response:response.data.model
           })
 
         })
-
 }
+
+pushTraitsRadio(value){
+  console.log("fired")
+  this.myMap.clear()
+  this.myMap.set(value,value)
+  console.log(this.myMap)
+}
+pushTraitsCheckbox(value){
+  console.log("fired")
+  this.myMap.get(value)?this.myMap.delete(value):this.myMap.set(value,value)
+  console.log(this.myMap)
+}
+
+submitTraits(id1,id2){
+  var arr=[]
+  this.myMap.forEach(function(value){
+    arr=arr.concat(value)
+  })
+  var list=arr.toString()
+  var list1=id1+":"+list+";"
+  var options={
+    method: 'POST',
+    url :   ROOT_URL+"/api/fact/update",
+    params:{
+      traits:list1,
+      traitId:id1,
+      objectId:id2,
+      objectType:"species.participation.Observation"
+
+    },
+    headers :{
+      'X-Auth-Token' : localStorage.getItem('token'),
+      'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
+      'Accept'        :"text/json"
+    },
+    json: 'true'
+  }
+  this.myMap.clear()
+  this.hide(id2,id1);
+  axios(options)
+        .then((response)=>{
+          console.log("traitpost",response)
+          this.getTraits(this.props.id,this.props.sGroup)
+        })
+        .catch((response)=>{
+          (response=="Error: Request failed with status code 401")?
+          (
+            this.setState({
+            login_modal:!(this.state.login_modal),
+            options:options
+          })
+
+          ):console.log("fofoofof")
+        })
+
+
+  }
+
   show(uni,item){
 
     console.log("agdambadam")
@@ -49,6 +111,7 @@ class Traits extends React.Component {
 }
 
   hide(uni,item){
+    this.myMap.clear()
     var fact1='fact_'+uni+item
     var edit1='edit_'+uni+item
     var onclick_edit1='onclick_edit_'+uni+item
@@ -68,37 +131,32 @@ class Traits extends React.Component {
     console.log(this.state)
     var fact1=this.state.response
     return(    <div className="pre-scrollable">
+        {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getTraits} id={this.props.id} sGroup={this.props.sGroup}/>):null}
         {
             this.state.response?(this.state.response.instanceList.map((item)=>{
-
-                         return(
+                    if(item.isParticipatory===true){
+                        return(
                         <div className="well well-sm ">
                             <div className="name-and-button row">
-                                <div className="name col-sm-8">
+                                <div className="name col-sm-8" style={{margin:'0%'}}>
                                     <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
-                                         <h4>{item.name}  </h4>
+                                         <h2>{item.name}  </h2>
                                      </a>
                                 </div>
                                 <div className="buttons col-sm-4">
-                                    {
-                                      this.props.owner?
-                                      (
-                                        <a className="btn btn-small btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
-                                      ):null
-                                    }
-                                    <a className="btn btn-small btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
-                                    <input className="btn btn-small btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none'}} />
+                                    <a className="btn btn-small btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
+                                    <a className="btn btn-small btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
+                                    <input className="btn btn-small btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
                                 </div>
                             </div>
-                            <hr/>
                             <div className="traits row">
                                   <div className="fact_instance col-sm-12 col-xs-12 col-md-12 col-lg-12" ref={"fact_"+this.props.id+item.id} style={{display:'block'}}>
                                   {
                                      this.state.response.factInstance.hasOwnProperty(item.id)?
-                                     (
+                                     ( <div className="row" style={{margin:'2%'}}>{
                                        this.state.response.factInstance[item.id].map((it)=>{
                                          this.fact.push(it.value)
-                                       return(  <button type="button" className="btn btn-info col-sm-4 col-xs-12 col-md-2 active" data-toggle="button" aria-pressed="false" id="trait_fatcs" clicked>
+                                       return(  <button type="button" className="btn btn-info col-sm-4 col-xs-12 col-md-2 " data-toggle="button" aria-pressed="false" id="trait_fatcs" >
                                                 <div className="snippet tablet">
                                                 <div className="figure pull-left">
                                                 <img src={ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
@@ -107,12 +165,13 @@ class Traits extends React.Component {
                                                 </div>
                                                 </button>
                                               )
-                                       })
+                                       })}
+                                       </div>
                                      )
                                      :null
                                    }
                                  </div>
-                                 <div className="edit_data col-sm-12 col-xs-12 col-md-12 col-lg-12" ref={"onclick_edit_"+this.props.id+item.id} style={{display:'none'}}>{
+                                 <div className="edit_data col-sm-12 col-xs-12 col-md-12 col-lg-12"  ref={"onclick_edit_"+this.props.id+item.id} style={{display:'none'}}>{
                                        item.traitTypes.name==='MULTIPLE_CATEGORICAL'?
                                        (
 
@@ -120,12 +179,12 @@ class Traits extends React.Component {
                                          {
 
                                              item.values.map((possible)=>{
-                                               console.log(this.fact,possible.value)
+
                                                if($.inArray(possible.value,this.fact)>=0)
                                                {return(
 
-                                             <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 active" id="checkbox_select" >
-                                               <input type="checkbox"  name={possible.value} autoComplete="off" checked/ >
+                                             <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                               <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
                                                <div className="snippet tablet">
                                                    <div className="figure pull-left">
 
@@ -140,7 +199,7 @@ class Traits extends React.Component {
                                              else{
                                              return(
 
-                                           <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 " id="checkbox_select" >
+                                           <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 " id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
                                              <input type="checkbox" name={possible.value} autoComplete="off" / >
                                              <div className="snippet tablet">
                                                  <div className="figure pull-left">
@@ -161,12 +220,12 @@ class Traits extends React.Component {
                                            <div className="btn-group row" data-toggle="buttons" style={{margin:'2%'}}>
                                            {
                                                item.values.map((possible)=>{
-                                                 console.log(this.fact,possible.value)
+
                                                if($.inArray(possible.value,this.fact)>=0){
                                                  return(
 
-                                               <label className="btn btn-info col-sm-6 col-xs-12 col-md-6 active" id="radio_select">
-                                                 <input type="radio" name="trait_edit" id={possible.value} checked/ >
+                                               <label className="btn btn-info col-sm-6 col-xs-12 col-md-6 active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                 <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
                                                  <div className="snippet tablet">
                                                      <div className="figure pull-left">
 
@@ -181,8 +240,8 @@ class Traits extends React.Component {
                                                else{
                                                return(
 
-                                             <label className="btn btn-info col-sm-6 col-xs-12 col-md-6" id="radio_select">
-                                               <input type="radio" name="trait_edit" id={possible.value}/ >
+                                             <label className="btn btn-info col-sm-6 col-xs-12 col-md-6" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                               <input type="radio" name="trait_edit" id={possible.value} / >
                                                <div className="snippet tablet">
                                                    <div className="figure pull-left">
 
@@ -201,7 +260,319 @@ class Traits extends React.Component {
                                 }</div>
                             </div>
                         </div>
-                       )
+                      )
+                    }
+                    else{
+                        if(isLoggedIn()){
+                              if(this.state.response.factInstance.hasOwnProperty(item.id)){
+                                 return(
+                                   <div className="well well-sm ">
+                                       <div className="name-and-button row">
+                                           <div className="name col-sm-8" style={{margin:'0%'}}>
+                                               <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
+                                                    <h2>{item.name}  </h2>
+                                                </a>
+                                           </div>
+                                           <div className="buttons col-sm-4">
+                                               {
+                                                 ((localStorage.getItem('id')===this.props.owner) || isAdmin())?
+                                                 (
+                                                   <a className="btn btn-small btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
+                                                 ):null
+                                               }
+                                               <a className="btn btn-small btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
+                                               <input className="btn btn-small btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
+                                           </div>
+                                       </div>
+                                       <div className="traits row">
+                                             <div className="fact_instance col-sm-12 col-xs-12 col-md-12 col-lg-12" ref={"fact_"+this.props.id+item.id} style={{display:'block'}}>
+                                             {
+                                                this.state.response.factInstance.hasOwnProperty(item.id)?
+                                                ( <div className="row" style={{margin:'2%'}}>{
+                                                  this.state.response.factInstance[item.id].map((it)=>{
+                                                    this.fact.push(it.value)
+                                                  return(  <button type="button" className="btn btn-info col-sm-4 col-xs-12 col-md-2 " data-toggle="button" aria-pressed="false" id="trait_fatcs" >
+                                                           <div className="snippet tablet">
+                                                           <div className="figure pull-left">
+                                                           <img src={ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
+                                                           <span>{it.value}</span>
+                                                           </div>
+                                                           </div>
+                                                           </button>
+                                                         )
+                                                  })}
+                                                  </div>
+                                                )
+                                                :null
+                                              }
+                                            </div>
+                                            <div className="edit_data col-sm-12 col-xs-12 col-md-12 col-lg-12"  ref={"onclick_edit_"+this.props.id+item.id} style={{display:'none'}}>{
+                                                  item.traitTypes.name==='MULTIPLE_CATEGORICAL'?
+                                                  (
+
+                                                    <div className="btn-group row" data-toggle="buttons" style={{margin:'2%'}}>
+                                                    {
+
+                                                        item.values.map((possible)=>{
+
+                                                          if($.inArray(possible.value,this.fact)>=0)
+                                                          {return(
+
+                                                        <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                          <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
+                                                          <div className="snippet tablet">
+                                                              <div className="figure pull-left">
+
+                                                                  <img className="pull-left" src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                  <span>{possible.value}</span>
+
+                                                              </div>
+                                                          </div>
+                                                        </label>
+
+                                                      )}
+                                                        else{
+                                                        return(
+
+                                                      <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 " id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                        <input type="checkbox" name={possible.value} autoComplete="off" / >
+                                                        <div className="snippet tablet">
+                                                            <div className="figure pull-left">
+
+                                                                <img className="pull-left" src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                <span>{possible.value}</span>
+
+                                                            </div>
+                                                        </div>
+                                                      </label>
+
+                                                    )}
+                                                        })
+                                                    }
+                                                    </div>
+
+                                                ):(
+                                                      <div className="btn-group row" data-toggle="buttons" style={{margin:'2%'}}>
+                                                      {
+                                                          item.values.map((possible)=>{
+
+                                                          if($.inArray(possible.value,this.fact)>=0){
+                                                            return(
+
+                                                          <label className="btn btn-info col-sm-6 col-xs-12 col-md-6 active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                            <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
+                                                            <div className="snippet tablet">
+                                                                <div className="figure pull-left">
+
+                                                                    <img src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                    <span>{possible.value}</span>
+
+                                                                </div>
+                                                            </div>
+                                                          </label>
+
+                                                        )}
+                                                          else{
+                                                          return(
+
+                                                        <label className="btn btn-info col-sm-6 col-xs-12 col-md-6" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                          <input type="radio" name="trait_edit" id={possible.value} / >
+                                                          <div className="snippet tablet">
+                                                              <div className="figure pull-left">
+
+                                                                  <img src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                  <span>{possible.value}</span>
+
+                                                              </div>
+                                                          </div>
+                                                        </label>
+
+                                                      )}
+                                                          })
+                                                    }
+                                                    </div>
+                                                )
+                                           }</div>
+                                       </div>
+                                   </div>
+                                 )
+                              }
+                              else{
+                                 if((localStorage.getItem('id')===this.props.owner) || isAdmin()) {
+                                    return(
+                                      <div className="well well-sm ">
+                                          <div className="name-and-button row" >
+                                              <div className="name col-sm-8" style={{margin:'0%'}}>
+                                                  <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
+                                                       <h2>{item.name}  </h2>
+                                                   </a>
+                                              </div>
+                                              <div className="buttons col-sm-4">
+                                                  <a className="btn btn-small btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
+                                                  <a className="btn btn-small btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
+                                                  <input className="btn btn-small btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
+                                              </div>
+                                          </div>
+                                          <div className="traits row">
+                                                <div className="fact_instance col-sm-12 col-xs-12 col-md-12 col-lg-12" ref={"fact_"+this.props.id+item.id} style={{display:'block'}}>
+                                                {
+                                                   this.state.response.factInstance.hasOwnProperty(item.id)?
+                                                   ( <div className="row" style={{margin:'2%'}}>{
+                                                     this.state.response.factInstance[item.id].map((it)=>{
+                                                       this.fact.push(it.value)
+                                                     return(  <button type="button" className="btn btn-info col-sm-4 col-xs-12 col-md-2 " data-toggle="button" aria-pressed="false" id="trait_fatcs" >
+                                                              <div className="snippet tablet">
+                                                              <div className="figure pull-left">
+                                                              <img src={ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
+                                                              <span>{it.value}</span>
+                                                              </div>
+                                                              </div>
+                                                              </button>
+                                                            )
+                                                     })}
+                                                     </div>
+                                                   )
+                                                   :null
+                                                 }
+                                               </div>
+                                               <div className="edit_data col-sm-12 col-xs-12 col-md-12 col-lg-12"  ref={"onclick_edit_"+this.props.id+item.id} style={{display:'none'}}>{
+                                                     item.traitTypes.name==='MULTIPLE_CATEGORICAL'?
+                                                     (
+
+                                                       <div className="btn-group row" data-toggle="buttons" style={{margin:'2%'}}>
+                                                       {
+
+                                                           item.values.map((possible)=>{
+
+                                                             if($.inArray(possible.value,this.fact)>=0)
+                                                             {return(
+
+                                                           <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                             <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
+                                                             <div className="snippet tablet">
+                                                                 <div className="figure pull-left">
+
+                                                                     <img className="pull-left" src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                     <span>{possible.value}</span>
+
+                                                                 </div>
+                                                             </div>
+                                                           </label>
+
+                                                         )}
+                                                           else{
+                                                           return(
+
+                                                         <label className="btn btn-info col-sm-4 col-xs-12 col-md-3 " id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                           <input type="checkbox" name={possible.value} autoComplete="off" / >
+                                                           <div className="snippet tablet">
+                                                               <div className="figure pull-left">
+
+                                                                   <img className="pull-left" src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                   <span>{possible.value}</span>
+
+                                                               </div>
+                                                           </div>
+                                                         </label>
+
+                                                       )}
+                                                           })
+                                                       }
+                                                       </div>
+
+                                                   ):(
+                                                         <div className="btn-group row" data-toggle="buttons" style={{margin:'2%'}}>
+                                                         {
+                                                             item.values.map((possible)=>{
+
+                                                             if($.inArray(possible.value,this.fact)>=0){
+                                                               return(
+
+                                                             <label className="btn btn-info col-sm-6 col-xs-12 col-md-6 active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                               <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
+                                                               <div className="snippet tablet">
+                                                                   <div className="figure pull-left">
+
+                                                                       <img src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                       <span>{possible.value}</span>
+
+                                                                   </div>
+                                                               </div>
+                                                             </label>
+
+                                                           )}
+                                                             else{
+                                                             return(
+
+                                                           <label className="btn btn-info col-sm-6 col-xs-12 col-md-6" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                             <input type="radio" name="trait_edit" id={possible.value} / >
+                                                             <div className="snippet tablet">
+                                                                 <div className="figure pull-left">
+
+                                                                     <img src={ROOT_URL+"/biodiv/traits/"+ possible.icon} width='20px' height='20px'/>
+                                                                     <span>{possible.value}</span>
+
+                                                                 </div>
+                                                             </div>
+                                                           </label>
+
+                                                         )}
+                                                             })
+                                                       }
+                                                       </div>
+                                                   )
+                                              }</div>
+                                          </div>
+                                      </div>
+                                    )
+                                 }
+                              }
+                        }
+                        else {
+                              if(this.state.response.factInstance.hasOwnProperty(item.id))
+                              {
+                                return(
+                                  <div className="well well-sm ">
+                                      <div className="name-and-button row" >
+                                          <div className="name col-sm-8" style={{margin:'0%'}}>
+                                              <a href={ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
+                                                   <h2>{item.name}  </h2>
+                                               </a>
+                                          </div>
+                                          <div className="buttons col-sm-4">
+                                              <a className="btn btn-small btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
+                                              <a className="btn btn-small btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
+                                              <input className="btn btn-small btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
+                                          </div>
+                                      </div>
+                                      <div className="traits row">
+                                            <div className="fact_instance col-sm-12 col-xs-12 col-md-12 col-lg-12" ref={"fact_"+this.props.id+item.id} style={{display:'block'}}>
+                                            {
+                                               this.state.response.factInstance.hasOwnProperty(item.id)?
+                                               ( <div className="row" style={{margin:'2%'}}>{
+                                                 this.state.response.factInstance[item.id].map((it)=>{
+                                                   this.fact.push(it.value)
+                                                 return(  <button type="button" className="btn btn-info col-sm-4 col-xs-12 col-md-2 " data-toggle="button" aria-pressed="false" id="trait_fatcs" >
+                                                          <div className="snippet tablet">
+                                                          <div className="figure pull-left">
+                                                          <img src={ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
+                                                          <span>{it.value}</span>
+                                                          </div>
+                                                          </div>
+                                                          </button>
+                                                        )
+                                                 })}
+                                                 </div>
+                                               )
+                                               :null
+                                             }
+                                           </div>
+                                      </div>
+                                  </div>
+                                )
+                              }
+                        }
+                    }
                 })
               ):null
        }

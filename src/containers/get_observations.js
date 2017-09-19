@@ -6,7 +6,6 @@ import ObservationListComponent from '../components/Observation_Show/observation
 import {ClearObservationPage} from '../actions/index';
 import Button from 'material-ui/Button';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Right_stats from '../components/right_material';
 import createHistory from 'history/createBrowserHistory';
 import EllipsisText  from 'react-ellipsis-text';
 import  queryString from 'query-string';
@@ -14,8 +13,11 @@ import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
 import _ from "lodash";
 import $ from "jquery-param";
-import Left_stats from '../components/mobile_right_slider'
+
+import Left_stats from '../components/mobile_right_slider';
+
 const history=createHistory();
+
 class GetObservations extends Component{
     constructor(props){
       super(props);
@@ -74,9 +76,9 @@ class GetObservations extends Component{
         const newparams=this.state.params;
         newparams.webaddress=groupName;
         this.props.fetchObservations(newparams)
-          
+
        }
-      
+
       this.loadMore=this.loadMore.bind(this);
     };
 
@@ -112,7 +114,7 @@ class GetObservations extends Component{
           })
           this.props.fetchObservations(params);
           }
-          
+
     }
 
 
@@ -148,11 +150,11 @@ class GetObservations extends Component{
         else{
           console.log(e.detail.title)
           let title=e.detail.title;
-          
+
            this.GlobalCall(params,title,false);
         }
-       
-         
+
+
       }
 
 
@@ -252,7 +254,7 @@ class GetObservations extends Component{
 
 
         const title=this.state.title;
-        
+
         var titleobject={};
         titleobject.userGroupList=e.detail.id;
         titleobject.userGroupName=e.detail.userGroupName;
@@ -787,9 +789,6 @@ class GetObservations extends Component{
             <div className=" hidden-lg-sm hidden-md hidden-lg">
               <Left_stats />
               </div>
-            <div className="pull-right">
-              <Right_stats />
-            </div>
 
 
             {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}

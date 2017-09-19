@@ -349,7 +349,6 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
               <div>
                <button onClick={this.prevFetch.bind(this)} className={`btn btn-default btn-xs  ${this.state.showButton.length<2?"disabled":null}`}> <span className="glyphicon glyphicon-chevron-left">Prev</span></button>
                <button onClick={this.nextFetch.bind(this)} className={`btn btn-default btn-xs ${this.state.showButton.length<2?"disabled":null}`}><span className="glyphicon glyphicon-chevron-right">Next</span> </button>
-                <span>{this.state.showButton.length>0?this.state.showButton.length:null}</span>
               </div>
                
       </div>

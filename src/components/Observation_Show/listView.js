@@ -175,9 +175,9 @@ objs.resource.map((images)=>{
                   </div>
               )
           })}
-        
+          <Tabs objs={objs}/>
             </div>
-          }
+
           <br />
         </div>
 
@@ -196,7 +196,6 @@ return(
 
 )
 }
-
 }
 
 function mapStateToProps(state) {

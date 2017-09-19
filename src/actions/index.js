@@ -23,12 +23,10 @@ export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 
-
-
-export const ROOT_URL="http://localhost.indiabiodiversity.org/biodiv";
+export const ROOT_URL="https://pamba.strandls.com";
 
 export  function  fetchObservations(parameter) {
-const url=`${ROOT_URL}/observation/list`;
+const url=`${ROOT_URL}/api/observation/list`;
 const request = axios.get(url,{params:parameter})
   return {
     type:FETCH_OBSERVATION,
@@ -100,7 +98,6 @@ export function fetchEditUserGroupData() {
   }
 }
 
-
 export function signinUser({ email, password }) {
 let username=email;
   return function(dispatch) {
@@ -110,8 +107,15 @@ let username=email;
       .then(response => {
         // If request is good...
         // - Update state to indicate user is authenticated
-        dispatch({ type: AUTH_USER});
-        localStorage.setItem('token', response);
+        localStorage.setItem('token', response.data.model.token);
+        localStorage.setItem('id', response.data.model.id);
+        dispatch({ type: AUTH_USER, payload:response});
+
+        var Role=[];
+        response.data.model.roles.map((item)=>{
+          Role=Role.concat(item)
+        })
+        localStorage.setItem('roles',JSON.stringify(Role))
         // - redirect to the route '/feature'
       }).catch(() => {
         dispatch(authError('Bad sdsg Info'));
@@ -119,8 +123,6 @@ let username=email;
 
   }
 }
-
-
 export function authError(error) {
   return {
     type: AUTH_ERROR,
@@ -178,7 +180,7 @@ export function fetchRecoComment(id){
   }
 }
 export function fetchLanguages(){
-  console.log("langauaROOT_URLed")
+
   const url=ROOT_URL+"/language/filteredList?format=json"
   const request =axios.get(url);
   return{
