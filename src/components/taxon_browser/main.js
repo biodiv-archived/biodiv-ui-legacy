@@ -151,7 +151,6 @@ prevFetch(){
 }
 
 setScrollClass(){
-
   let scrollTo = $('#container-sunil');
   if(scrollTo && scrollTo.offset()) {
    let myContainer = $('ul li .rc-tree-node-selected')
@@ -172,14 +171,8 @@ setScrollClass(){
         });
         document.dispatchEvent(event);
       })
-      
-
-
     }
     
-
-
-
     if(myContainer.length){
        myContainer[0].scrollIntoView();
     }
@@ -188,11 +181,9 @@ setScrollClass(){
        myContainer1[0].scrollIntoView({});
     }
 
-  
 }
 
 }
-
   componentDidMount() {
     this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));

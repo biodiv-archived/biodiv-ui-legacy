@@ -23,7 +23,17 @@ export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 
-export const ROOT_URL="https://pamba.strandls.com";
+export let ROOT_URL;
+
+
+if(process.env.NODE_ENV=="development" ){
+  ROOT_URL="https://pamba.strandls.com";
+
+}
+if(process.env.REACT_APP_KK=="kk" ){
+  ROOT_URL="http://indiabiodiversity.org";
+
+}
 
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/api/observation/list`;

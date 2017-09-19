@@ -103,7 +103,7 @@ class GetObservations extends Component{
                 title:title
           })
           if(key){
-            params.taxon=params.taxon.join(",");
+          params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");
           const seacrh=queryString.stringify(params)

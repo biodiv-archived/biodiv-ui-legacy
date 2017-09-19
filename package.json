@@ -15,6 +15,7 @@
     "d3-time-format": "^2.0.5",
     "deep-equal": "^1.0.1",
     "dom-scroll-into-view": "^1.2.1",
+    "dotenv": "^4.0.0",
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "0.0.5-beta.2",
     "history": "^4.6.3",
@@ -25,13 +26,8 @@
     "less-loader": "^4.0.4",
     "liquid-fire": "^0.28.0",
     "lodash": "^4.17.4",
-<<<<<<< HEAD
-    "material-ui": "^1.0.0-beta.11",
-    "material-ui-icons": "^1.0.0-beta.10",
-=======
     "material-ui": "^1.0.0-beta.10",
     "material-ui-icons": "^1.0.0-alpha.19",
->>>>>>> 7f839ec5017a222d53bf54205779329527e38bca
     "material-ui-responsive-drawer": "^1.1.31",
     "moment": "^2.18.1",
     "query-string": "^5.0.0",
