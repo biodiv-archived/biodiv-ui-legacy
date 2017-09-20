@@ -14,8 +14,11 @@ import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
 import _ from "lodash";
 import $ from "jquery-param";
-import Left_stats from '../components/mobile_right_slider'
+
+import Left_stats from '../components/mobile_right_slider';
+
 const history=createHistory();
+
 class GetObservations extends Component{
     constructor(props){
       super(props);
@@ -101,7 +104,7 @@ class GetObservations extends Component{
                 title:title
           })
           if(key){
-            params.taxon=params.taxon.join(",");
+          params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");
           const seacrh=queryString.stringify(params)

@@ -25,7 +25,17 @@ export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 export const FETCH_UNIQUE_SPECIES_LOADMORE='FETCH_UNIQUE_SPECIES_LOADMORE';
 export const FETCH_UNIQUE_SPECIES_NEWFILTER='FETCH_UNIQUE_SPECIES_NEWFILTER';
 
-export const ROOT_URL="http://localhost.indiabiodiversity.org";
+export let ROOT_URL;
+
+
+if(process.env.NODE_ENV=="development" ){
+  ROOT_URL="https://pamba.strandls.com";
+
+}
+if(process.env.REACT_APP_KK=="kk" ){
+  ROOT_URL="http://indiabiodiversity.org";
+
+}
 
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/api/observation/list`;
@@ -136,7 +146,6 @@ export function fetchEditUserGroupData() {
   }
 }
 
-
 export function signinUser({ email, password }) {
 let username=email;
   return function(dispatch) {
@@ -162,8 +171,6 @@ let username=email;
 
   }
 }
-
-
 export function authError(error) {
   return {
     type: AUTH_ERROR,
