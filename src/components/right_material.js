@@ -14,9 +14,9 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ReportIcon from 'material-ui-icons/Report';
 import BackspaceIcon from 'material-ui-icons/Backspace';
 import Chip from 'material-ui/Chip';
+import UniqueSpecies from './uniqueSpecies.js'
 
-
-const styleSheet = createStyleSheet('UndockedDrawer', {
+const styleSheet = {
   list: {
     width: 250,
     flex: 'initial',
@@ -25,93 +25,40 @@ const styleSheet = createStyleSheet('UndockedDrawer', {
     width: 'auto',
     flex: 'initial',
   },
-});
+}
 
-class UndockedDrawer extends Component {
-  state = {
-    open: {
-      top: false,
-      left: false,
-      bottom: false,
-      right: false,
-    },
-  };
+class UndockedDrawer extends React.Component {
+  constructor(props){
+    super(props)
+    console.log("paramTest",this.props)
+    this.state = {
+      open: {
+        top: false,
+        left: false,
+        bottom: false,
+        right: false,
+      },
+      UniqueSpeciesOpen:false
+    };
+  }
+
+
+
 
   toggleDrawer = (side, open) => {
     const drawerState = {};
     drawerState[side] = open;
-    this.setState({ open: drawerState });
+    this.setState({ open: drawerState,UniqueSpeciesOpen:!this.state.UniqueSpeciesOpen });
   };
 
   handleRightOpen = () => this.toggleDrawer('right', true);
   handleRightClose = () => this.toggleDrawer('right', false);
 
   render() {
-    const classes = this.props.classes;
-
-    const mailFolderListItems = (
-      <div>
-        <ListItem button>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <StarIcon />
-          </ListItemIcon>
-
-          <ListItemText primary="Starred" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <SendIcon />
-          </ListItemIcon>
-          <ListItemText primary="Send mail" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-      </div>
-    );
-
-    const otherMailFolderListItems = (
-      <div>
-        <ListItem button>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="All mail" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ReportIcon />
-          </ListItemIcon>
-          <ListItemText primary="Trash" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ReportIcon />
-          </ListItemIcon>
-          <ListItemText primary="Spam" />
-        </ListItem>
-
-      </div>
-    );
-
+    console.log(this.props.filterParams)
     const sideList = (
-      <div>
-        <List className={classes.list} disablePadding>
-          {mailFolderListItems}
-        </List>
-        <Divider />
-        <List className={classes.list} disablePadding>
-          {otherMailFolderListItems}
-        </List>
+      <div >
+            <UniqueSpecies params={this.props.filterParams}/>
       </div>
     );
 
@@ -122,9 +69,9 @@ class UndockedDrawer extends Component {
           anchor="right"
           open={this.state.open.right}
           onRequestClose={this.handleRightClose}
-          onClick={this.handleRightClose}
         >
-          {sideList}
+
+          {this.state.UniqueSpeciesOpen==true?sideList:null}
         </Drawer>
       </div>
     );

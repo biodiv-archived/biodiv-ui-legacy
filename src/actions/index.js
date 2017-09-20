@@ -22,16 +22,54 @@ export const FETCH_LANGUAGES='FETCH_LANGUAGES';
 export const LOGIN='LOGIN';
 export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
+export const FETCH_UNIQUE_SPECIES_LOADMORE='FETCH_UNIQUE_SPECIES_LOADMORE';
+export const FETCH_UNIQUE_SPECIES_NEWFILTER='FETCH_UNIQUE_SPECIES_NEWFILTER';
 
 export const ROOT_URL="http://localhost.indiabiodiversity.org";
 
 export  function  fetchObservations(parameter) {
 const url=`${ROOT_URL}/api/observation/list`;
 const request = axios.get(url,{params:parameter})
+
   return {
     type:FETCH_OBSERVATION,
     payload:request
   }
+}
+
+export function fetchUniqueSpecies(params,count,flag){
+  console.log("paramsk",params)
+  var options={
+    method: 'GET',
+    url :   ROOT_URL+"/observation/distinctReco",
+    params:{
+      sort:"lastRevised",
+      sGroup:params.sGroup.join(),
+      offset:count,
+      isFlagged:params.isFlagged,
+      classfication:params.classification,
+      speciesName:params.speciesName,
+      taxon:params.taxon.join(),
+      userGroupList:params.userGroupList.join(),
+      isMediaFilter:params.isMediaFilter,
+      hackRes:true,
+    }
+  }
+const request = axios(options)
+console.log("sdasd",request)
+  if(flag=="loadMore")
+  {
+  return {
+    type:FETCH_UNIQUE_SPECIES_LOADMORE,
+    payload:request,
+  }
+}
+else{
+  return {
+    type:FETCH_UNIQUE_SPECIES_NEWFILTER,
+    payload:request,
+  }
+}
 }
 
 export function fetchSpeciesChart() {
