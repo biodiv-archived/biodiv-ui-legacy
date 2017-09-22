@@ -29,7 +29,7 @@ constructor(){
   this.onLoadData =this.onLoadData.bind(this);
   this.onCheck =this.onCheck.bind(this);
   this.onExpand =this.onExpand.bind(this);
-  
+
   this.notDisplay={
     'display':'none'
   }
@@ -73,7 +73,7 @@ console.log("checkedKey",checkedKey)
     else if(checkedKey.length>1){
       expand_taxon=true;
     this.props.fetchTaxonList(this.state.classification,expand_taxon,checkedKey.join(",")).then((data)=>{
-      
+
       this.setScrollClass();
     });
 
@@ -82,7 +82,7 @@ console.log("checkedKey",checkedKey)
       this.props.fetchTaxonList(this.state.classification);
 
     }
-    
+
 
 
 }
@@ -107,14 +107,14 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1[0]
   this.setScrollClass();
 });
 
-  
+
 
 }
 
 nextFetch(){
   let expand_taxon=true;
   let data=this.state.Expanded;
- 
+
   let dataMax=data.length;
   let current=this.state.current;
   let parent = (dataMax + current + 1) % dataMax;
@@ -172,7 +172,7 @@ setScrollClass(){
         document.dispatchEvent(event);
       })
     }
-    
+
     if(myContainer.length){
        myContainer[0].scrollIntoView();
     }
@@ -187,7 +187,7 @@ setScrollClass(){
   componentDidMount() {
     this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
-  
+
   }
 
   componentWillunmount(){
@@ -238,12 +238,14 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 
   onCheck(checkedKeys,event) {
     this.props.ClearObservationPage();
+    let checkedKey=checkedKeys.checked;
     this.setState({
-      checkedKeys
+      checkedKeys:checkedKey
     })
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",checkedKeys)
 
     var event = new CustomEvent("getTaxon-filter",{ "detail":{
-      taxon:checkedKeys,
+      taxon:checkedKey,
       noTaxon:true,
       title:event.node.props.title,
       classification:this.state.classification,
@@ -256,7 +258,6 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 
   }
   onExpand(expandedKeys){
-
     this.setState({
         Expanded:expandedKeys,
     })
@@ -320,7 +321,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
              </select>
             </div >
                 <div id="container-sunil" className="pre-scrollable">
-                <Tree 
+                <Tree
                   selectable={true}
                   multiple={true}
                   checkable={true}
@@ -341,7 +342,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
                <button onClick={this.prevFetch.bind(this)} className={`btn btn-default btn-xs  ${this.state.showButton.length<2?"disabled":null}`}> <span className="glyphicon glyphicon-chevron-left">Prev</span></button>
                <button onClick={this.nextFetch.bind(this)} className={`btn btn-default btn-xs ${this.state.showButton.length<2?"disabled":null}`}><span className="glyphicon glyphicon-chevron-right">Next</span> </button>
               </div>
-               
+
       </div>
     );
   }

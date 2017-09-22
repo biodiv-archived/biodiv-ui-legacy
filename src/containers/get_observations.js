@@ -6,6 +6,7 @@ import ObservationListComponent from '../components/Observation_Show/observation
 import {ClearObservationPage} from '../actions/index';
 import Button from 'material-ui/Button';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
+import Right_stats from '../components/right_material';
 import createHistory from 'history/createBrowserHistory';
 import EllipsisText  from 'react-ellipsis-text';
 import  queryString from 'query-string';
@@ -789,6 +790,9 @@ class GetObservations extends Component{
             <div className=" hidden-lg-sm hidden-md hidden-lg">
               <MobileRightSidebar />
               </div>
+            <div className="pull-right">
+              <Right_stats filterParams={this.state.params}/>
+            </div>
 
 
             {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}

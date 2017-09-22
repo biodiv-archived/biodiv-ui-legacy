@@ -63,6 +63,8 @@ class CustomFields extends React.Component {
       json: 'true'
     }
 
+    if(value1!=="")
+    {
     this.refs.hasOwnProperty(custom1)?(this.refs[custom1].value=""):null
     this.refs.hasOwnProperty(Cfvalue)?(this.refs[Cfvalue].style.display="block"):null
     this.refs.hasOwnProperty(text)?(this.refs[text].style.display="none"):null
@@ -84,7 +86,7 @@ class CustomFields extends React.Component {
 
           ):console.log("fofoofof")
         })
-
+      }
 
     }
 

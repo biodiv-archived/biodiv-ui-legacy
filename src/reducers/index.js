@@ -10,6 +10,7 @@ import Language_reducer from './reducer_languages.js'
 import AuthReducer from '../auth/AuthReducer';
 import { reducer as form} from 'redux-form';
 import FetchUserProfile from './reducer_fetch_user_profile'
+import UniqueSpecies_reducer from './reducer_uniqueSpecies.js'
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
   ChartData:SpeciesChartReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   Languages:Language_reducer,
   auth: AuthReducer,
   form:form,
-  UserProfile:FetchUserProfile
+  UserProfile:FetchUserProfile,
+  UniqueSpeciesList:UniqueSpecies_reducer
 });
 
 export default rootReducer;

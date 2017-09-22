@@ -95,6 +95,8 @@ recoCommentPost(e){
     },
     json: 'true'
   }
+  if(value1!=="")
+  {
   this.setState({
     value:''
   })
@@ -113,7 +115,7 @@ recoCommentPost(e){
 
         ):console.log("fofoofof")
       })
-
+    }
   }
 
 

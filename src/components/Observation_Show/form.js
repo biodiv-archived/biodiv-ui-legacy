@@ -69,7 +69,8 @@ componentDidMount(){
       },
       json: 'true'
     }
-
+    if(cNameValue!=="" && sNameValue!=="" && value1!=="")
+    {
     axios(options)
         .then((response)=>{
           console.log("comment",response)
@@ -92,6 +93,7 @@ componentDidMount(){
     })
     this.refs[lang1].defaultValue="English";
     this.refs[suggestIdComment1].value="";
+  }
   }
 
  getC_Suggestions = (value,C_Callback) => {

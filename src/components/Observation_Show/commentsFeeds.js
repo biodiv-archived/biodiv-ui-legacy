@@ -76,6 +76,8 @@ class CommentsFeeds extends React.Component {
       },
       json: 'true'
     }
+    if(value1!=="")
+    {
     this.setState({
       value:''
     })
@@ -93,6 +95,7 @@ class CommentsFeeds extends React.Component {
 
           ):console.log("fofoofof")
         })
+      }
 
   }
 
