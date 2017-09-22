@@ -6,7 +6,7 @@ import Parser from 'html-react-parser';
 import Moment from 'react-moment';
 import Tabs from './tabs';
 import { connect } from 'react-redux';
-import {ROOT_URL} from '../../actions';
+import {ROOT_URL} from '../../Config';
 import {getAllUserGroup} from '../../Utils/Observations_API';
 import {getEditUserGroup} from '../../Utils/Observations_API';
 import {NavLink} from 'react-router-dom';

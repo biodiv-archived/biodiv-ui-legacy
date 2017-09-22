@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
@@ -13,10 +14,11 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ReportIcon from 'material-ui-icons/Report';
 import BackspaceIcon from 'material-ui-icons/Backspace';
 import Chip from 'material-ui/Chip';
-import Mobile_Filter from './content_left_menu';
-import style from './mobile_right_slider';
+
+import style from './mobile_right_sidebar.css';
+
+import LeftSidebar from './LeftSidebar';
 import {ClearObservationPage} from '../actions/index';
-import {connect} from 'react-redux';
 import {fetchObservations} from '../actions/index';
 
 const styles = {
@@ -70,7 +72,7 @@ class SideBar extends Component {
       </div >
       </div>
       <div className="row">
-      <Mobile_Filter />
+      <LeftSidebar />
       </div>
       </div>
     );

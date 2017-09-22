@@ -7,7 +7,7 @@ import  UserGroupObservations from './reducer_fetch_groupobservations';
 import  HomeTotalCount from './reducer_home_total_count';
 import  EditUserGroupData from './reducer_edit_user_group_data';
 import Language_reducer from './reducer_languages.js'
-import AuthReducer from './auth_reducer';
+import AuthReducer from '../auth/AuthReducer';
 import { reducer as form} from 'redux-form';
 import FetchUserProfile from './reducer_fetch_user_profile'
 const rootReducer = combineReducers({

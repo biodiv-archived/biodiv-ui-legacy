@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {ROOT_URL} from '../../actions/index.js'
+import {ROOT_URL} from '../../Config'
 import RecoComment from './recoComment.js'
 import './recoName.css'
 import {isAdmin,isLoggedIn} from '../auth/roles.js';

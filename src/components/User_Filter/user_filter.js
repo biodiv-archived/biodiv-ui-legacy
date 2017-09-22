@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
-import {ROOT_URL} from '../../actions/index.js'
+import {ROOT_URL} from '../../Config'
 let Ssuggest=[];
 class Example extends Component {
   constructor() {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {ROOT_URL} from '../../actions';
+import {ROOT_URL} from '../../Config';
 
 export {getEditUserGroup,getAllUserGroup};
 

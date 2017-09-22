@@ -81,7 +81,7 @@ class Header extends React.Component {
            <div style={{paddingTop:'15px'}}>
            <NavLink to={`/user/show/${this.props.userData? this.props.userData.id:null}`}>{this.props.userData? this.props.userData.id:null} </NavLink>
            {`\u00A0`}
-           <NavLink to="/signout">Logout</NavLink>
+           <NavLink to="/logout">Logout</NavLink>
          </div>
           :<NavLink to="/login">Login</NavLink>}
         </li>

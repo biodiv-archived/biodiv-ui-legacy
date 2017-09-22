@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import SignIn from './signin.js'
+import SignIn from '../../auth/Login.js'
 import axios from 'axios';
 
 const customStyles = {

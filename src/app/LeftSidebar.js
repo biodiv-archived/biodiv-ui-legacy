@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
-import Taxon_Filter from './taxon_browser/main';
-import FilterPanel from './filterPanel/filter_panel';
-import UserGroupNameFilter from './user_groupname_filter';
-import SpeciesNameFilter from './speciesname_filter';
-import FlaggedFilter from './flag_filter';
-import MediaFilter from './media_filter';
-import Collapsible from 'react-collapsible';
-import style from './content_right.css';
-import Search_bar from './taxon_browser/search_bar';
-import Year_Filter from './year_filter';
-import Month_Filter from './month_filter';
-import Traits_Filter from './traits_filter';
 import  queryString from 'query-string';
-import UserFilter from './User_Filter/user_filter';
+import Collapsible from 'react-collapsible';
+
+import style from './right_sidebar.css';
+
+import Taxon_Filter from '../components/taxon_browser/main';
+import FilterPanel from '../components/filterPanel/filter_panel';
+import UserGroupNameFilter from '../components/user_groupname_filter';
+import SpeciesNameFilter from '../components/speciesname_filter';
+import FlaggedFilter from '../components/flag_filter';
+import MediaFilter from '../components/media_filter';
+import Search_bar from '../components/taxon_browser/search_bar';
+import Year_Filter from '../components/year_filter';
+import Month_Filter from '../components/month_filter';
+import Traits_Filter from '../components/traits_filter';
+import UserFilter from '../components/User_Filter/user_filter';
 
 class Right extends Component {
 constructor(){

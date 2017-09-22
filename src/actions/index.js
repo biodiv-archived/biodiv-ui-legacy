@@ -1,8 +1,6 @@
 import axios from 'axios';
-import history from '../history';
-export const AUTH_USER ='AUTH_USER';
-export const UNAUTH_USER ='UNAUTH_USER';
-export const AUTH_ERROR ='AUTH_ERROR';
+import { Config } from '../Config';
+
 export const FETCH_MESSAGE ='FETCH_MESSAGE';
 export const FETCH_OBSERVATION='FETCH_OBSERVATION';
 export const FETCH_SPECIES_CHART='FETCH_SPECIES_CHART';
@@ -19,24 +17,10 @@ export const FETCH_TRAITS_TYPE='FETCH_TRAITS_TYPE';
 export const FETCH_RECO_NAME='FETCH_RECO_NAME';
 export const FETCH_RECO_COMMENT='FETCH_RECO_COMMENT';
 export const FETCH_LANGUAGES='FETCH_LANGUAGES';
-export const LOGIN='LOGIN';
-export const REGISTER='REGISTER';
 export const FETCH_USER_PROFILE='FETCH_USER_PROFILE';
 
-export let ROOT_URL;
-
-
-if(process.env.NODE_ENV=="development" ){
-  ROOT_URL="https://pamba.strandls.com";
-
-}
-if(process.env.REACT_APP_KK=="kk" ){
-  ROOT_URL="http://indiabiodiversity.org";
-
-}
-
 export  function  fetchObservations(parameter) {
-const url=`${ROOT_URL}/api/observation/list`;
+const url=`${Config.api.ROOT_URL}/api/observation/list`;
 const request = axios.get(url,{params:parameter})
   return {
     type:FETCH_OBSERVATION,
@@ -45,7 +29,7 @@ const request = axios.get(url,{params:parameter})
 }
 
 export function fetchSpeciesChart() {
-const url=`${ROOT_URL}/observation/speciesGroupCount?actionType=list&view=list&sGroup=829&habitat=267835`;
+const url=`${Config.api.ROOT_URL}/observation/speciesGroupCount?actionType=list&view=list&sGroup=829&habitat=267835`;
 const request = axios.get(url);
   return {
     type:FETCH_SPECIES_CHART,
@@ -55,11 +39,11 @@ const request = axios.get(url);
 export function fetchTaxonList(classification,expand_taxon,id) {
   let url;
   if(expand_taxon){
- url=`${ROOT_URL}/taxon/list?classSystem=${classification}&expand_taxon=${expand_taxon}&taxonIds=${id}`;
+ url=`${Config.api.ROOT_URL}/taxon/list?classSystem=${classification}&expand_taxon=${expand_taxon}&taxonIds=${id}`;
 
   }
   else{
- url=`${ROOT_URL}/taxon/list?classSystem=${classification}`;
+ url=`${Config.api.ROOT_URL}/taxon/list?classSystem=${classification}`;
 
   }
 const request = axios.get(url);
@@ -75,7 +59,8 @@ export function ClearObservationPage() {
   }
 }
 export function FetchUserGroupName() {
-  const url=`${ROOT_URL}/group/list?max=95&format=json`;
+    //TODO:max is hardcoded
+  const url=`${Config.api.ROOT_URL}/group/list?max=95&format=json`;
   const request = axios.get(url);
 
   return {
@@ -84,7 +69,7 @@ export function FetchUserGroupName() {
   }
 }
 export function FetchGroupObservations(text) {
-  const url=`${ROOT_URL}/group/${text}/observation/list?sort=lastRevised&view=list`;
+  const url=`${Config.api.ROOT_URL}/group/${text}/observation/list?sort=lastRevised&view=list`;
   const request = axios.get(url);
   return {
     type:FETCH_GROUP_OBSERVATIONS,
@@ -92,7 +77,7 @@ export function FetchGroupObservations(text) {
   }
 }
 export function fetchHomeTotalCount(text) {
-    const url=`${ROOT_URL}/chart/basicStat`;
+    const url=`${Config.api.ROOT_URL}/chart/basicStat`;
   const request = axios.get(url);
   return {
     type:FETCH_HOME_TOTAL_COUNT,
@@ -100,7 +85,7 @@ export function fetchHomeTotalCount(text) {
   }
 }
 export function fetchEditUserGroupData() {
-  const url=`${ROOT_URL}/api/speciesGroup/list?format=json`;
+  const url=`${Config.api.ROOT_URL}/speciesGroup/list?format=json`;
   const request = axios.get(url);
   return {
     type:FETCH_EDIT_GROUP_DATA,
@@ -108,48 +93,9 @@ export function fetchEditUserGroupData() {
   }
 }
 
-export function signinUser({ email, password }) {
-let username=email;
-  return function(dispatch) {
-    // Submit email/password to the server
-    axios.post(
-      `${ROOT_URL}/api/login?username=${email}&password=${password}`)
-      .then(response => {
-        // If request is good...
-        // - Update state to indicate user is authenticated
-        localStorage.setItem('token', response.data.model.token);
-        localStorage.setItem('id', response.data.model.id);
-        dispatch({ type: AUTH_USER, payload:response});
-
-        var Role=[];
-        response.data.model.roles.map((item)=>{
-          Role=Role.concat(item)
-        })
-        localStorage.setItem('roles',JSON.stringify(Role))
-        // - redirect to the route '/feature'
-      }).catch(() => {
-        dispatch(authError('Bad sdsg Info'));
-      });
-
-  }
-}
-export function authError(error) {
-  return {
-    type: AUTH_ERROR,
-    payload: error
-  };
-}
-
-export function signoutUser() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('username');
-
-  return { type: UNAUTH_USER };
-}
-
 export function fetchMessage() {
   return function(dispatch) {
-    axios.get(ROOT_URL, {
+    axios.get(Config.api.ROOT_URL, {
       headers: { authorization: localStorage.getItem('token') }
     })
       .then(response => {
@@ -162,7 +108,7 @@ export function fetchMessage() {
   }
 
 export function fetchTraits(id,sGroup) {
-const url=ROOT_URL+"/trait/list?objectId="+ id+"&objectType=species.participation.Observation&sGroup="+sGroup+"&isObservationTrait=true&ifOwns=false&showInObservation=true&loadMore=true&displayAny=false&editable=true&fromObservationShow=show&filterable=false&_=1500873700939&format=json";
+const url=Config.api.ROOT_URL+"/trait/list?objectId="+ id+"&objectType=species.participation.Observation&sGroup="+sGroup+"&isObservationTrait=true&ifOwns=false&showInObservation=true&loadMore=true&displayAny=false&editable=true&fromObservationShow=show&filterable=false&_=1500873700939&format=json";
 const request = axios.get(url);
 
   return {
@@ -172,7 +118,7 @@ const request = axios.get(url);
   }
 }
 export function fetchRecoName(id){
-  const url=ROOT_URL+"/api/observation/getRecommendationVotes?id="+ id;
+  const url=Config.api.ROOT_URL+"/observation/getRecommendationVotes?id="+ id;
   const request =axios.get(url);
 
     return{
@@ -181,7 +127,7 @@ export function fetchRecoName(id){
     }
 }
 export function fetchRecoComment(id){
-  const url=ROOT_URL+"/api/comment/getComments?commentHolderId=268292&commentHolderType=species.participation.Observation&rootHolderId=268292&max=3%20&rootHolderType=species.participation.Observation&refTime=1403071938526&%20timeLine=older&format=json";
+  const url=Config.api.ROOT_URL+"/comment/getComments?commentHolderId=268292&commentHolderType=species.participation.Observation&rootHolderId=268292&max=3%20&rootHolderType=species.participation.Observation&refTime=1403071938526&%20timeLine=older&format=json";
   const request =axios.get(url);
 
   return{
@@ -191,7 +137,7 @@ export function fetchRecoComment(id){
 }
 export function fetchLanguages(){
 
-  const url=ROOT_URL+"/language/filteredList?format=json"
+  const url=Config.api.ROOT_URL+"/language/filteredList?format=json"
   const request =axios.get(url);
   return{
     type:FETCH_LANGUAGES,
@@ -199,7 +145,7 @@ export function fetchLanguages(){
   }
 }
 export function fetchUserProfile(id){
-  const url=ROOT_URL+"/user/show/"+id;
+ const url=Config.api.ROOT_URL+"/user/show/"+id;
   const request =axios.get(url);
   return{
     type:FETCH_USER_PROFILE,

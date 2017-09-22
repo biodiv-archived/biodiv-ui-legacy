@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
-import {ROOT_URL} from '../../actions/index.js'
+import { Config } from '../../Config';
+
 let Ssuggest=[];
 class Example extends Component {
   constructor() {
@@ -44,7 +45,7 @@ getSuggestions = (value,S_Callback) => {
         inputLength===0?S_Callback([]):
 
 
-        axios.get(ROOT_URL+"/recommendation/suggest?term="+inputValue1+"&nameFilter=scientificNames&format=json")
+        axios.get(Config.api.baseURL+"/recommendation/suggest?term="+inputValue1+"&nameFilter=scientificNames&format=json")
         .then(function (response) {
 
 
@@ -100,7 +101,7 @@ renderSuggestion = (suggestion,{query}) => {
  handleSubmit(event){
      event.preventDefault();
      const data= this.refs["sunil"].autowhatever.input.defaultValue;
-     axios.get(`${ROOT_URL}/taxon/search?str=${data}`).then((response)=>{
+     axios.get(`${Config.api.baseUrl}/taxon/search?str=${data}`).then((response)=>{
       this.setState({
         taxonValue:response.data
       },()=>{

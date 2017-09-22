@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, Form } from 'redux-form';
-import * as actions from '../../actions';
+import * as AuthActions from './AuthActions';
 
 const renderInput = field => {
     const { input, type } = field;
     return (
         <div>
-            <input {...input} type={type} className="form-control" />
+            <input {...input} type={type} className="form-control"/>
         </div>
     );
 }
 
-class Signin extends Component {
+class Login extends Component {
 
     handleFormSubmit({ email, password }) {
-        this.props.signinUser({ email, password });
-        this.props.authenticated?
-        this.props.history.push("/observation/list"):null
-
-
+        this.props.login({ email, password });
+        //this.props.authenticated?this.props.history.push("/observation/list"):null
     }
+
     isAuthenticated(){
-      const loggedIn= this.props.authenticated;
-      if(loggedIn){
-        console.log("history",this.props.history)
-        this.props.closeModal?this.props.closeModal():null
+      const loggedIn = this.props.authenticated;
+      if(loggedIn) {
+        this.props.closeModal ? this.props.closeModal() : null
       }
     }
 
@@ -45,7 +42,6 @@ class Signin extends Component {
         const { handleSubmit } = this.props;
         return (
             <Form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-
                 <div className="form-group">
                     <label>Email:</label>
                     <Field name="email"
@@ -71,7 +67,7 @@ function mapStateToProps(state) {
      };
 }
 
-Signin = reduxForm({
- form: 'signin'
-})(Signin);
-export default  connect(mapStateToProps, actions)(Signin);
+Login = reduxForm({
+ form: 'login'
+})(Login);
+export default  connect(mapStateToProps, AuthActions)(Login);

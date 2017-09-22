@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ROOT_URL} from '../../actions/index.js'
+import {ROOT_URL} from '../../Config.js'
 import ModalPopup from '../auth/modal.js';
 
 class CustomFields extends React.Component {

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Moment from 'react-moment'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ROOT_URL} from '../../actions/index.js'
+import {ROOT_URL} from '../../Config.js'
 import ModalPopup from '../auth/modal.js';
 import { MentionsInput, Mention } from 'react-mentions'
 import commentWithTagStyle from './commentWithTagStyle.js'

@@ -14,7 +14,7 @@ import  deepEqual  from 'deep-equal';
 import _ from "lodash";
 import $ from "jquery-param";
 
-import Left_stats from '../components/mobile_right_slider';
+import MobileRightSidebar from '../app/MobileRightSidebar';
 
 const history=createHistory();
 
@@ -787,7 +787,7 @@ class GetObservations extends Component{
     return(
       <div>
             <div className=" hidden-lg-sm hidden-md hidden-lg">
-              <Left_stats />
+              <MobileRightSidebar />
               </div>
 
 

@@ -1,17 +1,14 @@
-import {AUTH_USER} from '../actions';
-import {UNAUTH_USER} from '../actions';
-import {AUTH_ERROR} from '../actions';
-import {FETCH_MESSAGE} from '../actions';
+import * as AuthConstants from './AuthConstants';
+import { FETCH_MESSAGE } from '../actions/index'
 
 export default function(state = {}, action) {
   switch(action.type) {
 
-    case AUTH_USER:
-    
+    case AuthConstants.AUTH_USER:
       return { ...state, error: '', authenticated: true};
-    case UNAUTH_USER:
+    case AuthConstants.UNAUTH_USER:
       return { ...state, authenticated: false };
-    case AUTH_ERROR:
+    case AuthConstants.AUTH_ERROR:
       return { ...state, error: action.payload };
     case FETCH_MESSAGE:
       return { ...state, message: action.payload };

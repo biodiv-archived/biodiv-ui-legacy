@@ -12,7 +12,7 @@ import  queryString from 'query-string';
 import _ from "lodash";
 import style from './style.css';
 import  scrollIntoView  from 'dom-scroll-into-view';
-import {ROOT_URL} from '../../actions';
+import { Config } from '../../Config';
 
 class TaxonBrowser extends  React.Component{
 constructor(){
@@ -199,7 +199,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const parent=treeNode.props.path;
   const arr = [];
   $.ajax({
-   url:`${ROOT_URL}/taxon/list`,
+   url:`${Config.api.baseURL}/taxon/list`,
    data:{
       classSystem:classSystem,
       parent:parent

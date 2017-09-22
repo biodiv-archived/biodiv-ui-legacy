@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {ROOT_URL} from '../../actions/index.js'
+import {ROOT_URL} from '../../Config'
 import Moment from 'react-moment'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
