@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {fetchObservations} from '../actions/index';
-import ObservationListComponent from '../components/Observation_Show/observation_list_component';
-import {ClearObservationPage} from '../actions/index';
-import Button from 'material-ui/Button';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Right_stats from '../components/right_material';
+import Button from 'material-ui/Button';
 import createHistory from 'history/createBrowserHistory';
 import EllipsisText  from 'react-ellipsis-text';
 import  queryString from 'query-string';
@@ -15,11 +11,15 @@ import  deepEqual  from 'deep-equal';
 import _ from "lodash";
 import $ from "jquery-param";
 
+import {fetchObservations} from '../actions/index';
+import ObservationListWrapper from './ObservationListWrapper';
+import {ClearObservationPage} from '../actions/index';
+import Right_stats from '../components/right_material';
 import MobileRightSidebar from '../app/MobileRightSidebar';
 
-const history=createHistory();
+const history = createHistory();
 
-class GetObservations extends Component{
+class ObservationListContainer extends Component {
     constructor(props){
       super(props);
       this.state={
@@ -655,7 +655,7 @@ class GetObservations extends Component{
 
           return(
           <div key={objs.id}>
-            <ObservationListComponent objs={objs} view={view} count={count}/>
+            <ObservationListWrapper objs={objs} view={view} count={count}/>
           </div>
         )
       }
@@ -830,4 +830,4 @@ return {
 
 };
 }
-export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage})(GetObservations));
+export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage})(ObservationListContainer));

@@ -35,7 +35,7 @@ export function fetchUniqueSpecies(params,count,flag){
   console.log("paramsk",params)
   var options={
     method: 'GET',
-    url :   ROOT_URL+"/observation/distinctReco",
+    url :   Config.api.ROOT_URL+"/observation/distinctReco",
     params:{
       sort:"lastRevised",
       sGroup:params.sGroup.join(),

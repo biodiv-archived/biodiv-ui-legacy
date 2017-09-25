@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import Parser from 'html-react-parser';
 
-class GridComponent extends Component{
+class ObservationGridView extends Component{
 display(objs,index){
 
 let title=Parser(objs.title);
@@ -37,4 +37,4 @@ return(
 }
 
 }
-export default GridComponent
+export default ObservationGridView

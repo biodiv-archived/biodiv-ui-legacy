@@ -1,4 +1,5 @@
 import jwt_decode from 'jwt-decode';
+import $ from 'jquery';
 
 /**
 * singleton service class to encapsulate login related logic
@@ -46,6 +47,10 @@ class LoginService {
     getCurrentUserRoles() {
         var c = this.loginStore.get();
         return JSON.parse(c.roles);
+    }
+    
+    hasRole(role) {
+        return $.inArray(role, this.getCurrentUserRoles()) >= 0;
     }
 }
 

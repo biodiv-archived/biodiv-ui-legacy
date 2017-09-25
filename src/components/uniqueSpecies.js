@@ -2,7 +2,7 @@ import React,{Component} from "react"
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {fetchUniqueSpecies} from '../actions/index';
-import {ROOT_URL} from '../actions/index.js'
+import {ROOT_URL} from '../Config'
 
 var previousParams=''
 var list=[]

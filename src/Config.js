@@ -17,7 +17,7 @@ if(process.env.REACT_APP_ENV=="kk" ){
 /**
  * AXIOS default settings
  */
-axios.defaults.baseURL = API_ROOT_URL;
+axios.defaults.baseURL = ROOT_URL;
 //axios.defaults.headers.common['Authorization'] = 'X-AUTH-TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -59,13 +59,15 @@ export let Config = {
         login : {
             default : {
                 method : 'post',
-                url : '/login',
+                baseURL:'',
+                url : API_ROOT_URL+'/login',
                 headers : {'Content-Type' : 'application/x-www-form-urlencoded'},
                 data : {}
             },
             token : {
                 method: 'post',
-                url : '/token'
+                baseURL:'',
+                url : API_ROOT_URL+'/token'
             }
         },
         logout : {
@@ -85,8 +87,14 @@ export let Config = {
         },
         observation : {
             list : {
+                method:'get',
+                url:'/'
             },
             show : {
+            },
+            save : {
+                method:'post',
+                url:'/'
             }
         }
     }

@@ -5,13 +5,13 @@ import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
-import  queryString from 'query-string';
+import queryString from 'query-string';
 import Cookies from 'universal-cookie';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
-import { Login, Logout} from './auth';
-import AuthUtils from './auth/AuthUtils';
+import { Login, Logout, AuthUtils} from './auth';
 
 import reducers from './reducers';
 import Footer from './components/footer/footer';
@@ -20,11 +20,6 @@ import HomePageContainer from './app/HomePageContainer';
 import UserGroupHomes from './components/UserGroupHomes/userGroup';
 import UserGroup from './components/UserGroupHomes/index';
 import {AUTH_USER} from './auth/AuthConstants'
-import {
-  BrowserRouter,
-   Route,
-   Switch
-  } from 'react-router-dom';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise,logger)(createStore);
 
