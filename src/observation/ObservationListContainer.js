@@ -11,9 +11,11 @@ import  deepEqual  from 'deep-equal';
 import _ from "lodash";
 import $ from "jquery-param";
 
-import {fetchObservations} from '../actions/index';
+import {fetchObservations} from './ObservationActions';
+import {ClearObservationPage} from '../actions';
+
 import ObservationListWrapper from './ObservationListWrapper';
-import {ClearObservationPage} from '../actions/index';
+
 import Right_stats from '../components/right_material';
 import MobileRightSidebar from '../app/MobileRightSidebar';
 
@@ -121,11 +123,9 @@ class ObservationListContainer extends Component {
 
 
       taxonFilterEventListner(e){
-
+        this.props.ClearObservationPage();
            const params=this.state.params;
-
           let title=this.state.title;
-
            if(!params.taxon){
           params.taxon=[];
         }

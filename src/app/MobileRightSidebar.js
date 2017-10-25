@@ -14,13 +14,9 @@ import DeleteIcon from 'material-ui-icons/Delete';
 import ReportIcon from 'material-ui-icons/Report';
 import BackspaceIcon from 'material-ui-icons/Backspace';
 import Chip from 'material-ui/Chip';
-
 import style from './mobile_right_sidebar.css';
-
 import LeftSidebar from './LeftSidebar';
 import {ClearObservationPage} from '../actions/index';
-import {fetchObservations} from '../actions/index';
-
 const styles = {
   list: {
     width: 100,
@@ -42,7 +38,7 @@ class SideBar extends Component {
 
 
   clearFilter(){
-  
+
 
   }
   toggleDrawer = (side, open) => {
@@ -56,7 +52,7 @@ class SideBar extends Component {
 
   render() {
     const classes = this.props.classes;
-   
+
     const sideList = (
 
       <div className="container">
@@ -81,7 +77,7 @@ class SideBar extends Component {
       <div>
         <button  className="btn btn-primary btn-xs positionS"  onClick={this.handleRightOpen}>Filter Panel</button>
 
-        <Drawer 
+        <Drawer
           anchor="left"
           open={this.state.open.left}
           onRequestClose={this.handleRightClose}
@@ -97,4 +93,4 @@ class SideBar extends Component {
 
 
 
-export default connect(null,{fetchObservations,ClearObservationPage})(SideBar);
+export default connect(null,{ClearObservationPage})(SideBar);

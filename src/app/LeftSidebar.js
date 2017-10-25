@@ -4,17 +4,17 @@ import Collapsible from 'react-collapsible';
 
 import style from './right_sidebar.css';
 
-import Taxon_Filter from '../components/taxon_browser/main';
-import FilterPanel from '../components/filterPanel/filter_panel';
-import UserGroupNameFilter from '../components/user_groupname_filter';
-import SpeciesNameFilter from '../components/speciesname_filter';
-import FlaggedFilter from '../components/flag_filter';
-import MediaFilter from '../components/media_filter';
-import Search_bar from '../components/taxon_browser/search_bar';
-import Year_Filter from '../components/year_filter';
-import Month_Filter from '../components/month_filter';
-import Traits_Filter from '../components/traits_filter';
-import UserFilter from '../components/User_Filter/user_filter';
+import TaxonBrowser from '../taxonBrowser/TaxonBrowser';
+import SpeciesGroup from '../components/filterPanel/speciesGroup/SpeciesGroup';
+import UserGroup from '../userGroup/UserGroup';
+import ScientificNameFilter from  '../components/filterPanel/scientificName/ScientificName';
+import FlaggedFilter from  '../components/filterPanel/flag/Flag';
+import MediaFilter from  '../components/filterPanel/media/Media';
+import SearchBar from '../taxonBrowser/SearchBar';
+import Year_Filter from  '../components/filterPanel/year/Year';
+import Month_Filter from '../components/filterPanel/month/Month';
+import Traits_Filter from  '../traits/Traits';
+import UserFilter from  '../user/User';
 
 class Right extends Component {
 constructor(){
@@ -47,45 +47,40 @@ render(){
       <Collapsible open={true} trigger="Taxon Browser">
           <div>
             <div  >
-            <Taxon_Filter />
+            <TaxonBrowser />
             </div>
-             <Search_bar />
+             <SearchBar />
           </div>
           </Collapsible>
-
-          <Collapsible open={this.state.sGroupOpen} trigger="Species Groups Filter">
-
-            <FilterPanel />
-
+          <Collapsible open={this.state.sGroupOpen} trigger="Species Groups">
+            <SpeciesGroup />
           </Collapsible>
 
-           <Collapsible trigger=" Group Filter">
-             <UserGroupNameFilter />
+           <Collapsible trigger=" User Group">
+             <UserGroup />
           </Collapsible>
 
-          <Collapsible trigger="SpeciesName Filter">
-            <SpeciesNameFilter />
+          <Collapsible trigger="SpeciesName ">
+            <ScientificNameFilter />
           </Collapsible>
-          <Collapsible trigger="Flag Filter">
-            <SpeciesNameFilter />
+          <Collapsible trigger="Flag">
+            <FlaggedFilter />
           </Collapsible>
 
-          <Collapsible trigger="User Filter">
+          <Collapsible trigger="User ">
           <UserFilter/>
-          </Collapsible>  
+          </Collapsible>
 
-          <Collapsible trigger="Year Filter">
+          <Collapsible trigger="Year ">
           <Year_Filter />
-          </Collapsible>   
-          <Collapsible trigger="Month Filter">
+          </Collapsible>
+          <Collapsible trigger="Month ">
           <Month_Filter />
-          </Collapsible>  
-           <Collapsible trigger="Traits Filter">
+          </Collapsible>
+           <Collapsible trigger="Traits">
           <Traits_Filter />
-          </Collapsible>  
+          </Collapsible>
 
-
-                
 
   </div>
   )

@@ -11,13 +11,14 @@ class SpeciesGroup {
     constructor() {
     }
 
+
     fetch(callback) {
         const url = `${ROOT_URL}/api/speciesGroup/list?format=json`;
         if(callback) {
-            axios.get(url).then(response => { 
+            axios.get(url).then(response => {
                 callback(response.data.model.instanceList);
             });
-        } else 
+        } else
             return axios.get(url).then(response => response.data.model.instanceList);
     }
 
@@ -30,4 +31,3 @@ class SpeciesGroup {
 }
 
 export default new SpeciesGroup();
-

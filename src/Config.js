@@ -5,25 +5,23 @@ import LoginService from './auth/LoginService';
 export let ROOT_URL;
 export let API_ROOT_URL;
 
-if(process.env.REACT_APP_ENV=="dev" ){
-  ROOT_URL="https://pamba.strandls.com/";
-  API_ROOT_URL="http://api.local.ibp.org/";
+if(process.env.NODE_ENV=="development" ){
+  ROOT_URL="https://pamba.strandls.com";
+  API_ROOT_URL="http://api.local.ibp.org";
 }
-if(process.env.REACT_APP_ENV=="kk" ){
-  ROOT_URL="http://indiabiodiversity.org/";
-  API_ROOT_URL="https://pamba.strandls.com/";
+if(process.env.NODE_ENV=="kk" ){
+  ROOT_URL="http://indiabiodiversity.org";
+  API_ROOT_URL="https://pamba.strandls.com";
 }
 
-/**
- * AXIOS default settings
- */
+
 axios.defaults.baseURL = ROOT_URL;
-//axios.defaults.headers.common['Authorization'] = 'X-AUTH-TOKEN';
+
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-//interceptor to include accessToken into all api requests
+
 axios.interceptors.request.use(function (config) {
-    // Add authorization headers before request is sent
+
     console.log('---------------------BEFORE REQUEST START------------------------');
     console.log(config.headers);
     var accessToken = LoginService.accessToken;

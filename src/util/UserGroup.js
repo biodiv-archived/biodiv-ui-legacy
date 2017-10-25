@@ -9,15 +9,18 @@ import {ROOT_URL} from '../Config';
 class UserGroup {
 
     constructor() {
+        let values;
     }
 
     fetch(callback) {
         const url=`${ROOT_URL}/group/list?max=95&format=json`;
         if(callback) {
-            axios.get(url).then(response => callback(response.data));
+            axios.get(url).then(response => {
+              this.values=response.data;
+              callback(response.data);
+            })
             return;
-        } else 
-        
+        } else
         return axios.get(url).then(response => response.data);
     }
 
@@ -30,4 +33,3 @@ class UserGroup {
 }
 
 export default new UserGroup();
-

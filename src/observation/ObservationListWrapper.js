@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import objstyle from '../components/Observation_Show/objstyle.css';
+import style from './ObservationStyle.css';
 
 import ObservationListView from './ObservationListView';
 import ObservationGridView from './ObservationGridView';

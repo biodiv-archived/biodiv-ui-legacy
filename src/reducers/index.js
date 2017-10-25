@@ -1,28 +1,28 @@
 import { combineReducers } from 'redux';
-import SpeciesChartReducer from './reducer_chart_data';
-import ObservationReducer from './reducer_observation';
-import TaxonReducer from './reducer_taxon_list';
-import  UserGroupNames from './reducer_fetch_userGroup';
-import  UserGroupObservations from './reducer_fetch_groupobservations';
-import  HomeTotalCount from './reducer_home_total_count';
-import  EditUserGroupData from './reducer_edit_user_group_data';
-import Language_reducer from './reducer_languages.js'
-import AuthReducer from '../auth/AuthReducer';
 import { reducer as form} from 'redux-form';
-import FetchUserProfile from './reducer_fetch_user_profile'
-import UniqueSpecies_reducer from './reducer_uniqueSpecies.js'
+
+import AuthReducer from '../auth/AuthReducer';
+import ObservationReducer from '../observation/ObservationReducer';
+import TaxonReducer from '../taxonBrowser/TaxonBrowserReducer';
+import  UserGroup from '../userGroup/UserGroupReducer';
+import  HomeTotalCount from '../components/homePage/HomePageReducer';
+
+import  UserGroupObservations from './reducer_fetch_groupobservations';
+import SpeciesChartReducer from './reducer_chart_data';
+
+import Language_reducer from './reducer_languages.js';
+import UniqueSpecies_reducer from './reducer_uniqueSpecies.js';
+
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
   ChartData:SpeciesChartReducer,
   treeData:TaxonReducer,
-  UserGroupNames:UserGroupNames,
+  UserGroupNames:UserGroup,
   UserGroupObservations:UserGroupObservations,
   HomeTotalCount:HomeTotalCount,
-  EditUserGroupData:EditUserGroupData,
   Languages:Language_reducer,
   auth: AuthReducer,
   form:form,
-  UserProfile:FetchUserProfile,
   UniqueSpeciesList:UniqueSpecies_reducer
 });
 

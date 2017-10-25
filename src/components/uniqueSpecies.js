@@ -13,7 +13,6 @@ class UniqueSpecies extends React.Component {
 
     this.count = 0;
     this.fetchUnique=this.fetchUnique.bind(this)
-    console.log("called again",this.props.params)
     if(this.props.params!==previousParams)
     {
       count=0;

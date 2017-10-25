@@ -14,11 +14,10 @@ import App from './app/App';
 import { Login, Logout, AuthUtils} from './auth';
 
 import reducers from './reducers';
-import Footer from './components/footer/footer';
-import Header from './components/header/header';
-import HomePageContainer from './app/HomePageContainer';
-import UserGroupHomes from './components/UserGroupHomes/userGroup';
-import UserGroup from './components/UserGroupHomes/index';
+import Footer from './app/footer/Footer';
+import Header from './app/header/Header';
+import HomePageContainer from './app/homePage/HomePageContainer';
+
 import {AUTH_USER} from './auth/AuthConstants'
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise,logger)(createStore);
@@ -34,7 +33,7 @@ let search2 = decodeURIComponent( search1 );
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter  forceRefresh={true}>
+    <BrowserRouter forceRefresh={true}>
       <div>
         <Header title={"IBP"}/>
         <div className="container-fluid">
