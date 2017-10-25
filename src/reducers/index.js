@@ -5,7 +5,7 @@ import AuthReducer from '../auth/AuthReducer';
 import ObservationReducer from '../observation/ObservationReducer';
 import TaxonReducer from '../taxonBrowser/TaxonBrowserReducer';
 import  UserGroup from '../userGroup/UserGroupReducer';
-import  HomeTotalCount from '../components/homePage/HomePageReducer';
+import  HomeTotalCount from '../app/homePage/HomePageReducer';
 
 import  UserGroupObservations from './reducer_fetch_groupobservations';
 import SpeciesChartReducer from './reducer_chart_data';
