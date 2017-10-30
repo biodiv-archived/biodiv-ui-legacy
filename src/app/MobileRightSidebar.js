@@ -75,8 +75,7 @@ class SideBar extends Component {
 
     return (
       <div>
-        <button  className="btn btn-primary btn-xs positionS"  onClick={this.handleRightOpen}>Filter Panel</button>
-
+        <button  style={{position:'fixed',zIndex:'2'}} className="btn btn-primary btn-xs pull-right"  onClick={this.handleRightOpen}>Filters</button>
         <Drawer
           anchor="left"
           open={this.state.open.left}

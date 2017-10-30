@@ -6,7 +6,7 @@ export let ROOT_URL;
 export let API_ROOT_URL;
 
 if(process.env.NODE_ENV=="development" ){
-  ROOT_URL="https://pamba.strandls.com";
+  ROOT_URL="http://localhost:8080/biodiv";
   API_ROOT_URL="http://api.local.ibp.org";
 }
 if(process.env.NODE_ENV=="kk" ){
@@ -22,14 +22,14 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 axios.interceptors.request.use(function (config) {
 
-    console.log('---------------------BEFORE REQUEST START------------------------');
-    console.log(config.headers);
+//    console.log('---------------------BEFORE REQUEST START------------------------');
+  //  console.log(config.headers);
     var accessToken = LoginService.accessToken;
     if(accessToken) {
-        console.log('Adding access token in axios header');
+      //  console.log('Adding access token in axios header');
         config.headers = { 'X-AUTH-TOKEN' : accessToken};
     }
-    console.log('---------------------BEFORE REQUEST END------------------------');
+//    console.log('---------------------BEFORE REQUEST END------------------------');
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -38,9 +38,9 @@ axios.interceptors.request.use(function (config) {
 //interceptor to include accessToken into all api requests
 axios.interceptors.response.use(function (response) {
     // Add authorization headers before request is sent
-    console.log('---------------------ON RESPONSE START------------------------');
-    console.log(response);
-    console.log('---------------------ON RESPONSE END------------------------');
+    //console.log('---------------------ON RESPONSE START------------------------');
+  //  console.log(response);
+  //  console.log('---------------------ON RESPONSE END------------------------');
     return response;
 }, function (error) {
     return Promise.reject(error);

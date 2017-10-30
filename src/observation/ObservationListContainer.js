@@ -9,7 +9,7 @@ import  queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
 import _ from "lodash";
-import $ from "jquery-param";
+
 
 import {fetchObservations} from './ObservationActions';
 import {ClearObservationPage} from '../actions';
@@ -28,19 +28,19 @@ class ObservationListContainer extends Component {
         params:{
           max:10,
           offset:0,
+          count:0,
           taxon:[],
           sGroup:[],
+          user:[],
           classification:undefined,
           userGroupList:[],
           isFlagged:undefined,
           speciesName:undefined,
           isMediaFilter:undefined,
           sort:"lastRevised",
-          webaddress:undefined
+          webaddress:undefined,
+
         },
-        title:[],
-        groupName:[],
-        userGroupName:[],
         view:1
       }
       const newparams=  queryString.parse(document.location.search);
@@ -53,12 +53,13 @@ class ObservationListContainer extends Component {
       if(!newparams.offset){
         newparams.offset=0
       }
+      if(!newparams.count){
+        newparams.count=0;
+      }
       let search1=queryString.stringify(newparams);
 
 
        let search2 = decodeURIComponent( search1 );
-       const {groupName}=this.props.match.params;
-       if(!groupName){
           if(!deepEqual(this.state.params,newparams) ){
         history.push({
           pathname:'/observation/list',
@@ -74,41 +75,41 @@ class ObservationListContainer extends Component {
         this.props.fetchObservations(this.state.params)
       }
 
-      }
-      else{
-        const newparams=this.state.params;
-        newparams.webaddress=groupName;
-        this.props.fetchObservations(newparams)
-
-       }
 
       this.loadMore=this.loadMore.bind(this);
     };
 
 
-    GlobalCall(params,title,key){
+    GlobalCall(params){
           let sGroup=params.sGroup;
           let isFlagged=params.isFlagged;
           let speciesName=params.speciesName;
           let MediaFilter=params.isMediaFilter;
+          let userGroupList=params.userGroupList;
+          let taxon=params.taxon;
+          let classification=params.classification;
+          let offset=params.offset;
+          let count=params.count;
+          let user=params.user;
           this.setState({
               params:{
-                taxon:params.taxon,
-                classification:params.classification,
-                offset:0,
+                taxon:taxon,
+                count:count,
+                classification:classification,
+                offset:offset,
                 sGroup:sGroup,
-                userGroupList:params.userGroupList,
+                userGroupList:userGroupList,
                 isFlagged:isFlagged,
                 speciesName:speciesName,
                 isMediaFilter:MediaFilter,
-                sort:params.sort
-              },
-                title:title
+                sort:params.sort,
+                user:user
+              }
           })
-          if(key){
           params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");
+          params.user=params.user.join(",");
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           history.push({
@@ -116,488 +117,79 @@ class ObservationListContainer extends Component {
             search:search1
           })
           this.props.fetchObservations(params);
-          }
 
     }
 
-
-
       taxonFilterEventListner(e){
-        this.props.ClearObservationPage();
-           const params=this.state.params;
-          let title=this.state.title;
-           if(!params.taxon){
-          params.taxon=[];
-        }
-
-        params.classification=e.detail.classification;
-
-
-        if(e.detail.noTaxon){
-        if(e.detail.checked){
-          title.push(e.detail.title);
-          params.taxon=e.detail.taxon;
-        }
-        else{
-          params.taxon=e.detail.taxon
-          const title=this.state.title;
-          const indexoftitile=title.indexOf(e.detail.title);
-          title.splice(indexoftitile,1);
-
-        }
-
-        this.GlobalCall(params,title,true);
-        }
-        else{
-          console.log(e.detail.title)
-          let title=e.detail.title;
-
-           this.GlobalCall(params,title,false);
-        }
-
-
+            this.props.ClearObservationPage();
+            const params=this.state.params;
+            if(!params.taxon){
+              params.taxon=[];
+            }
+            params.classification=e.detail.classification;
+            params.taxon=e.detail.taxon
+            this.GlobalCall(params);
       }
-
-
-
       sGroupFilterEventListner(e){
-
-        const params=this.state.params;
-
-        if(e.detail.sGroup){
         this.props.ClearObservationPage();
+        const params=this.state.params;
         if(!params.sGroup){
           params.sGroup=[];
         }
-
         params.sGroup=e.detail.sGroup;
-        let groupName=e.detail.groupName;
-
-        params.classification=params.classification;
-        let isFlagged=params.isFlagged;
-        let speciesName=params.speciesName;
-        let MediaFilter=params.isMediaFilter;
-        let taxonparams=params.taxon;
-        taxonparams= taxonparams.join(",");
-        let sGroupParams=params.sGroup;
-            sGroupParams=sGroupParams.join(",");
-        let userGroupParams=params.userGroupList;
-         userGroupParams=userGroupParams.join(",");
-        let newparams={
-                  max:10,
-                  sGroup:sGroupParams,
-                  classification:params.classification,
-                  offset:0,
-                  taxon:taxonparams,
-                  userGroupList:userGroupParams,
-                  isFlagged:isFlagged,
-                  speciesName:speciesName,
-                  isMediaFilter:MediaFilter,
-                  sort:params.sort
-                }
-                const seacrh=queryString.stringify(newparams)
-                const search1=decodeURIComponent(seacrh);
-                history.push({
-                  pathname:'/observation/list',
-                  search:search1
-                })
-        this.props.fetchObservations(newparams);
-        this.setState({
-                params:{
-                  max:10,
-                  sGroup:params.sGroup,
-                  classification:params.classification,
-                  offset:0,
-                  taxon:params.taxon,
-                  userGroupList:params.userGroupList,
-                  isFlagged:isFlagged,
-                  speciesName:speciesName,
-                  isMediaFilter:MediaFilter,
-                  sort:params.sort
-                },
-              groupName:groupName
-        })
-      }
-      else{
-        this.setState({
-                params:{
-                  max:params.max,
-                  sGroup:params.sGroup,
-                  classification:params.classification,
-                  offset:params.offset,
-                  taxon:params.taxon,
-                  userGroupList:params.userGroupList,
-                  isFlagged:params.isFlagged,
-                  speciesName:params.peciesName,
-                  isMediaFilter:params.MediaFilter,
-                  sort:params.sort
-                },
-              groupName:e.detail.groupName
-        })
-      }
-
+          this.GlobalCall(params);
       }
 
     userGroupFilterEventListner(e){
-
+      this.props.ClearObservationPage();
       let params=this.state.params;
-
-      let userGroupName=this.state.userGroupName;
-
-
       if(!params.userGroupList){
         params.userGroupList=[];
       }
+        params.userGroupList= e.detail.id;
+        this.GlobalCall(params);
 
-        params.userGroupList.push(e.detail.id)
-
-          params.userGroupList=_.uniqBy(params.userGroupList)
-
-
-        const title=this.state.title;
-
-        var titleobject={};
-        titleobject.userGroupList=e.detail.id;
-        titleobject.userGroupName=e.detail.userGroupName;
-
-        userGroupName.push(titleobject);
-        let newuserGroupName=_.uniqBy(  userGroupName,"userGroupName")
-
-        params.offset=0;
-        let isFlagged=params.isFlagged;
-        let speciesName=params.speciesName;
-        let MediaFilter=params.isMediaFilter;
-
-        let taxon=params.taxon;
-        taxon=taxon.join(",");
-        let sGroup=params.sGroup;
-        sGroup=sGroup.join(",");
-        let userGroupList=params.userGroupList;
-        userGroupList=userGroupList.join(",");
-
-      let newparams={
-        max:10,
-        offset:0,
-        classification:params.classification,
-        sGroup:sGroup,
-        taxon:taxon,
-        userGroupList:userGroupList,
-        isFlagged:isFlagged,
-        speciesName:speciesName,
-        isMediaFilter:MediaFilter,
-        sort:params.sort
-      }
-      const seacrh=queryString.stringify(newparams)
-      const search1=decodeURIComponent(seacrh);
-      history.push({
-        pathname:'/observation/list',
-        search:search1
-      })
-
-      this.props.fetchObservations(newparams);
-      this.setState({
-      params:{
-        max:10,
-        offset:0,
-        classification:params.classification,
-        sGroup:params.sGroup,
-        taxon:params.taxon,
-        userGroupList:params.userGroupList,
-        isFlagged:isFlagged,
-        speciesName:speciesName,
-        isMediaFilter:MediaFilter,
-        sort:params.sort
-      },
-      userGroupName:newuserGroupName
-      })
     }
 
     isMediaFilterEventListner(e){
       this.props.ClearObservationPage();
+
       const params=this.state.params;
-      let taxon=params.taxon;
-      taxon=taxon.join(",");
-      let sGroup=params.sGroup;
-      sGroup=sGroup.join(",");
-      let userGroupList=params.userGroupList;
-      userGroupList=userGroupList.join(",");
-        let speciesNameFilter=params.speciesName;
-      let newparams={
-        max:10,
-        classification:params.classification,
-        offset:0,
-        taxon:taxon,
-        sGroup:sGroup,
-        userGroupList:userGroupList,
-        speciesName:speciesNameFilter,
-        isMediaFilter:e.detail.MediaFilter,
-        sort:params.sort
-      }
-      const seacrh=queryString.stringify(newparams)
-      const search1=decodeURIComponent(seacrh);
-      history.push({
-        pathname:'/observation/list',
-        search:search1
-      })
-      this.props.fetchObservations(newparams);
-      this.setState({
-              params:{
-                max:10,
-                classification:params.classification,
-                offset:0,
-                taxon:params.taxon,
-                sGroup:params.sGroup,
-                userGroupList:params.userGroupList,
-                speciesName:speciesNameFilter,
-                isMediaFilter:e.detail.MediaFilter,
-                sort:params.sort
-              }
-      })
+      params.isMediaFilter=e.detail.MediaFilter;
+      this.GlobalCall(params);
     }
 
     allFilterEventListner(e){
       this.props.ClearObservationPage();
-      const params=this.state.params;
 
+      const params=this.state.params;
       params.speciesName=e.detail.SpeciesName;
-      let taxon=params.taxon;
-      taxon=taxon.join(",");
-      let sGroup=params.sGroup;
-      sGroup=sGroup.join(",");
-      let userGroupList=params.userGroupList;
-      userGroupList=userGroupList.join(",");
-      history.push({
-        pathname:'/observation/list',
-        search:queryString.stringify(params)
-      })
-      let newparams={
-        max:10,
-        classification:params.classification,
-        offset:0,
-        taxon:taxon,
-        sGroup:sGroup,
-        userGroupList:userGroupList,
-        speciesName:e.detail.SpeciesName,
-        sort:params.sort,
-        isMediaFilter:params.isMediaFilter
-      }
-      const seacrh=queryString.stringify(newparams)
-      const search1=decodeURIComponent(seacrh);
-      history.push({
-        pathname:'/observation/list',
-        search:search1
-      })
-      this.props.fetchObservations(newparams);
-      this.setState({
-              params:{
-                max:10,
-                classification:params.classification,
-                offset:0,
-                taxon:params.taxon,
-                sGroup:params.sGroup,
-                userGroupList:params.userGroupList,
-                speciesName:e.detail.SpeciesName,
-                sort:params.sort,
-                isMediaFilter:params.isMediaFilter
-              }
-      })
+          this.GlobalCall(params);
+
     }
 
-      removeTaxon(taxonid,item){
-
-        const params=this.state.params;
-        const index1=params.taxon.indexOf(taxonid);
-        console.log("params",params)
-        params.taxon.splice(index1, 1);
-
-        const title=this.state.title;
-        const indexoftitile=title.indexOf(item);
-        title.splice(indexoftitile,1);
-
-        this.props.ClearObservationPage();
-
-          let sGroupParams=params.sGroup;
-          let isFlagged=params.isFlagged;
-          let speciesName=params.speciesName;
-          let MediaFilter=params.isMediaFilter;
-          sGroupParams= sGroupParams.join(",");
-          let taxonparams=params.taxon;
-          taxonparams=taxonparams.join(",");
-          let userGroup=params.userGroupList;
-          userGroup=userGroup.join(",");
-
-        const newparams={
-            max:10,
-            offset:0,
-            classification:params.classification,
-            sGroup:sGroupParams,
-            taxon:taxonparams,
-            userGroupList:userGroup,
-            isFlagged:isFlagged,
-            speciesName:speciesName,
-            isMediaFilter:MediaFilter,
-            sort:params.sort
-        }
-        const seacrh=queryString.stringify(newparams)
-        const search1=decodeURIComponent(seacrh);
-        history.push({
-          pathname:'/observation/list',
-          search:search1
-        })
-        this.props.fetchObservations(newparams);
-          this.setState({
-            params:{
-                  max:10,
-                  offset:0,
-                  classification:params.classification,
-                  sGroup:params.sGroup,
-                  taxon:params.taxon,
-                  userGroupList:params.userGroupList,
-                  isFlagged:isFlagged,
-                  speciesName:speciesName,
-                  isMediaFilter:MediaFilter,
-                  sort:params.sort
-            },
-            title:title,
-            groupName:this.state.groupName
-          })
+    userFilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+      if(!params.user){
+        params.user=[];
       }
-      removesGroup(sGroup,item){
-        const params=this.state.params;
+      params.user=e.detail.userIds;
+      this.GlobalCall(params);
 
-        const index1=params.sGroup.indexOf(sGroup);
-        params.sGroup.splice(index1, 1);
-        const groupName=this.state.groupName;
+    }
+    sortObservation(sortby){
+      this.props.ClearObservationPage();
 
-        const indexoftitile=groupName.indexOf(item);
-        groupName.splice(indexoftitile,1);
-        let isFlagged=params.isFlagged;
+      const params=this.state.params;
+      params.sort=sortby;
+      this.GlobalCall(params);
 
-        let speciesName=params.speciesName;
-        let MediaFilter=params.isMediaFilter;
-        let taxon=params.taxon;
+    }
 
-        taxon=taxon.join(",");
-        let sGroupName=params.sGroup;
-        sGroupName=sGroupName.join(",");
-        let userGroupNew=params.userGroupList;
-        userGroupNew=userGroupNew.join(",");
-        const newparams={
-            max:10,
-            offset:0,
-            classification:params.classification,
-            sGroup:sGroupName,
-            taxon,
-            userGroupList:userGroupNew,
-            isFlagged:isFlagged,
-            speciesName:speciesName,
-            isMediaFilter:MediaFilter,
-            sort:params.sort
-        }
-        this.props.ClearObservationPage();
-        const seacrh=queryString.stringify(newparams)
-        const search1=decodeURIComponent(seacrh);
-        history.push({
-          pathname:'/observation/list',
-          search:search1
-        })
-        this.props.fetchObservations(newparams)
-
-        this.setState({
-          params:{
-            max:10,
-            offset:0,
-            classification:params.classification,
-            sGroup:params.sGroup,
-            taxon:params.taxon,
-            userGroupList:params.userGroupList,
-            isFlagged:isFlagged,
-            speciesName:speciesName,
-            isMediaFilter:MediaFilter,
-            sort:params.sort
-          },
-          title:this.state.title,
-          groupName:groupName
-        })
-
-      }
-
-
-      removeUserGroup(userGroup,item){
-        this.props.ClearObservationPage();
-        const params=this.state.params;
-        const index1=params.userGroupList.indexOf(userGroup);
-        params.userGroupList.splice(index1, 1);
-
-        const userGroupName=this.state.userGroupName;
-        const indexoftitile=userGroupName.indexOf(item);
-        userGroupName.splice(indexoftitile,1);
-
-        let userGroupid=params.userGroupList;
-        let isFlagged=params.isFlagged;
-        let speciesName=params.speciesName;
-        let MediaFilter=params.isMediaFilter;
-
-        userGroupid=userGroupid.join(",");
-        let taxon=params.taxon;
-        taxon=taxon.join(",");
-        let sGroup=params.sGroup;
-        sGroup=sGroup.join(",");
-
-        const newparams={
-            max:10,
-            offset:0,
-            classification:params.classification,
-            sGroup,
-            taxon,
-            userGroupList:userGroupid,
-            isFlagged:isFlagged,
-            speciesName:speciesName,
-            isMediaFilter:MediaFilter,
-            sort:params.sort
-        }
-        this.props.ClearObservationPage();
-        const seacrh=queryString.stringify(newparams)
-        const search1=decodeURIComponent(seacrh);
-        history.push({
-          pathname:'/observation/list',
-          search:search1
-        })
-        this.props.fetchObservations(newparams);
-        this.setState({
-            params:{
-              max:10,
-              offset:0,
-              classification:params.classification,
-              sGroup:params.sGroup,
-              taxon:params.taxon,
-              userGroupList:params.userGroupList,
-              isFlagged:isFlagged,
-              speciesName:speciesName,
-              isMediaFilter:MediaFilter,
-              sort:params.sort
-            },
-            userGroupName:userGroupName
-        })
-      }
-
-
-      showtaxonButton(item,index){
-      return  <button className="btn btn-default btn-xs " key={index}  ><EllipsisText text={item} length={10} />     <span>&nbsp;&nbsp;</span></button>
-      }
-      showGroupNameButton(item,index){
-        return <button  className="btn btn-danger btn-xs"  key={index} ><EllipsisText text={item?item:null} length={10} /> </button>
-      }
-      showUserGroupNameButton(item,index){
-        return <button className="btn btn-warning btn-xs " onClick={this.removeUserGroup.bind(this,item.userGroup,item)} key={index} ><EllipsisText text={item.userGroupName} length={10} /> <span className="glyphicon glyphicon-remove"></span></button>
-      }
       setParameter(){
-
         const {groupName}=this.props.match.params;
-
-
         const newparams=  queryString.parse(document.location.search);
-
         if(newparams.sGroup){
           newparams.sGroup=newparams.sGroup.split(",");
         }
@@ -616,22 +208,37 @@ class ObservationListContainer extends Component {
         else{
           newparams.userGroupList=[]
         }
+
+        if(newparams.user){
+          newparams.user=newparams.user.split(",");
+        }
+        else{
+          newparams.user=[];
+        }
+
         if(groupName){
           newparams.webaddress=groupName;
         }
         if(!newparams.max){
           newparams.max=10;
         }
-
         if(!newparams.offset){
           newparams.offset=0;
         }
-        console.log("console.logoooooooooooooooooooo",newparams)
         this.setState({
           params:newparams
         })
 
       }
+      loadMore(){
+        let params=this.state.params;
+       let count= parseInt(params.count);
+       count=count+1;
+       let offset=count*10;
+        params.count=count;
+        params.offset=offset;
+       this.GlobalCall(params)
+        }
 
       componentDidMount(){
         this.setParameter();
@@ -640,79 +247,29 @@ class ObservationListContainer extends Component {
         document.addEventListener("getTaxon-filter", this.taxonFilterEventListner.bind(this));
         document.addEventListener("userGroup-filter", this.userGroupFilterEventListner.bind(this));
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
+        document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
+
+
 
       }
       componentWillUnmount(){
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
         document.addEventListener("get-taxon-filter", this.taxonFilterEventListner.bind(this));
-        document.addEventListener("userGroup-filter", this.taxonFilterEventListner.bind(this));
+        document.addEventListener("userGroup-filter", this.userGroupFilterEventListner.bind(this));
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
         document.addEventListener("isMediaFilter-filter", this.isMediaFilterEventListner.bind(this));
+        document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
         this.props.ClearObservationPage();
 
       }
       displayData(view,objs,count){
-
           return(
           <div key={objs.id}>
             <ObservationListWrapper objs={objs} view={view} count={count}/>
           </div>
         )
       }
-      loadMore(){
-        let params=this.state.params;
-          let count=params.offset;
-          count=count+1;
-          let offset=count*10;
-          let newtaxon=params.taxon;
-            newtaxon=newtaxon.join(",");
-          let newsGroup=params.sGroup;
-            newsGroup=newsGroup.join(",");
-          let newUserGroup=params.userGroupList;
-            newUserGroup=newUserGroup.join(",");
-            console.log(params.sortBy,"pahjfdshgjkdfsgh")
-              let newparams={
-                max:10,
-                offset:offset,
-                sGroup:newsGroup,
-                taxon:newtaxon,
-                classification:params.classification,
-                userGroupList:newUserGroup,
-                sort:params.sort,
-                speciesName:params.speciesName,
-                isMediaFilter:params.isMediaFilter,
-                webaddress:params.webaddress
-              }
-              const seacrh=queryString.stringify(newparams)
-              const search1=decodeURIComponent(seacrh);
-              history.push({
-                pathname:'/observation/list',
-                search:search1
-              })
-          this.props.fetchObservations(newparams);
-          this.setState({
-            params:{
-              max:10,
-              offset:count,
-              sGroup:params.sGroup,
-              taxon:params.taxon,
-              classification:params.classification,
-              userGroupList:params.userGroupList,
-              sort:params.sort,
-              speciesName:params.speciesName,
-              isMediaFilter:params.isMediaFilter,
-              webaddress:params.webaddress
 
-            }
-          })
-
-        }
-        componentWillReceiveProps(nextProps){
-          if(!deepEqual(this.props.location.search,nextProps.location.search)){
-
-
-          }
-        }
         showGridView(){
           this.setState({
             view:0
@@ -723,53 +280,7 @@ class ObservationListContainer extends Component {
             view:1
           })
         }
-        sortObservation(sortby){
 
-          const params=this.state.params;
-          let newTaxon=params.taxon;
-          let newsGroup=params.sGroup;
-          let newUsergroupList=params.userGroupList;
-          newTaxon=newTaxon.join(",");
-          newsGroup=newsGroup.join(",");
-          newUsergroupList=newUsergroupList.join(",");
-
-          let newparams={
-            max:params.max,
-            offset:params.offset,
-            taxon:newTaxon,
-            sGroup:newsGroup,
-            userGroupList:newUsergroupList,
-            classification:params.classification,
-            sort:sortby,
-            isFlagged:params.isFlagged,
-            speciesName:params.speciesName,
-            isMediaFilter:params.MediaFilter
-          }
-          this.props.ClearObservationPage();
-
-            this.setState({
-            params:{
-              max:params.max,
-              offset:params.offset,
-              taxon:params.taxon,
-              sGroup:params.sGroup,
-              userGroupList:params.userGroupList,
-              sort:sortby,
-              classification:params.classification,
-              isFlagged:params.isFlagged,
-              speciesName:params.speciesName,
-              isMediaFilter:params.MediaFilter
-            }
-
-            })
-             const seacrh=queryString.stringify(newparams)
-          const search1=decodeURIComponent(seacrh);
-          history.push({
-            pathname:'/observation/list',
-            search:search1
-          })
-          this.props.fetchObservations(newparams)
-        }
         handleChangeCheckbox(event){
         if(event.target.value.trim()==="Last Visited".trim()){
         this.sortObservation("lastRevised")
@@ -780,27 +291,18 @@ class ObservationListContainer extends Component {
         else if(event.target.value.trim()==="Most Viewed".trim()){
           this.sortObservation("visitCount")
         }
-
         }
-
 
   render(){
     return(
       <div>
-            <div className=" hidden-lg-sm hidden-md hidden-lg">
+            <div className="hidden-sm hidden-md hidden-lg">
               <MobileRightSidebar />
               </div>
             <div className="pull-right">
               <Right_stats filterParams={this.state.params}/>
             </div>
-
-
             {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}
-            {console.log("this.state.title",this.state.title)}
-            {this.state.title.length?this.state.title.map(this.showtaxonButton.bind(this)):null}
-            {console.log("this.state.groupNameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",this.state.groupName)}
-            {this.state.groupName?this.state.groupName.map(this.showGroupNameButton.bind(this)):null}
-            {this.state.userGroupName?this.state.userGroupName.map(this.showUserGroupNameButton.bind(this)):null}
             <br />
             <br />
             <div className="btn-group">
@@ -823,11 +325,8 @@ class ObservationListContainer extends Component {
   }
 }
 function mapStateToProps(state){
-
 return {
-  Observation:state.Observation,
-  queryParams:state.Observation.queryParameter
-
+  Observation:state.Observation
 };
 }
 export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage})(ObservationListContainer));

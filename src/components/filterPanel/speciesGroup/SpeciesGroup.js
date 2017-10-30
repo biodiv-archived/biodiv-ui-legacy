@@ -2,11 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import queryString from 'query-string';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
-
 import styles from './style.css';
-
 import {ClearObservationPage} from '../../../actions/index';
-
 const styles1 = {
   block: {
     maxWidth: 250
@@ -15,7 +12,6 @@ const styles1 = {
     marginBottom: 16
   }
 };
-
 class SpeciesGroup extends Component {
   constructor(props) {
 
@@ -34,55 +30,8 @@ class SpeciesGroup extends Component {
     const newparams = queryString.parse(document.location.search);
     if (newparams.sGroup) {
       const data = newparams.sGroup.split(",");
-      let title=[];
-      data.map((item)=>{
-        if(item=="841"){
-          title.push("Mammals");
-        }
-        if(item=="837"){
-          title.push("Birds")
-        }
-        if(item=="845"){
-          title.push("Fish")
-        }
-        if(item=="835"){
-          title.push("Amphibians")
-
-        }
-        if(item=="843"){
-          title.push("Reptiles")
-
-        }
-        if(item=="856"){
-          title.push("Molluscs")
-
-        }
-        if(item=="839"){
-          title.push("Arthropods")
-
-        }
-        if(item=="833"){
-          title.push("Plants")
-
-        }
-        if(item=="831"){
-          title.push("Fungi")
-
-        }
-        if(item=="830"){
-          title.push("Others")
-
-        }
-      })
-
-      this.setState({sGroupId:data},()=>{
-        var event = new CustomEvent("sGroup-filter", {
-          "detail": {
-            groupName:title
-          }
-        });
-        document.dispatchEvent(event);
-
+      this.setState({
+        sGroupId:data
       })
 
     }
@@ -93,60 +42,15 @@ class SpeciesGroup extends Component {
 
 
   sChanged = (sGroupId,event) => {
-    console.log(sGroupId,event)
-    let title=[]
       this.setState({
         sGroupId
       },()=>{
-        this.state.sGroupId.map((item)=>{
-          if(item=="841"){
-            title.push("Mammals");
-          }
-          if(item=="837"){
-            title.push("Birds")
-          }
-          if(item=="845"){
-            title.push("Fish")
-          }
-          if(item=="835"){
-            title.push("Amphibians")
-
-          }
-          if(item=="843"){
-            title.push("Reptiles")
-
-          }
-          if(item=="856"){
-            title.push("Molluscs")
-
-          }
-          if(item=="839"){
-            title.push("Arthropods")
-
-          }
-          if(item=="833"){
-            title.push("Plants")
-
-          }
-          if(item=="831"){
-            title.push("Fungi")
-
-          }
-          if(item=="830"){
-            title.push("Others")
-
-          }
-        })
-        console.log("this",this.state.sGroupId,title)
         var event = new CustomEvent("sGroup-filter", {
           "detail": {
             sGroup: this.state.sGroupId,
-            groupName:title
           }
         });
         document.dispatchEvent(event);
-
-
       });
 
       event.persist();

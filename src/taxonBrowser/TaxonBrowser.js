@@ -41,54 +41,45 @@ gettaxonData(){
     let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
     let expand_taxon=undefined;
     let parent=undefined;
-
     this.setState({
         checkedKeys:checkedKey,
         Expanded:checkedKey
     },()=>{
-      this.props.fetchTaxonList(this.state.classification).then(()=>{
+      if(checkedKey.length==1){
+          if(checkedKey.includes("872")|| checkedKey.includes("122888")|| checkedKey.includes("2998")
+          || checkedKey.includes("124658")|| checkedKey.includes("94899")|| checkedKey.includes("123467")||
+          checkedKey.includes("64231")){
+            this.props.fetchTaxonList(this.state.classification).then(()=>{
+            this.setScrollClass();
+            });;
+      }
+      else{
+          expand_taxon=true;
+          parent=checkedKey.join(",")
+          this.props.fetchTaxonList(this.state.classification,expand_taxon,parent).then(()=>{
+          this.setScrollClass();
+
+          });
+      }
+      }
+      else if(checkedKey.length>1){
+        expand_taxon=true;
+      this.props.fetchTaxonList(this.state.classification,expand_taxon,checkedKey.join(",")).then((data)=>{
         this.setScrollClass();
       });
+      }
+      else{
+        this.props.fetchTaxonList(this.state.classification);
+      }
     })
-
-    if(checkedKey.length==1){
-        if(checkedKey.includes("872")|| checkedKey.includes("122888")|| checkedKey.includes("2998")
-        || checkedKey.includes("124658")|| checkedKey.includes("94899")|| checkedKey.includes("123467")||
-        checkedKey.includes("64231")){
-
-
-
-    }
-    else{
-        expand_taxon=true;
-        parent=checkedKey.join(",")
-        this.props.fetchTaxonList(this.state.classification,expand_taxon,parent).then(()=>{
-        this.setScrollClass();
-
-        });
-    }
-    }
-    else if(checkedKey.length>1){
-      expand_taxon=true;
-    this.props.fetchTaxonList(this.state.classification,expand_taxon,checkedKey.join(",")).then((data)=>{
-
-      this.setScrollClass();
-    });
-    }
-    else{
-      this.props.fetchTaxonList(this.state.classification);
-    }
 }
-
 
 getSearchNodeData(e){
 let taxonToshow=e.detail.taxonValue;
 let expand_taxon=true;
 let taxonToshow1=taxonToshow.join(",");
 taxonToshow1=taxonToshow1.split(",");
-
 taxonToshow1= _.uniqBy(taxonToshow1);
-
 this.setState({
   Expanded:taxonToshow1,
   Selected:taxonToshow1[0].split(","),
@@ -98,9 +89,6 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1[0]
   console.log(this.state.Selected)
   this.setScrollClass();
 });
-
-
-
 }
 
 nextFetch(){
@@ -152,17 +140,6 @@ setScrollClass(){
       for(let i=0;i<myContainer1.length;i++){
         title.push(myContainer1[i].parentElement.innerText);
       }
-
-      this.setState({
-        title
-      },()=>{
-         var event = new CustomEvent("getTaxon-filter",{ "detail":{
-        noTaxon:false,
-        title:title
-        }
-        });
-        document.dispatchEvent(event);
-      })
     }
 
     if(myContainer.length){
@@ -177,14 +154,12 @@ setScrollClass(){
 
 }
   componentDidMount() {
-    this.gettaxonData();
+  this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
-
   }
 
   componentWillunmount(){
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
-
   }
 
 generateTreeNodes(treeNode,classSystem,treeData,key) {
@@ -237,11 +212,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 
     var event = new CustomEvent("getTaxon-filter",{ "detail":{
       taxon:checkedKey,
-      noTaxon:true,
-      title:event.node.props.title,
-      classification:this.state.classification,
-      checked:event.checked,
-      taxonRemoved:event.node.props.taxonid
+      classification:this.state.classification
     }
   });
   document.dispatchEvent(event);

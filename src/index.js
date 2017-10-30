@@ -20,7 +20,7 @@ import HomePageContainer from './app/homePage/HomePageContainer';
 
 import {AUTH_USER} from './auth/AuthConstants'
 
-const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise,logger)(createStore);
+const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 
 let store = createStoreWithMiddleware(reducers);
 if (AuthUtils.isLoggedIn()) {
