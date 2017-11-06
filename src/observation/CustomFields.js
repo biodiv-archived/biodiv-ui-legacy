@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ROOT_URL} from '../../Config.js'
-import ModalPopup from '../auth/modal.js';
+
+import { Config } from '../Config';
+import ModalPopup from '../auth/Modal.js';
+import AuthUtils from '../auth/AuthUtils.js';
 
 class CustomFields extends React.Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class CustomFields extends React.Component {
   }
 
   getCustomFields(id){
-    axios.get(ROOT_URL+"/observation/customFields?objectId="+id)
+    axios.get( Config.api.ROOT_URL+"/observation/customFields?objectId="+id)
         .then((response)=>{
           console.log(response.data)
           this.setState({
@@ -54,12 +56,8 @@ class CustomFields extends React.Component {
     var submit1="submit"+key+this.props.id
     var options={
       method:'POST',
-      url :   ROOT_URL+"/api/observation/updateCustomField?fieldValue="+value1+"&cfId="+cfId+"&obvId="+id,
-      headers :{
-        'X-Auth-Token' : localStorage.getItem('token'),
-        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-        'Accept'        :"application/json"
-      },
+      url :    Config.api.ROOT_URL+"/api/observation/updateCustomField?fieldValue="+value1+"&cfId="+cfId+"&obvId="+id,
+      headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
 
@@ -99,14 +97,14 @@ class CustomFields extends React.Component {
         {  this.state.response?(
           Object.keys(this.state.response).length>0?
           (
-            Object.keys(this.state.response).map((item)=>{
+            Object.keys(this.state.response).map((item,index)=>{
               return(
-                <div className="row well well-sm">
+                <div key={index} className="row well well-sm" style={{width:'99%',marginLeft:'0.5%'}}>
                     <div className="col-sm-2">{this.state.response[item].key}</div>
                     <div className="col-sm-8">
                         <div className="cfValue" ref={"cfvalue"+this.state.response[item].key + this.props.id} style={{display:'block'}}>
                               {this.state.response[item].value!==null?
-                                (<h4 style={{color:'#4322D8'}}>{this.state.response[item].value}</h4>):null
+                                (<span style={{color:'#4322D8'}}>{this.state.response[item].value}</span>):null
                               }
                         </div>
                         <div className="cfInlineEdit" ref={"box"+this.state.response[item].key + this.props.id} style={{display:'none'}}>
@@ -118,15 +116,15 @@ class CustomFields extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-2">
-                        <div className="editCustomField btn btn-small btn-primary" ref={"submit"+this.state.response[item].key + this.props.id} onClick={this.customFieldPost.bind(this,this.state.response[item].key,this.state.response[item].id)} style={{display:'none'}} >Submit</div>
-                        <div className="editCustomField btn btn-small btn-primary" ref={"edit"+this.state.response[item].key + this.props.id} onClick={this.show.bind(this,this.state.response[item].key,this.props.id,)} style={{display:'block'}}>Edit</div>
+                        <div className="editCustomField btn btn-xs btn-primary" ref={"submit"+this.state.response[item].key + this.props.id} onClick={this.customFieldPost.bind(this,this.state.response[item].key,this.state.response[item].id)} style={{display:'none'}} >Submit</div>
+                        <div className="editCustomField btn btn-xs btn-primary" ref={"edit"+this.state.response[item].key + this.props.id} onClick={this.show.bind(this,this.state.response[item].key,this.props.id,)} style={{display:'block'}}>Edit</div>
                     </div>
                 </div>
               )
             })
 
           ):(
-            <h5 style={{color:'red'}}>No custom fields for this observation</h5>
+            <h5 style={{color:'red',marginLeft:'5%'}}>No custom fields for this observation</h5>
           )
         ):null
         }

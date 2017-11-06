@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import SignIn from '../../auth/Login.js'
+import LogIn from './Login.js'
 import axios from 'axios';
+import AuthUtils from './AuthUtils.js';
 
 const customStyles = {
   content : {
@@ -42,9 +43,10 @@ class ModalPopup extends React.Component {
   closeModal() {
     this.setState({modalIsOpen: false});
 
-   var newOptions=this.props.options
-   console.log(this.props.options.headers['X-Auth-Token'])
-   newOptions.headers['X-Auth-Token']=localStorage.getItem('token')
+    if(this.props.options)
+    {
+    var newOptions=this.props.options
+   newOptions.headers=AuthUtils.getAuthHeaders(),
     axios(newOptions)
     .then((response)=>{
       console.log("comment",response)
@@ -56,6 +58,10 @@ class ModalPopup extends React.Component {
       this.props.funcRefresh?(this.props.id1?this.props.funcRefresh(this.props.id1,this.props.id):this.props.funcRefresh(this.props.id)):null
       )
     })
+   }
+   else{
+     this.props.func?this.props.func():null
+   }
   }
 
   render() {
@@ -69,7 +75,7 @@ class ModalPopup extends React.Component {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <SignIn closeModal={this.closeModal}/>
+          <LogIn closeModal={this.closeModal}/>
         </Modal>
       </div>
     );

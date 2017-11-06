@@ -16,7 +16,7 @@ import {ClearObservationPage} from '../actions';
 
 import ObservationListWrapper from './ObservationListWrapper';
 
-import Right_stats from '../components/right_material';
+import Right_stats from '../app/RightMaterial';
 import MobileRightSidebar from '../app/MobileRightSidebar';
 
 const history = createHistory();

@@ -2,11 +2,18 @@ import React, {Component} from 'react';
 import LeftSidebar from './LeftSidebar';
 import  RightSidebar from './RightSidebar';
 import ObservationListContainer from '../observation/ObservationListContainer';
+import {fetchLanguages} from '../actions/index';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 class Content extends Component {
 
     constructor(){
         super();
+    }
+
+    componentDidMount(){
+      {this.props?this.props.fetchLanguages():null}
     }
 
     showSidebar(){
@@ -29,5 +36,13 @@ class Content extends Component {
     }
 }
 
-export default Content;
+function mapStateToProps(state){
+return {Languages:state.Languages,authenticated: state.auth.authenticated};
+}
 
+function mapDispatchToProps(dispatch){
+
+return bindActionCreators({fetchLanguages},dispatch);
+}
+
+ export default connect(mapStateToProps,mapDispatchToProps)(Content);

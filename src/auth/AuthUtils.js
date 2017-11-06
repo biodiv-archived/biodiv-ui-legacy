@@ -7,7 +7,8 @@ import loginService from './LoginService';
  */
 class AuthUtils {
     static isLoggedIn() {
-        if(!loginService.getAccessToken()) return true;
+      console.log(loginService.getAccessToken());
+        if(loginService.getAccessToken()) return true;
         else return false;
     }
 
@@ -24,13 +25,18 @@ class AuthUtils {
     }
 
     static currentUserHasRole(role) {
-        if(!loginService.getAccessToken()) {
+        if(loginService.getAccessToken()) {
             if(loginService.hasRole(role))  { return true; }
             else { return false; }
-        } else return false;       
+        } else return false;
+    }
+
+    static getAuthHeaders() {
+      return {
+        'X-Auth-Token' : loginService.getAccessToken(),
+        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288"
+      }
     }
 }
 
 export default AuthUtils;
-
-

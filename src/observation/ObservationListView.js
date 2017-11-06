@@ -14,7 +14,7 @@ import Tabs from './Tabs';
 import {Config} from '../Config';
 import UserGroup from '../util/UserGroup';
 import SpeciesGroup from '../util/SpeciesGroup';
-import {isLoggedIn} from '../components/auth/roles';
+import AuthUtils from '../auth/AuthUtils.js';
 
 
 class ListComponent extends Component{
@@ -68,7 +68,7 @@ fetchChange(id,event){
 
 handleEditUserGroupButton(previous_id){
 
-!isLoggedIn()?this.props.history.push("/login"):null;
+!AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
 
  let obj = this.state.data.find(x => x.name === this.state.updateUserGroup);
  console.log(obj)
@@ -188,16 +188,9 @@ objs.resource.map((images)=>{
                       </div>
                  </div>
               </div>
-              {objs.userGroups.map((item,index)=>{
-              return  (
-                  <div key={index} className="chip">
-                    <img src={`${Config.api.ROOT_URL}/biodiv/userGroups/${item.icon}`}/>
-                    <EllipsisText text={item.name} length={13} />
-                  </div>
-              )
-          })}
+              <Tabs objs={objs}/>
             </div>
-            
+
           <br />
         </div>
   )
