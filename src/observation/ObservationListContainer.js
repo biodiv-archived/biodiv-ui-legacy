@@ -18,6 +18,7 @@ import ObservationListWrapper from './ObservationListWrapper';
 
 import Right_stats from '../app/RightMaterial';
 import MobileRightSidebar from '../app/MobileRightSidebar';
+import AuthUtils from '../auth/AuthUtils.js';
 
 const history = createHistory();
 
@@ -39,10 +40,12 @@ class ObservationListContainer extends Component {
           isMediaFilter:undefined,
           sort:"lastRevised",
           webaddress:undefined,
-
         },
-        view:1
+        view:1,
+        selectAll:false,
+        urlforPassing:undefined
       }
+      this.url;
       const newparams=  queryString.parse(document.location.search);
       if(!newparams.sort){
         newparams.sort="lastRevised"
@@ -65,17 +68,17 @@ class ObservationListContainer extends Component {
           pathname:'/observation/list',
           search:search2
         })
-        this.props.fetchObservations(newparams)
+      this.props.fetchObservations(newparams)
       }
       else {
         history.push({
           pathname:'/observation/list',
           search:search2
         })
+
         this.props.fetchObservations(this.state.params)
       }
-
-
+      this.url="/observation/list?"+search2;
       this.loadMore=this.loadMore.bind(this);
     };
 
@@ -116,8 +119,11 @@ class ObservationListContainer extends Component {
             pathname:'/observation/list',
             search:search1
           })
+          let url="/observation/list?"+search1;
+          this.setState({
+            urlforPassing:url
+          })
           this.props.fetchObservations(params);
-
     }
 
       taxonFilterEventListner(e){
@@ -226,7 +232,8 @@ class ObservationListContainer extends Component {
           newparams.offset=0;
         }
         this.setState({
-          params:newparams
+          params:newparams,
+          urlforPassing:this.url
         })
 
       }
@@ -262,10 +269,11 @@ class ObservationListContainer extends Component {
         this.props.ClearObservationPage();
 
       }
-      displayData(view,objs,count){
+      displayData(view,objs,count,selectAll){
+        console.log("contain",this.state.selectAll)
           return(
           <div key={objs.id}>
-            <ObservationListWrapper objs={objs} view={view} count={count}/>
+            <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={objs} view={view} count={count} selectAll={selectAll} resetSelectAll={this.resetAll.bind(this)}/>
           </div>
         )
       }
@@ -278,6 +286,17 @@ class ObservationListContainer extends Component {
          showListView(){
           this.setState({
             view:1
+          })
+        }
+
+        selectAll(){
+          this.setState({
+            selectAll:true
+          })
+        }
+        resetAll(){
+          this.setState({
+            selectAll:false
           })
         }
 
@@ -308,6 +327,18 @@ class ObservationListContainer extends Component {
             <div className="btn-group">
             <button className={`btn ${this.state.view?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
            <button className={`btn ${this.state.view?"btn-default":"btn-success"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
+            {
+              (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
+              (
+                <button className="btn btn-info" onClick={this.selectAll.bind(this)}>Select All</button>
+              ):null
+            }
+            {
+              (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
+              (
+                <button className="btn btn-info" onClick={this.resetAll.bind(this)}>Reset All</button>
+              ):null
+            }
             </div>
             <div className="pull-right">
               <select className="form-control btn-default"  onChange={this.handleChangeCheckbox.bind(this)}>
@@ -318,7 +349,7 @@ class ObservationListContainer extends Component {
             </div>
             <br />
             <br />
-            {this.props.Observation.all?this.displayData(this.state.view,this.props.Observation.all,this.props.Observation.count):null}
+            {this.props.Observation.all?this.displayData(this.state.view,this.props.Observation.all,this.props.Observation.count,this.state.selectAll):null}
             {this.props.Observation.all.length ?(this.props.Observation.count)>(this.state.params.offset*10+10)?<button onClick={this.loadMore} type="submit" className="btn btn-primary">LoadMore</button>:null:null }
       </div>
     )

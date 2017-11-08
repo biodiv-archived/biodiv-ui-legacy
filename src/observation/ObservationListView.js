@@ -14,8 +14,8 @@ import Tabs from './Tabs';
 import {Config} from '../Config';
 import UserGroup from '../util/UserGroup';
 import SpeciesGroup from '../util/SpeciesGroup';
+import Navigate from '../bulk/Navigation.js'
 import AuthUtils from '../auth/AuthUtils.js';
-
 
 class ListComponent extends Component{
 
@@ -25,9 +25,10 @@ constructor(){
     data:[],
     AllUserGroup:"",
     updateUserGroup:"",
-    ObservationId:""
+    ObservationId:"",
+    bulk:false,
+    bulkId:[]
   }
-
 }
 getEditUserGroupMethod() {
        let me = this;
@@ -108,8 +109,40 @@ this.refs[sid2].style.display='none';
 
 }
 
+launchBulk(obvId){
+  let _bulkId=this.state.bulkId
+  function checkIndex(id){
+    return id==obvId
+  }
+  let index = _bulkId.findIndex(checkIndex)
+  console.log(index)
+  if(index<0)
+  {
+    _bulkId=_bulkId.concat(obvId)
+    this.setState({
+       bulkId:_bulkId,
+    })
+  }
+  else{
+   _bulkId.splice(index,1)
+    this.setState({
+       bulkId:_bulkId,
+    })
+  }
+  this.setState({
+     bulk:true,
+  })
 
-display(objs,index){
+}
+
+resetBulk(){
+  this.setState({
+    bulk:false
+  })
+}
+
+display(selectAll,objs,index){
+  console.log("slectAll",selectAll)
   const imageArray=[];
 objs.resource.map((images)=>{
   imageArray.push(images.url);
@@ -123,6 +156,15 @@ objs.resource.map((images)=>{
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
                         <ShowGallery thumbnail={objs.thumbnail} objs={objs} pos={index} objid={objs.id} imageArray={imageArray} noofimages={imageArray.length} />
+                        {
+                          (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
+                          (
+                            selectAll==true?
+                            (<input type="checkbox" className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)
+                            :
+                            (<input type="checkbox" className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
+                          ):null
+                        }
                     </div>
                   </div>
                   <div className=" col-xs-12 col-sm-9">
@@ -156,7 +198,7 @@ objs.resource.map((images)=>{
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
-                              <img className="img-circle" src={objs.author.icon} style={{height:'40px',width:'40px',padding:'2px'}} title={objs.author.name} />
+                              <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
                             </td>
                             <td className="col-xs-1 col-sm-1">
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.recoVotes.length}`}></span>
@@ -194,12 +236,17 @@ objs.resource.map((images)=>{
           <br />
         </div>
   )
+
 }
 
 render(){
+  console.log(this.state.bulkId)
+  console.log(this.state.bulk)
 return(
 <div>
-    {this.props.objsa.map(this.display.bind(this))}
+    {(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null }
+    {this.props.objsa.map(this.display.bind(this,this.props.selectAll))}
+
 </div>
 )
 }

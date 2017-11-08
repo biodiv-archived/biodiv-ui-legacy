@@ -16,10 +16,11 @@ class ObservationListWrapper extends Component{
     }
 
     render(){
+      console.log("wrap",this.props.selectAll)
         return(
                 <div>
                     {
-                    this.props.view?<ObservationListView   objsa={this.props.objs} />:<ObservationGridView objsa={this.props.objs} />
+                    this.props.view?<ObservationListView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll}  objsa={this.props.objs} />:<ObservationGridView objsa={this.props.objs} />
                     }
                     {this.props.Observation.count?null :<div style={{height:'600px',width:'660x'}} className="container-fluid">
                         <div className="row">

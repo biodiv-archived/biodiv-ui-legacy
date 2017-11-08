@@ -24,12 +24,29 @@ class AuthUtils {
         return AuthUtils.currentUserHasRole('ROLE_USERGROUP_FOUNDER');
     }
 
+    static isUserGroupExpert(){
+        return AuthUtils.currentUserHasRole('ROLE_USERGROUP_EXPERT');
+    }
+
+    static isUserGroupMember(){
+        return AuthUtils.currentUserHasRole('ROLE_USERGROUP_MEMBER');
+    }
+
+    static isSpeciesAdmin(){
+        return AuthUtils.currentUserHasRole('ROLE_SPECIES_ADMIN');
+    }
+
+    static isCepfAdmin(){
+        return AuthUtils.currentUserHasRole('ROLE_CEPF_ADMIN');
+    }
+
     static currentUserHasRole(role) {
         if(loginService.getAccessToken()) {
             if(loginService.hasRole(role))  { return true; }
             else { return false; }
         } else return false;
     }
+
 
     static getAuthHeaders() {
       return {

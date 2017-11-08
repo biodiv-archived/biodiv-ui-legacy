@@ -9,6 +9,7 @@ import commentWithTagStyle from './commentWithTagStyle.js'
 
 import { Config } from '../Config';
 import ModalPopup from '../auth/Modal.js';
+import AuthUtils from '../auth/AuthUtils.js';
 
 class RecoComment extends React.Component {
 
@@ -53,7 +54,7 @@ class RecoComment extends React.Component {
   getRecoComment(id1,id2){
     var d = new Date();
     var tym = d.getTime();
-    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id2+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -63,7 +64,7 @@ class RecoComment extends React.Component {
   getRecoCommentAgain(id1,id2){
     var d = new Date();
     var tym = d.getTime();
-    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id2+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -89,12 +90,8 @@ recoCommentPost(e){
   var tym = d.getTime();
   var options={
     method:'POST',
-    url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
-    headers :{
-      'X-Auth-Token' :localStorage.getItem('token'),
-      'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-      'Accept'        :"application/json"
-    },
+    url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id2+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
+    headers : AuthUtils.getAuthHeaders(),
     json: 'true'
   }
   if(value1!=="")
