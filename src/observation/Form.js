@@ -64,7 +64,7 @@ class Formsuggest extends React.Component {
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
-    if(cNameValue!=="" && sNameValue!=="")
+    if(cNameValue!=="" || sNameValue!=="")
     {
     axios(options)
         .then((response)=>{
