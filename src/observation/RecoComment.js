@@ -54,7 +54,7 @@ class RecoComment extends React.Component {
   getRecoComment(id1,id2){
     var d = new Date();
     var tym = d.getTime();
-    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id2+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -64,7 +64,7 @@ class RecoComment extends React.Component {
   getRecoCommentAgain(id1,id2){
     var d = new Date();
     var tym = d.getTime();
-    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id2+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -90,7 +90,7 @@ recoCommentPost(e){
   var tym = d.getTime();
   var options={
     method:'POST',
-    url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id2+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
+    url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
     headers : AuthUtils.getAuthHeaders(),
     json: 'true'
   }
