@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
-import {ROOT_URL} from '../../Config.js'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {fetchLanguages} from '../../actions/index';
-import ModalPopup from '../auth/modal.js';
 
+import { Config } from '../Config';
+import {fetchLanguages} from '../actions/index';
+import ModalPopup from '../auth/Modal.js';
+import AuthUtils from '../auth/AuthUtils.js';
 
 var Csuggest = []
 var Ssuggest = []
@@ -29,7 +30,7 @@ class Formsuggest extends React.Component {
       },
       suggestionsContainerOpen:{
         padding:'2px',
-        color:'red',
+        color:'black',
         border:'2px solid #D89922',
         height:'150px',
         overflowY:'scroll',
@@ -40,9 +41,7 @@ class Formsuggest extends React.Component {
       }
     }
   }
-componentDidMount(){
-  {this.props?this.props.fetchLanguages():null}
-}
+
   suggestIdPost(e){
     console.log("abvcgdgddd",e.target)
     e.preventDefault();
@@ -58,18 +57,14 @@ componentDidMount(){
     var suggestIdComment1="suggestIdComment"+this.props.id2
     var value1=this.refs[suggestIdComment1].value
     var obvId=this.props.id2
-
+    console.log(Config.api.ROOT_URL)
     var options={
       method:'POST',
-      url :   ROOT_URL+"/api/observation/addRecommendationVote?commonName="+cNameValue+"&languageName="+langValue+"&recoName="+sNameValue+"&recoId=&recoComment="+value1+"&obvId="+obvId+"&format=json",
-      headers :{
-        'X-Auth-Token' : localStorage.getItem('token'),
-        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-        'Accept'        :"application/json"
-      },
+      url :   Config.api.ROOT_URL+"/api/observation/addRecommendationVote?commonName="+cNameValue+"&languageName="+langValue+"&recoName="+sNameValue+"&recoId=&recoComment="+value1+"&obvId="+obvId+"&format=json",
+      headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
-    if(cNameValue!=="" && sNameValue!=="" && value1!=="")
+    if(cNameValue!=="" || sNameValue!=="")
     {
     axios(options)
         .then((response)=>{
@@ -103,7 +98,7 @@ componentDidMount(){
        console.log(inputValue)
         inputLength===0?C_Callback([]):
 
-        (axios.get(ROOT_URL+"/recommendation/suggest?term="+inputValue+"&nameFilter=commonNames&format=json")
+        (axios.get(Config.api.ROOT_URL+"/recommendation/suggest?term="+inputValue+"&nameFilter=commonNames&format=json")
         .then(function (response) {
 
 
@@ -122,7 +117,7 @@ componentDidMount(){
         const inputLength = inputValue.length;
         inputLength===0?S_Callback([]):
 
-        (axios.get(ROOT_URL+"/recommendation/suggest?term="+inputValue+"&nameFilter=scientificNames&format=json")
+        (axios.get(Config.api.ROOT_URL+"/recommendation/suggest?term="+inputValue+"&nameFilter=scientificNames&format=json")
         .then(function (response) {
 
 
@@ -236,7 +231,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
 
     const inputPropsC = {
       id: "cInput",
-      placeholder: 'Type a common name',
+      placeholder: 'Suggest a common name',
       value: Cvalue,
       onChange: this.onChange1,
 
@@ -244,7 +239,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
 
     const inputPropsS = {
       id: "sInput",
-      placeholder: 'Type a scientific name',
+      placeholder: 'Suggest a scientific name',
       value:Svalue,
       onChange: this.onChange2
     };
@@ -255,8 +250,8 @@ onSuggestionsFetchRequested_C = ({ value }) => {
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.props.getReco} id={this.props.id2}/>):null}
       <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)}>
           <div className="form-group row">
-            <label className="control-label col-sm-2" htmlFor="email">Common_Name:</label>
-            <div className="col-sm-7">
+            <label className="control-label col-sm-2" htmlFor="email">Common name:</label>
+            <div className="col-sm-8">
                 <Autosuggest
                   id="cInput"
                   theme={this.theme}
@@ -269,17 +264,18 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                   inputProps={inputPropsC}
                 />
              </div>
-             <div className="col-sm-3 ">
-                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'100%'}}/>
+             <div className="col-sm-2 ">
+                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'97%'}}/>
                    <datalist id="browsers">
                    {
-
-                         this.props.Languages.map((item)=>{
+                         this.props.Languages?(
+                         this.props.Languages.map((item,index)=>{
                            return(
-                           <div><option value={item}/></div>
+                           <div key={index}><option value={item} style={{fontColor:'green'}}/></div>
                          )
                          }
                        )
+                     ):null
 
 
                   }
@@ -287,8 +283,8 @@ onSuggestionsFetchRequested_C = ({ value }) => {
              </div>
           </div>
           <div className="form-group row">
-            <label className="control-label col-sm-2" htmlFor="email">Scientific_Name:</label>
-            <div className="col-sm-10">
+            <label className="control-label col-sm-2" htmlFor="email">Scientific name:</label>
+            <div className="col-sm-8">
                   <Autosuggest
                     id="sInput"
                     theme={this.theme}
@@ -304,13 +300,11 @@ onSuggestionsFetchRequested_C = ({ value }) => {
           </div>
           <div className="form-group row">
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
-              <div className="col-sm-10">
-                  <input type="text" className="form-control" id="comments" placeholder="give Comments" ref={"suggestIdComment"+this.props.id2} style={{width:'100%'}}/>
+              <div className="col-sm-8">
+                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%'}}/>
               </div>
-          </div>
-          <div className="form-group row">
-              <div className="col-sm-offset-10 col-sm-10">
-                  <input  type="submit" value="Add" className="btn btn-default" />
+              <div className="col-sm-2">
+                <input  type="submit" value="Add" className="btn btn-default btn-sm" />
               </div>
           </div>
       </form>

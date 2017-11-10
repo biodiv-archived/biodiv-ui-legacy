@@ -9,3 +9,9 @@
 #trait_facts.active{
   background-color: green;
 }
+
+.traitBtn {
+  margin-left:0.7%;
+  margin-top:0.7%;
+  margin-right:0.7%;
+}

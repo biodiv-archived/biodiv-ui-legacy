@@ -5,6 +5,7 @@ import * as AuthActions from './AuthActions';
 
 class Logout extends Component {
     componentWillMount() {
+      
         this.props.logout();
     }
     render() {

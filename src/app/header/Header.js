@@ -148,7 +148,7 @@ class Header extends React.Component {
                         : null}
                     </NavLink>
                     {`\u00A0`}
-                    <NavLink to="/signout">Logout</NavLink>
+                    <NavLink to="/logout">Logout</NavLink>
                   </div>
                 : <NavLink to="/login">Login</NavLink>}
             </div>

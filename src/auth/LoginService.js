@@ -13,16 +13,19 @@ class LoginService {
     setCredentials(response) {
         if(response == undefined) return;
 
-        var decoded = jwt_decode(response.access_token);
+        //HACK to use old grails token login
+        console.log(response);
+        this.loginStore.set({'id': response.model.id, 'email': response.model.username, 'roles': response.model.roles, 'aToken': response.model.token});
+/*      var decoded = jwt_decode(response.access_token);
         var expires_in = new Date();
         expires_in.setTime(expires_in.getTime() + decoded.exp);
         var roles = [];
         decoded['$int_roles'].map((item)=>{
             roles = roles.concat(item)
         })
-        
+
         this.loginStore.set({'id': decoded.id, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in});
-    }
+*/    }
 
     getCredentails() {
         return this.loginStore.get();
@@ -48,7 +51,7 @@ class LoginService {
         var c = this.loginStore.get();
         return JSON.parse(c.roles);
     }
-    
+
     hasRole(role) {
         return $.inArray(role, this.getCurrentUserRoles()) >= 0;
     }
@@ -76,20 +79,21 @@ class LoginStore {
         }
 
         this.get = function() {
-            if(_credentials != undefined) return _credentials;
+            if(_credentials != undefined && _credentials.hasOwnProperty('aToken')) return _credentials;
             else {
                 var items = {};
                 for(var key in localStorage) {
                     if(localStorage.hasOwnProperty(key) && key.startsWith('auth_'))
-                        var key = key.substring(key.indexOf('_') + 1);
+                        var auth_key = key.substring(key.indexOf('_') + 1);
                         if(key === 'roles') {
-                            items[key] = JSON.parse(localStorage.getItem(key));
+                            items[auth_key] = JSON.parse(localStorage.getItem(key));
                         } else
-                            items[key] = localStorage.getItem(key);
+                            items[auth_key] = localStorage.getItem(key);
                 }
                 _credentials = items;
+                console.log(_credentials);
                 return _credentials;
-            } 
+            }
         }
 
         this.clear = function() {

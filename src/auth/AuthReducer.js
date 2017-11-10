@@ -2,6 +2,7 @@ import * as AuthConstants from './AuthConstants';
 import { FETCH_MESSAGE } from '../actions/index'
 
 export default function(state = {}, action) {
+  console.log("check",action.type)
   switch(action.type) {
 
     case AuthConstants.AUTH_USER:

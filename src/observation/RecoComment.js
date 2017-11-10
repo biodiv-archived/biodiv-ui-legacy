@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {ROOT_URL} from '../../Config'
-import Moment from 'react-moment'
 import {connect} from 'react-redux';
+import Moment from 'react-moment'
 import {bindActionCreators} from 'redux';
-import ModalPopup from '../auth/modal.js';
 import { MentionsInput, Mention } from 'react-mentions'
+
 import commentWithTagStyle from './commentWithTagStyle.js'
+
+import { Config } from '../Config';
+import ModalPopup from '../auth/Modal.js';
+import AuthUtils from '../auth/AuthUtils.js';
 
 class RecoComment extends React.Component {
 
@@ -28,7 +31,7 @@ class RecoComment extends React.Component {
     var userData
    console.log(query)
    console.log(callback)
-   axios.get(ROOT_URL+"/user/terms?term="+query+"&format=json")
+   axios.get(Config.api.ROOT_URL+"/user/terms?term="+query+"&format=json")
        .then((response)=>{
          console.log("user response",response)
         let data1= response.data.map((user)=>{
@@ -51,7 +54,7 @@ class RecoComment extends React.Component {
   getRecoComment(id1,id2){
     var d = new Date();
     var tym = d.getTime();
-    axios.get(ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -61,7 +64,7 @@ class RecoComment extends React.Component {
   getRecoCommentAgain(id1,id2){
     var d = new Date();
     var tym = d.getTime();
-    axios.get(ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -87,12 +90,8 @@ recoCommentPost(e){
   var tym = d.getTime();
   var options={
     method:'POST',
-    url :   ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id2+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
-    headers :{
-      'X-Auth-Token' :localStorage.getItem('token'),
-      'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-      'Accept'        :"application/json"
-    },
+    url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
+    headers : AuthUtils.getAuthHeaders(),
     json: 'true'
   }
   if(value1!=="")
@@ -121,25 +120,24 @@ recoCommentPost(e){
 
 render(){
       return(
-      <div>
+      <span>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoComment} id={this.props.id2} id1={this.props.id1}/>):null}
       {
         this.state.response.hasOwnProperty('data')?
         (
-        <div className="btnagree row ">
+                <span className="comment-popup dropdown " ref={"popup"}>
 
-                <div className="comment-popup dropdown col-sm-12" ref={"popup"}>
-
-                    <a className="btn btn-mini btn-warning dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.show.bind(this,this.props.id2,this.props.id1)}>
+                    <a className="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown" href="#">
                                 <span className="glyphicon glyphicon-comment"></span>
                                 {" "}
                     {this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.length+this.state.response.data.model.remainingCommentCount):null}
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-right container col-sm-12" style={{width:'500px'}}>
-                          <div className="reco-comment-table" ref={"comment_table"+this.props.id2+this.props.id1} style={{display:'none'}} >
-                              <div className="post-comment" style={{width:'100%'}}>
+                    <ul className="dropdown-menu dropdown-menu-right" style={{width:'500px'}} >
+                          <div className="reco-comment-table" ref={"comment_table"+this.props.id2+this.props.id1}>
+                              <div className="post-comment">
                                   <form className="form-horizontal post-comment-form" style={{top:'3px'}} onSubmit={this.recoCommentPost.bind(this)}>
-  		                                <textarea  name="commentBody" className="comment-textbox col-md-offset-1" placeholder="Write comment on species call" style={{width:'80%'}}></textarea>
+                                    <div className="row">
+                                      <div className="col-sm-10" >
                                       <MentionsInput
                                           ref={"recoComment"+this.props.id2+this.props.id1}
                                           value={this.state.value}
@@ -153,24 +151,20 @@ render(){
                                             />
 
                                       </MentionsInput>
-                                      <span style={{color:'#B84A48',display:'none'}}>Please write comment</span>
-  		                                <input type="hidden" name="commentHolderId" value="954769"/>
-  		                                <input type="hidden" name="commentHolderType" value="species.participation.Recommendation"/>
-  		                                <input type="hidden" name="rootHolderId" value="1748655"/>
-  		                                <input type="hidden" name="rootHolderType" value="species.participation.Observation"/>
-  		                                <input type="hidden" name="commentType" value="context"/>
-  		                                <input type="hidden" name="newerTimeRef" value="1502431496258"/>
-  		                                <input type="hidden" name="commentPostUrl" value="/comment/addComment"/>
+                                      </div>
+                                      <div className="col-sm-2">
   		                                <input type="submit" value="Post" className="btn comment-post-btn btn-sm" />
+                                      </div>
+                                    </div>
   	                              </form>
                               </div>
                               <li className="divider row"></li>
                               <div className="previous-comments-container pre-scrollable">
                                    <ul>
                                       {
-                                          this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.map((item)=>{
+                                          this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.map((item,index)=>{
                                             return(
-                                              <li className="list-unstyled">
+                                              <li key={index} className="list-unstyled">
                                                   <div className="comment-container well well-sm" style={{width:'90%',marginLeft:'5%'}}>
                                                       <div className="row">
                                                             <div className="author-icon col-md-2">
@@ -198,7 +192,7 @@ render(){
                                                                   </div>
                                                                   <div className="comment body">
                                                                   {
-                                                                    item.text
+                                                                    <span style={{color:'black'}}>{item.text}</span>
                                                                   }
                                                                   </div>
                                                                   <div className="comment-attributes">
@@ -228,13 +222,11 @@ render(){
                               <input type="hidden" name="olderTimeRef" value/>
                           </div>
                     </ul>
-                </div>
-        </div>
-
+                </span>
 
       ):null
       }
-      </div>
+      </span>
     )
   }
 

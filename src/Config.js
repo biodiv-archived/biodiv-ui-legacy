@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import LoginService from './auth/LoginService';
+import AuthUtils from './auth/AuthUtils.js';
 
 export let ROOT_URL;
 export let API_ROOT_URL;
@@ -38,9 +39,7 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 
-//interceptor to include accessToken into all api requests
 axios.interceptors.response.use(function (response) {
-    // Add authorization headers before request is sent
     //console.log('---------------------ON RESPONSE START------------------------');
   //  console.log(response);
   //  console.log('---------------------ON RESPONSE END------------------------');
@@ -61,7 +60,7 @@ export let Config = {
             default : {
                 method : 'post',
                 baseURL:'',
-                url : API_ROOT_URL+'/login',
+                url : ROOT_URL+'/api/login',
                 headers : {'Content-Type' : 'application/x-www-form-urlencoded'},
                 data : {}
             },
@@ -73,8 +72,9 @@ export let Config = {
         },
         logout : {
             default : {
-                method : 'get',
-                url : '/logout',
+                method : 'post',
+                url : '/api/logout',
+                headers : AuthUtils.getAuthHeaders(),
                 data:{}
             }
         },

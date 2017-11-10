@@ -1,8 +1,9 @@
 import React,{Component} from "react"
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {fetchUniqueSpecies} from '../actions/index';
-import {ROOT_URL} from '../Config'
+
+import {fetchUniqueSpecies} from '../actions/index'
+import { Config } from '../Config';
 
 var previousParams=''
 var list=[]
@@ -13,6 +14,7 @@ class UniqueSpecies extends React.Component {
 
     this.count = 0;
     this.fetchUnique=this.fetchUnique.bind(this)
+    console.log("called again",this.props.params)
     if(this.props.params!==previousParams)
     {
       count=0;
@@ -49,13 +51,13 @@ class UniqueSpecies extends React.Component {
                                         {
                                         item.speciesId!==null?
                                         (
-                                          <td className="danger"><a href={ROOT_URL+"/species/show/"+item.speciesId}>{item.name}</a></td>
+                                          <td className="danger"><a href={Config.api.ROOT_URL+"/species/show/"+item.speciesId}>{item.name}</a></td>
                                         )
                                         :(
                                           <td className="danger"><a>{item.name}</a></td>
                                         )
                                       }
-                                         <td className="success"><a href={ROOT_URL+"/observation/list?recom="+item.recoId}>{item.count}</a></td>
+                                         <td className="success"><a href={Config.api.ROOT_URL+"/observation/list?recom="+item.recoId}>{item.count}</a></td>
                                     </tr>
                                   )
                         })

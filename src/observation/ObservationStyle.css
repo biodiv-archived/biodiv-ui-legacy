@@ -16,6 +16,16 @@ tr:not(.no-hover):hover {
     margin-left: 8px;
 }
 
+.checkbox{
+  position: absolute;
+ top: 0px;
+ left: 15px;
+ height:20px;
+ width:20px;
+ outline:1px solid #DC641A;
+
+}
+
 .chip img {
     float: left;
     margin: 0 10px 0 -25px;
