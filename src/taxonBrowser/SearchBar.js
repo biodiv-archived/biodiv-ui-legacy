@@ -37,21 +37,15 @@ class Example extends Component {
   }
 
 getSuggestions = (value,S_Callback) => {
-
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         const inputValue1= decodeURIComponent(inputValue);
-
         inputLength===0?S_Callback([]):
-
-
-        axios.get(Config.api.baseURL+"/recommendation/suggest?term="+inputValue1+"&nameFilter=scientificNames&format=json")
+        axios.get(`${Config.api.ROOT_URL}/taxon/search?term=${inputValue1}&format=json`)
         .then(function (response) {
-
-
-                Ssuggest=response.data.model.instanceList
+                Ssuggest=response.data
                 const new1_suggest=Ssuggest.filter(sci =>
-                   sci.value.toLowerCase().slice(0, inputLength) === inputValue)
+                   sci.name.toLowerCase().slice(0, inputLength) === inputValue)
                  S_Callback(new1_suggest);
         })
 
@@ -76,7 +70,7 @@ onSuggestionsFetchRequested = ({ value }) => {
   };
 
   getSuggestionValue = (suggestion) => {
-     return suggestion.value
+     return suggestion.name
    };
 
   onSuggestionsClearRequested = () => {
@@ -89,10 +83,9 @@ onSuggestionsFetchRequested = ({ value }) => {
 
 renderSuggestion = (suggestion,{query}) => {
      return(
-
-    <div className="dropdown">
-        <img src={suggestion.icon } width="40" height="40"/>
-        {suggestion.value}
+    <div className="Dropdown-autosuggest">
+        {suggestion.name}   <br /> {suggestion.status}| {suggestion.position}
+        <br />
     </div>
 
   )
@@ -101,9 +94,9 @@ renderSuggestion = (suggestion,{query}) => {
  handleSubmit(event){
      event.preventDefault();
      const data= this.refs["sunil"].autowhatever.input.defaultValue;
-     axios.get(`${Config.api.baseUrl}/taxon/search?str=${data}`).then((response)=>{
+     axios.get(`${Config.api.ROOT_URL}/taxon/retrieve/specificSearch?term=${data}`).then((response)=>{
       this.setState({
-        taxonValue:response.data
+        taxonValue:response.data,
       },()=>{
          var event = new CustomEvent("getSearchNode",{ "detail":{
         taxonValue:response.data

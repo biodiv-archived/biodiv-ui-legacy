@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import  queryString from 'query-string';
 import _ from "lodash";
 import  scrollIntoView  from 'dom-scroll-into-view';
+import Dropdown from 'react-dropdown'
 
 import 'rc-tree/assets/index.css';
 import style from './style.css';
@@ -24,7 +25,9 @@ constructor(){
     Selected:[],
     current:0,
     showButton:[],
-    title:[]
+    title:[],
+    classificationTable:[],
+    classificationSelected:{ value: '265799', label: 'India Biodiversity portal '}
 }
   this.onLoadData =this.onLoadData.bind(this);
   this.onCheck =this.onCheck.bind(this);
@@ -39,39 +42,50 @@ constructor(){
 gettaxonData(){
     const newparams=  queryString.parse(document.location.search);
     let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
+
+    let newkey=newparams.taxon?newparams.taxon.split(","):[];
     let expand_taxon=undefined;
     let parent=undefined;
-    this.setState({
-        checkedKeys:checkedKey,
-        Expanded:checkedKey
-    },()=>{
       if(checkedKey.length==1){
           if(checkedKey.includes("872")|| checkedKey.includes("122888")|| checkedKey.includes("2998")
           || checkedKey.includes("124658")|| checkedKey.includes("94899")|| checkedKey.includes("123467")||
           checkedKey.includes("64231")){
             this.props.fetchTaxonList(this.state.classification).then(()=>{
-            this.setScrollClass();
+              this.setState({
+                checkedKeys:checkedKey,
+              },()=>{
+                  this.setScrollClass();
+              })
             });;
       }
       else{
           expand_taxon=true;
           parent=checkedKey.join(",")
-          this.props.fetchTaxonList(this.state.classification,expand_taxon,parent).then(()=>{
-          this.setScrollClass();
-
+          this.props.fetchTaxonList(this.state.classification,expand_taxon,parent).then((response)=>{
+            this.setState({
+              Expanded:response.payload.data[0].ids,
+              checkedKeys:checkedKey,
+            },()=>{
+                this.setScrollClass();
+            })
           });
       }
       }
       else if(checkedKey.length>1){
         expand_taxon=true;
-      this.props.fetchTaxonList(this.state.classification,expand_taxon,checkedKey.join(",")).then((data)=>{
-        this.setScrollClass();
+      this.props.fetchTaxonList(this.state.classification,expand_taxon,checkedKey.join(",")).then((response)=>{
+        this.setState({
+          Expanded:response.payload.data[0].ids,
+          checkedKeys:checkedKey,
+        },()=>{
+            this.setScrollClass();
+        })
       });
       }
       else{
         this.props.fetchTaxonList(this.state.classification);
       }
-    })
+
 }
 
 getSearchNodeData(e){
@@ -80,14 +94,22 @@ let expand_taxon=true;
 let taxonToshow1=taxonToshow.join(",");
 taxonToshow1=taxonToshow1.split(",");
 taxonToshow1= _.uniqBy(taxonToshow1);
-this.setState({
-  Expanded:taxonToshow1,
-  Selected:taxonToshow1[0].split(","),
-  showButton:taxonToshow1
-})
-this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1[0]).then((data)=>{
-  console.log(this.state.Selected)
-  this.setScrollClass();
+this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1[0]).then((response)=>{
+
+  this.setState({
+    Expanded:response.payload.data?response.payload.data[0].ids:[],
+    Selected:taxonToshow1[0].split(","),
+    showButton:taxonToshow1
+  },()=>{
+      this.setScrollClass();
+      var event = new CustomEvent("getTaxon-filter",{ "detail":{
+        taxon:[],
+        classification:this.state.classification
+      }
+    });
+    document.dispatchEvent(event);
+  })
+
 });
 }
 
@@ -153,7 +175,23 @@ setScrollClass(){
 }
 
 }
+getClassificationData(){
+  axios.get(`${Config.api.ROOT_URL}/taxon/classification/list`).then((response)=>{
+    let data=[];
+    response.data.map((item)=>{
+      let obj={};
+      obj.label=item.name;
+      obj.value=item.id;
+      data.push(obj);
+    })
+      this.setState({
+      classificationTable:data
+    })
+
+  })
+}
   componentDidMount() {
+  this.getClassificationData();
   this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }
@@ -163,7 +201,7 @@ setScrollClass(){
   }
 
 generateTreeNodes(treeNode,classSystem,treeData,key) {
-    const parent=treeNode.props.path;
+    const parent=treeNode.props.parent;
   const arr = [];
   $.ajax({
    url:`${Config.api.ROOT_URL}/taxon/list`,
@@ -204,12 +242,10 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 }
 
   onCheck(checkedKeys,event) {
-
     let checkedKey=checkedKeys.checked;
     this.setState({
       checkedKeys:checkedKey
     })
-
     var event = new CustomEvent("getTaxon-filter",{ "detail":{
       taxon:checkedKey,
       classification:this.state.classification
@@ -238,11 +274,12 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     });
   }
 
-  changeTaxonomy(event){
-    this.props.fetchTaxonList(event.target.value);
-    this.setState({
-      classification:event.target.value
-    })
+  changeTaxonomy(data){
+    this.props.fetchTaxonList(data.value);
+     this.setState({
+       classification:data.value,
+       classificationSelected:data
+     })
   }
 
 
@@ -250,11 +287,10 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const loop = (data) => {
       return data.map((item) => {
         if (item.children) {
-          return <TreeNode title={item.text}  path={item.path} key={item.taxonid} taxonid={item.taxonid}>{loop(item.children)}</TreeNode>;
+          return <TreeNode title={item.text}  path={item.path} parent={item.taxonid} key={item.taxonid} taxonid={item.taxonid}>{loop(item.children)}</TreeNode>;
         }
         return (
-
-          <TreeNode  title={item.text} key={item.taxonid} isLeaf={item.isLeaf}
+          <TreeNode  title={item.text} key={item.taxonid} parent={item.taxonid} isLeaf={item.isLeaf}
             disabled={item.rank === 10} path={item.path} taxonid={item.taxonid}
           />
         );
@@ -263,6 +299,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const treeNodes = loop(this.props.treeData);
     return (
       <div>
+          {/*
           <div style={{paddingBottom:'0px',marginBottom:'0px'}} className="form-group form-inline"  >
             <select style={{width:'100%'}} onChange={this.changeTaxonomy.bind(this)}  className=" form-control" >
                 <option  value="265799">IBP (India Biodiversity portal )</option>
@@ -274,6 +311,8 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
                 <option  value="817">Author Contributed </option>
              </select>
             </div >
+             */}
+             <Dropdown options={this.state.classificationTable} value={this.state.classificationSelected} onChange={this.changeTaxonomy.bind(this)} placeholder="IBP" />
                 <div id="container-sunil" className="pre-scrollable">
                 <Tree
                   selectable={true}

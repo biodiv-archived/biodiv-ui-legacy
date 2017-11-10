@@ -117,7 +117,6 @@ objs.resource.map((images)=>{
 
   return (
     <div key= {index} className="container-fluid">
-
           <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '25px'}}>
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
@@ -156,7 +155,7 @@ objs.resource.map((images)=>{
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
-                              <img className="img-circle" src={objs.author.icon} style={{height:'40px',width:'40px',padding:'2px'}} title={objs.author.name} />
+                              <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
                             </td>
                             <td className="col-xs-1 col-sm-1">
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.recoVotes.length}`}></span>
@@ -188,16 +187,9 @@ objs.resource.map((images)=>{
                       </div>
                  </div>
               </div>
-              {objs.userGroups.map((item,index)=>{
-              return  (
-                  <div key={index} className="chip">
-                    <img src={`${Config.api.ROOT_URL}/biodiv/userGroups/${item.icon}`}/>
-                    <EllipsisText text={item.name} length={13} />
-                  </div>
-              )
-          })}
-            </div>
             
+            </div>
+
           <br />
         </div>
   )
