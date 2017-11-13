@@ -15,7 +15,7 @@ class CustomFields extends React.Component {
       login_modal:false,
       options:''
     }
-    console.log("custom called",this.props.id)
+
     this.getCustomFields=this.getCustomFields.bind(this)
     this.getCustomFields(this.props.id)
 
@@ -33,8 +33,7 @@ class CustomFields extends React.Component {
 
   }
 
-  show(key,obvId)
-  {
+  show(key,obvId){
     var text="box"+key+obvId
     var edit1="edit"+key+obvId
     var submit1="submit"+key+obvId

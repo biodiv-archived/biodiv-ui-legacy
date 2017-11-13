@@ -176,7 +176,7 @@ setScrollClass(){
 
 }
 getClassificationData(){
-  axios.get(`${Config.api.ROOT_URL}/taxon/classification/list`).then((response)=>{
+  axios.get(`${Config.api.API_ROOT_URL}/taxon/classification/list`).then((response)=>{
     let data=[];
     response.data.map((item)=>{
       let obj={};
@@ -204,7 +204,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const parent=treeNode.props.parent;
   const arr = [];
   $.ajax({
-   url:`${Config.api.ROOT_URL}/taxon/list`,
+   url:`${Config.api.API_ROOT_URL}/taxon/list`,
    data:{
       classSystem:classSystem,
       parent:parent

@@ -41,7 +41,7 @@ getSuggestions = (value,S_Callback) => {
         const inputLength = inputValue.length;
         const inputValue1= decodeURIComponent(inputValue);
         inputLength===0?S_Callback([]):
-        axios.get(`${Config.api.ROOT_URL}/taxon/search?term=${inputValue1}&format=json`)
+        axios.get(`${Config.api.API_ROOT_URL}/taxon/search?term=${inputValue1}&format=json`)
         .then(function (response) {
                 Ssuggest=response.data
                 const new1_suggest=Ssuggest.filter(sci =>
@@ -94,7 +94,7 @@ renderSuggestion = (suggestion,{query}) => {
  handleSubmit(event){
      event.preventDefault();
      const data= this.refs["sunil"].autowhatever.input.defaultValue;
-     axios.get(`${Config.api.ROOT_URL}/taxon/retrieve/specificSearch?term=${data}`).then((response)=>{
+     axios.get(`${Config.api.API_ROOT_URL}/taxon/retrieve/specificSearch?term=${data}`).then((response)=>{
       this.setState({
         taxonValue:response.data,
       },()=>{
@@ -112,34 +112,23 @@ renderSuggestion = (suggestion,{query}) => {
     const handleSubmit=this.props.handleSubmit;
     const { value, suggestions } = this.state;
     const inputProps = {
-      placeholder: '',
+      placeholder: 'Press enter button to search',
       value,
       onChange: this.onChange
     };
-
-
     return (
     <form onSubmit={this.handleSubmit.bind(this)}>
-      <div className="input-group">
-      <Autosuggest
-        theme={this.theme}
-        suggestions={suggestions}
-         ref={"sunil"}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-      />
-       <span className="input-group-btn" >
-        <button className="btn btn-primary btn-xs" type="submit">
-       <span className="glyphicon glyphicon-search"></span>
-       </button>
-      </span>
-
-       </div>
+          <Autosuggest
+            theme={this.theme}
+            suggestions={suggestions}
+            ref={"sunil"}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={this.getSuggestionValue}
+            renderSuggestion={this.renderSuggestion}
+            inputProps={inputProps}
+          />
     </form>
-
     );
   }
 }

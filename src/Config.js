@@ -7,16 +7,16 @@ export let ROOT_URL;
 export let API_ROOT_URL;
 
 if(process.env.NODE_ENV=="development" ){
-  ROOT_URL="http://localhost:8090/biodiv-api";
-  API_ROOT_URL="http://api.local.ibp.org";
+  ROOT_URL="https://pamba.strandls.com";
+  API_ROOT_URL="http://localhost:8090/biodiv-api";
 }
 if(process.env.NODE_ENV=="kk" ){
   ROOT_URL="http://indiabiodiversity.org";
-  API_ROOT_URL="https://pamba.strandls.com";
+  API_ROOT_URL="https://api.pamba.strandls.com";
 }
 if(process.env.NODE_ENV=="production" ){
   ROOT_URL="https://pamba.strandls.com";
-  API_ROOT_URL="http://api.local.ibp.org";
+  API_ROOT_URL="https://api.pamba.strandls.com"
 }
 
 axios.defaults.baseURL = ROOT_URL;
