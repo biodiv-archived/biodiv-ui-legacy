@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import queryString from 'query-string';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
+import axios from 'axios';
 import styles from './style.css';
+
 import {ClearObservationPage} from '../../../actions/index';
+import {Config}  from '../../../Config';
+
 const styles1 = {
   block: {
     maxWidth: 250
@@ -14,19 +18,16 @@ const styles1 = {
 };
 class SpeciesGroup extends Component {
   constructor(props) {
-
     super(props);
     this.state = {
-      active: false,
-      checked: false,
-       sGroupId: [],
+      sGroupId: [],
       queryParams: "",
-      title:[]
+      title:[],
+      list:[]
     }
   }
 
   setParameter() {
-
     const newparams = queryString.parse(document.location.search);
     if (newparams.sGroup) {
       const data = newparams.sGroup.split(",");
@@ -36,8 +37,16 @@ class SpeciesGroup extends Component {
 
     }
   }
+  getData(){
+    axios.get(`${Config.api.API_ROOT_URL}/species/list`).then((response)=>{
+      this.setState({
+        list:response.data
+      })
+    })
+  }
   componentDidMount() {
     this.setParameter();
+    this.getData();
   }
 
 
@@ -57,33 +66,19 @@ class SpeciesGroup extends Component {
     }
   render() {
     return (
-       < div >
        <CheckboxGroup
          name="groups"
          value={this.state.sGroupId}
          onChange={this.sChanged.bind(this)}>
-         <label><Checkbox value="841"/> Mammals</label>
-         <br/>
-         <label><Checkbox value="837"/> Birds</label>
-         <br/>
-         <label><Checkbox value="845"/> Fish</label>
-         <br/>
-         <label><Checkbox value="835"/> Amphibians</label>
-         <br/>
-         <label><Checkbox value="843"/> Reptiles</label>
-         <br/>
-         <label><Checkbox value="856"/> Molluscs</label>
-         <br/>
-         <label><Checkbox value="839"/> Arthropods</label>
-         <br/>
-         <label><Checkbox value="833"/> Plants</label>
-         <br/>
-         <label><Checkbox value="831"/> Fungi</label>
-         <br/>
-         <label><Checkbox value="830"/> Others</label>
+         {this.state.list.map((item,index)=>{
+           return(
+             <div key={index}>
+             <label><Checkbox value={item.id.toString()} />{item.name}</label>
+             </div>
+           )
+         })}
        </CheckboxGroup>
-      </div >)
+    )
   }
 }
-
 export default SpeciesGroup;

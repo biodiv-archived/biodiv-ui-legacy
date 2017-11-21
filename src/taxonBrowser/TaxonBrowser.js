@@ -94,7 +94,7 @@ let expand_taxon=true;
 let taxonToshow1=taxonToshow.join(",");
 taxonToshow1=taxonToshow1.split(",");
 taxonToshow1= _.uniqBy(taxonToshow1);
-this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1[0]).then((response)=>{
+this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1).then((response)=>{
 
   this.setState({
     Expanded:response.payload.data?response.payload.data[0].ids:[],
@@ -114,46 +114,40 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1[0]
 }
 
 nextFetch(){
-  let expand_taxon=true;
-  let data=this.state.Expanded;
+  let selected=this.state.Selected[0];
+  let showButton=this.state.showButton;
+  let index=showButton.indexOf(selected);
+  let size=showButton.length;
+  index=index+1;
+  index=index%size;
+  if(index<=size && index>=0){
+    this.setState({
+      Selected:showButton[index].split(",")
+    })
+  }
 
-  let dataMax=data.length;
-  let current=this.state.current;
-  let parent = (dataMax + current + 1) % dataMax;
-  this.props.fetchTaxonList(this.state.classification,expand_taxon,data[parent]).then((data)=>{
-    this.setScrollClass();
-  });
-  let SelectedData=data[parent];
-    SelectedData=SelectedData.toString();
-    let Selected=SelectedData.split(",");
-    current=current+1;
-  this.setState({
-    current,
-    Selected
-  })
+
 }
 prevFetch(){
-  let expand_taxon=true;
-  let data=this.state.Expanded;
-  let dataMax=data.length;
-  let current=this.state.current;
-  let parent = (dataMax + current - 1) % dataMax;
-  this.props.fetchTaxonList(this.state.classification,expand_taxon,data[parent]).then((data)=>{
-    this.setScrollClass();
-  });
- let SelectedData=data[parent];
-    SelectedData=SelectedData.toString();
-    let Selected=SelectedData.split(",");
-    current=current-1;
-  this.setState({
-    current,
-    Selected
-  })
+  let selected=this.state.Selected[0];
+  let showButton=this.state.showButton;
+  let index=showButton.indexOf(selected);
+  let size=showButton.length;
+  index=index-1;
+  index=index%size;
+  if(index<=size && index>=0){
+    this.setState({
+      Selected:showButton[index].split(",")
+    })
+  }
+
 
 }
 
 setScrollClass(){
+
   let scrollTo = $('#container-sunil');
+
   if(scrollTo && scrollTo.offset()) {
    let myContainer = $('ul li .rc-tree-node-selected')
     let myContainer1=$('ul li .rc-tree-checkbox-checked');
@@ -169,7 +163,7 @@ setScrollClass(){
     }
     if(myContainer1.length){
 
-       myContainer1[0].scrollIntoView({});
+       myContainer1[0].scrollIntoView();
     }
 
 }
@@ -213,7 +207,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
    success:(data)=>{
      data.map((item)=>{
           if(item){
-         arr.push({ text:item.text, id: item.id,taxonid:item.taxonid,parent:item.parent,path:item.path});
+         arr.push({ text:item.text, id: item.id,taxonid:item.taxonid,parent:item.parent,path:item.path,position:item.position,speciesId:item.speciesId});
           }
      })
      this.getNewTreeData(treeData,key,arr)
@@ -287,31 +281,21 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const loop = (data) => {
       return data.map((item) => {
         if (item.children) {
-          return <TreeNode title={item.text}  path={item.path} parent={item.taxonid} key={item.taxonid} taxonid={item.taxonid}>{loop(item.children)}</TreeNode>;
+          return(
+            <TreeNode className={item.position=="WORKING"?"colorBlue":item.position=="RAW"?"colorRed":item.position=="CLEAN"?"colorYellow":null} title={item.text}  path={item.path} parent={item.taxonid} key={item.taxonid} taxonid={item.taxonid}  position={item.position}
+            speciesId={item.speciesId} >{loop(item.children)}</TreeNode>
+          );
         }
         return (
-          <TreeNode  title={item.text} key={item.taxonid} parent={item.taxonid} isLeaf={item.isLeaf}
-            disabled={item.rank === 10} path={item.path} taxonid={item.taxonid}
+          <TreeNode className={item.position=="WORKING"?"colorBlue":item.position=="RAW"?"colorRed":item.position=="CLEAN"?"colorYellow":null} title={item.text} key={item.taxonid} parent={item.taxonid} isLeaf={item.isLeaf}
+           path={item.path} taxonid={item.taxonid} position={item.position} speciesId={item.speciesId}
           />
         );
       });
     };
     const treeNodes = loop(this.props.treeData);
     return (
-      <div>
-          {/*
-          <div style={{paddingBottom:'0px',marginBottom:'0px'}} className="form-group form-inline"  >
-            <select style={{width:'100%'}} onChange={this.changeTaxonomy.bind(this)}  className=" form-control" >
-                <option  value="265799">IBP (India Biodiversity portal )</option>
-                <option  value="819">IUCN Taxonomy Hierarchy </option>
-                <option  value="818">GBIF Taxonomy  </option>
-                <option  value="820"> FishBase Taxonomy Hierarchy  </option>
-                <option  value="265798">Combined Taxonomy Hierarchy </option>
-                <option  value="821">Catalogue of Life  </option>
-                <option  value="817">Author Contributed </option>
-             </select>
-            </div >
-             */}
+            <div>
              <Dropdown options={this.state.classificationTable} value={this.state.classificationSelected} onChange={this.changeTaxonomy.bind(this)} placeholder="IBP" />
                 <div id="container-sunil" className="pre-scrollable">
                 <Tree

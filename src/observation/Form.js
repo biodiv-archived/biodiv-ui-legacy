@@ -43,7 +43,7 @@ class Formsuggest extends React.Component {
   }
 
   suggestIdPost(e){
-    console.log("abvcgdgddd",e.target)
+
     e.preventDefault();
 
     var token=localStorage.getItem('token')
@@ -57,7 +57,7 @@ class Formsuggest extends React.Component {
     var suggestIdComment1="suggestIdComment"+this.props.id2
     var value1=this.refs[suggestIdComment1].value
     var obvId=this.props.id2
-    console.log(Config.api.ROOT_URL)
+
     var options={
       method:'POST',
       url :   Config.api.ROOT_URL+"/api/observation/addRecommendationVote?commonName="+cNameValue+"&languageName="+langValue+"&recoName="+sNameValue+"&recoId=&recoComment="+value1+"&obvId="+obvId+"&format=json",
@@ -68,7 +68,7 @@ class Formsuggest extends React.Component {
     {
     axios(options)
         .then((response)=>{
-          console.log("comment",response)
+
           this.props.getReco(this.props.id2)
         })
         .catch((response)=>{

@@ -72,7 +72,6 @@ handleEditUserGroupButton(previous_id){
 !AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
 
  let obj = this.state.data.find(x => x.name === this.state.updateUserGroup);
- console.log(obj)
  let url= `${Config.api.ROOT_URL}/api/observation/updateSpeciesGrp?group_id=${obj.id}&prev_group=${previous_id}&observationId=${this.state.ObservationId}`;
 let options={
     method:'POST',
@@ -142,7 +141,7 @@ resetBulk(){
 }
 
 display(selectAll,objs,index){
-  console.log("slectAll",selectAll)
+
   const imageArray=[];
 objs.resource.map((images)=>{
   imageArray.push(images.url);
@@ -228,8 +227,8 @@ objs.resource.map((images)=>{
                       </table>
                       </div>
                  </div>
-              </div>      
-              <Tabs objs={objs}/>
+              </div>
+              
             </div>
 
           <br />
@@ -239,8 +238,6 @@ objs.resource.map((images)=>{
 }
 
 render(){
-  console.log(this.state.bulkId)
-  console.log(this.state.bulk)
 return(
 <div>
     {(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null }

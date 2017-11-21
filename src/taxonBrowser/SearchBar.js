@@ -7,33 +7,32 @@ let Ssuggest=[];
 class Example extends Component {
   constructor() {
     super();
-
-    // Autosuggest is a controlled component.
-    // This means that you need to provide an input value
-    // and an onChange handler that updates this value (see below).
-    // Suggestions also need to be provided to the Autosuggest,
-    // and they are initially empty because the Autosuggest is closed.
     this.state = {
       value: '',
-      suggestions: []
+      suggestions: [],
+      values:{}
     };
-
     this.theme={
       input:{
         width:'100%'
       },
       suggestionsContainerOpen:{
-        padding:'2px',
-        color:'red',
-        border:'5px solid #D89922',
-        height:'150px',
-        overflowY:'scroll',
-
+        padding:'3px',
+        margin:'0px',
+        color:' #336699',
+        border:'1px solid #D89922',
+        height:'200px',
+        overflowY:'scroll'
       },
       suggestionHighlighted:{
-        backgroundColor: '#D5D822'
+        backgroundColor: '#FFFF00'
+      },
+      examplesContainer: {
+        'display': 'flex',
+        'flex-direction': 'column'
       }
     }
+    this.onSuggestionSelected=this.onSuggestionSelected.bind(this);
   }
 
 getSuggestions = (value,S_Callback) => {
@@ -46,17 +45,14 @@ getSuggestions = (value,S_Callback) => {
                 Ssuggest=response.data
                 const new1_suggest=Ssuggest.filter(sci =>
                    sci.name.toLowerCase().slice(0, inputLength) === inputValue)
-                 S_Callback(new1_suggest);
+                 S_Callback(Ssuggest);
         })
-
   };
 
   S_Callback =(suggestions)=> {
    this.setState({
      suggestions: suggestions
-
    });
-   console.log(suggestions)
   };
 
 onSuggestionsFetchRequested = ({ value }) => {
@@ -75,36 +71,59 @@ onSuggestionsFetchRequested = ({ value }) => {
 
   onSuggestionsClearRequested = () => {
     this.setState({
-      suggestions: [],
-      taxonValue:[]
+      suggestions: []
     });
   };
 
-
-renderSuggestion = (suggestion,{query}) => {
+  renderSuggestion = (suggestion,{query}) => {
      return(
     <div className="Dropdown-autosuggest">
-        {suggestion.name}   <br /> {suggestion.status}| {suggestion.position}
+        {suggestion.name}   <br /> {suggestion.status}| {suggestion.position} |{suggestion.rank}
+        <br/>
         <br />
     </div>
 
   )
   };
-
+ onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
+    this.setState({
+      values:suggestion
+    })
+  }
  handleSubmit(event){
      event.preventDefault();
-     const data= this.refs["sunil"].autowhatever.input.defaultValue;
-     axios.get(`${Config.api.API_ROOT_URL}/taxon/retrieve/specificSearch?term=${data}`).then((response)=>{
-      this.setState({
-        taxonValue:response.data,
-      },()=>{
-         var event = new CustomEvent("getSearchNode",{ "detail":{
-        taxonValue:response.data
-    }
-  });
-  document.dispatchEvent(event);
+     let data1=this.state.values?this.state.values:"";
+
+     const data= this.refs["input"].autowhatever.input.defaultValue;
+
+    if(data1.name){
+      axios.get(`${Config.api.API_ROOT_URL}/taxon/retrieve/specificSearch?term=${data1.name}&taxonid=${data1.id}`).then((response)=>{
+       this.setState({
+         taxonValue:response.data,
+       },()=>{
+          var event = new CustomEvent("getSearchNode",{ "detail":{
+               taxonValue:response.data
+             }
+          });
+          document.dispatchEvent(event);
+         this.onSuggestionsClearRequested();
+       })
       })
-     })
+    }
+    else{
+      axios.get(`${Config.api.API_ROOT_URL}/taxon/retrieve/specificSearch?term=${data}`).then((response)=>{
+       this.setState({
+         taxonValue:response.data,
+       },()=>{
+          var event = new CustomEvent("getSearchNode",{ "detail":{
+               taxonValue:response.data
+             }
+          });
+          document.dispatchEvent(event);
+         this.onSuggestionsClearRequested();
+       })
+      })
+    }
     };
 
 
@@ -120,13 +139,14 @@ renderSuggestion = (suggestion,{query}) => {
     <form onSubmit={this.handleSubmit.bind(this)}>
           <Autosuggest
             theme={this.theme}
-            suggestions={suggestions}
-            ref={"sunil"}
+            suggestions={this.state.suggestions}
+            ref={"input"}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
             onSuggestionsClearRequested={this.onSuggestionsClearRequested}
             getSuggestionValue={this.getSuggestionValue}
             renderSuggestion={this.renderSuggestion}
             inputProps={inputProps}
+            onSuggestionSelected={this.onSuggestionSelected}
           />
     </form>
     );

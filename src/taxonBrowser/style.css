@@ -1,11 +1,12 @@
-body {
-  font-family: Helvetica, sans-serif;
-}
+
 
 .react-autosuggest__container {
   position: relative;
 }
-
+.examplesContainer {
+  display: flex;
+  flex-direction: column;
+}
 .react-autosuggest__input {
   width: 240px;
   height: 30px;
@@ -105,7 +106,7 @@ body {
     width: 50px;
 }
 .rc-tree-node-selected {
-    background-color: #150a4e;
+    background-color: #2DDF21;
     border: 1px #260a71 solid;
     opacity: 2.8;
 }
@@ -206,4 +207,13 @@ body {
   cursor: default;
   display: block;
   padding: 3px 3px;
+}
+.colorRed{
+color:red
+}
+.colorBlue{
+color:black
+}
+.colorYellow{
+color:blue
 }
