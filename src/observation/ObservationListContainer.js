@@ -10,7 +10,6 @@ import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
 import _ from "lodash";
 
-
 import {fetchObservations} from './ObservationActions';
 import {ClearObservationPage} from '../actions';
 
@@ -39,7 +38,7 @@ class ObservationListContainer extends Component {
           speciesName:undefined,
           isMediaFilter:undefined,
           sort:"lastRevised",
-          webaddress:undefined,
+          webaddress:undefined
         },
         view:1,
         selectAll:false,
@@ -47,6 +46,16 @@ class ObservationListContainer extends Component {
       }
       this.url;
       const newparams=  queryString.parse(document.location.search);
+      let {groupName}=this.props.match.params;
+      let host = window.location.host;
+
+      let parts = host.split(".");
+      if (parts.length >= 4) {
+        newparams.webaddress=parts[0];
+        }
+      if(groupName){
+        newparams.webaddress=groupName;
+      }
       if(!newparams.sort){
         newparams.sort="lastRevised"
       }
@@ -60,24 +69,23 @@ class ObservationListContainer extends Component {
         newparams.count=0;
       }
       let search1=queryString.stringify(newparams);
-
-
        let search2 = decodeURIComponent( search1 );
           if(!deepEqual(this.state.params,newparams) ){
-        history.push({
-          pathname:'/observation/list',
+            history.push({
+          pathname:this.props.location.pathname,
           search:search2
         })
       this.props.fetchObservations(newparams)
       }
       else {
         history.push({
-          pathname:'/observation/list',
+          pathname:this.props.location.pathname,
           search:search2
         })
 
         this.props.fetchObservations(this.state.params)
       }
+
       this.url="/observation/list?"+search2;
       this.loadMore=this.loadMore.bind(this);
     };
@@ -91,9 +99,10 @@ class ObservationListContainer extends Component {
           let userGroupList=params.userGroupList;
           let taxon=params.taxon;
           let classification=params.classification;
+          let user=params.user;
           let offset=params.offset;
           let count=params.count;
-          let user=params.user;
+          let webaddress=params.webaddress;
           this.setState({
               params:{
                 taxon:taxon,
@@ -106,17 +115,20 @@ class ObservationListContainer extends Component {
                 speciesName:speciesName,
                 isMediaFilter:MediaFilter,
                 sort:params.sort,
-                user:user
+                user:user,
+                webaddress:webaddress
               }
           })
           params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");
           params.user=params.user.join(",");
+          params.count=0;
+          params.offset=0;
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           history.push({
-            pathname:'/observation/list',
+            pathname:this.props.location.pathname,
             search:search1
           })
           let url="/observation/list?"+search1;
@@ -244,7 +256,47 @@ class ObservationListContainer extends Component {
        let offset=count*10;
         params.count=count;
         params.offset=offset;
-       this.GlobalCall(params)
+        let sGroup=params.sGroup;
+        let isFlagged=params.isFlagged;
+        let speciesName=params.speciesName;
+        let MediaFilter=params.isMediaFilter;
+        let userGroupList=params.userGroupList;
+        let taxon=params.taxon;
+        let classification=params.classification;
+
+        let user=params.user;
+        let webaddress=params.webaddress;
+        this.setState({
+            params:{
+              taxon:taxon,
+              count:count,
+              classification:classification,
+              offset:offset,
+              sGroup:sGroup,
+              userGroupList:userGroupList,
+              isFlagged:isFlagged,
+              speciesName:speciesName,
+              isMediaFilter:MediaFilter,
+              sort:params.sort,
+              user:user,
+              webaddress:webaddress
+            }
+        })
+        params.taxon=params.taxon.join(",");
+        params.sGroup=params.sGroup.join(",");
+        params.userGroupList=params.userGroupList.join(",");
+        params.user=params.user.join(",");
+        const seacrh=queryString.stringify(params)
+        const search1=decodeURIComponent(seacrh);
+        history.push({
+          pathname:this.props.location.pathname,
+          search:search1
+        })
+        let url="/observation/list?"+search1;
+        this.setState({
+          urlforPassing:url
+        })
+        this.props.fetchObservations(params);
         }
 
       componentDidMount(){

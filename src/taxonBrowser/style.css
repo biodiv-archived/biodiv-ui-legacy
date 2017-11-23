@@ -105,11 +105,11 @@
    overflow-x: scroll;
     width: 50px;
 }
-.rc-tree-node-selected {
+/*.rc-tree-node-selected {
     background-color: #2DDF21;
     border: 1px #260a71 solid;
     opacity: 2.8;
-}
+}*/
 
 .result {
   padding: 8px 0;
