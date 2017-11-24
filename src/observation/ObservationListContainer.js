@@ -50,7 +50,7 @@ class ObservationListContainer extends Component {
       let host = window.location.host;
 
       let parts = host.split(".");
-      if (parts.length >= 4) {
+      if (parts.length >= 2) {
         newparams.webaddress=parts[0];
         }
       if(groupName){
@@ -373,9 +373,19 @@ class ObservationListContainer extends Component {
             <div className="pull-right">
               <Right_stats filterParams={this.state.params}/>
             </div>
-            {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":null}
+            {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":<div style={{height:'600px',width:'660x',marginTop:'80px'}} className="container-fluid">
+                <div className="row">
+                    <div className="col-sm-5">
+                    </div>
+                    <div className={`col-sm-2 loader`}>
+                    </div>
+                    <div className="col-sm-5">
+                    </div>
+                </div>
+            </div>}
             <br />
             <br />
+            
             <div className="btn-group">
             <button className={`btn ${this.state.view?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
            <button className={`btn ${this.state.view?"btn-default":"btn-success"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
@@ -392,6 +402,7 @@ class ObservationListContainer extends Component {
               ):null
             }
             </div>
+
             <div className="pull-right">
               <select className="form-control btn-default"  onChange={this.handleChangeCheckbox.bind(this)}>
                  <option  value="Last Visited">Last Visited</option>

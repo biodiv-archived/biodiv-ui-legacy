@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import $ from 'jquery'
+import {NavLink,withRouter} from 'react-router-dom';
+
 
 import './recoName.css'
 
@@ -17,7 +19,8 @@ class RecoName extends React.Component {
     this.state={
       response:'',
       login_modal:false,
-      options:''
+      options:'',
+      groupName:undefined
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
@@ -137,6 +140,19 @@ class RecoName extends React.Component {
             this.getRecoName(this.props.id)
           })
   }
+  setGroupName(){
+    let groupName=this.props.location.pathname.split("/")[2];
+    let groupsyntax=this.props.location.pathname.split("/")[1];
+    if(groupsyntax==="group"){
+      this.setState({
+        groupName
+      })
+    }
+
+  }
+  componentDidMount(){
+      this.setGroupName();
+  }
 
 
   render(){
@@ -160,12 +176,15 @@ class RecoName extends React.Component {
                       (
                           item.speciesId!=null?
                           (
-                              <a href={"http://indiabiodiversity.org/species/show/"+item.speciesId}>
-                                <i>
-                                    {item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
-                                    {"    "}
-                                </i>
-                             </a>
+                            this.state.groupName?
+                              <NavLink to={`/group/${this.state.groupName}/species/show/${item.speciesId}`}>
+                                <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
+                                {"    "}  </i></NavLink>
+
+                                :<NavLink to={`/species/show/${item.speciesId}`}>
+                                  <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
+                                {"    "}
+                            </i></NavLink>
                           ):
                           (
                               <a>
@@ -207,21 +226,22 @@ class RecoName extends React.Component {
                               return(
                                 <div key={index} className="col-sm-1">
                                 <li >
-                                <a  href={"http://indiabiodiversity.org/user/show/" + aut[0].id}   title={aut[0].name} >
-                                <img className="small-profile-pic img-circle"  src={aut[0].icon} width="30" height="30" />
-                                </a>
+                                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${aut[0].id}`}>    <img className="small-profile-pic img-circle" title={aut[0].name}  src={aut[0].icon} width="30" height="30" />
+                                  </NavLink>:<NavLink to={`/user/show/${aut[0].id}`}> <img className="small-profile-pic img-circle"  src={aut[0].icon} width="30" height="30" /></NavLink>}
                                 </li>
                                 </div>
                               )
                             })
-                        }
+                      }
                     </ul>
+
                </div>
                <div className="col-sm-3 col-md-6 col-lg-3 ">
                   <div className="row pull-right">
                   {
                     item.isLocked==false?
                     (
+
 
 
                           (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
@@ -251,7 +271,6 @@ class RecoName extends React.Component {
                         (
                           ($.inArray(parseInt(localStorage.getItem('id')),authArray))>=0?
                           (
-
 
                               item.isLocked==false?
                               (
@@ -320,4 +339,4 @@ class RecoName extends React.Component {
   }
 }
 
-export default RecoName;
+export default withRouter(RecoName);

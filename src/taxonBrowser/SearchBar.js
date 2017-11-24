@@ -1,6 +1,11 @@
 import React,{Component} from 'react';
 import Autosuggest from 'react-autosuggest';
 import axios from 'axios';
+import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
+import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
+
+
+import theme from './theme.css';
 import { Config } from '../Config';
 
 let Ssuggest=[];
@@ -12,26 +17,6 @@ class Example extends Component {
       suggestions: [],
       values:{}
     };
-    this.theme={
-      input:{
-        width:'100%'
-      },
-      suggestionsContainerOpen:{
-        padding:'3px',
-        margin:'0px',
-        color:' #336699',
-        border:'1px solid #D89922',
-        height:'200px',
-        overflowY:'scroll'
-      },
-      suggestionHighlighted:{
-        backgroundColor: '#FFFF00'
-      },
-      examplesContainer: {
-        'display': 'flex',
-        'flex-direction': 'column'
-      }
-    }
     this.onSuggestionSelected=this.onSuggestionSelected.bind(this);
   }
 
@@ -76,11 +61,21 @@ onSuggestionsFetchRequested = ({ value }) => {
   };
 
   renderSuggestion = (suggestion,{query}) => {
+    const suggestionText = `${suggestion.name}`;
+    const matches = AutosuggestHighlightMatch(suggestionText, query);
+    const parts = AutosuggestHighlightParse(suggestionText, matches);
      return(
-    <div className="Dropdown-autosuggest">
-        {suggestion.name}   <br /> {suggestion.status}| {suggestion.position} |{suggestion.rank}
-        <br/>
-        <br />
+    <div>
+      {
+        parts.map((part, index) => {
+          const className = part.highlight ? 'highlight' : null;
+          return (
+              <span className={className} key={index}>{part.text}</span>
+          );
+        })
+      }
+      <br />
+      {suggestion.status} | {suggestion.position} | {suggestion.rank}
     </div>
 
   )

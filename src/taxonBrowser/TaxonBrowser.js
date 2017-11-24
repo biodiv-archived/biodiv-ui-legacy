@@ -242,10 +242,19 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
   event.preventDefault();
 
   }
-  onExpand(expandedKeys){
-    this.setState({
-        Expanded:expandedKeys,
-    })
+  onExpand(expandedKeys,{expanded: bool, node}){
+    console.log(expandedKeys);
+    if(!bool){
+      this.setState({
+          Expanded:[],
+      })
+    }
+    else{
+      this.setState({
+          Expanded:expandedKeys,
+      })
+    }
+
   }
 
   onLoadData(treeNode) {

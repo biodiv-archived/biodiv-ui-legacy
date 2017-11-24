@@ -27,7 +27,8 @@ constructor(){
     updateUserGroup:"",
     ObservationId:"",
     bulk:false,
-    bulkId:[]
+    bulkId:[],
+    groupName:undefined
   }
 }
 getEditUserGroupMethod() {
@@ -49,8 +50,18 @@ getEditUserGroupMethod() {
            });
        });
    }
+   setGroupName(){
+     let groupName=this.props.location.pathname.split("/")[2];
+     let groupsyntax=this.props.location.pathname.split("/")[1];
+     if(groupsyntax==="group"){
+       this.setState({
+         groupName
+       })
+     }
 
+   }
 componentDidMount(){
+    this.setGroupName();
   this.showEditGroupList();
   this.getEditUserGroupMethod()
 
@@ -196,7 +207,9 @@ objs.resource.map((images)=>{
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
-                              <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
+                              {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${objs.author.id}`}>  <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
+                            </NavLink>:<NavLink to={`/user/show/${objs.author.id}`}>  <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} /></NavLink>}
+
                             </td>
                             <td className="col-xs-1 col-sm-1">
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.recoVotes.length}`}></span>
@@ -228,10 +241,10 @@ objs.resource.map((images)=>{
                       </div>
                  </div>
               </div>
-              
+              <Tabs objs={objs} />
+            <br />
             </div>
 
-          <br />
         </div>
   )
 

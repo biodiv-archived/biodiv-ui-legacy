@@ -168,7 +168,7 @@ render(){
                                                   <div className="comment-container well well-sm" style={{width:'90%',marginLeft:'5%'}}>
                                                       <div className="row">
                                                             <div className="author-icon col-md-2">
-                                                                  <a href={"http://indiabiodiversity.org/biodiv/user/show/"+ item.author.id}>
+                                                                  <a href={"/user/show/"+ item.author.id}>
                                                                       <img src={item.author.icon} title={item.author.name} width='40px' height='40px'/>
                                                                   </a>
                                                             </div>
@@ -179,7 +179,7 @@ render(){
                                                                           {
                                                                             this.props.speciesId!="no"?
                                                                             (
-                                                                              <a href={"http://indiabiodiversity.org/biodiv/species/show/"+this.props.speciesId}>
+                                                                              <a href={"/species/show/"+this.props.speciesId}>
                                                                                   <i>{" "}{this.props.name}</i>
                                                                               </a>
                                                                             ):
