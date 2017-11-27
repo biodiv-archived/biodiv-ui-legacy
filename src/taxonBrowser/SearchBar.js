@@ -131,7 +131,13 @@ onSuggestionsFetchRequested = ({ value }) => {
       onChange: this.onChange
     };
     return (
-    <form onSubmit={this.handleSubmit.bind(this)}>
+      <div>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+        <span className="pull-right">
+          <button  onClick={this.handleSubmit.bind(this)} style={{height:'25px',borderRadius:'5px',marginLeft:'-10px'}} className="btn btn-xs btn-default">
+            <i className="fa fa-search"></i>
+          </button>
+        </span>
           <Autosuggest
             theme={this.theme}
             suggestions={this.state.suggestions}
@@ -143,7 +149,9 @@ onSuggestionsFetchRequested = ({ value }) => {
             inputProps={inputProps}
             onSuggestionSelected={this.onSuggestionSelected}
           />
+
     </form>
+  </div>
     );
   }
 }
