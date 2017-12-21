@@ -59,7 +59,7 @@ class ObservationListContainer extends Component {
       let host = window.location.host;
 
       let parts = host.split(".");
-      if (parts.length >= 2) {
+      if (parts.length >= 4) {
         newparams.webaddress=parts[0];
         }
       if(groupName){
@@ -501,7 +501,7 @@ class ObservationListContainer extends Component {
                 </div>
                 <br />
                 <br />
-                
+
               <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
               <br />
               <InfiniteScroll

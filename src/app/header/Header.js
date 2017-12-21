@@ -84,8 +84,8 @@ class Header extends React.Component {
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/Observation/list`}>Observations
-                    </NavLink>:<NavLink to={`/Observation/list`}>Observations</NavLink>}
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/observation/list`}>Observations
+                    </NavLink>:<NavLink to={`/observation/list`}>Observations</NavLink>}
                     </li>
                     <li>
                       {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/checklist/index`}>Checklists
