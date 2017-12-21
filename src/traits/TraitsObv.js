@@ -137,7 +137,7 @@ submitTraits(id1,id2){
                         <div key={index} className="well well-sm" style={{width:'99%',marginLeft:'0.5%'}}>
                             <div className="name-and-button row">
                                 <div className="name col-sm-8" style={{margin:'0%'}}>
-                                    <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"} >
+                                    <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait."+item.id+"=any&max=&offset=0"} >
                                          <span>{item.name}</span>
                                      </a>
                                 </div>

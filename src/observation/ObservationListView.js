@@ -27,7 +27,8 @@ constructor(){
     updateUserGroup:"",
     ObservationId:"",
     bulk:false,
-    bulkId:[]
+    bulkId:[],
+    groupName:undefined
   }
 }
 getEditUserGroupMethod() {
@@ -49,8 +50,18 @@ getEditUserGroupMethod() {
            });
        });
    }
+   setGroupName(){
+     let groupName=this.props.location.pathname.split("/")[2];
+     let groupsyntax=this.props.location.pathname.split("/")[1];
+     if(groupsyntax==="group"){
+       this.setState({
+         groupName
+       })
+     }
 
+   }
 componentDidMount(){
+    this.setGroupName();
   this.showEditGroupList();
   this.getEditUserGroupMethod()
 
@@ -72,7 +83,6 @@ handleEditUserGroupButton(previous_id){
 !AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
 
  let obj = this.state.data.find(x => x.name === this.state.updateUserGroup);
- console.log(obj)
  let url= `${Config.api.ROOT_URL}/api/observation/updateSpeciesGrp?group_id=${obj.id}&prev_group=${previous_id}&observationId=${this.state.ObservationId}`;
 let options={
     method:'POST',
@@ -142,7 +152,7 @@ resetBulk(){
 }
 
 display(selectAll,objs,index){
-  console.log("slectAll",selectAll)
+
   const imageArray=[];
 objs.resource.map((images)=>{
   imageArray.push(images.url);
@@ -150,7 +160,6 @@ objs.resource.map((images)=>{
 
   return (
     <div key= {index} className="container-fluid">
-
           <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '25px'}}>
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
@@ -198,7 +207,9 @@ objs.resource.map((images)=>{
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
-                              <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
+                              {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${objs.author.id}`}>  <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
+                            </NavLink>:<NavLink to={`/user/show/${objs.author.id}`}>  <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} /></NavLink>}
+
                             </td>
                             <td className="col-xs-1 col-sm-1">
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.recoVotes.length}`}></span>
@@ -230,18 +241,16 @@ objs.resource.map((images)=>{
                       </div>
                  </div>
               </div>
-              <Tabs objs={objs}/>
+              <Tabs objs={objs} />
+            <br />
             </div>
 
-          <br />
         </div>
   )
 
 }
 
 render(){
-  console.log(this.state.bulkId)
-  console.log(this.state.bulk)
 return(
 <div>
     {(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null }

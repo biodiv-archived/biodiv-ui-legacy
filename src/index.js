@@ -17,7 +17,7 @@ import reducers from './reducers';
 import Footer from './app/footer/Footer';
 import Header from './app/header/Header';
 import HomePageContainer from './app/homePage/HomePageContainer';
-
+import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
@@ -40,8 +40,8 @@ ReactDOM.render(
           <Route exact path="/" component={HomePageContainer} />
           <Route exact path="/observation/list" component={App} props={search2} />
           <Route exact path="/login" component={Login}/>
-          <Route exact path="/logout" component={Logout} />
-          <Route  exact path="/group/:groupName/observation/list" component={App} />
+          <Route exact path="/logout" component={Logout} />  
+          <Route  path="/group/:groupName/observation" component={App} />
         </div>
         <Footer />
       </div>

@@ -1,17 +1,36 @@
 import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
+
+import {NavLink,withRouter} from 'react-router-dom';
+
 import {connect} from 'react-redux';
 import $ from 'jquery';
-
+import {Config} from '../../Config'
 import style from './style/headerstyle.css';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      groupName:undefined
+    }
+  }
+  setGroupName(){
+    let groupName=this.props.location.pathname.split("/")[2];
+    let groupsyntax=this.props.location.pathname.split("/")[1];
+    if(groupsyntax==="group"){
+      this.setState({
+        groupName
+      })
+    }
 
+  }
+  componentDidMount(){
+    this.setGroupName();
   }
 
   render() {
+
+
     return (
       <div className="container-fluid">
         <nav className="navbar navbar-default navbar-inverse" role="navigation" style={{
@@ -39,13 +58,13 @@ class Header extends React.Component {
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      <a href="https://pamba.strandls.com/species/list">Species Pages</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/species/list`}>Species Pages</NavLink>:<NavLink to={`/species/list`}>Species Pages</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN">Taxon Namelist</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</NavLink>:<NavLink to={`/namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/trait/list/?max=&offset=0">Species Traits</a>
+                    {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/trait/list/?max=&offset=0`}>Species Traits</NavLink>:<NavLink to={`/trait/list/?max=&offset=0`}>Species Traits</NavLink>}
                     </li>
                   </ul>
                 </li>
@@ -55,72 +74,87 @@ class Header extends React.Component {
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      <NavLink to="/Observation/list">Observations</NavLink>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/Observation/list`}>Observations
+                    </NavLink>:<NavLink to={`/Observation/list`}>Observations</NavLink>}
                     </li>
                     <li>
-                      <a href="#">Checklists</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/checklist/index`}>Checklists
+                    </NavLink>:<NavLink to={`/checklist/index`}>Checklists</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/datasource/list">Datasets</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/datasource/list`}>Datasets
+                    </NavLink>:<NavLink to={`/datasource/list`}>Datasets</NavLink>}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <a href="https://pamba.strandls.com/map">Maps</a>
+                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/map`}>Maps
+                </NavLink>:<NavLink to={`/map`}>Maps</NavLink>}
                 </li>
                 <li>
-                  <a href="https://pamba.strandls.com/document/list">Documents</a>
+                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/document/list`}>Documents
+                </NavLink>:<NavLink to={`/document/list`}>Documents</NavLink>}
+
                 </li>
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Contribute<span className="caret"></span>
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      <a href="https://pamba.strandls.com/species/contribute">Contribute to Species page</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/species/contribute`}>Contribute to Species page
+                    </NavLink>:<NavLink to={`/species/contribute`}>Contribute to Species page</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/observation/create">Add Observation</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/observation/create`}>Add Observation
+                    </NavLink>:<NavLink to={`/observation/create`}>Add Observation</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/observation/bulkCreate">
-                        Add Multiple Observations</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/observation/bulkCreate`}>  Add Multiple Observations
+                    </NavLink>:<NavLink to={`/observation/bulkCreate`}>  Add Multiple Observations</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/checklist/create">
-                        Add a list</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/checklist/create`}>Add a list
+                    </NavLink>:<NavLink to={`/checklist/create`}>Add a list</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/document/create">
-                        Add Documents</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/document/create`}>
+                    Add Documents</NavLink>:<NavLink to={`/document/create`}>Add Documents</NavLink>}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  <a href="https://pamba.strandls.com/discussion/list">Discussions</a>
+                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/discussion/list`}>Discussions
+                </NavLink>:<NavLink to={`/discussion/list`}>Discussions</NavLink>}
                 </li>
                 <li>
-                  <a href="https://pamba.strandls.com/group/list">Groups</a>
+                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/group/list`}>Groups
+                </NavLink>:<NavLink to={`/group/list`}>Groups</NavLink>}
                 </li>
                 <li>
-                  <a href="https://pamba.strandls.com/page/4246006">Pages</a>
+                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/page/4246006`}>Pages
+                </NavLink>:<NavLink to={`/page/4246006`}>Pages</NavLink>}
                 </li>
-
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">More
                     <span className="caret"></span>
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      <a href="https://pamba.strandls.com/activityFeed/list">Activity</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/activityFeed/list`}>Activity
+                    </NavLink>:<NavLink to={`/activityFeed/list`}>Activity</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/user/list">Participants</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/list`}>Participants
+                    </NavLink>:<NavLink to={`/user/list`}>Participants</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/chart/show">Dashboard</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/chart/show`}>Dashboard
+                    </NavLink>:<NavLink to={`/chart/show`}>Dashboard</NavLink>}
                     </li>
                     <li>
-                      <a href="https://pamba.strandls.com/theportal">About Us</a>
+                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/theportal`}>About
+                    </NavLink>:<NavLink to={`/theportal`}>About</NavLink>}
+
                     </li>
                   </ul>
                 </li>
@@ -173,8 +207,7 @@ class Header extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  console.log("state inside header", state.auth)
   return {authenticated: state.auth.authenticated, userData: state.auth.userData, UserProfile: state.UserProfile};
 }
 
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));

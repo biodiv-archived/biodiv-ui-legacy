@@ -62,7 +62,7 @@ class CommentsFeeds extends React.Component {
     }
     var feed1="feedbtn" + id
     var feedMore="moreFeedBtn"+id
-    axios.get("http://localhost:8090/biodiv-api"+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=5")
+    axios.get(Config.api.ROOT_URL+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=5")
         .then((response)=>{
           console.log(response.data)
           this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null

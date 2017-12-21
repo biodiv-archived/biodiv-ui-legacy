@@ -22,7 +22,8 @@ constructor(){
     checkedKeys:[],
     classification:"265799",
     Expanded:[],
-    Selected:[],
+    currentExpanded:[],
+  //  Selected:[],
     current:0,
     showButton:[],
     title:[],
@@ -64,6 +65,7 @@ gettaxonData(){
           this.props.fetchTaxonList(this.state.classification,expand_taxon,parent).then((response)=>{
             this.setState({
               Expanded:response.payload.data[0].ids,
+              currentExpanded:response.payload.data[0].ids,
               checkedKeys:checkedKey,
             },()=>{
                 this.setScrollClass();
@@ -77,6 +79,7 @@ gettaxonData(){
         this.setState({
           Expanded:response.payload.data[0].ids,
           checkedKeys:checkedKey,
+          currentExpanded:response.payload.data[0].ids
         },()=>{
             this.setScrollClass();
         })
@@ -97,7 +100,8 @@ taxonToshow1= _.uniqBy(taxonToshow1);
 this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1).then((response)=>{
   this.setState({
     Expanded:response.payload.data?response.payload.data[0].ids:[],
-    Selected:taxonToshow1[0].split(","),
+    currentExpanded:response.payload.data?response.payload.data[0].ids:[],
+  //  Selected:taxonToshow1[0].split(","),
     showButton:taxonToshow1
   },()=>{
       this.setScrollClass();
@@ -119,11 +123,11 @@ nextFetch(){
   let size=showButton.length;
   index=index+1;
   index=index%size;
-  if(index<=size && index>=0){
-    this.setState({
-      Selected:showButton[index].split(",")
-    })
-  }
+  // if(index<=size && index>=0){
+  //   this.setState({
+  //     Selected:showButton[index].split(",")
+  //   })
+  // }
 
 
 }
@@ -134,11 +138,11 @@ prevFetch(){
   let size=showButton.length;
   index=index-1;
   index=index%size;
-  if(index<=size && index>=0){
-    this.setState({
-      Selected:showButton[index].split(",")
-    })
-  }
+  // if(index<=size && index>=0){
+  //   this.setState({
+  //     Selected:showButton[index].split(",")
+  //   })
+  // }
 }
 
 setScrollClass(){
@@ -229,6 +233,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 }
 
   onCheck(checkedKeys,event) {
+    console.log(event);
     let checkedKey=checkedKeys.checked;
     this.setState({
       checkedKeys:checkedKey
@@ -243,15 +248,34 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 
   }
   onExpand(expandedKeys,{expanded: bool, node}){
-    console.log(expandedKeys);
+
     if(!bool){
+       let currentExpanded=this.state.currentExpanded;
+       currentExpanded.sort((a, b)=>{
+   return a.length - b.length;
+ });
+
+       let toRemove=node.props.eventKey;
+      let keep = true;
+
+currentExpanded = currentExpanded.filter((entry)=> {
+    if (entry === toRemove) {
+        keep = false;
+    }
+    if(keep){
+      return entry;
+    }
+});
+
       this.setState({
-          Expanded:[],
+          Expanded:currentExpanded,
+          currentExpanded
       })
     }
-    else{
+    else {
       this.setState({
           Expanded:expandedKeys,
+          currentExpanded:expandedKeys
       })
     }
 
@@ -277,7 +301,9 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
        classificationSelected:data
      })
   }
-
+onSelect(event){
+  console.log(event);
+}
 
   render() {
     const loop = (data) => {
@@ -301,8 +327,6 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
              <Dropdown options={this.state.classificationTable} value={this.state.classificationSelected} onChange={this.changeTaxonomy.bind(this)} placeholder="IBP" />
                 <div id="container-sunil" className="pre-scrollable">
                 <Tree
-                  selectable={true}
-                  multiple={true}
                   checkable={true}
                   onCheck={this.onCheck}
                   checkedKeys={this.state.checkedKeys}
@@ -312,7 +336,8 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
                   checkStrictly={true}
                   onExpand={this.onExpand}
                   expandedKeys={this.state.Expanded}
-                  selectedKeys={this.state.Selected}
+
+                  //selectedKeys={this.state.Selected}
                 >
                   {treeNodes}
                 </Tree >

@@ -14,7 +14,7 @@ class LoginService {
         if(response == undefined) return;
 
         //HACK to use old grails token login
-        console.log(response);
+
         this.loginStore.set({'id': response.model.id, 'email': response.model.username, 'roles': response.model.roles, 'aToken': response.model.token});
 /*      var decoded = jwt_decode(response.access_token);
         var expires_in = new Date();
@@ -91,7 +91,7 @@ class LoginStore {
                             items[auth_key] = localStorage.getItem(key);
                 }
                 _credentials = items;
-                console.log(_credentials);
+            
                 return _credentials;
             }
         }
