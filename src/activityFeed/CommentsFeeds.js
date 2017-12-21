@@ -15,11 +15,16 @@ class CommentsFeeds extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      response:null,
+      response:[],
       login_modal:false,
       options:'',
-      value:''
+      value:'',
+      remainingFeedCount:null
     }
+    this.semiFeeds=[];
+    this.res=[];
+    this.refTym='';
+    this.fetchCount=0;
   }
 
   getUsers(query, callback){
@@ -47,17 +52,34 @@ class CommentsFeeds extends React.Component {
  }
 
  fetchFeeds(id){
-    var d = new Date();
-    var tym = d.getTime();
-    console.log(tym)
+    var refTime;
+    if(this.fetchCount>0){
+      refTime = this.refTym
+    }else{
+      var d = new Date();
+      var tym = d.getTime();
+      refTime = tym;
+    }
     var feed1="feedbtn" + id
-    this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null
-    axios.get(Config.api.ROOT_URL+"/activityFeed/getFeeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&activityHolderId=&activityHolderType=&feedType=Specific&feedCategory=&feedClass=&feedPermission=editable&feedOrder=oldestFirst&subRootHolderId=&subRootHolderType=&feedHomeObjectId="+id+"&feedHomeObjectType=species.participation.Observation&webaddress=&userGroupFromUserProfile=&refreshType=manual&timeLine=older&refTime="+tym+"&user=&")
+    var feedMore="moreFeedBtn"+id
+    axios.get("http://localhost:8090/biodiv-api"+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=5")
         .then((response)=>{
           console.log(response.data)
+          this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null
+          this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="block"):null
+          if(response.data.remainingFeedCount ==0){
+            this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="none"):null
+          }
+
+          this.semiFeeds=response.data.model.feeds
+          this.semiFeeds=this.semiFeeds.concat(this.state.response)
+          console.log("semifeeeeds",this.semiFeeds)
           this.setState({
-            response:response.data.model
+            response:this.semiFeeds,
+            remainingFeedCount:response.data.remainingFeedCount
           })
+          this.refTym = response.data.olderTimeRef
+          this.fetchCount++
         })
   }
 
@@ -100,6 +122,7 @@ class CommentsFeeds extends React.Component {
 
 
   render(){
+    console.log(this.state.response,"dhhhhhhhhhhhhhhhhhhhhhhhhhh")
     return(
       <div style={{marginTop:'1%'}}>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} />):null}
@@ -126,20 +149,21 @@ class CommentsFeeds extends React.Component {
                   <input type="hidden" name="feedHomeObjectId" value="1747730"/>
                   <input type="hidden" name="feedHomeObjectType" value="species.participation.Observation"/>
                   <div className="row" style={{marginLeft:'2%'}}>
-                      <a className="activiyfeednewermsg yj-thread-replies-container yj-show-older-replies" style={{display:'none'}} href="#" title="load new feeds" >Click to see  feeds</a>
-                      <a className="activiyfeedoldermsg yj-thread-replies-container yj-show-older-replies" style={{display:'block'}}  title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>
+                      <a className="activiyfeednewermsg " style={{display:'none'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{"Show "+this.state.remainingFeedCount+ " older Feed(s)"}</a>
+                      <a className="activiyfeedoldermsg " style={{display:'block'}} title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>
                   </div>
                   <ul className="list-unstyled row" id={this.props.id+"feedlist"} style={{width:'95%',marginLeft:'2%'}}>
                       {
                         this.state.response?(
-                          this.state.response.feeds.map((item,index)=>{
+                          this.state.response.length>0?(
+                          this.state.response.map((item,index)=>{
                             return(
                               <li key={index} style={{display:'list-item'}}>
-                                  <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.3%'}}>
+                                  <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.3%',marginTop:'0.2%',marginBottom:'0.2%'}}>
                                       <div className="row">
                                             <div  className="author-icon col-sm-2">
                                                 <a href={Config.api.ROOT_URL+"/user/show/" + item.author.id}>
-                                                    <img className="small-profile-pic" src={item.author.icon} title={item.author.name} height='40px' width='40px'/>
+                                                    <img className="small-profile-pic" src={Config.api.ROOT_URL+"/users/"+item.author.icon} title={item.author.name} height='40px' width='40px'/>
                                                 </a>
                                             </div>
                                             <div className="feed col-sm-9" style={{marginLeft:'1%'}}>
@@ -163,9 +187,11 @@ class CommentsFeeds extends React.Component {
                             )
                           })
                         ):null
+                      ):null
                       }
                   </ul>
             </div>
+            <br/>
             <div className="comment" >
                     <form className="form-horizontal post-comment-form" onSubmit={this.commentPost.bind(this)}>
                         <div className="row">

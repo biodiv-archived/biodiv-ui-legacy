@@ -151,7 +151,7 @@ class RecoName extends React.Component {
         this.state.response.recoVotes.map((item,index)=>{
           var authArray=[]
             return(
-          <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%'}}>
+          <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.2%'}}>
               <div className="dropdown col-sm-9 col-md-6 col-lg-9">
                 {
                   item.isScientificName===true?
@@ -303,6 +303,7 @@ class RecoName extends React.Component {
     ):null
     }
       </div>
+      <br/>
       <div>
           {
             this.props.isLocked==false?

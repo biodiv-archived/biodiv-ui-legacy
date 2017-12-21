@@ -7,7 +7,7 @@ export let ROOT_URL;
 export let API_ROOT_URL;
 
 if(process.env.NODE_ENV=="development" ){
-  ROOT_URL="http://localhost:8080/biodiv";
+  ROOT_URL="https://pamba.strandls.com";
   API_ROOT_URL="http://api.local.ibp.org";
 }
 if(process.env.NODE_ENV=="kk" ){
