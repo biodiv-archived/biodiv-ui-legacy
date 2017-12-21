@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Button from 'material-ui/Button';
+import {Button} from 'react-bootstrap';
 import createHistory from 'history/createBrowserHistory';
 import EllipsisText  from 'react-ellipsis-text';
 import  queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
 import _ from "lodash";
+
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {fetchObservations} from './ObservationActions';
 import {ClearObservationPage} from '../actions';
@@ -38,7 +40,13 @@ class ObservationListContainer extends Component {
           speciesName:undefined,
           isMediaFilter:undefined,
           sort:"lastRevised",
-          webaddress:undefined
+          webaddress:undefined,
+          minYear:undefined,
+          maxYear:undefined,
+          months:[],
+          minDay:undefined,
+          maxDay:undefined,
+          hasMore:true
         },
         view:1,
         selectAll:false,
@@ -47,6 +55,7 @@ class ObservationListContainer extends Component {
       this.url;
       const newparams=  queryString.parse(document.location.search);
       let {groupName}=this.props.match.params;
+
       let host = window.location.host;
 
       let parts = host.split(".");
@@ -68,6 +77,9 @@ class ObservationListContainer extends Component {
       if(!newparams.count){
         newparams.count=0;
       }
+      if(!newparams.hasMore){
+        newparams.hasMore=true;
+      }
       let search1=queryString.stringify(newparams);
        let search2 = decodeURIComponent( search1 );
           if(!deepEqual(this.state.params,newparams) ){
@@ -75,7 +87,7 @@ class ObservationListContainer extends Component {
           pathname:this.props.location.pathname,
           search:search2
         })
-      this.props.fetchObservations(newparams)
+      this.props.fetchObservations(newparams);
       }
       else {
         history.push({
@@ -88,6 +100,7 @@ class ObservationListContainer extends Component {
 
       this.url="/observation/list?"+search2;
       this.loadMore=this.loadMore.bind(this);
+
     };
 
 
@@ -103,6 +116,13 @@ class ObservationListContainer extends Component {
           let offset=params.offset;
           let count=params.count;
           let webaddress=params.webaddress;
+
+          let minYear=params.minYear;
+          let maxYear=params.maxYear;
+          let minDay=params.minDay;
+          let maxDay=params.maxDay;
+          let months=params.months;
+          let hasMore=params.hasMore;
           this.setState({
               params:{
                 taxon:taxon,
@@ -116,13 +136,20 @@ class ObservationListContainer extends Component {
                 isMediaFilter:MediaFilter,
                 sort:params.sort,
                 user:user,
-                webaddress:webaddress
+                webaddress:webaddress,
+                minYear:minYear,
+                maxYear:maxYear,
+                minDay:minDay,
+                maxDay:maxDay,
+                months:months,
+                hasMore:hasMore
               }
           })
           params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");
           params.user=params.user.join(",");
+          params.months=params.months.join(",");
           params.count=0;
           params.offset=0;
           const seacrh=queryString.stringify(params)
@@ -136,6 +163,7 @@ class ObservationListContainer extends Component {
             urlforPassing:url
           })
           this.props.fetchObservations(params);
+
     }
 
       taxonFilterEventListner(e){
@@ -196,6 +224,34 @@ class ObservationListContainer extends Component {
       this.GlobalCall(params);
 
     }
+    yearFilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+      params.maxYear=e.detail.maxYear;
+      params.minYear=e.detail.minYear;
+      this.GlobalCall(params);
+    }
+    monthsFilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.months){
+        params.months=[];
+      }
+      params.months=e.detail.months;
+      this.GlobalCall(params);
+
+
+    }
+    dayFilterEventListner(e){
+      this.props.ClearObservationPage();
+
+      const params=this.state.params;
+      params.maxDay=e.detail.maxDay;
+      params.minDay=e.detail.minDay;
+      this.GlobalCall(params);
+    }
+
     sortObservation(sortby){
       this.props.ClearObservationPage();
 
@@ -233,12 +289,24 @@ class ObservationListContainer extends Component {
         else{
           newparams.user=[];
         }
+        if(newparams.months){
+          newparams.months=newparams.months.split(",");
+        }
+        else{
+          newparams.months=[];
+        }
 
         if(groupName){
           newparams.webaddress=groupName;
         }
         if(!newparams.max){
           newparams.max=10;
+        }
+        if(!newparams.count){
+          newparams.count=0;
+        }
+        if(!newparams.hasMore){
+          newparams.hasMore=true;
         }
         if(!newparams.offset){
           newparams.offset=0;
@@ -266,6 +334,15 @@ class ObservationListContainer extends Component {
 
         let user=params.user;
         let webaddress=params.webaddress;
+
+        let minYear=params.minYear;
+        let maxYear=params.maxYear;
+        let minDay=params.minDay;
+        let maxDay=params.maxDay;
+        let months=params.months;
+        let hasMore=params.hasMore;
+        hasMore=this.props.Observation?this.props.Observation.count>offset+10?true:false:true;
+
         this.setState({
             params:{
               taxon:taxon,
@@ -279,24 +356,33 @@ class ObservationListContainer extends Component {
               isMediaFilter:MediaFilter,
               sort:params.sort,
               user:user,
-              webaddress:webaddress
+              webaddress:webaddress,
+              minYear:minYear,
+              maxYear:maxYear,
+              minDay:minDay,
+              maxDay:maxDay,
+              months:months,
+              hasMore:hasMore
             }
         })
         params.taxon=params.taxon.join(",");
         params.sGroup=params.sGroup.join(",");
         params.userGroupList=params.userGroupList.join(",");
         params.user=params.user.join(",");
+        params.months=params.months.join(",");
         const seacrh=queryString.stringify(params)
         const search1=decodeURIComponent(seacrh);
-        history.push({
-          pathname:this.props.location.pathname,
-          search:search1
-        })
+        // history.push({
+        //   pathname:this.props.location.pathname,
+        //   search:search1
+        // })
         let url="/observation/list?"+search1;
         this.setState({
           urlforPassing:url
         })
+
         this.props.fetchObservations(params);
+
         }
 
       componentDidMount(){
@@ -308,6 +394,10 @@ class ObservationListContainer extends Component {
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
         document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
 
+        document.addEventListener("year-filter", this.yearFilterEventListner.bind(this));
+        document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
+        document.addEventListener("day-filter", this.dayFilterEventListner.bind(this));
+
 
 
       }
@@ -318,11 +408,16 @@ class ObservationListContainer extends Component {
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
         document.addEventListener("isMediaFilter-filter", this.isMediaFilterEventListner.bind(this));
         document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
+
+        document.addEventListener("year-filter", this.yearFilterEventListner.bind(this));
+        document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
+        document.addEventListener("day-filter", this.dayFilterEventListner.bind(this));
+
         this.props.ClearObservationPage();
 
       }
       displayData(view,objs,count,selectAll){
-        console.log("contain",this.state.selectAll)
+
           return(
           <div key={objs.id}>
             <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={objs} view={view} count={count} selectAll={selectAll} resetSelectAll={this.resetAll.bind(this)}/>
@@ -365,15 +460,59 @@ class ObservationListContainer extends Component {
         }
 
   render(){
+
     return(
       <div>
-            <div className="hidden-sm hidden-md hidden-lg">
-              <MobileRightSidebar />
+
+            {this.props.Observation.count?
+              <div>
+                <div className="hidden-sm hidden-md hidden-lg">
+                  <MobileRightSidebar />
+                  </div>
+                <div className="pull-right">
+                  <Right_stats filterParams={this.state.params}/>
+                </div>
+
+                <button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>
+                <br /><br />
+                <div className="btn-group">
+                <button className={`btn ${this.state.view?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
+               <button className={`btn ${this.state.view?"btn-default":"btn-success"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
+                {
+                  (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
+                  (
+                    <button className="btn btn-info" onClick={this.selectAll.bind(this)}>Select All</button>
+                  ):null
+                }
+                {
+                  (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
+                  (
+                    <button className="btn btn-info" onClick={this.resetAll.bind(this)}>Reset All</button>
+                  ):null
+                }
+                </div>
+
+                <div className="pull-right">
+                  <select className="form-control btn-default"  onChange={this.handleChangeCheckbox.bind(this)}>
+                     <option  value="Last Visited">Last Visited</option>
+                     <option value="Latest">Latest</option>
+                     <option value="Most Viewed">Most Viewed</option>
+                   </select>
+                </div>
+                <br />
+                <br />
+                
+              <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
+              <br />
+              <InfiniteScroll
+                next={this.loadMore.bind(this)}
+                hasMore={this.state.params.hasMore}
+                loader={ <Button bsStyle="success" bsSize="small" block>Loading ............</Button>}
+                >
+              </InfiniteScroll>
               </div>
-            <div className="pull-right">
-              <Right_stats filterParams={this.state.params}/>
-            </div>
-            {this.props.Observation.count?<button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>:(this.props.Observation.count===0)?"No result found":<div style={{height:'600px',width:'660x',marginTop:'80px'}} className="container-fluid">
+
+            :(this.props.Observation.count===0)?"No result found":<div style={{height:'600px',width:'660x',marginTop:'80px'}} className="container-fluid">
                 <div className="row">
                     <div className="col-sm-5">
                     </div>
@@ -385,35 +524,6 @@ class ObservationListContainer extends Component {
             </div>}
             <br />
             <br />
-            
-            <div className="btn-group">
-            <button className={`btn ${this.state.view?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
-           <button className={`btn ${this.state.view?"btn-default":"btn-success"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
-            {
-              (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
-              (
-                <button className="btn btn-info" onClick={this.selectAll.bind(this)}>Select All</button>
-              ):null
-            }
-            {
-              (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
-              (
-                <button className="btn btn-info" onClick={this.resetAll.bind(this)}>Reset All</button>
-              ):null
-            }
-            </div>
-
-            <div className="pull-right">
-              <select className="form-control btn-default"  onChange={this.handleChangeCheckbox.bind(this)}>
-                 <option  value="Last Visited">Last Visited</option>
-                 <option value="Latest">Latest</option>
-                 <option value="Most Viewed">Most Viewed</option>
-               </select>
-            </div>
-            <br />
-            <br />
-            {this.props.Observation.all?this.displayData(this.state.view,this.props.Observation.all,this.props.Observation.count,this.state.selectAll):null}
-            {this.props.Observation.all.length ?(this.props.Observation.count)>(this.state.params.offset*10+10)?<button onClick={this.loadMore} type="submit" className="btn btn-primary">LoadMore</button>:null:null }
       </div>
     )
   }

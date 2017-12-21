@@ -7,12 +7,13 @@ export default function(state=DEFAULT_STATE,action){
 
   switch (action.type) {
     case FETCH_OBSERVATION:
+
+
       if(action.payload.data){
-        console.log(action.payload.data)
         return{
           all:state.all.concat(action.payload.data.model.observationInstanceList),
-          count:action.payload.data.model.observationCount,
-          queryParameter:action.payload.data.model.queryParams
+          count:action.payload.data.model.instanceTotal,
+          queryParameter:action.payload.data.queryParams
         }
       }
       else {

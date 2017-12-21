@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
 import Autosuggest from 'react-autosuggest';
+
+
+import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
+import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
+
 import axios from 'axios';
 import queryString from 'query-string';
 import _ from 'lodash';
 import Checkbox from 'rc-checkbox';
+
+import theme from './theme.css';
+
+import 'rc-checkbox/assets/index.css';
 
 import {Config} from '../Config';
 let Ssuggest = [];
@@ -14,24 +23,10 @@ class Example extends Component {
       value: '',
       suggestions: [],
       userName: [],
-      userIds: []
+      userIds: [],
+      values:{}
     };
-
-    this.theme = {
-      input: {
-        width: '100%'
-      },
-      suggestionsContainerOpen: {
-        padding: '2px',
-        color: 'red',
-        border: '5px solid #D89922',
-        height: '150px',
-        overflowY: 'scroll'
-      },
-      suggestionHighlighted: {
-        backgroundColor: '#D5D822'
-      }
-    }
+      this.onSuggestionSelected=this.onSuggestionSelected.bind(this);
   }
 
   getSuggestions = (value, S_Callback) => {
@@ -70,36 +65,70 @@ class Example extends Component {
     this.setState({suggestions: []});
   };
 
-  renderSuggestion = (suggestion) => {
+  renderSuggestion = (suggestion,{query}) => {
+
+    const suggestionText = `${suggestion.instance.name}`;
+    const matches = AutosuggestHighlightMatch(suggestionText, query);
+    const parts = AutosuggestHighlightParse(suggestionText, matches);
+
     return (
-      <div className="dropdown">
-        <img src={suggestion.instance.icon} width="40" height="40"/> {suggestion.instance.name}
-        <br/> {suggestion.instance.id}
+      <div>
+        <img src={suggestion.instance.icon} width="40" height="40"/>
+        {parts.map((part, index) => {
+          const className = part.highlight ? 'highlight' : null;
+          return (
+              <span className={className} key={index}>{part.text}</span>
+          );
+        })}
+        {suggestion.instance.id}
       </div>
 
     )
-  };
 
-  handleSubmit(event) {
-    event.preventDefault();
-    let userName = this.state.userName;
-    let userIds = this.state.userIds;
-    let singleUser = {};
-    const data = this.refs["sunil"].autowhatever.input.defaultValue.split(":");
-    singleUser.uid = data[1];
-    singleUser.uName = data[0];
-    userName.push(singleUser)
-    userIds.push(data[1]);
-    userName = _.uniqBy(userName, "uid");
-    userIds = _.uniqBy(userIds);
-    this.setState({userName, userIds})
-    var event = new CustomEvent("user-filter", {
-      "detail": {
-        userIds: userIds
-      }
-    });
-    document.dispatchEvent(event);
   };
+  onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
+     this.setState({
+       values:suggestion
+     })
+     let userName = this.state.userName;
+     let userIds = this.state.userIds;
+     let singleUser = {};
+     singleUser.uid = suggestion.instance.id;
+     singleUser.uName = suggestion.instance.name;
+     userName.push(singleUser)
+     userIds.push(suggestion.instance.id);
+     userName = _.uniqBy(userName, "uid");
+     userIds = _.uniqBy(userIds);
+     this.setState({userName, userIds})
+     var event = new CustomEvent("user-filter", {
+       "detail": {
+         userIds: userIds
+       }
+     });
+     document.dispatchEvent(event);
+
+   }
+
+  // handleSubmit(event) {
+  //   event.preventDefault();
+  //   let userName = this.state.userName;
+  //   let userIds = this.state.userIds;
+  //   let singleUser = {};
+  //   const data = this.refs["sunil"].autowhatever.input.defaultValue.split(":");
+  //   singleUser.uid = data[1];
+  //   singleUser.uName = data[0];
+  //   userName.push(singleUser)
+  //   userIds.push(data[1]);
+  //   userName = _.uniqBy(userName, "uid");
+  //   userIds = _.uniqBy(userIds);
+  //   this.setState({userName, userIds})
+  //   var event = new CustomEvent("user-filter", {
+  //     "detail": {
+  //       userIds: userIds
+  //     }
+  //   });
+  //   document.dispatchEvent(event);
+  // };
 
   handleUrlParameters() {
     const newparams = queryString.parse(document.location.search);
@@ -126,7 +155,6 @@ class Example extends Component {
   }
 
   onChanges(e) {
-    console.log('checkbox checked:', (e.target.checked), e);
     if (!e.target.checked) {
       let userName = this.state.userName;
       let userIds = this.state.userIds;
@@ -168,16 +196,22 @@ class Example extends Component {
             )
           })
           : null}
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <div className="input-group">
-            <Autosuggest theme={this.theme} suggestions={suggestions} ref={"sunil"} onSuggestionsFetchRequested={this.onSuggestionsFetchRequested} onSuggestionsClearRequested={this.onSuggestionsClearRequested} getSuggestionValue={this.getSuggestionValue} renderSuggestion={this.renderSuggestion} inputProps={inputProps}/>
-            <span className="input-group-btn">
-              <button className="btn btn-primary btn-xs" type="submit">
-                <span className="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
+
+          <div>
+            <Autosuggest
+              theme={this.theme}
+              suggestions={suggestions}
+              ref={"sunil"}
+              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+              getSuggestionValue={this.getSuggestionValue}
+              renderSuggestion={this.renderSuggestion}
+              inputProps={inputProps}
+              onSuggestionSelected={this.onSuggestionSelected}
+            />
+
           </div>
-        </form>
+
       </div>
     );
   }

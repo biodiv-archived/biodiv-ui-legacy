@@ -1,31 +1,48 @@
 import React from 'react';
 import InputRange from 'react-input-range';
+
 import '../../node_modules/react-input-range/lib/css/index.css'
-class TraitsApp extends React.Component {
+
+import {getObservationTraits} from './TraitsApiCall';
+import {Accordion,Panel} from 'react-bootstrap';
+
+import TraitValue from './TraitValue';
+
+
+
+class Traits extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: {
-        min: 0,
-        max: 365,
-      },
+      observationTraitList:[]
     };
+
+
+  }
+  componentWillMount(){
+    getObservationTraits().then(data=>{
+    this.setState({
+      observationTraitList:data
+    })
+    })
+
+
   }
 
+
+
   render() {
+    let observationTraitList=this.state.observationTraitList;
+
     return (
-      <form className="form">
-        <InputRange
-          draggableTrack
-          maxValue={365}
-          minValue={0}
-          onChange={value => this.setState({ value: value })}
-          onChangeComplete={value => console.log(value)}
-          value={this.state.value} />
-      </form>
-    );
+        <Accordion>
+          {observationTraitList.data?observationTraitList.data.map((item,index)=>{
+            return <Panel key={index}  header={item.name}  eventKey={index}><TraitValue id={item.id} /> </Panel>
+          }):null}
+        </Accordion>
+          );
   }
 }
 
-export default TraitsApp
+export default Traits

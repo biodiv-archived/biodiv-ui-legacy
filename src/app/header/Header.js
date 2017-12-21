@@ -1,38 +1,48 @@
 import React, {Component} from 'react';
 
 import {NavLink,withRouter} from 'react-router-dom';
+import {getGroupName} from './HeaderApi';
 
 import {connect} from 'react-redux';
 import $ from 'jquery';
 import {Config} from '../../Config'
 import style from './style/headerstyle.css';
 
+import Banner from './Banner';
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      groupName:undefined
+      groupName:undefined,
+      groupDetails:{}
     }
   }
   setGroupName(){
     let groupName=this.props.location.pathname.split("/")[2];
     let groupsyntax=this.props.location.pathname.split("/")[1];
     if(groupsyntax==="group"){
+      getGroupName(groupName).then(data=>{
       this.setState({
+        groupDetails:data,
         groupName
       })
-    }
-
+    })
   }
+  else{
+    //TO FOR IBP GROUP
+  }
+}
   componentDidMount(){
     this.setGroupName();
   }
 
   render() {
-
+    let userGroupDetails=this.state.groupDetails?this.state.groupDetails.data:null;
 
     return (
       <div className="container-fluid">
+        <div className="row">
         <nav className="navbar navbar-default navbar-inverse" role="navigation" style={{
           marginLeft: '15px',
           marginBottom: '10px',
@@ -189,18 +199,11 @@ class Header extends React.Component {
 
           </div>
         </nav>
+      </div>
+      <div className="row">
+        <Banner userGroup={userGroupDetails} />
+      </div>
 
-        <div className="jumbotron" style={{
-          marginLeft: '15px',
-          marginBottom: '10px',
-          marginTop: '0px'
-        }}>
-
-          <h2 className="">
-            <span className="jumbotron"></span>
-          </h2>
-
-        </div>
 
       </div>
     )

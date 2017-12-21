@@ -4,6 +4,7 @@ import queryString from 'query-string';
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 import axios from 'axios';
 import styles from './style.css';
+import 'rc-checkbox/assets/index.css';
 
 import {ClearObservationPage} from '../../../actions/index';
 import {Config}  from '../../../Config';

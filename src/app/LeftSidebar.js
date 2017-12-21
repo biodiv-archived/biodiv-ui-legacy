@@ -9,9 +9,10 @@ import SpeciesGroup from '../components/filterPanel/speciesGroup/SpeciesGroup';
 import UserGroup from '../userGroup/UserGroup';
 import ScientificNameFilter from  '../components/filterPanel/scientificName/ScientificName';
 import FlaggedFilter from  '../components/filterPanel/flag/Flag';
-import MediaFilter from  '../components/filterPanel/media/Media';
+import Media_Filter from  '../components/filterPanel/media/Media';
 import SearchBar from '../taxonBrowser/SearchBar';
 import Year_Filter from  '../components/filterPanel/year/Year';
+import Day_Filter from  '../components/filterPanel/day/Day';
 import Month_Filter from '../components/filterPanel/month/Month';
 import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
@@ -83,13 +84,6 @@ render(){
           <Collapsible open={this.state.userGroupOpen} trigger=" User Group">
             <div className="pre-scrollable">
               <UserGroup />
-              Select for most frequently group like:: <br />
-              <ul>
-                <li>WesterGhat</li>
-                <li>TreesIndia</li>
-                <li>Assam</li>
-                <li>IndianMoths</li>
-              </ul>
             </div>
           </Collapsible>
           <Collapsible trigger="SpeciesName ">
@@ -101,12 +95,21 @@ render(){
           <Collapsible open={this.state.userOpen} trigger="User ">
             <UserFilter/>
           </Collapsible>
+          <Collapsible trigger="Media Type">
+          <Media_Filter />
+          </Collapsible>
           <Collapsible trigger="Year ">
           <Year_Filter />
           </Collapsible>
+
           <Collapsible trigger="Month ">
           <Month_Filter />
           </Collapsible>
+          <Collapsible trigger="Days">
+          <Day_Filter />
+          </Collapsible>
+
+
            <Collapsible trigger="Traits">
           <Traits_Filter />
           </Collapsible>

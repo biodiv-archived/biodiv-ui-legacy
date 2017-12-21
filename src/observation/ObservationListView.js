@@ -241,7 +241,7 @@ objs.resource.map((images)=>{
                       </div>
                  </div>
               </div>
-              <Tabs objs={objs} />
+             <Tabs objs={objs} /> 
             <br />
             </div>
 
