@@ -1,22 +1,31 @@
 import React from 'react';
+
+import Checkbox from 'rc-checkbox';
+import 'rc-checkbox/assets/index.css';
+
 class FlaggedFilter extends React.Component {
 
 
-  handleInputChange(event){
+  handleCheckboxes(event){
     console.log("event",event.target.checked)
   }
   render() {
     return (
       <div>
+        <label>
+            <Checkbox
+                value={"UnFlagged"}
+                onChange={this.handleCheckboxes.bind(this)}
+            />{"UnFlagged"}
+        </label>
+        <br />
+        <label>
+            <Checkbox
+                value={"Flagged"}
+                onChange={this.handleCheckboxes.bind(this)}
+            />{"Falgged"}
+        </label>
 
-        <form>
-    <div className="radio">
-      <label><input type="radio" onClick={this.handleInputChange.bind(this)} name="option" />Option 1</label>
-    </div>
-    <div className="radio">
-      <label><input type="radio" name="option"  onClick={this.handleInputChange.bind(this)} />Option 2</label>
-    </div>
-  </form>
       </div>
     )
   }

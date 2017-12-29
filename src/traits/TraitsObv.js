@@ -53,6 +53,7 @@ submitTraits(id1,id2){
     arr=arr.concat(value)
   })
   var list=arr.toString()
+
   var list1=id1+":"+list+";"
   var options={
     method: 'POST',
@@ -90,11 +91,7 @@ submitTraits(id1,id2){
 
   show(uni,item){
 
-    console.log("agdambadam")
-    console.log(this.refs)
     var fact1='fact_'+uni+item
-
-
     var edit1='edit_'+uni+item
     var onclick_edit1='onclick_edit_'+uni+item
     var sub1='sub_'+uni+item

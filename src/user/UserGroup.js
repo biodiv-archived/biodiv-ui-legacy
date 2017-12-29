@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import Checkbox from 'rc-checkbox';
 import 'rc-checkbox/assets/index.css';
 
- import style from './userGroup.css';
+// import style from './userGroup.css';
 
 import {ClearObservationPage} from '../actions/index';
 import {FetchUserGroupName} from './UserGroupActions';
