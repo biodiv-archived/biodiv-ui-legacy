@@ -282,7 +282,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                    </datalist>
              </div>
           </div>
-          <div className="form-group row">
+          <div className="form-group row" >
             <label className="control-label col-sm-2" htmlFor="email">Scientific name:</label>
             <div className="col-sm-8">
                   <Autosuggest
@@ -298,7 +298,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                   />
             </div>
           </div>
-          <div className="form-group row">
+          <div className="form-group row" >
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
               <div className="col-sm-8">
                   <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%'}}/>
