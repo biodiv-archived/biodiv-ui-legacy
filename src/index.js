@@ -8,6 +8,8 @@ import logger from 'redux-logger';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import reactTimeAgo from 'react-time-ago'
+import javascriptTimeAgo from 'javascript-time-ago'
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
@@ -19,6 +21,15 @@ import Header from './app/header/Header';
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
+
+javascriptTimeAgo.locale(require('javascript-time-ago/locales/en'))
+javascriptTimeAgo.locale(require('javascript-time-ago/locales/ru'))
+
+require('javascript-time-ago/intl-messageformat-global')
+require('intl-messageformat/dist/locale-data/en')
+require('intl-messageformat/dist/locale-data/ru')
+
+
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {connect} from 'react-redux';
+
 
 import {ROOT_URL} from '../Config';
 
@@ -30,6 +32,7 @@ class UserGroup {
             else return this.values;
         } else return this.fetch(callback);
     }
+
 }
 
 export default new UserGroup();

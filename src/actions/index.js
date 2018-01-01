@@ -9,7 +9,7 @@ export const FETCH_MESSAGE ='FETCH_MESSAGE';
 export const FETCH_LANGUAGES='FETCH_LANGUAGES';
 export const FETCH_UNIQUE_SPECIES_LOADMORE='FETCH_UNIQUE_SPECIES_LOADMORE';
 export const FETCH_UNIQUE_SPECIES_NEWFILTER='FETCH_UNIQUE_SPECIES_NEWFILTER';
-
+export const FETCH_USERGROUP_LIST='FETCH_USERGROUP_LIST';
 
 export function fetchUniqueSpecies(params,count,flag){
   var options={
@@ -91,6 +91,15 @@ export function fetchLanguages(){
   const request =axios.get(url);
   return{
     type:FETCH_LANGUAGES,
+    payload:request
+  }
+}
+
+export function fetchUserGroupList(){
+  const url = Config.api.ROOT_URL+"/group/list?max=95&format=json"
+  const request = axios.get(url);
+  return{
+    type:FETCH_USERGROUP_LIST,
     payload:request
   }
 }
