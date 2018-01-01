@@ -153,10 +153,10 @@ resetBulk(){
 
 display(selectAll,objs,index){
 
-  const imageArray=[];
-objs.resource.map((images)=>{
-  imageArray.push(images.url);
-})
+//   const imageArray=[];
+// objs.resource.map((images)=>{
+//   imageArray.push(images.url);
+// })
 
   return (
     <div key= {index} className="container-fluid">
@@ -164,7 +164,7 @@ objs.resource.map((images)=>{
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
-                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} pos={index} objid={objs.id} imageArray={imageArray} noofimages={imageArray.length} />
+                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} pos={index} objid={objs.id}  />
                         {
                           (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
                           (
@@ -182,20 +182,21 @@ objs.resource.map((images)=>{
                            <tbody>
                             <tr>
                                 <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true">Name</span></td>
-                                <td className="col-sm-4" dangerouslySetInnerHTML={{__html:objs.title}}></td>
-                                <td  className={` col-sm-2 ${objs.recoVotes.length?objs.recoVotes[0].recommendation.taxonomyDefinition?objs.recoVotes[0].recommendation.taxonomyDefinition.position==="Working"?"showWorking":
-                                   objs.recoVotes[0].recommendation.taxonomyDefinition.position==="Clean"?"showClean":
-                                   objs.recoVotes[0].recommendation.taxonomyDefinition.position==="Raw"?"showRaw":null:null:null}`} >
-                                  {objs.recoVotes.length?objs.recoVotes[0].recommendation.taxonomyDefinition?objs.recoVotes[0].recommendation.taxonomyDefinition.nameStatus:null:null}
-                                </td>
+                                {/* <td className="col-sm-4" dangerouslySetInnerHTML={{__html:objs.name}}></td> */}
+                                <td className="col-sm-4"><i> {objs.name}</i></td>
+                                <td  className={` col-sm-4 ${objs.position==="WORKING"?"showWorking":
+                                   objs.position==="CLEAN"?"showClean":
+                                   objs.position==="RAW"?"showRaw":null}`} >
+                                  {objs.status}
+                              </td>
                             </tr>
                             <tr>
                               <td className="col-sm-4"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Place </td>
-                              <td className="col-sm-8"> <EllipsisText text={objs.placeName} length={30} /> </td>
+                              <td className="col-sm-8"> <EllipsisText text={objs.placename} length={30} /> </td>
                             </tr>
                           <tr>
                             <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Observed On </td>
-                            <td className="col-sm-8"><Moment format=" Do MMMM YYYY">{objs.fromDate }</Moment></td>
+                            <td className="col-sm-8"><Moment format=" Do MMMM YYYY">{objs.fromdate }</Moment></td>
                          </tr>
                          <tr>
                            <td className="col-sm-4" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
@@ -207,31 +208,31 @@ objs.resource.map((images)=>{
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
-                              {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${objs.author.id}`}>  <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} />
-                            </NavLink>:<NavLink to={`/user/show/${objs.author.id}`}>  <img className="img-circle" src={objs.author.icon} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.author.name} /></NavLink>}
+                              {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${objs.authorid}`}>  <img className="img-circle" src={objs.authorprofilepic} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.authorname} />
+                            </NavLink>:<NavLink to={`/user/show/${objs.authorid}`}>  <img className="img-circle" src={objs.authorprofilepic} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.authorname} /></NavLink>}
 
                             </td>
-                            <td className="col-xs-1 col-sm-1">
+                            {/* <td className="col-xs-1 col-sm-1">
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.recoVotes.length}`}></span>
-                            </td>
-                            <td className="col-xs-1 col-sm-1"> <span  title={`Submitted On: ${objs.createdOn}` }  className="glyphicon glyphicon-time" aria-hidden="true"></span>  </td>
-                            <td className="col-xs-1 col-sm-1"> <span title={`Updated On: ${objs.lastRevised}` } className="glyphicon glyphicon-hourglass" aria-hidden="true"></span> </td>
+                            </td> */}
+                            <td className="col-xs-1 col-sm-1"> <span  title={`Submitted On: ${objs.createdon}` }  className="glyphicon glyphicon-time" aria-hidden="true"></span>  </td>
+                            <td className="col-xs-1 col-sm-1"> <span title={`Updated On: ${objs.lastrevised}` } className="glyphicon glyphicon-hourglass" aria-hidden="true"></span> </td>
                             <td className="col-xs-6 col-sm-2">
                                       <div style={{display:"block"}} ref={objs.id+"1"} >
-                                        <strong>{objs.group.name}</strong> {"  "}
+                                        <strong>{objs.speciesgroupname}</strong> {"  "}
                                         <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">
                                          <span className="glyphicon glyphicon-edit"></span>
                                         </button>
                                       </div>
                                       <div  style={{display:"none"}} ref={objs.id+"2"}>
                                         <div className="form-group form-inline">
-                                          <select onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.group.name}  className="bg-primary form-control-sm" >
+                                          <select onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="bg-primary form-control-sm" >
                                             {this.state.data?this.state.data.map((item)=>{
                                             return   <option key={item.name}   value={item.name}>{item.name}</option>
                                             }):null}
                                           </select> {" "}
                                             <button className={"btn btn-warning btn-xs"}  onClick={this.changeStyle2.bind(this,objs.id)}> <span className="glyphicon glyphicon-remove-sign"></span></button> {"  "}
-                                            <button className={"btn btn-success btn-xs"}  onClick={this.handleEditUserGroupButton.bind(this,objs.group.id)} type="submit"><span className="glyphicon glyphicon-saved"></span></button>
+                                            <button className={"btn btn-success btn-xs"}  onClick={this.handleEditUserGroupButton.bind(this,objs.speciesgroupid)} type="submit"><span className="glyphicon glyphicon-saved"></span></button>
                                         </div>
                                     </div>
                             </td>
@@ -241,7 +242,7 @@ objs.resource.map((images)=>{
                       </div>
                  </div>
               </div>
-             <Tabs objs={objs} /> 
+              <Tabs objs={objs} />
             <br />
             </div>
 

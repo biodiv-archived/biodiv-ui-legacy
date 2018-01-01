@@ -37,8 +37,8 @@ class ObservationListContainer extends Component {
           classification:undefined,
           userGroupList:[],
           isFlagged:undefined,
-          speciesName:undefined,
-          isMediaFilter:undefined,
+          speciesName:[],
+          mediaFilter:[],
           sort:"lastRevised",
           webaddress:undefined,
           minYear:undefined,
@@ -108,7 +108,7 @@ class ObservationListContainer extends Component {
           let sGroup=params.sGroup;
           let isFlagged=params.isFlagged;
           let speciesName=params.speciesName;
-          let MediaFilter=params.isMediaFilter;
+          let mediaFilter=params.mediaFilter;
           let userGroupList=params.userGroupList;
           let taxon=params.taxon;
           let classification=params.classification;
@@ -133,7 +133,7 @@ class ObservationListContainer extends Component {
                 userGroupList:userGroupList,
                 isFlagged:isFlagged,
                 speciesName:speciesName,
-                isMediaFilter:MediaFilter,
+                mediaFilter:mediaFilter,
                 sort:params.sort,
                 user:user,
                 webaddress:webaddress,
@@ -150,6 +150,9 @@ class ObservationListContainer extends Component {
           params.userGroupList=params.userGroupList.join(",");
           params.user=params.user.join(",");
           params.months=params.months.join(",");
+          params.speciesName=params.speciesName.join(",");
+          params.mediaFilter=params.mediaFilter.join(",");
+
           params.count=0;
           params.offset=0;
           const seacrh=queryString.stringify(params)
@@ -197,18 +200,25 @@ class ObservationListContainer extends Component {
 
     }
 
-    isMediaFilterEventListner(e){
+    mediaFilterEventListner(e){
       this.props.ClearObservationPage();
 
       const params=this.state.params;
-      params.isMediaFilter=e.detail.MediaFilter;
+      if(!params.mediaFilter){
+        params.mediaFilter=[];
+      }
+      params.mediaFilter=e.detail.MediaFilter;
       this.GlobalCall(params);
     }
 
     allFilterEventListner(e){
+
       this.props.ClearObservationPage();
 
       const params=this.state.params;
+      if(!params.speciesName){
+        params.speciesName=[];
+      }
       params.speciesName=e.detail.SpeciesName;
           this.GlobalCall(params);
 
@@ -295,7 +305,18 @@ class ObservationListContainer extends Component {
         else{
           newparams.months=[];
         }
-
+        if(newparams.speciesName){
+          newparams.speciesName=newparams.speciesName.split(",");
+        }
+        else{
+          newparams.speciesName=[];
+        }
+        if(newparams.mediaFilter){
+          newparams.mediaFilter=newparams.mediaFilter.split(",");
+        }
+        else{
+          newparams.mediaFilter=[];
+        }
         if(groupName){
           newparams.webaddress=groupName;
         }
@@ -327,7 +348,7 @@ class ObservationListContainer extends Component {
         let sGroup=params.sGroup;
         let isFlagged=params.isFlagged;
         let speciesName=params.speciesName;
-        let MediaFilter=params.isMediaFilter;
+        let mediaFilter=params.mediaFilter;
         let userGroupList=params.userGroupList;
         let taxon=params.taxon;
         let classification=params.classification;
@@ -353,7 +374,7 @@ class ObservationListContainer extends Component {
               userGroupList:userGroupList,
               isFlagged:isFlagged,
               speciesName:speciesName,
-              isMediaFilter:MediaFilter,
+              mediaFilter:mediaFilter,
               sort:params.sort,
               user:user,
               webaddress:webaddress,
@@ -370,6 +391,9 @@ class ObservationListContainer extends Component {
         params.userGroupList=params.userGroupList.join(",");
         params.user=params.user.join(",");
         params.months=params.months.join(",");
+        params.speciesName=params.speciesName.join(",");
+        params.mediaFilter=params.mediaFilter.join(",");
+
         const seacrh=queryString.stringify(params)
         const search1=decodeURIComponent(seacrh);
         // history.push({
@@ -388,12 +412,11 @@ class ObservationListContainer extends Component {
       componentDidMount(){
         this.setParameter();
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
-        document.addEventListener("isMediaFilter-filter", this.isMediaFilterEventListner.bind(this));
+        document.addEventListener("media-filter", this.mediaFilterEventListner.bind(this));
         document.addEventListener("getTaxon-filter", this.taxonFilterEventListner.bind(this));
         document.addEventListener("userGroup-filter", this.userGroupFilterEventListner.bind(this));
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
         document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
-
         document.addEventListener("year-filter", this.yearFilterEventListner.bind(this));
         document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
         document.addEventListener("day-filter", this.dayFilterEventListner.bind(this));
@@ -406,9 +429,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("get-taxon-filter", this.taxonFilterEventListner.bind(this));
         document.addEventListener("userGroup-filter", this.userGroupFilterEventListner.bind(this));
         document.addEventListener("sGroup-filter", this.sGroupFilterEventListner.bind(this));
-        document.addEventListener("isMediaFilter-filter", this.isMediaFilterEventListner.bind(this));
+        document.addEventListener("media-filter", this.mediaFilterEventListner.bind(this));
         document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
-
         document.addEventListener("year-filter", this.yearFilterEventListner.bind(this));
         document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
         document.addEventListener("day-filter", this.dayFilterEventListner.bind(this));

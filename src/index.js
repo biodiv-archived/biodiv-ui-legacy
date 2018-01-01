@@ -40,7 +40,7 @@ ReactDOM.render(
           <Route exact path="/" component={HomePageContainer} />
           <Route exact path="/observation/list" component={App} props={search2} />
           <Route exact path="/login" component={Login}/>
-          <Route exact path="/logout" component={Logout} />  
+          <Route exact path="/logout" component={Logout} />
           <Route  path="/group/:groupName/observation" component={App} />
         </div>
         <Footer />

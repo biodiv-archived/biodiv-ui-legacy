@@ -8,7 +8,7 @@ class SpeciesNameFilter extends Component{
   constructor(){
     super();
     this.state={
-      speciesName:[]
+      media:[]
     }
   }
 
@@ -47,18 +47,24 @@ handleCheckboxes(event){
 
         <label>
             <Checkbox
-                value={"UNIDENTIFED"}
+                value={"audio"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"UnKnown"}
+            />{"Audio"}
         </label>
         <br />
         <label>
             <Checkbox
-                value={"IDENTIFED"}
+                value={"video"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"Known"}
+            />{"Video"}
         </label>
-
+        <br />
+        <label>
+            <Checkbox
+                value={"images"}
+                onChange={this.handleCheckboxes.bind(this)}
+            />{"Images"}
+        </label>
       </div>
     )
   }
