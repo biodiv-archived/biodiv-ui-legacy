@@ -248,8 +248,8 @@ onSuggestionsFetchRequested_C = ({ value }) => {
     return (
       <div>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.props.getReco} id={this.props.id2}/>):null}
-      <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)}>
-          <div className="form-group row">
+      <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)} >
+          <div className="form-group row" style={{marginBottom:'0.3%'}}>
             <label className="control-label col-sm-2" htmlFor="email">Common name:</label>
             <div className="col-sm-8">
                 <Autosuggest
@@ -282,7 +282,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                    </datalist>
              </div>
           </div>
-          <div className="form-group row" >
+          <div className="form-group row" style={{marginBottom:'0.3%'}}>
             <label className="control-label col-sm-2" htmlFor="email">Scientific name:</label>
             <div className="col-sm-8">
                   <Autosuggest
@@ -298,7 +298,7 @@ onSuggestionsFetchRequested_C = ({ value }) => {
                   />
             </div>
           </div>
-          <div className="form-group row" >
+          <div className="form-group row" style={{marginBottom:'0.1%'}}>
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
               <div className="col-sm-8">
                   <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%'}}/>
