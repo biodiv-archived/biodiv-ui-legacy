@@ -37,7 +37,7 @@ class Groups extends React.Component {
   getUserGroups(){
     var options={
       method: 'GET',
-      url:  Config.api.ROOT_URL+"/observation/"+this.props.id+"/userGroups",
+      url:  Config.api.API_ROOT_URL+"/observation/"+this.props.id+"/userGroups",
       // params:{
       //   id:this.props.id
       // }
@@ -55,7 +55,7 @@ class Groups extends React.Component {
     console.log("gggggg")
     var options={
       method: 'GET',
-      url :  Config.api.ROOT_URL +"/user/currentUserUserGroups",
+      url :  Config.api.API_ROOT_URL +"/user/currentUserUserGroups",
       headers : AuthUtils.getAuthHeaders(),
     }
     axios(options)
@@ -248,7 +248,7 @@ class Groups extends React.Component {
     var list2=this.unpost.toString()
     var optionsUnpost={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/userGroup/bulkPost",
+      url :   Config.api.API_ROOT_URL+"/userGroup/bulkPost",
       params:{
         pullType:"single",
         selectionType:"reset",
@@ -263,7 +263,7 @@ class Groups extends React.Component {
     }
     var optionsPost={
       method: 'POST',
-      url :    Config.api.ROOT_URL+"/userGroup/bulkPost",
+      url :    Config.api.API_ROOT_URL+"/userGroup/bulkPost",
       params:{
         pullType:"single",
         selectionType:"reset",
