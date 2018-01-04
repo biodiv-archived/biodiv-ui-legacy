@@ -78,7 +78,7 @@ export let Config = {
         logout : {
             default : {
                 method : 'post',
-                url : '/api/logout',
+                url : ROOT_URL+'/api/logout',
                 headers : AuthUtils.getAuthHeaders(),
                 data:{}
             }

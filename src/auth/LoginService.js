@@ -36,8 +36,10 @@ class LoginService {
     }
 
     getAccessToken() {
+      console.log("getAccessToken")
         var c = this.loginStore.get();
-        return c.hasOwnProperty('aToken') ? c.aToken : '';
+        console.log("get",c.aToken)
+        return c.hasOwnProperty('aToken') ? c.aToken : false;
     }
 
     getCurrentUser() {
@@ -49,10 +51,15 @@ class LoginService {
 
     getCurrentUserRoles() {
         var c = this.loginStore.get();
-        return JSON.parse(c.roles);
+        console.log("getCurrentUserRoles",c)
+        //var json = (c.roles).to_json;
+        console.log(c.roles)
+        return (c.roles);
     }
 
     hasRole(role) {
+      console.log("hasRole")
+      console.log("inArray",$.inArray(role, this.getCurrentUserRoles()) >= 0)
         return $.inArray(role, this.getCurrentUserRoles()) >= 0;
     }
 }
@@ -70,12 +77,18 @@ class LoginStore {
                 if(props.hasOwnProperty(key)) {
                     if(typeof props[key] === 'object') {
                         localStorage.setItem('auth_'+key, JSON.stringify(props[key]));
+                        console.log("object_json",localStorage.getItem('auth_'+key))
                     } else {
                         localStorage.setItem('auth_'+key, props[key]);
                     }
                 }
             }
             _credentials = this.get();
+            var i;
+            for (i = 0; i < localStorage.length; i++)   {
+                console.log("in set of loginStore",localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+            }
+            console.log("credentials variable",_credentials);
         }
 
         this.get = function() {
@@ -85,18 +98,21 @@ class LoginStore {
                 for(var key in localStorage) {
                     if(localStorage.hasOwnProperty(key) && key.startsWith('auth_'))
                         var auth_key = key.substring(key.indexOf('_') + 1);
-                        if(key === 'roles') {
+                        if(auth_key === 'roles') {
                             items[auth_key] = JSON.parse(localStorage.getItem(key));
+                            console.log("roles_item_aut_ key",items[auth_key])
                         } else
                             items[auth_key] = localStorage.getItem(key);
                 }
                 _credentials = items;
-            
+                console.log("credentials in loginStore get",_credentials);
+
                 return _credentials;
             }
         }
 
         this.clear = function() {
+          console.log("loginStore clear function")
             for(var key in localStorage) {
                 if(localStorage.hasOwnProperty(key) && key.startsWith('auth_'))
                     localStorage.removeItem(key);
