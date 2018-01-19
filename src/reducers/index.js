@@ -13,6 +13,7 @@ import SpeciesChartReducer from './reducer_chart_data';
 import Language_reducer from './reducer_languages.js';
 import UniqueSpecies_reducer from './reducer_uniqueSpecies.js';
 import UserGroupList_reducer from './reducer_userGroup_list.js';
+import UserGroupNameForUrl from './reducer_getUserGroupName';
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
   ChartData:SpeciesChartReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   auth: AuthReducer,
   form:form,
   UniqueSpeciesList:UniqueSpecies_reducer,
-  UserGroupList:UserGroupList_reducer
+  UserGroupList:UserGroupList_reducer,
+  PublicUrl:UserGroupNameForUrl
 });
 
 export default rootReducer;

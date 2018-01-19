@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom';
 import EllipsisText  from 'react-ellipsis-text';
 import Moment from 'react-moment';
 import axios from 'axios';
-import Parser from 'html-react-parser';
 import { connect } from 'react-redux';
 
 import style from './ObservationStyle.css';
@@ -28,7 +27,8 @@ constructor(){
     ObservationId:"",
     bulk:false,
     bulkId:[],
-    groupName:undefined
+    groupName:undefined,
+    flag:false
   }
 }
 getEditUserGroupMethod() {
@@ -64,6 +64,9 @@ componentDidMount(){
     this.setGroupName();
   this.showEditGroupList();
   this.getEditUserGroupMethod()
+  this.setState({
+    flag : true
+  })
 
 }
 
@@ -153,18 +156,13 @@ resetBulk(){
 
 display(selectAll,objs,index){
 
-//   const imageArray=[];
-// objs.resource.map((images)=>{
-//   imageArray.push(images.url);
-// })
-
   return (
     <div key= {index} className="container-fluid">
           <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '25px'}}>
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
-                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} pos={index} objid={objs.id}  />
+                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} pos={index} objid={objs.id} images={objs.imageresource} />
                         {
                           (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
                           (
@@ -200,7 +198,7 @@ display(selectAll,objs,index){
                          </tr>
                          <tr>
                            <td className="col-sm-4" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
-                           <td id ="hatethis" className="col-sm-8" > {Parser(objs.notes?objs.notes:"Not provided")}  </td>
+                           <td id ="hatethis" className="col-sm-8" > {objs.notes?objs.notes:"Not provided"}  </td>
                         </tr>
                       </tbody>
                       </table>
@@ -212,9 +210,9 @@ display(selectAll,objs,index){
                             </NavLink>:<NavLink to={`/user/show/${objs.authorid}`}>  <img className="img-circle" src={objs.authorprofilepic} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.authorname} /></NavLink>}
 
                             </td>
-                            {/* <td className="col-xs-1 col-sm-1">
-                             <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.recoVotes.length}`}></span>
-                            </td> */}
+                           <td className="col-xs-1 col-sm-1">
+                             <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.noofidentifications}`}></span>
+                            </td>
                             <td className="col-xs-1 col-sm-1"> <span  title={`Submitted On: ${objs.createdon}` }  className="glyphicon glyphicon-time" aria-hidden="true"></span>  </td>
                             <td className="col-xs-1 col-sm-1"> <span title={`Updated On: ${objs.lastrevised}` } className="glyphicon glyphicon-hourglass" aria-hidden="true"></span> </td>
                             <td className="col-xs-6 col-sm-2">
@@ -242,7 +240,7 @@ display(selectAll,objs,index){
                       </div>
                  </div>
               </div>
-              <Tabs objs={objs} />
+               {/* <Tabs objs={objs} /> */}
             <br />
             </div>
 
@@ -266,7 +264,8 @@ return(
 function mapStateToProps(state) {
   return {
     authenticated: state.auth.authenticated,
-    userData:state.auth.userData
+    userData:state.auth.userData,
+    PublicUrl:state.PublicUrl
   };
 }
-export default  withRouter(connect(mapStateToProps)(ListComponent));
+export default withRouter(connect(mapStateToProps)(ListComponent));

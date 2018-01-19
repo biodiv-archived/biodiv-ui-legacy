@@ -1,5 +1,9 @@
 import React from 'react';
 import Checkbox from 'rc-checkbox';
+import queryString from 'query-string';
+
+
+
 import 'rc-checkbox/assets/index.css';
 
 class MediaFilter extends React.Component {
@@ -10,8 +14,20 @@ class MediaFilter extends React.Component {
     }
 
   }
-  handleCheckboxes(event){
+  setParameter(){
+    const newparams = queryString.parse(document.location.search);
+    if (newparams.mediaFilter) {
+      const data = newparams.mediaFilter.split(",");
+      this.setState({
+        mediaFilter:data
+      })
 
+    }
+  }
+  componentDidMount(){
+    this.setParameter();
+  }
+  handleCheckboxes(event){
     let mediaFilter=this.state.mediaFilter;
     if(event.target.checked){
       mediaFilter.push(event.target.value);
@@ -42,21 +58,24 @@ class MediaFilter extends React.Component {
       <div>
         <label>
             <Checkbox
-                value={"audio"}
+                value={"noofaudio"}
+                checked={ this.state.mediaFilter.includes("noofaudio")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
             />{ "Audio"}
         </label>
         <br />
         <label>
             <Checkbox
-                value={"video"}
+                checked={ this.state.mediaFilter.includes("noofvideos")?true:false }
+                value={"noofvideos"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{ "Video"}
         </label>
         <br />
         <label>
             <Checkbox
-                value={"image"}
+                checked={ this.state.mediaFilter.includes("noofimages")?true:false }
+                value={"noofimages"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{ "Images"}
         </label>

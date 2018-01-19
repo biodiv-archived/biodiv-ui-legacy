@@ -36,17 +36,26 @@ class ObservationListContainer extends Component {
           user:[],
           classification:undefined,
           userGroupList:[],
-          isFlagged:undefined,
+          isFlagged:[],
           speciesName:[],
           mediaFilter:[],
-          sort:"lastRevised",
+          sort:"lastrevised",
           webaddress:undefined,
-          minYear:undefined,
-          maxYear:undefined,
+          minDate:undefined,
+          maxDate:undefined,
           months:[],
           minDay:undefined,
           maxDay:undefined,
-          hasMore:true
+          validate:[],
+          hasMore:true,
+          trait_8:[],
+          trait_9:[],
+          trait_10:[],
+          trait_11:[],
+          trait_12:[],
+          trait_13:[],
+          trait_15:[],
+
         },
         view:1,
         selectAll:false,
@@ -98,7 +107,7 @@ class ObservationListContainer extends Component {
         this.props.fetchObservations(this.state.params)
       }
 
-      this.url="/observation/list?"+search2;
+      this.url="/observation/observations?"+search2;
       this.loadMore=this.loadMore.bind(this);
 
     };
@@ -117,12 +126,21 @@ class ObservationListContainer extends Component {
           let count=params.count;
           let webaddress=params.webaddress;
 
-          let minYear=params.minYear;
-          let maxYear=params.maxYear;
+          let minDate=params.minDate;
+          let maxDate=params.maxDate;
           let minDay=params.minDay;
           let maxDay=params.maxDay;
           let months=params.months;
           let hasMore=params.hasMore;
+          let validate=params.validate;
+          let trait_8=params.trait_8;
+          let trait_9=params.trait_9;
+          let trait_10=params.trait_10;
+          let trait_11=params.trait_11;
+          let trait_12=params.trait_12;
+          let trait_13=params.trait_13;
+          let trait_15=params.trait_15;
+
           this.setState({
               params:{
                 taxon:taxon,
@@ -137,12 +155,20 @@ class ObservationListContainer extends Component {
                 sort:params.sort,
                 user:user,
                 webaddress:webaddress,
-                minYear:minYear,
-                maxYear:maxYear,
+                minDate:minDate,
+                maxDate:maxDate,
                 minDay:minDay,
                 maxDay:maxDay,
                 months:months,
-                hasMore:hasMore
+                hasMore:hasMore,
+                validate:validate,
+                trait_8:trait_8,
+                trait_9:trait_9,
+                trait_10:trait_10,
+                trait_11:trait_11,
+                trait_12:trait_12,
+                trait_13:trait_13,
+                trait_15:trait_15
               }
           })
           params.taxon=params.taxon.join(",");
@@ -152,7 +178,15 @@ class ObservationListContainer extends Component {
           params.months=params.months.join(",");
           params.speciesName=params.speciesName.join(",");
           params.mediaFilter=params.mediaFilter.join(",");
-
+          params.isFlagged=params.isFlagged.join(",");
+          params.validate=params.validate.join(",");
+          params.trait_8=params.trait_8.join(",");
+          params.trait_9=params.trait_9.join(",");
+          params.trait_10=params.trait_10.join(",");
+          params.trait_11=params.trait_11.join(",");
+          params.trait_12=params.trait_12.join(",");
+          params.trait_13=params.trait_13.join(",");
+          params.trait_15=params.trait_15.join(",");
           params.count=0;
           params.offset=0;
           const seacrh=queryString.stringify(params)
@@ -161,7 +195,7 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search1
           })
-          let url="/observation/list?"+search1;
+          let url="/observation/observations?"+search1;
           this.setState({
             urlforPassing:url
           })
@@ -237,8 +271,8 @@ class ObservationListContainer extends Component {
     yearFilterEventListner(e){
       this.props.ClearObservationPage();
       const params=this.state.params;
-      params.maxYear=e.detail.maxYear;
-      params.minYear=e.detail.minYear;
+      params.maxDate=e.detail.maxDate;
+      params.minDate=e.detail.minDate;
       this.GlobalCall(params);
     }
     monthsFilterEventListner(e){
@@ -253,13 +287,103 @@ class ObservationListContainer extends Component {
 
 
     }
-    dayFilterEventListner(e){
+    validateFilterEventListner(e){
       this.props.ClearObservationPage();
 
       const params=this.state.params;
-      params.maxDay=e.detail.maxDay;
-      params.minDay=e.detail.minDay;
+      if(!params.validate){
+        params.validate=[];
+      }
+      params.validate=e.detail.ValidateFilter;
       this.GlobalCall(params);
+    }
+    flagFilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.isFlagged){
+        params.isFlagged=[];
+      }
+      params.isFlagged=e.detail.isFlagged;
+      this.GlobalCall(params);
+
+    }
+    trait_8FilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.trait_8){
+        params.trait_8=[];
+      }
+      params.trait_8=e.detail.trait_8;
+      this.GlobalCall(params);
+
+    }
+    trait_9FilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.trait_9){
+        params.trait_9=[];
+      }
+      params.trait_9=e.detail.trait_9;
+      this.GlobalCall(params);
+
+    }
+    trait_10FilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.trait_10){
+        params.trait_10=[];
+      }
+      params.trait_10=e.detail.trait_10;
+      this.GlobalCall(params);
+
+    }
+    trait_11FilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.trait_11){
+        params.trait_11=[];
+      }
+      params.trait_11=e.detail.trait_11;
+      this.GlobalCall(params);
+
+    }
+    trait_12FilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.trait_12){
+        params.trait_12=[];
+      }
+      params.trait_12=e.detail.trait_12;
+      this.GlobalCall(params);
+
+    }
+    trait_13FilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.trait_13){
+        params.trait_13=[];
+      }
+      params.trait_13=e.detail.trait_13;
+      this.GlobalCall(params);
+
+    }
+    trait_15FilterEventListner(e){
+      this.props.ClearObservationPage();
+      const params=this.state.params;
+
+      if(!params.trait_15){
+        params.trait_15=[];
+      }
+      params.trait_15=e.detail.trait_15;
+      this.GlobalCall(params);
+
     }
 
     sortObservation(sortby){
@@ -332,6 +456,60 @@ class ObservationListContainer extends Component {
         if(!newparams.offset){
           newparams.offset=0;
         }
+        if(newparams.isFlagged){
+          newparams.isFlagged=newparams.isFlagged.split(",");
+        }
+        else{
+          newparams.isFlagged=[];
+        }
+        if(newparams.validate){
+          newparams.validate=newparams.validate.split(",");
+        }
+        else{
+          newparams.validate=[];
+        }
+        if(newparams.trait_8){
+          newparams.trait_8=newparams.trait_8.split(",");
+        }
+        else{
+          newparams.trait_8=[];
+        }
+        if(newparams.trait_9){
+          newparams.trait_9=newparams.trait_9.split(",");
+        }
+        else{
+          newparams.trait_9=[];
+        }
+        if(newparams.trait_10){
+          newparams.trait_10=newparams.trait_10.split(",");
+        }
+        else{
+          newparams.trait_10=[];
+        }
+        if(newparams.trait_11){
+          newparams.trait_11=newparams.trait_11.split(",");
+        }
+        else{
+          newparams.trait_11=[];
+        }
+        if(newparams.trait_12){
+          newparams.trait_12=newparams.trait_12.split(",");
+        }
+        else{
+          newparams.trait_12=[];
+        }
+        if(newparams.trait_13){
+          newparams.trait_13=newparams.trait_13.split(",");
+        }
+        else{
+          newparams.trait_13=[];
+        }
+        if(newparams.trait_15){
+          newparams.trait_15=newparams.trait_15.split(",");
+        }
+        else{
+          newparams.trait_15=[];
+        }
         this.setState({
           params:newparams,
           urlforPassing:this.url
@@ -356,12 +534,23 @@ class ObservationListContainer extends Component {
         let user=params.user;
         let webaddress=params.webaddress;
 
-        let minYear=params.minYear;
-        let maxYear=params.maxYear;
+        let minDate=params.minDate;
+        let maxDate=params.maxDate;
         let minDay=params.minDay;
         let maxDay=params.maxDay;
         let months=params.months;
         let hasMore=params.hasMore;
+        let validate=params.validate;
+
+        let trait_8=params.trait_8;
+        let trait_9=params.trait_9;
+        let trait_10=params.trait_10;
+        let trait_11=params.trait_11;
+        let trait_12=params.trait_12;
+        let trait_13=params.trait_13;
+        let trait_15=params.trait_15;
+
+
         hasMore=this.props.Observation?this.props.Observation.count>offset+10?true:false:true;
 
         this.setState({
@@ -378,12 +567,20 @@ class ObservationListContainer extends Component {
               sort:params.sort,
               user:user,
               webaddress:webaddress,
-              minYear:minYear,
-              maxYear:maxYear,
+              minDate:minDate,
+              maxDate:maxDate,
               minDay:minDay,
               maxDay:maxDay,
               months:months,
-              hasMore:hasMore
+              hasMore:hasMore,
+              validate:validate,
+              trait_8:trait_8,
+              trait_9:trait_9,
+              trait_10:trait_10,
+              trait_11:trait_11,
+              trait_12:trait_12,
+              trait_13:trait_13,
+              trait_15:trait_15
             }
         })
         params.taxon=params.taxon.join(",");
@@ -393,14 +590,22 @@ class ObservationListContainer extends Component {
         params.months=params.months.join(",");
         params.speciesName=params.speciesName.join(",");
         params.mediaFilter=params.mediaFilter.join(",");
-
+        params.isFlagged=params.isFlagged.join(",");
+        params.validate=params.validate.join(",");
+        params.trait_8=params.trait_8.join(",");
+        params.trait_9=params.trait_9.join(",");
+        params.trait_10=params.trait_10.join(",");
+        params.trait_11=params.trait_11.join(",");
+        params.trait_12=params.trait_12.join(",");
+        params.trait_13=params.trait_13.join(",");
+        params.trait_15=params.trait_15.join(",");
         const seacrh=queryString.stringify(params)
         const search1=decodeURIComponent(seacrh);
         // history.push({
         //   pathname:this.props.location.pathname,
         //   search:search1
         // })
-        let url="/observation/list?"+search1;
+        let url="/observation/observations?"+search1;
         this.setState({
           urlforPassing:url
         })
@@ -419,7 +624,18 @@ class ObservationListContainer extends Component {
         document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
         document.addEventListener("year-filter", this.yearFilterEventListner.bind(this));
         document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
-        document.addEventListener("day-filter", this.dayFilterEventListner.bind(this));
+
+        document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
+        document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
+
+        document.addEventListener("trait_8-filter", this.trait_8FilterEventListner.bind(this));
+        document.addEventListener("trait_9-filter", this.trait_9FilterEventListner.bind(this));
+        document.addEventListener("trait_10-filter", this.trait_10FilterEventListner.bind(this));
+        document.addEventListener("trait_11-filter", this.trait_11FilterEventListner.bind(this));
+        document.addEventListener("trait_12-filter", this.trait_12FilterEventListner.bind(this));
+        document.addEventListener("trait_13-filter", this.trait_13FilterEventListner.bind(this));
+        document.addEventListener("trait_15-filter", this.trait_15FilterEventListner.bind(this));
+
 
 
 
@@ -433,10 +649,18 @@ class ObservationListContainer extends Component {
         document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
         document.addEventListener("year-filter", this.yearFilterEventListner.bind(this));
         document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
-        document.addEventListener("day-filter", this.dayFilterEventListner.bind(this));
+        document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
+        document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
+
+        document.addEventListener("trait_8-filter", this.trait_8FilterEventListner.bind(this));
+        document.addEventListener("trait_9-filter", this.trait_9FilterEventListner.bind(this));
+        document.addEventListener("trait_10-filter", this.trait_10FilterEventListner.bind(this));
+        document.addEventListener("trait_11-filter", this.trait_11FilterEventListner.bind(this));
+        document.addEventListener("trait_12-filter", this.trait_12FilterEventListner.bind(this));
+        document.addEventListener("trait_13-filter", this.trait_13FilterEventListner.bind(this));
+        document.addEventListener("trait_15-filter", this.trait_15FilterEventListner.bind(this));
 
         this.props.ClearObservationPage();
-
       }
       displayData(view,objs,count,selectAll){
 
@@ -457,6 +681,11 @@ class ObservationListContainer extends Component {
             view:1
           })
         }
+        showMapView(){
+          this.setState({
+            view:2
+          })
+        }
 
         selectAll(){
           this.setState({
@@ -471,13 +700,13 @@ class ObservationListContainer extends Component {
 
         handleChangeCheckbox(event){
         if(event.target.value.trim()==="Last Visited".trim()){
-        this.sortObservation("lastRevised")
+        this.sortObservation("lastrevised")
         }
         else if(event.target.value.trim()==="Latest".trim()){
-        this.sortObservation("createdOn")
+        this.sortObservation("createdon")
         }
         else if(event.target.value.trim()==="Most Viewed".trim()){
-          this.sortObservation("visitCount")
+          this.sortObservation("visitcount")
         }
         }
 
@@ -498,8 +727,10 @@ class ObservationListContainer extends Component {
                 <button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>
                 <br /><br />
                 <div className="btn-group">
-                <button className={`btn ${this.state.view?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
-               <button className={`btn ${this.state.view?"btn-default":"btn-success"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
+                <button className={`btn ${this.state.view===1?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
+                <button className={`btn ${this.state.view===0?"btn-success":"btn-default"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
+                <button className={`btn ${this.state.view===2?"btn-success":"btn-default"}`} onClick={this.showMapView.bind(this,2)} ><span className="glyphicon glyphicon-map-marker"> </span>Map</button>
+
                 {
                   (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
                   (
@@ -526,12 +757,13 @@ class ObservationListContainer extends Component {
 
               <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
               <br />
-              <InfiniteScroll
+              {this.state.view===2?null:<InfiniteScroll
                 next={this.loadMore.bind(this)}
                 hasMore={this.state.params.hasMore}
                 loader={ <Button bsStyle="success" bsSize="small" block>Loading ............</Button>}
                 >
-              </InfiniteScroll>
+              </InfiniteScroll>}
+
               </div>
 
             :(this.props.Observation.count===0)?"No result found":<div style={{height:'600px',width:'660x',marginTop:'80px'}} className="container-fluid">

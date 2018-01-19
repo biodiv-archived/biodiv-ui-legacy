@@ -1,7 +1,9 @@
 import React from 'react';
-import InputRange from 'react-input-range';
-import style from './Year.css';
-import '../../../../node_modules/react-input-range/lib/css/index.css';
+
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import Moment from 'react-moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 class ExampleApp extends React.Component {
 
@@ -11,36 +13,78 @@ class ExampleApp extends React.Component {
     super(props);
 
     this.state = {
-      value: {
-        min: 1970,
-        max: 2018,
-      },
+      startDate:moment('01-01-1970',"YYYY/MM/DD"),
+      endDate: moment()
     };
   }
 
-  onChangeComplete(value){
+handleChangeStart(date){
+  this.setState({
+    startDate:date
+  })
 
-    var event = new CustomEvent("year-filter", {
+  let endDate=this.state.endDate;
+  let startDate=date;
+
+
+
+
+  var event = new CustomEvent("year-filter", {
       "detail": {
-        maxYear: value.max,
-        minYear:value.min
+        maxDate: encodeURIComponent(endDate),
+        minDate:encodeURIComponent(startDate)
       }
     });
     document.dispatchEvent(event);
+}
+handleChangeEnd(date){
 
-  }
+  this.setState({
+    endDate:date
+  })
+  let endDate=date;
+  let startDate=this.state.startDate;
 
+
+  encodeURIComponent(endDate);
+  var event = new CustomEvent("year-filter", {
+      "detail": {
+        maxDate: encodeURIComponent(endDate),
+        minDate:encodeURIComponent(startDate)
+      }
+    });
+    document.dispatchEvent(event);
+}
   render() {
     return (
-      <form className="form">
-        <InputRange
-          draggableTrack
-          maxValue={2018}
-          minValue={1970}
-          onChange={value => this.setState({ value: value })}
-          onChangeComplete={this.onChangeComplete.bind(this)}
-          value={this.state.value} />
-      </form>
+      <div>
+          {"From"}
+          <DatePicker
+          dateFormat="YYYY/MM/DD"
+          selected={this.state.startDate}
+          selectsStart
+          showYearDropdown
+          showMonthDropdown
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          onChange={this.handleChangeStart.bind(this)}
+          isClearable={true}
+          placeholderText="Select start Date"
+      />
+          {"To"}
+          <DatePicker
+              dateFormat="YYYY/MM/DD"
+              selected={this.state.endDate}
+              selectsEnd
+              showYearDropdown
+              showMonthDropdown
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              onChange={this.handleChangeEnd.bind(this)}
+              isClearable={true}
+              placeholderText="Select end Date"
+          />
+  </div>
     );
   }
 }

@@ -12,12 +12,17 @@ import FlaggedFilter from  '../components/filterPanel/flag/Flag';
 import Media_Filter from  '../components/filterPanel/media/Media';
 import SearchBar from '../taxonBrowser/SearchBar';
 import Year_Filter from  '../components/filterPanel/year/Year';
-import Day_Filter from  '../components/filterPanel/day/Day';
+import Validate_Filter from  '../components/filterPanel/validate/Validate';
 import Month_Filter from '../components/filterPanel/month/Month';
 import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
+import MapHolder from 'naksha-react-ui';
+
+// import sty from './mapbox-gl.css';
+// import sty1 from './assembly.css';
 
 class Right extends Component {
+
 constructor(){
   super();
   this.state={
@@ -25,7 +30,14 @@ constructor(){
     userGroupOpen:false,
     userOpen:false,
     taxonOpen:false,
-    length:null
+    mediaOpen:false,
+    flagOpen:false,
+    monthOpen:false,
+    speciesOpen:false,
+    validateOpen:false,
+    traitsOpen:false,
+    length:null,
+
   }
 }
 
@@ -56,6 +68,43 @@ openFilter(){
       userOpen:true
     })
    }
+   if(newparams.mediaFilter){
+     length++;
+    this.setState({
+      mediaOpen:true
+    })
+   }
+   if(newparams.isFlagged){
+     length++;
+    this.setState({
+      flagOpen:true
+    })
+   }
+   if(newparams.months){
+     length++;
+    this.setState({
+      monthOpen:true
+    })
+   }
+   if(newparams.speciesName){
+     length++;
+     this.setState({
+       speciesOpen:true
+     })
+   }
+   if(newparams.validate){
+     length++;
+     this.setState({
+       validateOpen:true
+     })
+   }
+   if(newparams.trait_8 || newparams.trait_9 ||newparams.trait_10 || newparams.trait_11 || newparams.trait_12 || newparams.trait_13 || newparams.trait_15){
+     length++;
+     this.setState({
+       traitsOpen:true
+     })
+   }
+
    this.setState({
      length
    })
@@ -68,49 +117,58 @@ this.openFilter();
 render(){
   return (
     <div>
+
         <button className="btn btn-large" style={{width:'100%',background:'#00ac9d'}} >
           <p className="pull-left" style={{fontSize:'15px'}} >Filter Panel </p>
           <i className="fa fa-trash-o fa-2x pull-right" aria-hidden="true"> {this.state.length}</i>
         </button>
+
         <Collapsible open={true} trigger="Taxon Browser">
           <div>
             <TaxonBrowser />
              <SearchBar />
           </div>
           </Collapsible>
+
           <Collapsible open={this.state.sGroupOpen} trigger="Species Groups">
             <SpeciesGroup />
           </Collapsible>
+
           <Collapsible open={this.state.userGroupOpen} trigger=" User Group">
             <div className="pre-scrollable">
               <UserGroup />
             </div>
           </Collapsible>
-          <Collapsible trigger="SpeciesName ">
+
+          <Collapsible open={this.state.speciesOpen} trigger="SpeciesName ">
             <ScientificNameFilter />
           </Collapsible>
-          <Collapsible trigger="Flag">
+
+          <Collapsible open={this.state.flagOpen} trigger="Flag">
             <FlaggedFilter />
           </Collapsible>
+
           <Collapsible open={this.state.userOpen} trigger="User ">
             <UserFilter/>
           </Collapsible>
-          <Collapsible trigger="Media Type">
+
+          <Collapsible open={this.state.mediaOpen} trigger="Media Type">
           <Media_Filter />
           </Collapsible>
-          <Collapsible trigger="Year ">
+
+          <Collapsible trigger="Date">
           <Year_Filter />
           </Collapsible>
 
-          <Collapsible trigger="Month ">
+          <Collapsible open={this.state.monthOpen} trigger="Seasonal">
           <Month_Filter />
           </Collapsible>
-          <Collapsible trigger="Days">
-          <Day_Filter />
+
+          <Collapsible open={this.state.validateOpen} trigger="Validate">
+          <Validate_Filter />
           </Collapsible>
 
-
-           <Collapsible trigger="Traits">
+          <Collapsible open={this.state.traitsOpen} trigger="Traits">
           <Traits_Filter />
           </Collapsible>
   </div>

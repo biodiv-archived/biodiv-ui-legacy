@@ -14,8 +14,6 @@ class SpeciesNameFilter extends Component{
 
 
 handleCheckboxes(event){
-  console.log(event.target.checked);
-  console.log(event.target.value);
   let speciesName=this.state.speciesName;
   if(event.target.checked){
     speciesName.push(event.target.value);
@@ -47,21 +45,21 @@ handleCheckboxes(event){
 
         <label>
             <Checkbox
-                value={"audio"}
+                value={"noofaudio"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{"Audio"}
         </label>
         <br />
         <label>
             <Checkbox
-                value={"video"}
+                value={"noofvideos"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{"Video"}
         </label>
         <br />
         <label>
             <Checkbox
-                value={"images"}
+                value={"noofimages"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{"Images"}
         </label>

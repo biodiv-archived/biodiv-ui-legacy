@@ -13,7 +13,7 @@ if(process.env.NODE_ENV=="development" ){
 }
 if(process.env.NODE_ENV=="kk" ){
   ROOT_URL="http://indiabiodiversity.org";
-  API_ROOT_URL="https://api.pamba.strandls.com";
+  API_ROOT_URL="http://indiabiodiversity.org";
 }
 if(process.env.NODE_ENV=="production" ){
   ROOT_URL="https://pamba.strandls.com";

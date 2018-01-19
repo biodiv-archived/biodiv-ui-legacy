@@ -41,8 +41,8 @@ export default function(state=DEFAULT_STATE,action){
     case FETCH_OBSERVATION:
       if(action.payload.data){
         return{
-          all:state.all.concat(action.payload.data.document),
-          count:1000
+          all:state.all.concat(action.payload.data.documents),
+          count:action.payload.data.totalDocuments
         }
       }
       else {

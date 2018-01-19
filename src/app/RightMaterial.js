@@ -30,7 +30,6 @@ const styleSheet = {
 class UndockedDrawer extends React.Component {
   constructor(props){
     super(props)
-    console.log("paramTest",this.props)
     this.state = {
       open: {
         top: false,
