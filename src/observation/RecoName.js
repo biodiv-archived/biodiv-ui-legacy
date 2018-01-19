@@ -322,8 +322,7 @@ class RecoName extends React.Component {
     ):null
     }
       </div>
-      <br/>
-      <div>
+      <div style={{marginTop:'1%'}}>
           {
             this.props.isLocked==false?
             (

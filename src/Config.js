@@ -14,6 +14,7 @@ if(process.env.NODE_ENV=="development" ){
 if(process.env.NODE_ENV=="kk" ){
   ROOT_URL="http://indiabiodiversity.org";
   API_ROOT_URL="http://indiabiodiversity.org";
+  API_ROOT_URL="https://api.indiabiodiversity.org";
 }
 if(process.env.NODE_ENV=="production" ){
   ROOT_URL="https://pamba.strandls.com";
@@ -74,7 +75,7 @@ export let Config = {
         logout : {
             default : {
                 method : 'post',
-                url : '/api/logout',
+                url : ROOT_URL+'/api/logout',
                 headers : AuthUtils.getAuthHeaders(),
                 data:{}
             }

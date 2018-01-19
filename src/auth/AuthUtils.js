@@ -21,10 +21,12 @@ class AuthUtils {
     }
 
     static isUserGroupFounder() {
+      console.log("isUserGroupFounder")
         return AuthUtils.currentUserHasRole('ROLE_USERGROUP_FOUNDER');
     }
 
     static isUserGroupExpert(){
+      console.log("isUserGroupExpert")
         return AuthUtils.currentUserHasRole('ROLE_USERGROUP_EXPERT');
     }
 
@@ -41,6 +43,7 @@ class AuthUtils {
     }
 
     static currentUserHasRole(role) {
+      console.log("currentUserHasRole")
         if(loginService.getAccessToken()) {
             if(loginService.hasRole(role))  { return true; }
             else { return false; }

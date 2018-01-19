@@ -29,7 +29,7 @@ class GroupsBulk extends React.Component{
   getUserGroupsWithWrite(){
     var options={
       method: 'GET',
-      url :   Config.api.ROOT_URL+"/api/user/getUserUserGroupsWithWrite",
+      url :   Config.api.API_ROOT_URL +"/user/currentUserUserGroups",
       headers : AuthUtils.getAuthHeaders(),
     }
 
@@ -241,7 +241,7 @@ class GroupsBulk extends React.Component{
     {
       var optionsPost={
         method: 'POST',
-        url :   Config.api.ROOT_URL+"/api/group/bulkPost",
+        url :   Config.api.API_ROOT_URL+"/userGroup/bulkPost",
         params:{
           pullType:"bulk",
           selectionType:"selectAll",
@@ -264,7 +264,7 @@ class GroupsBulk extends React.Component{
     else{
       var optionsPost={
         method: 'POST',
-        url :   Config.api.ROOT_URL+"/api/group/bulkPost",
+        url :   Config.api.API_ROOT_URL+"/userGroup/bulkPost",
         params:{
           pullType:"bulk",
           selectionType:"reset",
@@ -292,7 +292,7 @@ class GroupsBulk extends React.Component{
     if(this.props.selectAll==true){
       var optionsPost={
         method: 'POST',
-        url :   Config.api.ROOT_URL+"/api/group/bulkPost",
+        url :  Config.api.API_ROOT_URL+"/userGroup/bulkPost",
         params:{
           pullType:"bulk",
           selectionType:"selectAll",
@@ -315,7 +315,7 @@ class GroupsBulk extends React.Component{
     else{
       var optionsUnpost={
         method: 'POST',
-        url :   Config.api.ROOT_URL+"/api/group/bulkPost",
+        url :   Config.api.API_ROOT_URL+"/userGroup/bulkPost",
         params:{
           pullType:"bulk",
           selectionType:"reset",
