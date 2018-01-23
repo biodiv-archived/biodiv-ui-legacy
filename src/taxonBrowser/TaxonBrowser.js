@@ -242,11 +242,12 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
   event.preventDefault();
 
   }
+  //TODO :: do something here if u want to change the way how the taxon browser collapse
+  
   onExpand(expandedKeys,{expanded: bool, node}){
-    console.log(expandedKeys);
     if(!bool){
       this.setState({
-          Expanded:[],
+          Expanded:expandedKeys,
       })
     }
     else{

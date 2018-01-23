@@ -117,12 +117,6 @@ this.openFilter();
 render(){
   return (
     <div>
-
-        <button className="btn btn-large" style={{width:'100%',background:'#00ac9d'}} >
-          <p className="pull-left" style={{fontSize:'15px'}} >Filter Panel </p>
-          <i className="fa fa-trash-o fa-2x pull-right" aria-hidden="true"> {this.state.length}</i>
-        </button>
-
         <Collapsible open={true} trigger="Taxon Browser">
           <div>
             <TaxonBrowser />
