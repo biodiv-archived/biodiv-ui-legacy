@@ -121,7 +121,7 @@ class Header extends React.Component {
                 </NavLink>}
                 </li>
                 <li>
-                  {<NavLink to={`/${this.props.PublicUrl}list`}>Groups
+                  {<NavLink to={`/${this.props.PublicUrl}group/list`}>Groups
                 </NavLink>}
                 </li>
                 <li>

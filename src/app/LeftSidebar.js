@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import  queryString from 'query-string';
 import Collapsible from 'react-collapsible';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import style from './right_sidebar.css';
 
@@ -18,8 +20,7 @@ import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
 import MapHolder from 'naksha-react-ui';
 
-// import sty from './mapbox-gl.css';
-// import sty1 from './assembly.css';
+
 
 class Right extends Component {
 
@@ -42,6 +43,8 @@ constructor(){
 }
 
 openFilter(){
+
+  this.props.PublicUrl?this.refs.hide.style.display='none':null
    const newparams = queryString.parse(document.location.search);
    let length=0;
    if(newparams.sGroup){
@@ -124,16 +127,14 @@ render(){
           </div>
           </Collapsible>
 
-          <Collapsible open={this.state.sGroupOpen} trigger="Species Groups">
+          <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger="Species Groups">
             <SpeciesGroup />
           </Collapsible>
-
-          <Collapsible open={this.state.userGroupOpen} trigger=" User Group">
-            <div className="pre-scrollable">
-              <UserGroup />
-            </div>
+          <div ref="hide" style={{display:'block'}}>
+          <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger=" User Group">
+            <UserGroup />
           </Collapsible>
-
+          </div>
           <Collapsible open={this.state.speciesOpen} trigger="SpeciesName ">
             <ScientificNameFilter />
           </Collapsible>
@@ -162,11 +163,18 @@ render(){
           <Validate_Filter />
           </Collapsible>
 
-          <Collapsible open={this.state.traitsOpen} trigger="Traits">
+          <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger="Traits">
           <Traits_Filter />
           </Collapsible>
   </div>
   )
 }
 }
-export default Right
+function mapStateToProps(state) {
+  return {
+    PublicUrl:state.PublicUrl.url,
+    groupName:state.PublicUrl.groupName
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(Right));
