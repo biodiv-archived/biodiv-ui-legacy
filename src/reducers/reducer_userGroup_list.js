@@ -4,7 +4,10 @@ export default function UserGroupList_reducer(state=[],action){
   switch (action.type) {
     case FETCH_USERGROUP_LIST:
     //state.push()-->it manipulate the state
-    return state=action.payload.data.model.userGroupInstanceList;
+    if(action.payload.data){
+      return state=action.payload.data.model.userGroupInstanceList;
+
+    }
     //return [action.payload.data, ...state];
 
   }

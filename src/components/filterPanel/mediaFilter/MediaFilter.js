@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import Checkbox from 'rc-checkbox';
-import queryString from 'query-string';
 
+import Checkbox from 'rc-checkbox';
 import 'rc-checkbox/assets/index.css';
 
 class SpeciesNameFilter extends Component{
@@ -9,22 +8,10 @@ class SpeciesNameFilter extends Component{
   constructor(){
     super();
     this.state={
-      speciesName:[]
+      media:[]
     }
   }
-  setParameter(){
-    const newparams = queryString.parse(document.location.search);
-    if (newparams.speciesName) {
-      const data = newparams.speciesName.split(",");
-      this.setState({
-        speciesName:data
-      })
 
-    }
-  }
-  componentDidMount(){
-    this.setParameter();
-  }
 
 handleCheckboxes(event){
   let speciesName=this.state.speciesName;
@@ -58,20 +45,24 @@ handleCheckboxes(event){
 
         <label>
             <Checkbox
-                value={"UNIDENTIFED"}
-                checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
+                value={"noofaudio"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"UnKnown"}
+            />{"Audio"}
         </label>
         <br />
         <label>
             <Checkbox
-                value={"IDENTIFED"}
-                checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
+                value={"noofvideos"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"Known"}
+            />{"Video"}
         </label>
-
+        <br />
+        <label>
+            <Checkbox
+                value={"noofimages"}
+                onChange={this.handleCheckboxes.bind(this)}
+            />{"Images"}
+        </label>
       </div>
     )
   }

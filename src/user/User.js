@@ -33,7 +33,7 @@ class Example extends Component {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
     const inputValue1 = decodeURIComponent(inputValue);
-    let url = `http://indiabiodiversity.org/search/select?aq.object_type=SUser&aq.user=${inputValue1}&format=json`
+    let url = `search/select?aq.object_type=SUser&aq.user=${inputValue1}&format=json`
     inputLength === 0
       ? S_Callback([])
       : axios.get(url).then(function(response) {
@@ -109,26 +109,7 @@ class Example extends Component {
 
    }
 
-  // handleSubmit(event) {
-  //   event.preventDefault();
-  //   let userName = this.state.userName;
-  //   let userIds = this.state.userIds;
-  //   let singleUser = {};
-  //   const data = this.refs["sunil"].autowhatever.input.defaultValue.split(":");
-  //   singleUser.uid = data[1];
-  //   singleUser.uName = data[0];
-  //   userName.push(singleUser)
-  //   userIds.push(data[1]);
-  //   userName = _.uniqBy(userName, "uid");
-  //   userIds = _.uniqBy(userIds);
-  //   this.setState({userName, userIds})
-  //   var event = new CustomEvent("user-filter", {
-  //     "detail": {
-  //       userIds: userIds
-  //     }
-  //   });
-  //   document.dispatchEvent(event);
-  // };
+
 
   handleUrlParameters() {
     const newparams = queryString.parse(document.location.search);

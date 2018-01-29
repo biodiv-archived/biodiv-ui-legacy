@@ -2,6 +2,8 @@ import React from 'react';
 import style from './Month.css';
 import Checkbox from 'rc-checkbox';
 import 'rc-checkbox/assets/index.css';
+import queryString from 'query-string';
+
 import _ from 'lodash';
 
 function remove(array, element) {
@@ -14,6 +16,20 @@ class MonthApp extends React.Component {
     this.state = {
       monthSelected:[]
     };
+  }
+  componentDidMount(){
+      this.setParameter();
+  }
+
+  setParameter(){
+    const newparams = queryString.parse(document.location.search);
+    if (newparams.months) {
+      const data = newparams.months.split(",");
+      this.setState({
+        monthSelected:data
+      })
+
+    }
   }
 
 onChange(e){
@@ -46,7 +62,7 @@ else{
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"1"}
-            defaultChecked={this.state.monthSelected.includes("1")}
+            checked={this.state.monthSelected.includes("1")}
             name={"Januray"}
           />
           &nbsp;&nbsp;
@@ -57,7 +73,7 @@ else{
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"2"}
-            defaultChecked={this.state.monthSelected.includes("2")}
+            checked={this.state.monthSelected.includes("2")}
             name={"February"}
 
           />
@@ -69,7 +85,7 @@ else{
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"3"}
-            defaultChecked={this.state.monthSelected.includes("3")}
+            checked={this.state.monthSelected.includes("3")}
             name={"March"}
 
           />
@@ -82,7 +98,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"4"}
             name={"April"}
-            defaultChecked={this.state.monthSelected.includes("4")}
+            checked={this.state.monthSelected.includes("4")}
           />
           &nbsp;&nbsp;
           April
@@ -93,7 +109,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"5"}
             name={"May"}
-            defaultChecked={this.state.monthSelected.includes("5")}
+            checked={this.state.monthSelected.includes("5")}
           />
           &nbsp;&nbsp;
           May
@@ -104,7 +120,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"6"}
             name={"June"}
-            defaultChecked={this.state.monthSelected.includes("6")}
+            checked={this.state.monthSelected.includes("6")}
           />
           &nbsp;&nbsp;
           June
@@ -115,7 +131,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"7"}
             name={"July"}
-            defaultChecked={this.state.monthSelected.includes("7")}
+            checked={this.state.monthSelected.includes("7")}
           />
           &nbsp;&nbsp;
           July
@@ -126,7 +142,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"8"}
             name={"August"}
-            defaultChecked={this.state.monthSelected.includes("8")}
+            checked={this.state.monthSelected.includes("8")}
           />
           &nbsp;&nbsp;
           August
@@ -137,7 +153,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"9"}
             name={"September"}
-            defaultChecked={this.state.monthSelected.includes("9")}
+            checked={this.state.monthSelected.includes("9")}
           />
           &nbsp;&nbsp;
           September
@@ -148,7 +164,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"10"}
             name={"October"}
-            defaultChecked={this.state.monthSelected.includes("10")}
+            checked={this.state.monthSelected.includes("10")}
           />
           &nbsp;&nbsp;
           October
@@ -159,7 +175,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"11"}
             name={"November"}
-            defaultChecked={this.state.monthSelected.includes("11")}
+            checked={this.state.monthSelected.includes("11")}
           />
           &nbsp;&nbsp;
           November
@@ -170,7 +186,7 @@ else{
             onChange={this.onChange.bind(this)}
             id={"12"}
             name={"December"}
-            defaultChecked={this.state.monthSelected.includes("12")}
+            checked={this.state.monthSelected.includes("12")}
           />
           &nbsp;&nbsp;
           December

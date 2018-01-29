@@ -21,6 +21,7 @@ import Header from './app/header/Header';
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
+import {SET_GROUP_NAME} from './actions/index';
 
 javascriptTimeAgo.locale(require('javascript-time-ago/locales/en'))
 javascriptTimeAgo.locale(require('javascript-time-ago/locales/ru'))
@@ -29,9 +30,16 @@ require('javascript-time-ago/intl-messageformat-global')
 require('intl-messageformat/dist/locale-data/en')
 require('intl-messageformat/dist/locale-data/ru')
 
+require('dotenv').config()
+
+
 
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
+
+/*
+Let the user login always
+*/
 
 let store = createStoreWithMiddleware(reducers);
 if (AuthUtils.isLoggedIn()) {
@@ -41,6 +49,24 @@ if (AuthUtils.isLoggedIn()) {
 const newparams =  queryString.parse(document.location.search);
 let search1=queryString.stringify(newparams);
 let search2 = decodeURIComponent( search1 );
+
+/*
+For generating group level urls
+Now group level avaialble in global state if group context is set
+*/
+
+
+let groupName= document.location.pathname.split("/")[2];
+let groupsyntax=document.location.pathname.split("/")[1];
+
+if(groupsyntax==='group' && groupName!=null){
+  store.dispatch({type:SET_GROUP_NAME,payload:groupName})
+}
+else{
+  store.dispatch({type:SET_GROUP_NAME,payload:""})
+}
+
+
 
 ReactDOM.render(
   <Provider store={store}>

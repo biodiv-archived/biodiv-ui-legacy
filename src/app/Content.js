@@ -25,7 +25,6 @@ class Content extends Component {
     }
 
     render(){
-      console.log("conteeeeeeeeeeeeeeeeeeeeeeeeeent",this.props)
         return (
                 <div>
                     <div className={`col-sm-3 hidden-xs`}>

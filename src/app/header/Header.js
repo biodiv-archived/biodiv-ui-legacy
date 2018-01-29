@@ -14,32 +14,16 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      groupName:undefined,
-      groupDetails:{}
+      PublicUrl:this.props.PublicUrl
     }
   }
-  setGroupName(){
-    let groupName=this.props.location.pathname.split("/")[2];
-    let groupsyntax=this.props.location.pathname.split("/")[1];
-    if(groupsyntax==="group"){
-      getGroupName(groupName).then(data=>{
-      this.setState({
-        groupDetails:data,
-        groupName
-      })
-    })
-  }
-  else{
-    //TO FOR IBP GROUP
-  }
-}
+
   componentDidMount(){
-    this.setGroupName();
+
   }
+
 
   render() {
-    let userGroupDetails=this.state.groupDetails?this.state.groupDetails.data:null;
-
     return (
       <div className="container-fluid">
         <div className="row">
@@ -68,13 +52,13 @@ class Header extends React.Component {
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/species/list`}>Species Pages</NavLink>:<NavLink to={`/species/list`}>Species Pages</NavLink>}
+                      <NavLink to={`/${this.props.PublicUrl}species/list`}>Species Pages</NavLink>
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</NavLink>:<NavLink to={`/namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</NavLink>}
+                    { <NavLink to={`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</NavLink>}
                     </li>
                     <li>
-                    {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/trait/list/?max=&offset=0`}>Species Traits</NavLink>:<NavLink to={`/trait/list/?max=&offset=0`}>Species Traits</NavLink>}
+                  <NavLink to={`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>Species Traits</NavLink>
                     </li>
                   </ul>
                 </li>
@@ -84,26 +68,26 @@ class Header extends React.Component {
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/observation/list`}>Observations
-                    </NavLink>:<NavLink to={`/observation/list`}>Observations</NavLink>}
+                      <NavLink to={`/${this.props.PublicUrl}observation/list`}>Observations
+                    </NavLink>
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/checklist/index`}>Checklists
-                    </NavLink>:<NavLink to={`/checklist/index`}>Checklists</NavLink>}
+                      <NavLink to={`/${this.props.PublicUrl}checklist/index`}>Checklists
+                    </NavLink>
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/datasource/list`}>Datasets
-                    </NavLink>:<NavLink to={`/datasource/list`}>Datasets</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}datasource/list`}>Datasets
+                    </NavLink>}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/map`}>Maps
-                </NavLink>:<NavLink to={`/map`}>Maps</NavLink>}
+                  {<NavLink to={`/${this.props.PublicUrl}map`}>Maps
+                </NavLink>}
                 </li>
                 <li>
-                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/document/list`}>Documents
-                </NavLink>:<NavLink to={`/document/list`}>Documents</NavLink>}
+                  {<NavLink to={`/${this.props.PublicUrl}document/list`}>Documents
+                </NavLink>}
 
                 </li>
                 <li className="dropdown">
@@ -111,38 +95,38 @@ class Header extends React.Component {
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/species/contribute`}>Contribute to Species page
-                    </NavLink>:<NavLink to={`/species/contribute`}>Contribute to Species page</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}species/contribute`}>Contribute to Species page
+                    </NavLink>}
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/observation/create`}>Add Observation
-                    </NavLink>:<NavLink to={`/observation/create`}>Add Observation</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}observation/create`}>Add Observation
+                    </NavLink>}
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/observation/bulkCreate`}>  Add Multiple Observations
-                    </NavLink>:<NavLink to={`/observation/bulkCreate`}>  Add Multiple Observations</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}observation/bulkCreate`}>  Add Multiple Observations
+                    </NavLink>}
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/checklist/create`}>Add a list
-                    </NavLink>:<NavLink to={`/checklist/create`}>Add a list</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}checklist/create`}>Add a list
+                    </NavLink>}
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/document/create`}>
-                    Add Documents</NavLink>:<NavLink to={`/document/create`}>Add Documents</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}document/create`}>
+                    Add Documents</NavLink>}
                     </li>
                   </ul>
                 </li>
                 <li>
-                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/discussion/list`}>Discussions
-                </NavLink>:<NavLink to={`/discussion/list`}>Discussions</NavLink>}
+                  {<NavLink to={`/${this.props.PublicUrl}discussion/list`}>Discussions
+                </NavLink>}
                 </li>
                 <li>
-                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/group/list`}>Groups
-                </NavLink>:<NavLink to={`/group/list`}>Groups</NavLink>}
+                  {<NavLink to={`/${this.props.PublicUrl}group/list`}>Groups
+                </NavLink>}
                 </li>
                 <li>
-                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/page/4246006`}>Pages
-                </NavLink>:<NavLink to={`/page/4246006`}>Pages</NavLink>}
+                  {<NavLink to={`/${this.props.PublicUrl}page/4246006`}>Pages
+                </NavLink>}
                 </li>
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">More
@@ -150,20 +134,20 @@ class Header extends React.Component {
                   </a>
                   <ul className="dropdown-menu" role="menu">
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/activityFeed/list`}>Activity
-                    </NavLink>:<NavLink to={`/activityFeed/list`}>Activity</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}activityFeed/list`}>Activity
+                    </NavLink>}
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/list`}>Participants
-                    </NavLink>:<NavLink to={`/user/list`}>Participants</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}user/list`}>Participants
+                    </NavLink>}
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/chart/show`}>Dashboard
-                    </NavLink>:<NavLink to={`/chart/show`}>Dashboard</NavLink>}
+                      {<NavLink to={`/${this.props.PublicUrl}chart/show`}>Dashboard
+                    </NavLink>}
                     </li>
                     <li>
-                      {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/theportal`}>About
-                    </NavLink>:<NavLink to={`/theportal`}>About</NavLink>}
+                    <NavLink to={`/${this.props.PublicUrl}theportal`}>About
+                    </NavLink>
 
                     </li>
                   </ul>
@@ -201,16 +185,21 @@ class Header extends React.Component {
         </nav>
       </div>
       <div className="row">
-        <Banner userGroup={userGroupDetails} />
+        <Banner userGroupList={this.props.UserGroupList} groupName={this.props.groupName} />
       </div>
-
-
       </div>
     )
   }
 }
 function mapStateToProps(state) {
-  return {authenticated: state.auth.authenticated, userData: state.auth.userData, UserProfile: state.UserProfile};
+  return {
+    authenticated: state.auth.authenticated,
+    userData: state.auth.userData,
+    UserProfile: state.UserProfile,
+    UserGroupList:state.UserGroupList,
+    PublicUrl:state.PublicUrl.url,
+    groupName:state.PublicUrl.groupName
+  };
 }
 
 export default withRouter(connect(mapStateToProps)(Header));

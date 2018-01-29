@@ -1,26 +1,20 @@
 import React,{Component} from 'react';
-import Parser from 'html-react-parser';
 
 class ObservationGridView extends Component{
 display(objs,index){
 
-let title=Parser(objs.title);
+let title=objs.name;
   return (
     <li key= {index}>
-                 <div >
-
                 <div style={{height:'280px',width:'200px'}} className="card ">
                     <img className="card-img-top" style={{height:'200px',width:'200px'}} src={objs.thumbnail} />
                     <div className="card-block">
                         <figure className="profile"  style={{height:'40px',width:'40px'}}>
-                            <img src={objs.author.icon} className="profile-avatar" alt="" />
+                            <img src={objs.authorprofilepic} className="profile-avatar" alt="" />
                         </figure>
-                        <p className="card-title"> {title}</p>
+                        <i className="card-title"> {title}</i>
                     </div>
                 </div>
-
-
-                  </div>
         </li>
   )
 

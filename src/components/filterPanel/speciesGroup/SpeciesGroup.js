@@ -71,13 +71,13 @@ class SpeciesGroup extends Component {
          name="groups"
          value={this.state.sGroupId}
          onChange={this.sChanged.bind(this)}>
-         {this.state.list.map((item,index)=>{
+         {this.state.list?this.state.list.map((item,index)=>{
            return(
              <div key={index}>
              <label><Checkbox value={item.id.toString()} />{item.name}</label>
              </div>
            )
-         })}
+         }):null}
        </CheckboxGroup>
     )
   }
