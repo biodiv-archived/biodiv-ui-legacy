@@ -12,6 +12,7 @@ import { Config } from '../Config';
 import ModalPopup from '../auth/Modal.js';
 import AuthUtils from '../auth/AuthUtils.js';
 import UserGroup from '../util/UserGroup';
+import RichTextEditor from '../util/richEditor/RichTextEditor.js'
 
 var  abc= 'nrewurl';
 class CommentsFeeds extends React.Component {
@@ -43,6 +44,7 @@ class CommentsFeeds extends React.Component {
             let data={}
            data.id=JSON.stringify(user.userId)
            data.display=user.value
+           data.userpic=user.user_pic
            return data
          })
           userData=data1
@@ -67,7 +69,7 @@ class CommentsFeeds extends React.Component {
     }
     var feed1="feedbtn" + id
     var feedMore="moreFeedBtn"+id
-    axios.get(Config.api.API_ROOT_URL+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=5")
+    axios.get("https://api.pamba.strandls.com"+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=5")
         .then((response)=>{
           console.log(response.data)
           this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null
@@ -94,46 +96,59 @@ class CommentsFeeds extends React.Component {
     e.preventDefault();
     var id1=this.props.id;
     var obvComment1="obvComment"+this.props.id
-    console.log("tag",this.refs[obvComment1].props.value)
-    var value1=this.refs[obvComment1].props.value
-    var d = new Date();
-    var tym = d.getTime();
-    var options={
-      method:'POST',
-      url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
-      headers : AuthUtils.getAuthHeaders(),
-      json: 'true'
-    }
-    if(value1!=="")
-    {
-    this.setState({
-      value:''
-    })
-    axios(options)
-        .then((response)=>{
-          console.log("comment",response)
-        })
-        .catch((response)=>{
-          (response=="Error: Request failed with status code 401")?
-          (
-            this.setState({
-            login_modal:!(this.state.login_modal),
-            options:options
-          })
-
-          ):console.log("fofoofof")
-        })
-      }
+    this.refs[obvComment1]?console.log("tag*************************************************",this.refs[obvComment1]):null
+    // var value1=this.refs[obvComment1].props.value
+    // var d = new Date();
+    // var tym = d.getTime();
+    // var options={
+    //   method:'POST',
+    //   url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Observation&rootHolderId="+id1+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
+    //   headers : AuthUtils.getAuthHeaders(),
+    //   json: 'true'
+    // }
+    // if(value1!=="")
+    // {
+    // this.setState({
+    //   value:''
+    // })
+    // axios(options)
+    //     .then((response)=>{
+    //       console.log("comment",response)
+    //     })
+    //     .catch((response)=>{
+    //       (response=="Error: Request failed with status code 401")?
+    //       (
+    //         this.setState({
+    //         login_modal:!(this.state.login_modal),
+    //         options:options
+    //       })
+    //
+    //       ):console.log("fofoofof")
+    //     })
+    //   }
 
   }
 
   replyOnComment(id){
     var rep = "Reply"+id;
     var box = "Replybox"+id;
+    var box2 = "Editbox"+id;
     var postBtn = "Replypost"+id
-    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
+    //this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
+    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
     this.refs.hasOwnProperty(box)?(this.refs[box].style.display="block"):null
     this.refs.hasOwnProperty(postBtn)?(this.refs[postBtn].style.display="block"):null
+  }
+
+  editOnComment(id){
+    var box = "Replybox"+id;
+    var box2 = "Editbox"+id;
+    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="block"):null
+    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+  }
+
+  deleteOnComment(id){
+
   }
 
   cancelReplyOnComment(id){
@@ -168,6 +183,35 @@ class CommentsFeeds extends React.Component {
 
   }
 
+  displayTransform(id,display,type){
+    console.log("tetsing mentions input",id)
+    console.log("testing display",display)
+    console.log("testing type",type)
+    //var ids = ${id};
+    //var displays = ${display}
+    var ids = id.toString();
+    var displays = display.toString();
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",ids)
+    //var test =
+    console.log("***********************************",<a href={Config.api.ROOT_URL+"/user/show/"+id}>{display}</a>)
+    var url = Config.api.ROOT_URL+"/user/show"+id
+    var ht = "<a "+"href='"+url+"' >"+display+"</a>";
+    console.log("9999999999999999999999999999999",ht)
+    return display;
+  }
+
+  renderSuggestion(entry,search, highlightedDisplay, index){
+    console.log("testing entry",entry)
+    console.log("testing search",search)
+    console.log("testing highlightedDisplay",highlightedDisplay)
+    console.log("testing index",index)
+    return (
+            <div className="row">
+                <span className="col-sm-4"><img src={entry.userpic} height='40px' width='40px'/></span>
+                <span className="col-sm-8"><b><h5><a href={Config.api.ROOT_URL+"/user/show/"+entry.id}>{entry.display}</a></h5></b></span>
+            </div>
+          )
+  }
   render(){
     return(
       <div style={{marginTop:'1%'}}>
@@ -310,7 +354,7 @@ class CommentsFeeds extends React.Component {
                                                       </b>
                                                     </div>
                                                     <div className = "description row" style={{color:'#3B2F2F'}}>
-                                                        <span style={{wordWrap:'break-word'}}> {item.descriptionJson.description} </span>
+                                                        <span className="parse" style={{wordWrap:'break-word'}} dangerouslySetInnerHTML={{ __html: item.descriptionJson.description }} />
                                                     </div>
                                                     <div className="row" style={{marginTop:'1%'}}>
                                                     {
@@ -327,24 +371,32 @@ class CommentsFeeds extends React.Component {
                                                       (item.descriptionJson.activity_performed == 'Added a comment')?
                                                       (
                                                         <div className="row">
-                                                            <a  style={{display:'block'}} ref={"Reply"+item.id} onClick={this.replyOnComment.bind(this,item.id)}>Reply</a>
-                                                            <div className="col-sm-9 pull-left" style={{display:'none'}} ref={"Replybox"+item.id}>
-                                                                <MentionsInput
-                                                                    //ref={"obvComment"+this.props.id}
-                                                                    value={this.state.value}
-                                                                    onChange={this.handleChange.bind(this)}
-                                                                    style={commentWithTagStyle}
-                                                                    placeholder="Reply on comment"
-                                                                 >
-                                                                    <Mention trigger="@"
-                                                                        data={this.getUsers.bind(this)}
-                                                                        style={{backgroundColor: '#90D547'}}
-                                                                      />
+                                                            <a  className="col-sm-1" style={{display:'block'}} ref={"Reply"+item.id} onClick={this.replyOnComment.bind(this,item.id)}>Reply</a>
+                                                            {
+                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUserId())?
+                                                              (
+                                                                <a  className="col-sm-1" style={{display:'block'}} ref={"Edit"+item.id} onClick={this.editOnComment.bind(this,item.id)}>Edit</a>
+                                                              ):null
+                                                            }
+                                                            {
+                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUserId())?
+                                                              (
+                                                                <a  className="col-sm-1" style={{display:'block'}} ref={"Delete"+item.id} onClick={this.deleteOnComment.bind(this,item.id)}>Delete</a>
+                                                              ):null
+                                                            }
 
-                                                                </MentionsInput>
+                                                            <div className="col-sm-9 pull-left" style={{display:'none'}} ref={"Replybox"+item.id}>
+                                                                <RichTextEditor ref={"replyOnComment"+this.props.id} key={"richtextReply"+this.props.id}
+                                                                            //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+                                                                            parentCommentId={item.activityHolderId}
+                                                                            id={this.props.id}
+                                                                />
                                                             </div>
-                                                            <div className="col-sm-2 pull-right" style={{display:'none',marginRight:'0%',float:'right'}} ref={"Replypost"+item.id}>
-                                                              <input type="submit" value="Post" className="btn btn-xs comment-post-btn " style={{float:'right'}} />
+                                                            <div className="col-sm-9 pull-left" style={{display:'none'}} ref={"Editbox"+item.id}>
+                                                                <RichTextEditor ref={"editOnComment"+this.props.id} key={"richtextEdit"+this.props.id}
+                                                                            htm={item.descriptionJson.description}
+                                                                            id={this.props.id}
+                                                                />
                                                             </div>
                                                         </div>
                                                       ):null
@@ -362,29 +414,11 @@ class CommentsFeeds extends React.Component {
                       }
                   </ul>
             </div>
-            <div className="comment" >
-                    <form className="form-horizontal post-comment-form" onSubmit={this.commentPost.bind(this)}>
-                        <div className="row">
-                          <div className="col-sm-9" style={{marginLeft:'2%',width:'85%'}}>
-                            <MentionsInput
-                                ref={"obvComment"+this.props.id}
-                                value={this.state.value}
-                                onChange={this.handleChange.bind(this)}
-                                style={commentWithTagStyle}
-                                placeholder="Write Comment on Observation"
-                             >
-                                <Mention trigger="@"
-                                    data={this.getUsers.bind(this)}
-                                    style={{backgroundColor: '#90D547'}}
-                                  />
-
-                            </MentionsInput>
-                          </div>
-                          <div className="col-sm-1 pull-right" style={{marginRight:'2%'}}>
-                            <input type="submit" value="Post" className="btn btn-xs comment-post-btn " style={{float:'right'}} onClick={this.commentPost.bind(this)}/>
-                          </div>
-                        </div>
-                  </form>
+            <div className="comment">
+                <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
+                            //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+                            id={this.props.id}
+                />
             </div>
        </div>
 
