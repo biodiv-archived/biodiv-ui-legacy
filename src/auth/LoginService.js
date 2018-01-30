@@ -15,8 +15,8 @@ class LoginService {
 
         //HACK to use old grails token login
 
-        this.loginStore.set({'id': response.model.id, 'email': response.model.username, 'roles': response.model.roles, 'aToken': response.model.token});
-/*      var decoded = jwt_decode(response.access_token);
+      //  this.loginStore.set({'id': response.model.id, 'email': response.model.username, 'roles': response.model.roles, 'aToken': response.model.token});
+     var decoded = jwt_decode(response.access_token);
         var expires_in = new Date();
         expires_in.setTime(expires_in.getTime() + decoded.exp);
         var roles = [];
@@ -24,8 +24,8 @@ class LoginService {
             roles = roles.concat(item)
         })
 
-        this.loginStore.set({'id': decoded.id, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in});
-*/    }
+        this.loginStore.set({'id': response.userId, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in});
+    }
 
     getCredentails() {
         return this.loginStore.get();
