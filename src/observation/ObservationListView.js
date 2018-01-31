@@ -5,6 +5,8 @@ import EllipsisText  from 'react-ellipsis-text';
 import Moment from 'react-moment';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import createHistory from 'history/createBrowserHistory';
+
 
 import style from './ObservationStyle.css';
 
@@ -15,6 +17,20 @@ import UserGroup from '../util/UserGroup';
 import SpeciesGroup from '../util/SpeciesGroup';
 import Navigate from '../bulk/Navigation.js'
 import AuthUtils from '../auth/AuthUtils.js';
+
+const history = createHistory();
+
+function getList(Observation,id,flag) {
+  if(flag){
+    let item=Observation.filter((item)=>item.id==id)[0];
+      return item
+  }
+  else{
+    return Observation;
+  }
+
+}
+
 
 class ListComponent extends Component{
 
@@ -28,7 +44,8 @@ constructor(){
     bulk:false,
     bulkId:[],
     groupName:undefined,
-    flag:false
+    flag:false,
+    rerun:false
   }
 }
 getEditUserGroupMethod() {
@@ -65,7 +82,7 @@ componentDidMount(){
   this.showEditGroupList();
   this.getEditUserGroupMethod()
   this.setState({
-    flag : true
+    flag:true
   })
 
 }
@@ -82,39 +99,46 @@ fetchChange(id,event){
 }
 
 handleEditUserGroupButton(previous_id){
-
 !AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
-
  let obj = this.state.data.find(x => x.name === this.state.updateUserGroup);
- let url= `${Config.api.ROOT_URL}/api/observation/updateSpeciesGrp?group_id=${obj.id}&prev_group=${previous_id}&observationId=${this.state.ObservationId}`;
+ let url= `${Config.api.API_ROOT_URL}/observation/updategroup?groupid=${obj.id}&pgroupid=${previous_id}&objectid=${this.state.ObservationId}`;
 let options={
     method:'POST',
     url : url,
     headers :{
-      'X-Auth-Token' :localStorage.getItem('token'),
-      'X-AppKey'     :"62723036-3f09-41ef-a9d6-87a8afe76f24",
+      'X-Auth-Token' :"eyJhbGciOiJIUzI1NiJ9.eyIkaW50X3Blcm1zIjpbXSwic3ViIjoib3JnLnBhYzRqLmNvcmUucHJvZmlsZS5Db21tb25Qcm9maWxlIzEiLCIkaW50X3JvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfU1BFQ0lFU19BRE1JTiIsIlJPTEVfQURNSU4iLCJST0xFX0NFUEZfQURNSU4iXSwiZXhwIjoxNTEyNTQ0NTY3NjkwLCJlbWFpbCI6ImFkbWluQHN0cmFuZGxzLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.v_MqsgMnq2HHD0rFGDlu_RSFwfHCHZRrhUlo4IRPxCg",
+      'X-AppKey'     :"8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
       'Accept'       :"application/json"
     },
     json: 'true'
   }
   axios(options)
       .then((response)=>{
+        console.log(this.props.item.speciesgroupid);
+        Object.assign(this.props.item,response.data.document)
+        console.log(this.props.item.speciesgroupid);
+        this.setState({
+          rerun:true
+        })
+        let sid2=this.props.item.id+"2";
+        let sid1=this.props.item.id+"1";
 
+        this.refs[sid2].style.display='none';
+        this.refs[sid1].style.display='block';
       })
       .catch((response)=>{
 
       })
 }
 
-changeStyle(id){
 
+changeStyle(id){
   let sid1=id+"1";
   let sid2=id+"2"
 this.refs[sid1].style.display='none';
 this.refs[sid2].style.display='block';
 }
 changeStyle2(id){
-
   let sid1=id+"1";
   let sid2=id+"2"
 this.refs[sid1].style.display='block';
@@ -128,7 +152,6 @@ launchBulk(obvId){
     return id==obvId
   }
   let index = _bulkId.findIndex(checkIndex)
-  console.log(index)
   if(index<0)
   {
     _bulkId=_bulkId.concat(obvId)
@@ -154,15 +177,15 @@ resetBulk(){
   })
 }
 
-display(selectAll,objs,index){
-
+display(objs,selectAll){
+  console.log("i called too",objs,selectAll);
   return (
-    <div key= {index} className="container-fluid">
+    <div  className="container-fluid">
           <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '25px'}}>
                 <div className="media">
                   <div className="col-xs-12 col-sm-3">
                     <div className="media-left">
-                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} pos={index} objid={objs.id} images={objs.imageresource} />
+                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} objid={objs.id} images={objs.imageresource} />
                         {
                           (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
                           (
@@ -253,19 +276,21 @@ render(){
 return(
 <div>
     {(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null }
-    {this.props.objsa.map(this.display.bind(this,this.props.selectAll))}
-
+    {this.display(this.props.item,this.props.selectAll)}
 </div>
 )
 }
 }
 
 
-function mapStateToProps(state) {
+function mapStateToProps(state,ownProps) {
+
   return {
     authenticated: state.auth.authenticated,
     userData:state.auth.userData,
-    PublicUrl:state.PublicUrl
+    PublicUrl:state.PublicUrl,
+    item:getList(state.Observation.all,ownProps.uniqueKey,true)
   };
 }
+
 export default withRouter(connect(mapStateToProps)(ListComponent));

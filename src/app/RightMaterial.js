@@ -44,14 +44,14 @@ class UndockedDrawer extends React.Component {
 
 
 
-  toggleDrawer = (side, open) => {
+  toggleDrawer (side, open) {
     const drawerState = {};
     drawerState[side] = open;
     this.setState({ open: drawerState,UniqueSpeciesOpen:!this.state.UniqueSpeciesOpen });
   };
 
-  handleRightOpen = () => this.toggleDrawer('right', true);
-  handleRightClose = () => this.toggleDrawer('right', false);
+  handleRightOpen () {this.toggleDrawer('right', true);}
+  handleRightClose () {this.toggleDrawer('right', false);}
 
   render() {
     console.log(this.props.filterParams)

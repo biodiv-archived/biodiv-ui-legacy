@@ -13,7 +13,6 @@ if(process.env.NODE_ENV=="development" ){
 }
 if(process.env.NODE_ENV=="kk" ){
   ROOT_URL="http://indiabiodiversity.org";
-  API_ROOT_URL="http://indiabiodiversity.org";
   API_ROOT_URL="https://api.indiabiodiversity.org";
 }
 if(process.env.NODE_ENV=="production" ){

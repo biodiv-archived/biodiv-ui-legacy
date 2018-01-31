@@ -29,11 +29,15 @@ const styles = {
 };
 
 class SideBar extends Component {
-  state = {
+
+constructor(props) {
+  super(props);
+  this.state = {
     open: {
       left: false
-    },
+    }
   };
+}
 
 
 
@@ -41,14 +45,14 @@ class SideBar extends Component {
 
 
   }
-  toggleDrawer = (side, open) => {
+  toggleDrawer (side, open) {
     const drawerState = {};
     drawerState[side] = open;
     this.setState({ open: drawerState });
   };
 
-  handleRightOpen = () => this.toggleDrawer('left', true);
-  handleRightClose = () => this.toggleDrawer('left', false);
+  handleRightOpen () {this.toggleDrawer('left', true);}
+  handleRightClose () {this.toggleDrawer('left', false);}
 
   render() {
     const classes = this.props.classes;

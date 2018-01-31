@@ -26,6 +26,7 @@ class ObservationMapView extends Component{
            default_zoom="3.5"
            map_container="map"
            url_response_geohash_field="geohashAggregation"
+           url_response_filtered_geohash_field="geohashAggregation"
            color_scheme="YlOrRd"
            legend_stops="9"
       />
@@ -34,9 +35,9 @@ class ObservationMapView extends Component{
 
   render(){
     return(
-      <div>
+      <div style={{height:'50px'}}>
         {this.state.flag ? this.map() : null}
-        <div id="map" style={{height:"550px"}}>
+        <div id="map" style={{height:"400px",marginTop:"100px"}}>
         </div>
       </div>
     )

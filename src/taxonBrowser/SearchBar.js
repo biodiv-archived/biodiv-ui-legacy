@@ -22,7 +22,7 @@ class Example extends Component {
     this.onSuggestionSelected=this.onSuggestionSelected.bind(this);
   }
 
-getSuggestions = (value,S_Callback) => {
+getSuggestions(value,S_Callback){
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         const inputValue1= decodeURIComponent(inputValue);
@@ -36,33 +36,33 @@ getSuggestions = (value,S_Callback) => {
         })
   };
 
-  S_Callback =(suggestions)=> {
+  S_Callback (suggestions) {
    this.setState({
      suggestions: suggestions
    });
   };
 
-onSuggestionsFetchRequested = ({ value }) => {
+onSuggestionsFetchRequested ({ value }) {
      this.getSuggestions(value,this.S_Callback);
 
   };
-  onChange = (event, { newValue }) => {
+  onChange (event, { newValue }) {
     this.setState({
       value: newValue
     });
   };
 
-  getSuggestionValue = (suggestion) => {
+  getSuggestionValue (suggestion) {
      return suggestion.name
    };
 
-  onSuggestionsClearRequested = () => {
+  onSuggestionsClearRequested () {
     this.setState({
       suggestions: []
     });
   };
 
-  renderSuggestion = (suggestion,{query}) => {
+  renderSuggestion (suggestion,{query}) {
     const suggestionText = `${suggestion.name}`;
     const matches = AutosuggestHighlightMatch(suggestionText, query);
     const parts = AutosuggestHighlightParse(suggestionText, matches);
