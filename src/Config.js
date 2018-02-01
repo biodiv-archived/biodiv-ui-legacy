@@ -63,7 +63,7 @@ export let Config = {
             default : {
                 method : 'post',
                 baseURL:'',
-                url : API_ROOT_URL+'/login',
+                url :  API_ROOT_URL+'/login',
                 headers : {'Content-Type' : 'application/x-www-form-urlencoded'},
                 data : {}
             },
@@ -76,7 +76,7 @@ export let Config = {
         logout : {
             default : {
                 method : 'get',
-                url : API_ROOT_URL+'/logout',
+                url :  API_ROOT_URL+'/logout',
                 headers : AuthUtils.getAuthHeaders(),
                 data:{}
             }
