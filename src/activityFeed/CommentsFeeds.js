@@ -186,7 +186,7 @@ class CommentsFeeds extends React.Component {
     console.log("deleteonCommmmmmmmmmmment",id)
     var options={
        method:'POST',
-       url :   Config.api.API_ROOT_URL+"http://localhost:8080/biodiv-api"+"/comment/removeComment?commentId="+id,
+       url :   Config.api.API_ROOT_URL+"/comment/removeComment?commentId="+id,
        headers : AuthUtils.getAuthHeaders(),
        json: 'true'
      }

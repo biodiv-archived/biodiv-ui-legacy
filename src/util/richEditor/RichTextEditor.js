@@ -19,7 +19,7 @@ import './editorStyles.css';
 import 'draft-js-hashtag-plugin/lib/plugin.css';
 import 'draft-js-linkify-plugin/lib/plugin.css';
 import 'draft-js-image-plugin/lib/plugin.css';
-import './DraftStyleDefault.css'
+//import './DraftStyleDefault.css'
 import AuthUtils from '../../auth/AuthUtils.js';
 //import 'draft-js/dist/Draft.css';
 
@@ -120,16 +120,6 @@ class RichTextEditor extends React.Component {
   //     ]
   constructor(props) {
     super(props);
-    this.decorator = new CompositeDecorator([
-            {
-              strategy: this.findLinkEntities,
-              component: this.Link,
-            },
-            {
-              strategy: this.findImageEntities,
-              component: this.Image,
-            },
-          ]);
 
     this.decorator = [
           {
@@ -164,33 +154,36 @@ class RichTextEditor extends React.Component {
       options:'',
     };
     this.taggedUsers=[];
+    // this.onChange =  this.onChange.bind(this);
+    // this.onSearchChange =  this.onSearchChange.bind(this);
+    // this.focus = this.focus.bind(this);
   }
 
-  onChange (editorState) {
-    // this.setState({
-    //   editorState,
-    // });
+  onChange = (editorState) => {
+    this.setState({
+      editorState,
+    });
   };
 
-  onSearchChange ({ value }) {
-    // axios.get(Config.api.ROOT_URL+"/user/terms?term="+value+"&format=json")
-    //     .then((response)=>{
-    //       let data1= response.data.map((user,index)=>{
-    //           let data={}
-    //          data.id=JSON.stringify(user.userId)
-    //          data.name=user.value
-    //          data.link=Config.api.ROOT_URL+"/user/show/"+JSON.stringify(user.userId);
-    //          data.avatar=user.user_pic
-    //          return data
-    //        })
-    //       this.setState({
-    //         suggestions:  data1,
-    //       });
-    //     })
+  onSearchChange =({ value })=> {
+    axios.get(Config.api.ROOT_URL+"/user/terms?term="+value+"&format=json")
+        .then((response)=>{
+          let data1= response.data.map((user,index)=>{
+              let data={}
+             data.id=JSON.stringify(user.userId)
+             data.name=user.value
+             data.link=Config.api.ROOT_URL+"/user/show/"+JSON.stringify(user.userId);
+             data.avatar=user.user_pic
+             return data
+           })
+          this.setState({
+            suggestions:  data1,
+          });
+        })
   };
 
-  focus () {
-    // this.editor.focus();
+  focus = () => {
+    this.editor.focus();
   };
 
   onCommentPost(e){
