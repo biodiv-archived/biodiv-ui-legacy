@@ -13,7 +13,7 @@ class ExampleApp extends React.Component {
     super(props);
 
     this.state = {
-      startDate:moment('01-01-1970',"YYYY/MM/DD"),
+      startDate:moment('01-01-1970',"DD/MM/YYYY"),
       endDate: moment()
     };
   }
@@ -60,9 +60,8 @@ handleChangeEnd(date){
       <div>
           {"From"}
           <DatePicker
-          dateFormat="YYYY/MM/DD"
+          dateFormat="DD/MM/YYYY"
           selected={this.state.startDate}
-          selectsStart
           showYearDropdown
           showMonthDropdown
           startDate={this.state.startDate}
@@ -73,7 +72,7 @@ handleChangeEnd(date){
       />
           {"To"}
           <DatePicker
-              dateFormat="YYYY/MM/DD"
+              dateFormat="DD/MM/YYYY"
               selected={this.state.endDate}
               selectsEnd
               showYearDropdown

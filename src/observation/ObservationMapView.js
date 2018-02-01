@@ -15,6 +15,7 @@ class ObservationMapView extends Component{
     this.setState({
       flag:true
     })
+    console.log("componentDidMount");
   }
 
   map() {
@@ -22,10 +23,10 @@ class ObservationMapView extends Component{
     return (
       <MapHolder url={url}
            location_field="location"
-           map_container="map"
-           default_zoom="3.5"
-           map_container="map"
+           default_zoom="3"
+           map_container="map2"
            url_response_geohash_field="geohashAggregation"
+           url_response_filtered_geohash_field="geohashAggregation"
            color_scheme="YlOrRd"
            legend_stops="9"
       />
@@ -36,7 +37,7 @@ class ObservationMapView extends Component{
     return(
       <div>
         {this.state.flag ? this.map() : null}
-        <div id="map" style={{height:"550px"}}>
+        <div id="map2" style={{height:"450px"}}>
         </div>
       </div>
     )

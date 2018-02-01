@@ -51,7 +51,7 @@ class SpeciesGroup extends Component {
   }
 
 
-  sChanged = (sGroupId,event) => {
+  sChanged(sGroupId,event) {
       this.setState({
         sGroupId
       },()=>{

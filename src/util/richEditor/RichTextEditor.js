@@ -72,7 +72,6 @@ const Entry = (props) => {
 
     const Link = (props) => {
            const {url} = props.contentState.getEntity(props.entityKey).getData();
-           console.log("000000000000000000000000000000000000000000000000000",props.children)
            return (
              <a href={url} style={styles.link} >
                {props.children}
@@ -119,19 +118,18 @@ class RichTextEditor extends React.Component {
   //          component: Image,
   //       }
   //     ]
-
   constructor(props) {
     super(props);
-    // this.decorator = new CompositeDecorator([
-    //         {
-    //           strategy: this.findLinkEntities,
-    //           component: this.Link,
-    //         },
-    //         {
-    //           strategy: this.findImageEntities,
-    //           component: this.Image,
-    //         },
-    //       ]);
+    this.decorator = new CompositeDecorator([
+            {
+              strategy: this.findLinkEntities,
+              component: this.Link,
+            },
+            {
+              strategy: this.findImageEntities,
+              component: this.Image,
+            },
+          ]);
 
     this.decorator = [
           {
@@ -168,31 +166,31 @@ class RichTextEditor extends React.Component {
     this.taggedUsers=[];
   }
 
-  onChange = (editorState) => {
-    this.setState({
-      editorState,
-    });
+  onChange (editorState) {
+    // this.setState({
+    //   editorState,
+    // });
   };
 
-  onSearchChange = ({ value }) => {
-    axios.get(Config.api.ROOT_URL+"/user/terms?term="+value+"&format=json")
-        .then((response)=>{
-          let data1= response.data.map((user,index)=>{
-              let data={}
-             data.id=JSON.stringify(user.userId)
-             data.name=user.value
-             data.link=Config.api.ROOT_URL+"/user/show/"+JSON.stringify(user.userId);
-             data.avatar=user.user_pic
-             return data
-           })
-          this.setState({
-            suggestions:  data1,
-          });
-        })
+  onSearchChange ({ value }) {
+    // axios.get(Config.api.ROOT_URL+"/user/terms?term="+value+"&format=json")
+    //     .then((response)=>{
+    //       let data1= response.data.map((user,index)=>{
+    //           let data={}
+    //          data.id=JSON.stringify(user.userId)
+    //          data.name=user.value
+    //          data.link=Config.api.ROOT_URL+"/user/show/"+JSON.stringify(user.userId);
+    //          data.avatar=user.user_pic
+    //          return data
+    //        })
+    //       this.setState({
+    //         suggestions:  data1,
+    //       });
+    //     })
   };
 
-  focus = () => {
-    this.editor.focus();
+  focus () {
+    // this.editor.focus();
   };
 
   onCommentPost(e){
