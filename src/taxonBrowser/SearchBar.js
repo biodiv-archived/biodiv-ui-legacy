@@ -20,6 +20,8 @@ class Example extends Component {
       values:{}
     };
     this.onSuggestionSelected=this.onSuggestionSelected.bind(this);
+    this.onChange=this.onChange.bind(this);
+    this.S_Callback=this.S_Callback.bind(this);
   }
 
 getSuggestions(value,S_Callback){
@@ -144,14 +146,13 @@ onSuggestionsFetchRequested ({ value }) {
             theme={this.theme}
             suggestions={this.state.suggestions}
             ref={"input"}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            getSuggestionValue={this.getSuggestionValue}
-            renderSuggestion={this.renderSuggestion}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested.bind(this)}
+            getSuggestionValue={this.getSuggestionValue.bind(this)}
+            renderSuggestion={this.renderSuggestion.bind(this)}
             inputProps={inputProps}
-            onSuggestionSelected={this.onSuggestionSelected}
+            onSuggestionSelected={this.onSuggestionSelected.bind(this)}
           />
-
     </form>
   </div>
     );
