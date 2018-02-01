@@ -58,6 +58,7 @@ class ObservationListContainer extends Component {
 
         },
         view:1,
+        showMap:false,
         selectAll:false,
         urlforPassing:undefined
       }
@@ -681,7 +682,8 @@ class ObservationListContainer extends Component {
         }
         showMapView(){
           this.setState({
-            view:2
+            view:2,
+            showMap:true
           })
         }
 
@@ -711,7 +713,7 @@ class ObservationListContainer extends Component {
 
   render(){
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
-return   <ObservationListWrapper  uniqueKey={item.id}  key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
+return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
 }):null;
     return(
       <div>
@@ -758,7 +760,7 @@ return   <ObservationListWrapper  uniqueKey={item.id}  key={item.id} filterUrl={
 
 
               {/* <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/> */}
-              <div>{list}</div>
+              <div>{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
               <br />
 
 

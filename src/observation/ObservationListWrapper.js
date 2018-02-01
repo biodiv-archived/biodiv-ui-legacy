@@ -13,11 +13,13 @@ class ObservationListWrapper extends Component{
         super();
     }
     render(){
+      console.log(this.props.view);
+      console.log(this.props.filterUrl);
         return(
                 <div>
                       {this.props.view===1?<ObservationListView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll} uniqueKey={this.props.uniqueKey}  key={this.props.key} /> :
                       this.props.view===2?<ObservationMapView filterUrl={this.props.filterUrl}  /> :
-                      this.props.view===0?<ObservationGridView filterUrl={this.props.filterUrl} objsa={this.props.Observation.all} /> : null}
+                      this.props.view===0?<ObservationGridView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll} objsa={this.props.objs} /> : null}
                 </div>
                 )
     }

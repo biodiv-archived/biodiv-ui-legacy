@@ -178,7 +178,6 @@ resetBulk(){
 }
 
 display(objs,selectAll){
-  console.log("i called too",objs,selectAll);
   return (
     <div  className="container-fluid">
           <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '25px'}}>
@@ -263,7 +262,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-               <Tabs objs={objs} />
+               {/* <Tabs objs={objs} /> */}
             <br />
             </div>
 
