@@ -36,9 +36,10 @@ class LoginService {
     }
 
     getAccessToken() {
-      // console.log("getAccessToken")
+      //console.log("getAccessToken")
         var c = this.loginStore.get();
-        // console.log("get",c.aToken)
+        //console.log("get",c.aToken)
+
         return c.hasOwnProperty('aToken') ? c.aToken : false;
     }
 

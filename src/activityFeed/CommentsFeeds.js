@@ -31,6 +31,11 @@ class CommentsFeeds extends React.Component {
     this.fetchCount=0;
     this.currentHrefForUsergroup='';
     this.getGroupUrlById = this.getGroupUrlById.bind(this);
+    this.fetchFeeds = this.fetchFeeds.bind(this);
+  }
+
+  componentDidMount(){
+    this.fetchFeeds(this.props.id);
   }
 
   getUsers(query, callback){
@@ -58,8 +63,21 @@ class CommentsFeeds extends React.Component {
     })
  }
 
- fetchFeeds(id){
+ fetchFeeds(id,first){
+   console.log("fetchFeeds calllllllllled",first)
+   console.log("sdhyfsfhyshs",this)
+   console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     var refTime;
+    if(first === true)
+    {
+      this.setState({
+        response:[]
+      });
+      console.log("inside fistr ttrue")
+      console.log(this.fetchCount,this.state.response)
+      this.fetchCount=0;
+    }
+    console.log("fetchcouint",this.fetchCount)
     if(this.fetchCount>0){
       refTime = this.refTym
     }else{
@@ -69,13 +87,16 @@ class CommentsFeeds extends React.Component {
     }
     var feed1="feedbtn" + id
     var feedMore="moreFeedBtn"+id
-    axios.get("https://api.pamba.strandls.com"+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=5")
+    console.log("in the fecth feeds")
+    axios.get(Config.api.API_ROOT_URL+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=2")
         .then((response)=>{
           console.log(response.data)
-          this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null
-          this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="block"):null
+        //  this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null
+        //  this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="block"):null
           if(response.data.remainingFeedCount ==0){
             this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="none"):null
+          }else{
+            this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="block"):null
           }
           if(response.data){
 
@@ -131,33 +152,98 @@ class CommentsFeeds extends React.Component {
 
   replyOnComment(id){
     var rep = "Reply"+id;
+    var canRep ="CancelReply"+id
     var box = "Replybox"+id;
     var box2 = "Editbox"+id;
-    var postBtn = "Replypost"+id
-    //this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
+    var edit = "Edit"+id;
+    var del = "Delete"+id;
+    //var postBtn = "Replypost"+id
+    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
+    this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="none"):null
+    this.refs.hasOwnProperty(del)?(this.refs[del].style.display="none"):null
+    this.refs.hasOwnProperty(canRep)?(this.refs[canRep].style.display="block"):null
     this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
     this.refs.hasOwnProperty(box)?(this.refs[box].style.display="block"):null
-    this.refs.hasOwnProperty(postBtn)?(this.refs[postBtn].style.display="block"):null
+    //this.refs.hasOwnProperty(postBtn)?(this.refs[postBtn].style.display="block"):null
   }
 
   editOnComment(id){
+    var del = "Delete"+id;
+    var rep = "Reply"+id;
+    var edit = "Edit"+id;
     var box = "Replybox"+id;
     var box2 = "Editbox"+id;
+    var canEdit ="CancelEdit"+id;
+    this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="none"):null
+    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
+    this.refs.hasOwnProperty(del)?(this.refs[del].style.display="none"):null
+    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="block"):null
     this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="block"):null
     this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
   }
 
   deleteOnComment(id){
+    console.log("deleteonCommmmmmmmmmmment",id)
+    var options={
+       method:'POST',
+       url :   Config.api.API_ROOT_URL+"/comment/removeComment?commentId="+id,
+       headers : AuthUtils.getAuthHeaders(),
+       json: 'true'
+     }
+     axios(options)
+         .then((response)=>{
+           console.log("comment",response)
+           console.log(this.props.fetchFeeds)
+           this.fetchFeeds(this.props.id,true);
+         })
+          .catch((response)=>{
+            (response=="Error: Request failed with status code 401")?
+            (
+              this.setState({
+              login_modal:!(this.state.login_modal),
+              options:options
+            })
 
+            ):console.log("fofoofof")
+          })
   }
 
-  cancelReplyOnComment(id){
-    var rep = "Reply"+id;
-    var box = "Replybox"+id;
-    var postBtn = "Replypost"+id
+  cancelReplyOnComment(item){
+    var rep = "Reply"+item.id;
+    var box = "Replybox"+item.id;
+    var box2 = "Editbox"+item.id;
+    var canRep ="CancelReply"+item.id;
+    var edit = "Edit"+item.id;
+    var del = "Delete"+item.id;
+    //var postBtn = "Replypost"+id
+    this.refs.hasOwnProperty(canRep)?(this.refs[canRep].style.display="none"):null
     this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="block"):null
+
+    if(AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id){
+      this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="block"):null
+      this.refs.hasOwnProperty(del)?(this.refs[del].style.display="block"):null
+    }
+    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
     this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
-    this.refs.hasOwnProperty(postBtn)?(this.refs[postBtn].style.display="none"):null
+    //this.refs.hasOwnProperty(postBtn)?(this.refs[postBtn].style.display="none"):null
+  }
+
+  cancelEditOnComment(item){
+    var rep = "Reply"+item.id;
+    var box = "Replybox"+item.id;
+    var box2 = "Editbox"+item.id;
+    var canEdit ="CancelEdit"+item.id;
+    var edit = "Edit"+item.id;
+    var del = "Delete"+item.id;
+    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="none"):null
+    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="block"):null
+
+    if(AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id){
+      this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="block"):null
+      this.refs.hasOwnProperty(del)?(this.refs[del].style.display="block"):null
+    }
+    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
+    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
   }
 
   getGroupUrlById(groupId){
@@ -239,10 +325,10 @@ class CommentsFeeds extends React.Component {
                   <input type="hidden" name="feedHomeObjectId" value="1747730"/>
                   <input type="hidden" name="feedHomeObjectType" value="species.participation.Observation"/>
                   <div className="row" style={{marginLeft:'2%'}}>
-                      <a className="activiyfeednewermsg " style={{display:'none'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{"Show "+this.state.remainingFeedCount+ " older Feed(s)"}</a>
-                      <a className="activiyfeedoldermsg " style={{display:'block'}} title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>
+                      <a className="activiyfeednewermsg " style={{display:'block'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{"Show "+this.state.remainingFeedCount+ " older Feed(s)"}</a>
+                      {/*<a className="activiyfeedoldermsg " style={{display:'block'}} title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>*/}
                   </div>
-                  <ul className="list-unstyled row" id={this.props.id+"feedlist"} style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'2%'}}>
+                  <ul className="list-unstyled row pre-scrollable" id={this.props.id+"feedlist"} style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'2%'}}>
                       {
                         this.state.response?(
                           this.state.response.length>0?(
@@ -345,10 +431,20 @@ class CommentsFeeds extends React.Component {
                                                       <b>
                                                           {item.author.name}   :
                                                           <span className="yj-context text-success">  {item.descriptionJson.activity_performed + ' '}
-
+                                                          {
+                                                            item.descriptionJson.ro_type === "userGroup"?
+                                                            (
                                                               <a href={this.getGroupUrlById(item.descriptionJson.ro_id)}>
-                                                                {item.descriptionJson.name}
+                                                              {item.descriptionJson.name}
                                                               </a>
+                                                            ):
+                                                            (
+                                                              <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
+                                                              {item.descriptionJson.name}
+                                                              </a>
+                                                            )
+                                                          }
+
                                                           </span>
 
                                                       </b>
@@ -368,36 +464,46 @@ class CommentsFeeds extends React.Component {
                                                     }
                                                     </div>
                                                     {
-                                                      (item.descriptionJson.activity_performed == 'Added a comment')?
+                                                      (item.descriptionJson.activity_performed == 'Added a comment' || item.descriptionJson.activity_performed == 'In reply to')?
                                                       (
+                                                        <div>
                                                         <div className="row">
-                                                            <a  className="col-sm-1" style={{display:'block'}} ref={"Reply"+item.id} onClick={this.replyOnComment.bind(this,item.id)}>Reply</a>
+                                                            <a  className="col-xs-2" style={{display:'block'}} ref={"Reply"+item.id} onClick={this.replyOnComment.bind(this,item.id)}>Reply</a>
+                                                            <a  className="col-xs-2" style={{display:'none'}} ref={"CancelReply"+item.id} onClick={this.cancelReplyOnComment.bind(this,item)}>Cancel</a>
                                                             {
-                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUserId())?
+                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
                                                               (
-                                                                <a  className="col-sm-1" style={{display:'block'}} ref={"Edit"+item.id} onClick={this.editOnComment.bind(this,item.id)}>Edit</a>
-                                                              ):null
-                                                            }
-                                                            {
-                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUserId())?
-                                                              (
-                                                                <a  className="col-sm-1" style={{display:'block'}} ref={"Delete"+item.id} onClick={this.deleteOnComment.bind(this,item.id)}>Delete</a>
-                                                              ):null
-                                                            }
+                                                                <a  className="col-xs-2" style={{display:'block'}} ref={"Edit"+item.id} onClick={this.editOnComment.bind(this,item.id)}>Edit</a>
 
-                                                            <div className="col-sm-9 pull-left" style={{display:'none'}} ref={"Replybox"+item.id}>
+                                                              ):null
+                                                            }
+                                                            <a  className="col-xs-2" style={{display:'none'}} ref={"CancelEdit"+item.id} onClick={this.cancelEditOnComment.bind(this,item)}>Cancel</a>
+                                                            {
+                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
+                                                              (
+                                                                <a  className="col-xs-2" style={{display:'block'}} ref={"Delete"+item.id} onClick={this.deleteOnComment.bind(this,item.activityHolderId)}>Delete</a>
+                                                              ):null
+                                                            }
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-sm-12" style={{display:'none'}} ref={"Replybox"+item.id}>
                                                                 <RichTextEditor ref={"replyOnComment"+this.props.id} key={"richtextReply"+this.props.id}
-                                                                            //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+
                                                                             parentCommentId={item.activityHolderId}
-                                                                            id={this.props.id}
+                                                                            getFeeds={this.fetchFeeds}
+                                                                            obvId={this.props.id}
                                                                 />
                                                             </div>
-                                                            <div className="col-sm-9 pull-left" style={{display:'none'}} ref={"Editbox"+item.id}>
+                                                            <div className="col-sm-12" style={{display:'none'}} ref={"Editbox"+item.id}>
                                                                 <RichTextEditor ref={"editOnComment"+this.props.id} key={"richtextEdit"+this.props.id}
                                                                             htm={item.descriptionJson.description}
-                                                                            id={this.props.id}
+                                                                            //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+                                                                            currentCommentId={item.activityHolderId}
+                                                                            getFeeds={this.fetchFeeds}
+                                                                            obvId={this.props.id}
                                                                 />
                                                             </div>
+                                                        </div>
                                                         </div>
                                                       ):null
                                                     }
@@ -417,7 +523,8 @@ class CommentsFeeds extends React.Component {
             <div className="comment">
                 <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
                             //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
-                            id={this.props.id}
+                            obvId={this.props.id}
+                            getFeeds={this.fetchFeeds}
                 />
             </div>
        </div>
