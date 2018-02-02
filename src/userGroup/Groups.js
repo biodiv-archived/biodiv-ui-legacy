@@ -252,7 +252,7 @@ class Groups extends React.Component {
       params:{
         pullType:"single",
         selectionType:"reset",
-        objectType:"species.participation.Observation",
+        objectType:"biodiv.observation.Observation",
         objectIds:this.props.id,
         submitType:"unpost",
         userGroups:list2,
@@ -263,11 +263,11 @@ class Groups extends React.Component {
     }
     var optionsPost={
       method: 'POST',
-      url :    Config.api.API_ROOT_URL+"/userGroup/bulkPost",
+      url :     Config.api.API_ROOT_URL+"/userGroup/bulkPost",
       params:{
         pullType:"single",
         selectionType:"reset",
-        objectType:"species.participation.Observation",
+        objectType:"biodiv.observation.Observation",
         objectIds:this.props.id,
         submitType:"post",
         userGroups:list1,
@@ -286,7 +286,11 @@ class Groups extends React.Component {
             .then((response)=>{
               axios(optionsPost)
                   .then((response)=>{
-                      this.getUserGroups()
+                    //console.log("#######################################",response)
+                      if(response.status == 200){
+                        this.getUserGroups()
+                      }
+
                   })
             })
         }
@@ -294,13 +298,19 @@ class Groups extends React.Component {
         {
           axios(optionsUnpost)
             .then((response)=>{
+              //console.log("#######################################",response)
+              if(response.status == 200){
                 this.getUserGroups()
+              }
             })
         }
         else {
           axios(optionsPost)
             .then((response)=>{
+              //console.log("#######################################",response)
+              if(response.status == 200){
                 this.getUserGroups()
+              }
             })
         }
     }
