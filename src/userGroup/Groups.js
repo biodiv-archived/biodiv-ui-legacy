@@ -321,7 +321,7 @@ class Groups extends React.Component {
   render(){
     return(
 
-      <div className="well well-sm" style={{width:'99%',marginLeft:'0.5%'}}>
+      <div className="well well-sm" style={{width:'99%',marginLeft:'0.5%',marginBottom:'0%'}}>
         {this.state.login_modal==true?(<ModalPopup key={this.state.options}   id={this.props.id} func={this.getUserGroupsWithWrite}/>):null}
         <div className="row" ref={"obvGroups"+this.props.id} style={{display:'block'}}>
           <div className="col-sm-10">
