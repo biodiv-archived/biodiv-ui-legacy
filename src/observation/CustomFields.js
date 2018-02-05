@@ -108,7 +108,7 @@ class CustomFields extends React.Component {
             this.state.response.map((item,index)=>{
               return(
                 <div key={index} className="row well well-sm" style={{width:'99%',marginLeft:'0.5%',marginBottom:'0.2%'}}>
-                    <div className="col-sm-2">{item.key}</div>
+                    <div className="col-sm-2"><b>{item.key}</b></div>
                     <div className="col-sm-8">
                         <div className="cfValue" ref={"cfvalue"+item.key + this.props.id} style={{display:'block'}}>
                               {item.value!= ""?
