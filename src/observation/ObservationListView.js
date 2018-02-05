@@ -101,7 +101,7 @@ fetchChange(id,event){
 handleEditUserGroupButton(previous_id){
 !AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
  let obj = this.state.data.find(x => x.name === this.state.updateUserGroup);
- let url= `${Config.api.API_ROOT_URL}/observation/updategroup?groupid=${obj.id}&pgroupid=${previous_id}&objectid=${this.state.ObservationId}`;
+ let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
 let options={
     method:'POST',
     url : url,

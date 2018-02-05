@@ -19,7 +19,7 @@ class ObservationMapView extends Component{
   }
 
   map() {
-    let url = Config.api.API_ROOT_URL + "/maps" +this.props.filterUrl;
+    let url = Config.api.API_ROOT_URL + "/naksha" +this.props.filterUrl;
     return (
       <MapHolder url={url}
            location_field="location"
