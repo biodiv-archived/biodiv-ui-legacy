@@ -196,15 +196,15 @@ class CommentsFeeds extends React.Component {
            console.log(this.props.fetchFeeds)
            this.fetchFeeds(this.props.id,true);
          })
-          .catch((response)=>{
-            (response=="Error: Request failed with status code 401")?
-            (
+          .catch((error)=>{
+            if(error.response.status == 401){
               this.setState({
               login_modal:!(this.state.login_modal),
               options:options
             })
-
-            ):console.log("fofoofof")
+          }else{
+            console.log(error.response.statusText)
+          }
           })
   }
 
