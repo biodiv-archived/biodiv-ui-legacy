@@ -26,6 +26,12 @@ tr:not(.no-hover):hover {
 
 }
 
+.pre-scrollable {
+  max-height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
 .chip img {
     float: left;
     margin: 0 10px 0 -25px;

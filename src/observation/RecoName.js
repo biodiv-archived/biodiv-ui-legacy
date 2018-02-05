@@ -156,6 +156,7 @@ class RecoName extends React.Component {
 
 
   render(){
+    console.log("islocked",this.props.islocked)
     return(
     <div>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}
@@ -324,7 +325,7 @@ class RecoName extends React.Component {
       </div>
       <div style={{marginTop:'1%'}}>
           {
-            this.props.isLocked==false?
+            this.props.islocked==="false"?
             (
               <Formsuggest  id2={this.props.id} getReco={this.getRecoName}/>
             ):

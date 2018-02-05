@@ -245,7 +245,7 @@ class GroupsBulk extends React.Component{
         params:{
           pullType:"bulk",
           selectionType:"selectAll",
-          objectType:"species.participation.Observation",
+          objectType:"biodiv.observation.Observation",
           objectIds:'',
           submitType:"post",
           userGroups:list1,
@@ -268,7 +268,7 @@ class GroupsBulk extends React.Component{
         params:{
           pullType:"bulk",
           selectionType:"reset",
-          objectType:"species.participation.Observation",
+          objectType:"biodiv.observation.Observation",
           objectIds:ids,
           submitType:"post",
           userGroups:list1,
@@ -296,7 +296,7 @@ class GroupsBulk extends React.Component{
         params:{
           pullType:"bulk",
           selectionType:"selectAll",
-          objectType:"species.participation.Observation",
+          objectType:"biodiv.observation.Observation",
           objectIds:'',
           submitType:"unpost",
           userGroups:list1,
@@ -319,7 +319,7 @@ class GroupsBulk extends React.Component{
         params:{
           pullType:"bulk",
           selectionType:"reset",
-          objectType:"species.participation.Observation",
+          objectType:"biodiv.observation.Observation",
           objectIds:ids,
           submitType:"unpost",
           userGroups:list1,

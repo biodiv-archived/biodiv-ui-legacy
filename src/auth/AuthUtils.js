@@ -12,6 +12,14 @@ class AuthUtils {
         else return false;
     }
 
+    static getLoggedInUser(){
+      if(this.isLoggedIn()){
+        return loginService.getCurrentUser();
+      }else{
+        return null;
+      }
+    }
+
     static isUser() {
         return AuthUtils.currentUserHasRole('ROLE_USER');
     }

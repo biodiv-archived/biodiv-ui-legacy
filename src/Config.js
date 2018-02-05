@@ -8,8 +8,8 @@ export let API_ROOT_URL;
 
 if(process.env.NODE_ENV=="development" ){
   ROOT_URL="https://pamba.strandls.com";
-  // API_ROOT_URL="https://api.pamba.strandls.com";
-  API_ROOT_URL="http://localhost:8090/biodiv-api"
+  API_ROOT_URL="https://api.pamba.strandls.com";
+  //API_ROOT_URL="http://localhost:8080/biodiv-api"
 }
 
 if(process.env.NODE_ENV=="kk" ){
@@ -62,7 +62,7 @@ export let Config = {
             default : {
                 method : 'post',
                 baseURL:'',
-                url : API_ROOT_URL+'/login',
+                url :  API_ROOT_URL+'/login',
                 headers : {'Content-Type' : 'application/x-www-form-urlencoded'},
                 data : {}
             },
@@ -75,7 +75,7 @@ export let Config = {
         logout : {
             default : {
                 method : 'get',
-                url : API_ROOT_URL+'/logout',
+                url :  API_ROOT_URL+'/logout',
                 headers : AuthUtils.getAuthHeaders(),
                 data:{}
             }
