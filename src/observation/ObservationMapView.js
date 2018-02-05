@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import MapHolder from 'naksha-react-ui';
+import Naksha from 'naksha-react-ui';
 import { Config } from '../Config';
 
 class ObservationMapView extends Component{
@@ -20,7 +20,7 @@ class ObservationMapView extends Component{
   map() {
     let url = Config.api.API_ROOT_URL + "/maps" +this.props.filterUrl;
     return (
-      <MapHolder url={url}
+      <Naksha.MapHolder url={url}
            location_field="location"
            default_zoom="3"
            map_container="map2"
