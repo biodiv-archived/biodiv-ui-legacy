@@ -15,7 +15,6 @@ class ObservationMapView extends Component{
     this.setState({
       flag:true
     })
-    console.log("componentDidMount");
   }
 
   map() {
@@ -29,6 +28,7 @@ class ObservationMapView extends Component{
            url_response_filtered_geohash_field="geohashAggregation"
            color_scheme="YlOrRd"
            legend_stops="9"
+           restrict_to_bounds={[[42, 4], [117, 39]]}
       />
     )
   }
