@@ -1,64 +1,220 @@
 import React from 'react';
 import mystyle from './style/footerstyle.css';
- const Footer =()=>{
-  return (
-      <footer className="container-fluid">
-        <div className="row">
-            <br />
-        <div className="col-xs-6 col-md-3">
-          <ul className="list list-unstyled">
-            <li className="list-item"><a href="#"><b>ALL SPECIES</b></a></li>
-            <li className="list-item"><a href="#"><b>ALL MAPS</b></a></li>
-            <li className="list-item"><a href="#"><b>ALL</b></a></li>
-            <li className="list-item"><a href="#"><b>CHECKLISTS</b></a></li>
-          </ul>
-        </div>
-        <div className="col-xs-6 col-md-3">
-          <ul className="list list-unstyled">
-            <li className="list-item"><a href="#"><b>THE PORTAL</b></a></li>
-            <li className="list-item"><a href="#">Biodiversity in India</a></li>
-            <li className="list-item"><a href="#">Technology</a></li>
-            <li className="list-item"><a href="#">FAQ</a></li>
-          </ul>
-        </div>
-        <div className="col-xs-6 col-md-3">
-          <ul className="list list-unstyled">
-            <li className="list-item"><a href="#"><b>PEOPLE</b></a></li>
-            <li className="list-item"><a href="#">Partners</a></li>
-            <li className="list-item"><a href="#">Donors</a></li>
-            <li className="list-item"><a href="#">Fraternity</a></li>
-            <li className="list-item"><a href="#">Team</a></li>
-          </ul>
-        </div>
-        <div className="col-xs-6 col-md-3">
-          <ul className="list list-unstyled">
-            <li className="list-item"><a href="#"><b>POLICY</b></a></li>
-            <li className="list-item"><a href="#">Data Sharing</a></li>
-            <li className="list-item"><a href="#">Licenses</a></li>
-            <li className="list-item"><a href="#">Terms & Conditions</a></li>
-          </ul>
-        </div>
-        </div>
-        <br />
-      <div className="row">
-                <div className="text-center">
+import {connect} from 'react-redux';
+import { Config } from '../../Config';
+import axios from 'axios';
+import _ from "lodash";
+ class Footer extends React.Component {
 
-                  <a href="http://facebook.com" className="btn btn-social-icon btn-facebook"><i className="fa fa-facebook"></i></a>
-                  <a className="btn btn-social-icon btn-twitter"><i className="fa fa-twitter"></i></a>
-                  <a className="btn btn-social-icon btn-google-plus"><i className="fa fa-google-plus"></i></a>
+   constructor(props){
+      super(props);
+      this.state={
+        parents:null,
+        children:null
+      }
+      this.children = new Map();
+      this.parents = [];
+   }
+
+   componentDidMount(){
+     console.log("public url",this.props.publicUrl)
+     if(this.props.publicUrl.groupName != ""){
+       var ugId;
+       this.getNewsLetters(ugId);
+     }else{
+       this.getNewsLetters(null);
+     }
+   }
+
+   getNewsLetters(ugId){
+     var options;
+     if(ugId == null){
+       options={
+         method: 'GET',
+         url :   Config.api.API_ROOT_URL+"/newsletters/pages",
+         params:{
+           showInFooter:true
+         },
+         //headers : AuthUtils.getAuthHeaders(),
+         json: 'true'
+       }
+     }else{
+       options={
+         method: 'GET',
+         url :   Config.api.API_ROOT_URL+"/newsletters/pages",
+         params:{
+           userGroupId:ugId,
+           showInFooter:true
+         },
+         //headers : AuthUtils.getAuthHeaders(),
+         json: 'true'
+       }
+     }
+
+     axios(options)
+       .then((response)=>{
+         //console.log("#######################################",response)
+           if(response.status == 200){
+             console.log("response",response.data)
+             var grouped = _.orderBy((_.groupBy(response.data, 'parentId')),['displayOrder'],['desc'])
+             console.log("grouped response",grouped)
+
+             for(var i=0;i<response.data.length;i++){
+               if(response.data[i].parentId == 0){
+                  this.parents.push(response.data[i])
+               }else{
+                 if(this.children.get(response.data[i].parentId) == null){
+                   this.children.set(response.data[i].parentId,[response.data[i]])
+                 }else{
+                   var array=this.children.get(response.data[i].parentId);
+                   array.push(response.data[i])
+                   this.children.set(response.data[i].paraentId,array);
+                 }
+               }
+             }
+            //  let policy={};
+            //  policy.id = 4250187;
+            //  policy.title = "policy";
+            //  let others={};
+            //  others.id = null;
+            //  others.title = "others";
+            //  this.parents.push(policy);
+            //  this.parents.push(others);
+             //
+            //  let DataSharing ={}
+            //  DataSharing.id = 4250189;
+            //  DataSharing.title = "Data Sharing";
+            //  this.children.set(4250187,[DataSharing]);
+            //  let Licences ={}
+            //  Licences.id = 4250212;
+            //  Licences.title = "Licences";
+            //  var array = this.children.get(4250187);
+            //  array.push(Licences);
+            //  this.children.set(4250187,array);
+            //  let TermsConditions ={}
+            //  TermsConditions.id = 4250246;
+            //  TermsConditions.title = "Terms & Conditions";
+            //  array = this.children.get(4250187);
+            //  array.push(TermsConditions);
+            //  this.children.set(4250187,array);
+
+             console.log("parent",this.parents);
+             console.log("children",this.children);
+              //this.children = m;
+            //  for(int i=0; i<response.data.length ; i++){
+            //     if
+            //      parent.put(response.data[i].id,response.data[i].parentId)
+            //    }
+            //  }
+
+             this.setState({
+               parents:this.parents,
+               children:this.children
+             })
+           }
+       })
+   }
+
+   render(){
+     return (
+         <footer className="container-fluid">
+            <div className="row">
+            {
+              this.state.parents != null?(
+                this.state.parents.map((item,index)=>{
+                  return(
+                    <div key={index} className="col-xs-6 col-md-3">
+                      <span><a href={"http://indiabiodiversity.org/page/"+item.id}><b>{item.title.toUpperCase()}</b></a></span>
+                    </div>
+                  )
+                })
+
+              ):null
+            }
+                <div className="col-xs-6 col-md-3">
+                  <span><a href={"http://indiabiodiversity.org/page/4250187"}><b>POLICY</b></a></span>
                 </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-3"></div>
-        <div className="text-center col-sm-6">
-        Best supported on Google Chrome, Firefox 3.0+, Internet Explorer 8.0+, Safari 4.0+, Opera 10+.
-Powered by the open source <a href="">Biodiversity Informatics Platform.</a> Technology partner <a href="">Strand Life Sciences </a>
-      </div>
-        <div className="col-sm-3">
+                <div  className="col-xs-6 col-md-3">
+                  <span><b>OTHERS</b></span>
+                </div>
+            </div>
+           <div className="row">
 
-        </div>
-      </div>
-      </footer>
-  )
+               {
+                 this.state.parents !=null?
+                 (
+                   this.state.parents.map((item1,index1)=>{
+                     return(
+                       <div key ={index1} className="col-xs-6 col-md-3">
+                         <ul className="list list-unstyled">
+                         {
+                           (this.state.children.get(item1.id) != null)?
+                            (
+                             this.state.children.get(item1.id).map((item2,index2)=>{
+                               return(
+                                  <li key={index2} className="list-item"><a href={"http://indiabiodiversity.org/page/"+item2.id}>{item2.title}</a></li>
+                               )
+                             })
+                           ):null
+
+                         }
+                         </ul>
+                       </div>
+                     )
+
+                   })
+
+                 ):null
+
+               }
+               <div className="col-xs-6 col-md-3">
+                 <ul className="list list-unstyled">
+                   <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250189"}>Data Sharing</a></li>
+                   <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250212"}>Licenses</a></li>
+                   <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250246"}>Terms & Conditions</a></li>
+                 </ul>
+               </div>
+               <div className="col-xs-6 col-md-3">
+                 <ul className="list list-unstyled">
+                   <li className="list-item"><a href={"http://blog.indiabiodiversity.org/"}>Blog</a></li>
+                   <li className="list-item"><a href={"http://indiabiodiversity.org/sitemap"}>Sitemap</a></li>
+                   <li className="list-item"><a href={"http://indiabiodiversity.org/biodiv/docs"}>API Docs</a></li>
+                   <li className="list-item"><a href={"http://indiabiodiversity.org/feedback_form"}>Feedback</a></li>
+                   <li className="list-item"><a href={"http://indiabiodiversity.org/contact"}>Contact Us</a></li>
+                 </ul>
+               </div>
+           </div>
+           <br />
+         <div className="row">
+                   <div className="text-center">
+
+                     <a href="http://facebook.com" className="btn btn-social-icon btn-facebook"><i className="fa fa-facebook"></i></a>
+                     <a className="btn btn-social-icon btn-twitter"><i className="fa fa-twitter"></i></a>
+                     <a className="btn btn-social-icon btn-google-plus"><i className="fa fa-google-plus"></i></a>
+                   </div>
+         </div>
+         <div className="row">
+           <div className="col-sm-3"></div>
+           <div className="text-center col-sm-6">
+           Best supported on Google Chrome, Firefox 3.0+, Internet Explorer 8.0+, Safari 4.0+, Opera 10+.
+   Powered by the open source <a href="">Biodiversity Informatics Platform.</a> Technology partner <a href="">Strand Life Sciences </a>
+         </div>
+           <div className="col-sm-3">
+
+           </div>
+         </div>
+         </footer>
+     )
+   }
+
 }
-export default Footer;
+//export default Footer;
+function mapStateToProps(state){
+return {publicUrl:state.PublicUrl};
+}
+
+function mapDispatchToProps(dispatch){
+  return null;
+}
+
+ export default connect(mapStateToProps)(Footer);
