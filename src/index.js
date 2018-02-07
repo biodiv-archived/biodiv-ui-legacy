@@ -22,6 +22,7 @@ import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
 import {SET_GROUP_NAME} from './actions/index';
+import naksha from 'naksha-react-ui'
 
 javascriptTimeAgo.locale(require('javascript-time-ago/locales/en'))
 javascriptTimeAgo.locale(require('javascript-time-ago/locales/ru'))
@@ -29,9 +30,7 @@ javascriptTimeAgo.locale(require('javascript-time-ago/locales/ru'))
 require('javascript-time-ago/intl-messageformat-global')
 require('intl-messageformat/dist/locale-data/en')
 require('intl-messageformat/dist/locale-data/ru')
-
 require('dotenv').config()
-
 
 
 
@@ -79,6 +78,7 @@ ReactDOM.render(
           <Route exact path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout} />
           <Route  path="/group/:groupName/observation" component={App} />
+          <Route exact path="/map" component={naksha.Layers} />
         </div>
         <Footer />
       </div>
