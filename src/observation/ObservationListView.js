@@ -48,19 +48,10 @@ constructor(){
     rerun:false
   }
 }
-getEditUserGroupMethod() {
-       let me = this;
-           //UserGroup.fetch().then((response)=>{
-           UserGroup.list(function(values) {
-               me.setState({
-                   AllUserGroup:values//response.model.userGroupInstanceList
-               });
-           });
-   }
+
 
    showEditGroupList() {
        let me = this;
-       //SpeciesGroup.fetch().then((data)=>{
        SpeciesGroup.list(function(values) {
            me.setState({
                data:values
@@ -79,8 +70,7 @@ getEditUserGroupMethod() {
    }
 componentDidMount(){
     this.setGroupName();
-  this.showEditGroupList();
-  this.getEditUserGroupMethod()
+    this.showEditGroupList();
   this.setState({
     flag:true
   })
@@ -105,18 +95,13 @@ handleEditUserGroupButton(previous_id){
 let options={
     method:'POST',
     url : url,
-    headers :{
-      'X-Auth-Token' :"eyJhbGciOiJIUzI1NiJ9.eyIkaW50X3Blcm1zIjpbXSwic3ViIjoib3JnLnBhYzRqLmNvcmUucHJvZmlsZS5Db21tb25Qcm9maWxlIzEiLCIkaW50X3JvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfU1BFQ0lFU19BRE1JTiIsIlJPTEVfQURNSU4iLCJST0xFX0NFUEZfQURNSU4iXSwiZXhwIjoxNTEyNTQ0NTY3NjkwLCJlbWFpbCI6ImFkbWluQHN0cmFuZGxzLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.v_MqsgMnq2HHD0rFGDlu_RSFwfHCHZRrhUlo4IRPxCg",
-      'X-AppKey'     :"8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-      'Accept'       :"application/json"
-    },
+    headers:AuthUtils.getAuthHeaders(),
     json: 'true'
   }
   axios(options)
       .then((response)=>{
-        console.log(this.props.item.speciesgroupid);
         Object.assign(this.props.item,response.data.document)
-        console.log(this.props.item.speciesgroupid);
+
         this.setState({
           rerun:true
         })
@@ -262,7 +247,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-                <Tabs objs={objs} /> 
+                <Tabs objs={objs} />
             <br />
             </div>
 

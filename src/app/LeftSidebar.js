@@ -123,7 +123,7 @@ render(){
         <Collapsible open={true} trigger="Taxon Browser">
           <div>
             <TaxonBrowser />
-             <SearchBar />
+            <SearchBar />
           </div>
           </Collapsible>
 

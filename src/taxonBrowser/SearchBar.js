@@ -90,27 +90,26 @@ onSuggestionsFetchRequested ({ value }) {
     })
   }
  handleSubmit(event){
-     event.preventDefault();
+
      let data1=this.state.values?this.state.values:"";
-
      const data= this.refs["input"].autowhatever.input.defaultValue;
-
-    if(data1.name){
-      axios.get(`${Config.api.API_ROOT_URL}/taxon/retrieve/specificSearch?term=${data1.name}&taxonid=${data1.id}`).then((response)=>{
-       this.setState({
-         taxonValue:response.data,
-       },()=>{
-          var event = new CustomEvent("getSearchNode",{ "detail":{
-               taxonValue:response.data
-             }
-          });
-          document.dispatchEvent(event);
-         this.onSuggestionsClearRequested();
-       })
-      })
-    }
-    else{
+    // if(data1.name){
+    //   axios.get(`${Config.api.API_ROOT_URL}/taxon/retrieve/specificSearch?term=${data1.name}&taxonid=${data1.id}`).then((response)=>{
+    //    this.setState({
+    //      taxonValue:response.data,
+    //    },()=>{
+    //       var event = new CustomEvent("getSearchNode",{ "detail":{
+    //            taxonValue:response.data
+    //          }
+    //       });
+    //       document.dispatchEvent(event);
+    //      this.onSuggestionsClearRequested();
+    //    })
+    //   })
+    // }
+    // else{
       axios.get(`${Config.api.API_ROOT_URL}/taxon/retrieve/specificSearch?term=${data}`).then((response)=>{
+        console.log(response.data);
        this.setState({
          taxonValue:response.data,
        },()=>{
@@ -122,7 +121,8 @@ onSuggestionsFetchRequested ({ value }) {
          this.onSuggestionsClearRequested();
        })
       })
-    }
+    // }
+    event.preventDefault();
     };
 
 
@@ -130,7 +130,7 @@ onSuggestionsFetchRequested ({ value }) {
     const handleSubmit=this.props.handleSubmit;
     const { value, suggestions } = this.state;
     const inputProps = {
-      placeholder: 'Press enter button to search',
+      placeholder: 'type to search',
       value,
       onChange: this.onChange
     };

@@ -13,8 +13,7 @@ class ObservationListWrapper extends Component{
         super();
     }
     render(){
-      console.log(this.props.view);
-      console.log(this.props.filterUrl);
+    
         return(
                 <div>
                       {this.props.view===1?<ObservationListView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll} uniqueKey={this.props.uniqueKey}  key={this.props.key} /> :

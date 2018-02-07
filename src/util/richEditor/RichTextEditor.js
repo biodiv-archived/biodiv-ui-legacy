@@ -154,18 +154,18 @@ class RichTextEditor extends React.Component {
       options:'',
     };
     this.taggedUsers=[];
-    // this.onChange =  this.onChange.bind(this);
-    // this.onSearchChange =  this.onSearchChange.bind(this);
-    // this.focus = this.focus.bind(this);
+    this.onChange =  this.onChange.bind(this);
+    this.onSearchChange =  this.onSearchChange.bind(this);
+    this.focus = this.focus.bind(this);
   }
 
-  onChange = (editorState) => {
+  onChange  (editorState) {
     this.setState({
       editorState,
     });
   };
 
-  onSearchChange =({ value })=> {
+  onSearchChange ({ value }) {
     axios.get(Config.api.ROOT_URL+"/user/terms?term="+value+"&format=json")
         .then((response)=>{
           let data1= response.data.map((user,index)=>{
@@ -182,7 +182,7 @@ class RichTextEditor extends React.Component {
         })
   };
 
-  focus = () => {
+  focus  () {
     this.editor.focus();
   };
 
