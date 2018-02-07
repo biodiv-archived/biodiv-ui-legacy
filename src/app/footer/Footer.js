@@ -118,34 +118,14 @@ import _ from "lodash";
    render(){
      return (
          <footer className="container-fluid">
-            <div className="row">
-            {
-              this.state.parents != null?(
-                this.state.parents.map((item,index)=>{
-                  return(
-                    <div key={index} className="col-xs-6 col-md-3">
-                      <span><a href={"http://indiabiodiversity.org/page/"+item.id}><b>{item.title.toUpperCase()}</b></a></span>
-                    </div>
-                  )
-                })
-
-              ):null
-            }
-                <div className="col-xs-6 col-md-3">
-                  <span><a href={"http://indiabiodiversity.org/page/4250187"}><b>POLICY</b></a></span>
-                </div>
-                <div  className="col-xs-6 col-md-3">
-                  <span><b>OTHERS</b></span>
-                </div>
-            </div>
            <div className="row">
-
                {
                  this.state.parents !=null?
                  (
                    this.state.parents.map((item1,index1)=>{
                      return(
-                       <div key ={index1} className="col-xs-6 col-md-3">
+                       <div key={index1} className="col-xs-6 col-md-3">
+                         <span><a href={"http://indiabiodiversity.org/page/"+item1.id}><b>{item1.title.toUpperCase()}</b></a></span>
                          <ul className="list list-unstyled">
                          {
                            (this.state.children.get(item1.id) != null)?
@@ -161,28 +141,27 @@ import _ from "lodash";
                          </ul>
                        </div>
                      )
-
                    })
-
                  ):null
-
                }
-               <div className="col-xs-6 col-md-3">
-                 <ul className="list list-unstyled">
-                   <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250189"}>Data Sharing</a></li>
-                   <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250212"}>Licenses</a></li>
-                   <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250246"}>Terms & Conditions</a></li>
-                 </ul>
-               </div>
-               <div className="col-xs-6 col-md-3">
-                 <ul className="list list-unstyled">
-                   <li className="list-item"><a href={"http://blog.indiabiodiversity.org/"}>Blog</a></li>
-                   <li className="list-item"><a href={"http://indiabiodiversity.org/sitemap"}>Sitemap</a></li>
-                   <li className="list-item"><a href={"http://indiabiodiversity.org/biodiv/docs"}>API Docs</a></li>
-                   <li className="list-item"><a href={"http://indiabiodiversity.org/feedback_form"}>Feedback</a></li>
-                   <li className="list-item"><a href={"http://indiabiodiversity.org/contact"}>Contact Us</a></li>
-                 </ul>
-               </div>
+                <div className="col-xs-6 col-md-3">
+                         <span><a href={"http://indiabiodiversity.org/page/4250187"}><b>POLICY</b></a></span>
+                         <ul className="list list-unstyled">
+                           <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250189"}>Data Sharing</a></li>
+                           <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250212"}>Licenses</a></li>
+                           <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250246"}>Terms & Conditions</a></li>
+                         </ul>
+                 </div>
+                <div  className="col-xs-6 col-md-3">
+                         <span><b>OTHERS</b></span>
+                         <ul className="list list-unstyled">
+                           <li className="list-item"><a href={"http://blog.indiabiodiversity.org/"}>Blog</a></li>
+                           <li className="list-item"><a href={"http://indiabiodiversity.org/sitemap"}>Sitemap</a></li>
+                           <li className="list-item"><a href={"http://indiabiodiversity.org/biodiv/docs"}>API Docs</a></li>
+                           <li className="list-item"><a href={"http://indiabiodiversity.org/feedback_form"}>Feedback</a></li>
+                           <li className="list-item"><a href={"http://indiabiodiversity.org/contact"}>Contact Us</a></li>
+                         </ul>
+                 </div>
            </div>
            <br />
          <div className="row">
