@@ -58,6 +58,7 @@ class ObservationListContainer extends Component {
 
         },
         view:1,
+        showMap:false,
         selectAll:false,
         urlforPassing:undefined
       }
@@ -75,7 +76,7 @@ class ObservationListContainer extends Component {
         newparams.webaddress=groupName;
       }
       if(!newparams.sort){
-        newparams.sort="lastRevised"
+        newparams.sort="lastrevised"
       }
       if(!newparams.max){
         newparams.max=10;
@@ -388,11 +389,9 @@ class ObservationListContainer extends Component {
 
     sortObservation(sortby){
       this.props.ClearObservationPage();
-
       const params=this.state.params;
       params.sort=sortby;
       this.GlobalCall(params);
-
     }
 
       setParameter(){
@@ -662,14 +661,14 @@ class ObservationListContainer extends Component {
 
         this.props.ClearObservationPage();
       }
-      displayData(view,objs,count,selectAll){
-
-          return(
-          <div key={objs.id}>
-            <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={objs} view={view} count={count} selectAll={selectAll} resetSelectAll={this.resetAll.bind(this)}/>
-          </div>
-        )
-      }
+      // displayData(view,objs,count,selectAll){
+      //
+      //     return(
+      //     <div key={objs.id}>
+      //       <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={objs} view={view} count={count} selectAll={selectAll} resetSelectAll={this.resetAll.bind(this)}/>
+      //     </div>
+      //   )
+      // }
 
         showGridView(){
           this.setState({
@@ -683,7 +682,8 @@ class ObservationListContainer extends Component {
         }
         showMapView(){
           this.setState({
-            view:2
+            view:2,
+            showMap:true
           })
         }
 
@@ -705,13 +705,16 @@ class ObservationListContainer extends Component {
         else if(event.target.value.trim()==="Latest".trim()){
         this.sortObservation("createdon")
         }
-        else if(event.target.value.trim()==="Most Viewed".trim()){
+        else{
           this.sortObservation("visitcount")
         }
+        event.preventDefault();
         }
 
   render(){
-
+    let list = this.props.Observation.all?this.props.Observation.all.map(item => {
+return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
+}):null;
     return(
       <div>
 
@@ -746,17 +749,21 @@ class ObservationListContainer extends Component {
                 </div>
 
                 <div className="pull-right">
-                  <select className="form-control btn-default"  onChange={this.handleChangeCheckbox.bind(this)}>
+                  <select className="form-control btn-default" onChange={this.handleChangeCheckbox.bind(this)}>
                      <option  value="Last Visited">Last Visited</option>
-                     <option value="Latest">Latest</option>
-                     <option value="Most Viewed">Most Viewed</option>
+                     <option  value="Latest">Latest</option>
+                     <option  value="Most Viewed">Most Viewed</option>
                    </select>
                 </div>
                 <br />
                 <br />
 
-              <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
+
+              {/* <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/> */}
+              <div>{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
               <br />
+
+
               {this.state.view===2?null:<InfiniteScroll
                 next={this.loadMore.bind(this)}
                 hasMore={this.state.params.hasMore}

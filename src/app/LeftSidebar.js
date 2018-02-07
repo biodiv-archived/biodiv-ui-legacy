@@ -123,7 +123,7 @@ render(){
         <Collapsible open={true} trigger="Taxon Browser">
           <div>
             <TaxonBrowser />
-             <SearchBar />
+            <SearchBar />
           </div>
           </Collapsible>
 
@@ -163,7 +163,7 @@ render(){
           <Validate_Filter />
           </Collapsible>
 
-          <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger="Traits">
+          <Collapsible  open={this.state.traitsOpen} trigger="Traits">
           <Traits_Filter />
           </Collapsible>
   </div>

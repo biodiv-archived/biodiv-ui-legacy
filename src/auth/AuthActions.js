@@ -39,6 +39,7 @@ export function logout() {
             console.log("got response from logout api")
             loginService.clearCredentials();
             var i;
+            console.log("aTokennnnnnnnnnnnnnnnnn",localStorage.length)
             for (i = 0; i < localStorage.length; i++)   {
                 console.log("after clear in logout function",localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
             }

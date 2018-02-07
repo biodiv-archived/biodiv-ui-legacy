@@ -29,11 +29,16 @@ const styles = {
 };
 
 class SideBar extends Component {
-  state = {
+
+constructor(props) {
+  super(props);
+  this.state = {
     open: {
       left: false
-    },
+    }
   };
+  this.toggleDrawer=this.toggleDrawer.bind(this);
+}
 
 
 
@@ -41,14 +46,14 @@ class SideBar extends Component {
 
 
   }
-  toggleDrawer = (side, open) => {
+  toggleDrawer (side, open) {
     const drawerState = {};
     drawerState[side] = open;
     this.setState({ open: drawerState });
   };
 
-  handleRightOpen = () => this.toggleDrawer('left', true);
-  handleRightClose = () => this.toggleDrawer('left', false);
+  handleRightOpen () {this.toggleDrawer('left', true);}
+  handleRightClose () {this.toggleDrawer('left', false);}
 
   render() {
     const classes = this.props.classes;
@@ -75,11 +80,11 @@ class SideBar extends Component {
 
     return (
       <div>
-        <button  style={{position:'fixed',zIndex:'2'}} className="btn btn-primary btn-xs pull-right"  onClick={this.handleRightOpen}>Filters</button>
+        <button  style={{position:'fixed',zIndex:'2'}} className="btn btn-primary btn-xs pull-right"  onClick={this.handleRightOpen.bind(this)}>Filters</button>
         <Drawer
           anchor="left"
           open={this.state.open.left}
-          onRequestClose={this.handleRightClose}
+          onRequestClose={this.handleRightClose.bind(this)}
           width='20%'
           >
           {sideList}

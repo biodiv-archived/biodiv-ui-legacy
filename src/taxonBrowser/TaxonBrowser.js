@@ -101,12 +101,12 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1).t
     showButton:taxonToshow1
   },()=>{
       this.setScrollClass();
-      var event = new CustomEvent("getTaxon-filter",{ "detail":{
-        taxon:[],
-        classification:this.state.classification
-      }
-    });
-    document.dispatchEvent(event);
+    //   var event = new CustomEvent("getTaxon-filter",{ "detail":{
+    //     taxon:[],
+    //     classification:this.state.classification
+    //   }
+    // });
+    // document.dispatchEvent(event);
   })
 
 });
@@ -243,7 +243,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 
   }
   //TODO :: do something here if u want to change the way how the taxon browser collapse
-  
+
   onExpand(expandedKeys,{expanded: bool, node}){
     if(!bool){
       this.setState({

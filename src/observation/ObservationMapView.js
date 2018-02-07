@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import MapHolder from 'naksha-react-ui';
+import Naksha from 'naksha-react-ui';
 import { Config } from '../Config';
 
 class ObservationMapView extends Component{
@@ -18,16 +18,17 @@ class ObservationMapView extends Component{
   }
 
   map() {
-    let url = Config.api.API_ROOT_URL + "/maps" +this.props.filterUrl;
+    let url = Config.api.API_ROOT_URL + "/naksha" +this.props.filterUrl;
     return (
-      <MapHolder url={url}
+      <Naksha.MapHolder url={url}
            location_field="location"
-           map_container="map"
-           default_zoom="3.5"
-           map_container="map"
+           default_zoom="3"
+           map_container="map2"
            url_response_geohash_field="geohashAggregation"
+           url_response_filtered_geohash_field="geohashAggregation"
            color_scheme="YlOrRd"
            legend_stops="9"
+           restrict_to_bounds={[[42, 4], [117, 39]]}
       />
     )
   }
@@ -36,7 +37,7 @@ class ObservationMapView extends Component{
     return(
       <div>
         {this.state.flag ? this.map() : null}
-        <div id="map" style={{height:"550px"}}>
+        <div id="map2" style={{height:"450px"}}>
         </div>
       </div>
     )

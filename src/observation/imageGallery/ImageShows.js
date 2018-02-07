@@ -25,7 +25,7 @@ export default class LightboxExample extends Component {
                 <div className="carousel-inner">
                   <div className="item active">
                         <NavLink to={`show/${this.props.objs.id}`} >
-                    <img src={`http://indiabiodiversity.org/biodiv/observations`+this.props.file_name} style={{paddingTop:'5px',paddingBottom:'5px',height:'200px',width:'200px'}}
+                    <img src={`/biodiv/observations/`+this.props.thumbnail} style={{paddingTop:'5px',paddingBottom:'5px',height:'200px',width:'200px'}}
                     className="media-object img-responsive img-rounded" />
                      </NavLink>
                     <div className="carousel-caption ">

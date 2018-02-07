@@ -50,13 +50,20 @@ class ModalPopup extends React.Component {
     axios(newOptions)
     .then((response)=>{
       console.log("comment",response)
-      this.props.sGroup?
-      (
-        this.props.funcRefresh?this.props.funcRefresh(this.props.id,this.props.sGroup):null
-      ):
-      (
-      this.props.funcRefresh?(this.props.id1?this.props.funcRefresh(this.props.id1,this.props.id):this.props.funcRefresh(this.props.id)):null
-      )
+      if(this.props.type){
+        if(this.props.type == "Reply/Add Comment"){
+          this.props.funcRefresh(this.props.id,true)
+        }
+      }else{
+        this.props.sGroup?
+        (
+          this.props.funcRefresh?this.props.funcRefresh(this.props.id,this.props.sGroup):null
+        ):
+        (
+        this.props.funcRefresh?(this.props.id1?this.props.funcRefresh(this.props.id1,this.props.id):this.props.funcRefresh(this.props.id)):null
+        )
+      }
+
     })
    }
    else{

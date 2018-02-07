@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {ROOT_URL} from '../Config';
+import {Config} from '../Config';
 
 /**
  * Class to hold all species groups ... singleton class
@@ -13,10 +13,10 @@ class SpeciesGroup {
 
 
     fetch(callback) {
-        const url = `${ROOT_URL}/api/speciesGroup/list?format=json`;
+        const url = `${Config.api.API_ROOT_URL}/species/list`;
         if(callback) {
             axios.get(url).then(response => {
-                callback(response.data.model.instanceList);
+                callback(response.data);
             });
         } else
             return axios.get(url).then(response => response.data.model.instanceList);

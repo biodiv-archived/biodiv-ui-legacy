@@ -7,9 +7,17 @@ import loginService from './LoginService';
  */
 class AuthUtils {
     static isLoggedIn() {
-      console.log(loginService.getAccessToken());
+      // console.log(loginService.getAccessToken());
         if(loginService.getAccessToken()) return true;
         else return false;
+    }
+
+    static getLoggedInUser(){
+      if(this.isLoggedIn()){
+        return loginService.getCurrentUser();
+      }else{
+        return null;
+      }
     }
 
     static isUser() {
@@ -21,12 +29,12 @@ class AuthUtils {
     }
 
     static isUserGroupFounder() {
-      console.log("isUserGroupFounder")
+      // console.log("isUserGroupFounder")
         return AuthUtils.currentUserHasRole('ROLE_USERGROUP_FOUNDER');
     }
 
     static isUserGroupExpert(){
-      console.log("isUserGroupExpert")
+      // console.log("isUserGroupExpert")
         return AuthUtils.currentUserHasRole('ROLE_USERGROUP_EXPERT');
     }
 
@@ -43,7 +51,7 @@ class AuthUtils {
     }
 
     static currentUserHasRole(role) {
-      console.log("currentUserHasRole")
+      // console.log("currentUserHasRole")
         if(loginService.getAccessToken()) {
             if(loginService.hasRole(role))  { return true; }
             else { return false; }
