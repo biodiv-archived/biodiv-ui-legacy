@@ -101,12 +101,6 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1).t
     showButton:taxonToshow1
   },()=>{
       this.setScrollClass();
-    //   var event = new CustomEvent("getTaxon-filter",{ "detail":{
-    //     taxon:[],
-    //     classification:this.state.classification
-    //   }
-    // });
-    // document.dispatchEvent(event);
   })
 
 });
@@ -122,6 +116,8 @@ nextFetch(){
   if(index<=size && index>=0){
     this.setState({
       Selected:showButton[index].split(",")
+    },()=>{
+        this.setScrollClass();
     })
   }
 
@@ -137,6 +133,8 @@ prevFetch(){
   if(index<=size && index>=0){
     this.setState({
       Selected:showButton[index].split(",")
+    },()=>{
+      this.setScrollClass();
     })
   }
 }
