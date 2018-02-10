@@ -160,23 +160,23 @@ setScrollClass(){
 }
 
 }
-getClassificationData(){
-  axios.get(`${Config.api.API_ROOT_URL}/taxon/classification/list`).then((response)=>{
-    let data=[];
-    response.data.map((item)=>{
-      let obj={};
-      obj.label=item.name;
-      obj.value=item.id;
-      data.push(obj);
-    })
-      this.setState({
-      classificationTable:data
-    })
-
-  })
-}
+// getClassificationData(){
+//   axios.get(`${Config.api.API_ROOT_URL}/taxon/classification/list`).then((response)=>{
+//     let data=[];
+//     response.data.map((item)=>{
+//       let obj={};
+//       obj.label=item.name;
+//       obj.value=item.id;
+//       data.push(obj);
+//     })
+//       this.setState({
+//       classificationTable:data
+//     })
+//
+//   })
+// }
   componentDidMount() {
-  this.getClassificationData();
+  // this.getClassificationData()
   this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }
@@ -297,7 +297,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const treeNodes = loop(this.props.treeData);
     return (
             <div>
-             <Dropdown options={this.state.classificationTable} value={this.state.classificationSelected} onChange={this.changeTaxonomy.bind(this)} placeholder="IBP" />
+             {/* <Dropdown options={this.state.classificationTable} value={this.state.classificationSelected} onChange={this.changeTaxonomy.bind(this)} placeholder="IBP" /> */}
                 <div id="container-sunil" className="pre-scrollable">
                 <Tree
                   selectable={true}

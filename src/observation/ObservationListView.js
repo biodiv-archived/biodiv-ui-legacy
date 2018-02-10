@@ -14,7 +14,6 @@ import ShowGallery from './imageGallery/ImageShows';
 import Tabs from './Tabs';
 import {Config} from '../Config';
 import UserGroup from '../util/UserGroup';
-import SpeciesGroup from '../util/SpeciesGroup';
 import Navigate from '../bulk/Navigation.js'
 import AuthUtils from '../auth/AuthUtils.js';
 
@@ -37,7 +36,6 @@ class ListComponent extends Component{
 constructor(){
   super();
   this.state={
-    data:[],
     AllUserGroup:"",
     updateUserGroup:"",
     ObservationId:"",
@@ -49,17 +47,9 @@ constructor(){
 }
 
 
-   showEditGroupList() {
-       let me = this;
-       SpeciesGroup.list(function(values) {
-           me.setState({
-               data:values
-           });
-       });
-   }
+
 
 componentDidMount(){
-    this.showEditGroupList();
   this.setState({
     flag:true
   })
@@ -79,7 +69,7 @@ fetchChange(id,event){
 
 handleEditUserGroupButton(previous_id){
 !AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
- let obj = this.state.data.find(x => x.name === this.state.updateUserGroup);
+ let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
  let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
 let options={
     method:'POST',
@@ -221,7 +211,7 @@ display(objs,selectAll){
                                       <div  style={{display:"none"}} ref={objs.id+"2"}>
                                         <div className="form-group form-inline">
                                           <select onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="bg-primary form-control-sm" >
-                                            {this.state.data?this.state.data.map((item)=>{
+                                            {this.props.SpeciesGroup?this.props.SpeciesGroup.map((item)=>{
                                             return   <option key={item.name}   value={item.name}>{item.name}</option>
                                             }):null}
                                           </select> {" "}
@@ -236,7 +226,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-                <Tabs objs={objs} />
+                {/* <Tabs objs={objs} /> */}
             <br />
             </div>
 
@@ -262,6 +252,7 @@ function mapStateToProps(state,ownProps) {
     authenticated: state.auth.authenticated,
     userData:state.auth.userData,
     PublicUrl:state.PublicUrl,
+    SpeciesGroup:state.SpeciesGroup,
     item:getList(state.Observation.all,ownProps.uniqueKey,true)
   };
 }
