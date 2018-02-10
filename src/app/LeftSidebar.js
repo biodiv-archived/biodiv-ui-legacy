@@ -135,35 +135,35 @@ render(){
             <UserGroup />
           </Collapsible>
           </div>
-          <Collapsible open={this.state.speciesOpen} trigger="SpeciesName ">
+          <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger="SpeciesName ">
             <ScientificNameFilter />
           </Collapsible>
 
-          <Collapsible open={this.state.flagOpen} trigger="Flag">
+          <Collapsible lazyRender={true} open={this.state.flagOpen} trigger="Flag">
             <FlaggedFilter />
           </Collapsible>
 
-          <Collapsible open={this.state.userOpen} trigger="User ">
+          <Collapsible lazyRender={true} open={this.state.userOpen} trigger="User ">
             <UserFilter/>
           </Collapsible>
 
-          <Collapsible open={this.state.mediaOpen} trigger="Media Type">
+          <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger="Media Type">
           <Media_Filter />
           </Collapsible>
 
-          <Collapsible trigger="Date">
+          <Collapsible lazyRender={true} trigger="Date">
           <Year_Filter />
           </Collapsible>
 
-          <Collapsible open={this.state.monthOpen} trigger="Seasonal">
+          <Collapsible lazyRender={true} open={this.state.monthOpen} trigger="Seasonal">
           <Month_Filter />
           </Collapsible>
 
-          <Collapsible open={this.state.validateOpen} trigger="Validate">
+          <Collapsible lazyRender={true} open={this.state.validateOpen} trigger="Validate">
           <Validate_Filter />
           </Collapsible>
 
-          <Collapsible  open={this.state.traitsOpen} trigger="Traits">
+          <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger="Traits">
           <Traits_Filter />
           </Collapsible>
   </div>

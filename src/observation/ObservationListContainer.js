@@ -66,12 +66,12 @@ class ObservationListContainer extends Component {
       const newparams=  queryString.parse(document.location.search);
       let {groupName}=this.props.match.params;
 
-      let host = window.location.host;
-
-      let parts = host.split(".");
-      if (parts.length >= 4) {
-        newparams.webaddress=parts[0];
-        }
+      // let host = window.location.host;
+      //
+      // let parts = host.split(".");
+      // if (parts.length >= 4) {
+      //   newparams.webaddress=parts[0];
+      //   }
       if(groupName){
         newparams.webaddress=groupName;
       }
@@ -661,14 +661,7 @@ class ObservationListContainer extends Component {
 
         this.props.ClearObservationPage();
       }
-      // displayData(view,objs,count,selectAll){
-      //
-      //     return(
-      //     <div key={objs.id}>
-      //       <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={objs} view={view} count={count} selectAll={selectAll} resetSelectAll={this.resetAll.bind(this)}/>
-      //     </div>
-      //   )
-      // }
+
 
         showGridView(){
           this.setState({
