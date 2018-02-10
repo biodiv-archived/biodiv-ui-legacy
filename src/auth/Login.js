@@ -17,7 +17,6 @@ class Login extends Component {
 
     handleFormSubmit({ email, password }) {
         this.props.login({ email, password });
-        //this.props.authenticated?this.props.history.push("/observation/list"):null
     }
 
     isAuthenticated(){
@@ -46,6 +45,7 @@ class Login extends Component {
             <div className="col-sm-3 hidden-xs"></div>
             <div  style={{backgroundColor: 'white'}} className="col-sm-6 col-xs-12">
               <br />
+
               <div className="row">
                   <div className="col-sm-4"></div>
                   <div className="col-sm-4">
@@ -81,13 +81,25 @@ class Login extends Component {
                     {this.isAuthenticated()}
                     {this.renderAlert()}
                   <div className="row">
-                    <div className="col-sm-6"></div>
-                    <div className="col-sm-4">
+                    <div className="col-sm-5"></div>
+                    <div className="col-sm-5">
                       <button action="submit" className="btn btn-primary">Sign in</button>
                     </div>
                     <div className="col-sm-2"></div>
                   </div>
-
+                  <br />
+                  <div className="row">
+                    <div className="col-sm-6">
+                      <a className="btn btn-block btn-social btn-facebook">
+                        <span className="fa fa-facebook"></span> Sign in with Facebook
+                      </a>
+                    </div>
+                    <div className="col-sm-6">
+                      <a className="btn btn-block btn-social btn-google">
+                        <span className="fa fa-google"></span> Sign in with Google
+                      </a>
+                    </div>
+                  </div>
                 </Form>
                 </div>
               </div>

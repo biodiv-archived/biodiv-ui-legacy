@@ -13,7 +13,7 @@ import javascriptTimeAgo from 'javascript-time-ago'
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
-import { Login, Logout, AuthUtils,Register,ForgetPassword} from './auth';
+import { Login, Logout, AuthUtils,Register,ForgetPassword,ResetPassword} from './auth';
 
 import reducers from './reducers';
 import Footer from './app/footer/Footer';
@@ -73,13 +73,17 @@ ReactDOM.render(
       <div>
         <Header title={"IBP"}/>
         <div className="container-fluid">
+          
           <Route exact path="/" component={HomePageContainer} />
+
           <Route exact path="/observation/list" component={App} props={search2} />
+          <Route  path="/group/:groupName/observation" component={App} />
+
           <Route exact path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout} />
-          <Route  path="/group/:groupName/observation" component={App} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/forget_password" component={ForgetPassword} />
+          <Route exact path="/reset_password" component={ResetPassword} />
 
           <Route exact path="/map" component={naksha.Layers} />
         </div>
