@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, Form } from 'redux-form';
+import {NavLink} from 'react-router-dom';
 import * as AuthActions from './AuthActions';
 
 const renderInput = field => {
@@ -16,8 +17,6 @@ class Login extends Component {
 
     handleFormSubmit({ email, password }) {
         this.props.login({ email, password });
-        console.log('redirecting to previous location')
-        //        this.props.authenticated?window.history.go(-1):null
     }
 
     isAuthenticated(){
@@ -42,21 +41,74 @@ class Login extends Component {
     render(){
         const { handleSubmit } = this.props;
         return (
-            <Form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <Field name="email"
-                        type="email" component={renderInput} />
+          <div className="container">
+            <div className="col-sm-3 hidden-xs"></div>
+            <div  style={{backgroundColor: 'white'}} className="col-sm-6 col-xs-12">
+              <br />
+
+              <div className="row">
+                  <div className="col-sm-4"></div>
+                  <div className="col-sm-4">
+                    <NavLink to="/register">Register</NavLink>|
+                    <NavLink to="/forget_password">Forget Password</NavLink>
+                  </div>
+                  <div className="col-sm-4"></div>
+              </div>
+              <br />
+              <div className="row">
+                <div className="container col-sm-12">
+                <Form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                <div className="row">
+                <div className="col-sm-3">
+                  <label>Email:</label>
                 </div>
-                <div className="form-group">
+                <div className="col-sm-9">
+                  <Field name="email"
+                      type="email" className="form-control" component={renderInput} />
+                </div>
+                </div>
+                <br />
+                <div className="row">
+                  <div className="col-sm-3">
                     <label>Password:</label>
+                  </div>
+                  <div className="col-sm-9">
                     <Field name="password"
-                        type="password" component={renderInput} />
+                        type="password" className="form-control" component={renderInput} />
+                  </div>
                 </div>
-                {this.isAuthenticated()}
-                {this.renderAlert()}
-                <button action="submit" className="btn btn-primary">Sign in</button>
-            </Form>
+                <br />
+                    {this.isAuthenticated()}
+                    {this.renderAlert()}
+                  <div className="row">
+                    <div className="col-sm-5"></div>
+                    <div className="col-sm-5">
+                      <button action="submit" className="btn btn-primary">Sign in</button>
+                    </div>
+                    <div className="col-sm-2"></div>
+                  </div>
+                  <br />
+                  <div className="row">
+                    <div className="col-sm-6">
+                      <a className="btn btn-block btn-social btn-facebook">
+                        <span className="fa fa-facebook"></span> Sign in with Facebook
+                      </a>
+                    </div>
+                    <div className="col-sm-6">
+                      <a className="btn btn-block btn-social btn-google">
+                        <span className="fa fa-google"></span> Sign in with Google
+                      </a>
+                    </div>
+                  </div>
+                </Form>
+                </div>
+              </div>
+              <br />
+            </div>
+            <div className="col-sm-2 hidden-xs"></div>
+
+          </div>
+
         );
     }
 }

@@ -131,7 +131,7 @@ class Header extends React.Component {
                           <NavLink to={`/group/${item.webaddress}/show`}><li><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</li> </NavLink >
                         </div>
                       )
-                    }):null}
+                    }):"Loading...."}
                     </ul>
                 </li>
                 <li>

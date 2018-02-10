@@ -43,7 +43,6 @@ constructor(){
     ObservationId:"",
     bulk:false,
     bulkId:[],
-    groupName:undefined,
     flag:false,
     rerun:false
   }
@@ -58,18 +57,8 @@ constructor(){
            });
        });
    }
-   setGroupName(){
-     let groupName=this.props.location.pathname.split("/")[2];
-     let groupsyntax=this.props.location.pathname.split("/")[1];
-     if(groupsyntax==="group"){
-       this.setState({
-         groupName
-       })
-     }
 
-   }
 componentDidMount(){
-    this.setGroupName();
     this.showEditGroupList();
   this.setState({
     flag:true
