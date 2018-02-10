@@ -39,6 +39,8 @@ class UndockedDrawer extends React.Component {
       },
       UniqueSpeciesOpen:false
     };
+    this.handleRightOpen=this.handleRightOpen.bind(this)
+    this.handleRightClose=this.handleRightClose.bind(this)
   }
 
 
