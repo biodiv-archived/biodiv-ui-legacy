@@ -16,14 +16,15 @@ class Login extends Component {
 
     handleFormSubmit({ email, password }) {
         this.props.login({ email, password });
-        //this.props.authenticated?this.props.history.push("/observation/list"):null
+        console.log('redirecting to previous location')
+        //        this.props.authenticated?window.history.go(-1):null
     }
 
     isAuthenticated(){
-      const loggedIn = this.props.authenticated;
-      if(loggedIn) {
-        this.props.closeModal ? this.props.closeModal() : null
-      }
+        const loggedIn = this.props.authenticated;
+        if(loggedIn) {
+            this.props.closeModal ? this.props.closeModal() : this.props.history.push('/');
+        }
     }
 
     renderAlert() {

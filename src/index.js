@@ -6,7 +6,6 @@ import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
-import Cookies from 'universal-cookie';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reactTimeAgo from 'react-time-ago'
 import javascriptTimeAgo from 'javascript-time-ago'
@@ -75,9 +74,10 @@ ReactDOM.render(
         <div className="container-fluid">
           <Route exact path="/" component={HomePageContainer} />
           <Route exact path="/observation/list" component={App} props={search2} />
-          <Route exact path="/login" component={Login}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/group/:groupName/login" component={Login} />
           <Route exact path="/logout" component={Logout} />
-          <Route  path="/group/:groupName/observation" component={App} />
+          <Route path="/group/:groupName/observation" component={App} />
           <Route exact path="/map" component={naksha.Layers} />
         </div>
         <Footer />

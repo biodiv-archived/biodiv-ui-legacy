@@ -60,10 +60,13 @@ class AuthUtils {
 
 
     static getAuthHeaders() {
-      return {
+        return {
+            'X-Requested-With' : 'XMLHttpRequest'
+        }
+        /*return {
         'X-Auth-Token' : loginService.getAccessToken(),
         'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288"
-      }
+      }*/
     }
 }
 

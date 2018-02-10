@@ -25,120 +25,116 @@ class RecoName extends React.Component {
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
     this.getRecoName(this.props.id)
-  console.log("cookie",localStorage.getItem('token'))
-
   }
 
   getRecoName(id){
-    axios.get(Config.api.ROOT_URL+"/api/observation/getRecommendationVotes?id="+ id)
+    axios.get(Config.api.ROOT_URL+"/observation/getRecommendationVotes?format=json&id="+ id)
         .then((response)=>{
           this.setState({
             response:response.data.model
           });
         })
-
   }
 
   agreePost(recoId,obvId,Votes){
-    var obId=obvId;
-    var recId=recoId;
-    var votes=Votes;
-    var agree1="agreeButton"+obId+recId;
-    var remove1="removeButton"+obId+recId;
-    console.log(obId,recId)
+    var agree1="agreeButton"+obvId+recoId;
+    var remove1="removeButton"+obvId+recoId;
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/addAgreeRecommendationVote?obvId="+obId+"&recoId="+recId+"&currentVotes="+votes,
+      url :   Config.api.ROOT_URL+"/observation/addAgreeRecommendationVote",
+      params : {'obvId':obvId, 'recoId':recoId, 'currentVotes':Votes},
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
     axios(options)
           .then((response)=>{
-            console.log("agree",response)
             this.getRecoName(this.props.id)
           })
-          .catch((response)=>{
-            (response=="Error: Request failed with status code 401")?
+          .catch((error)=>{
+            (error.response.status == 401)?
             (
               this.setState({
               login_modal:!(this.state.login_modal),
               options:options
             })
 
-            ):console.log("fofoofof")
+            ):console.log(error)
           })
   }
 
   removePost(recoId,obvId,Votes){
-    var token=localStorage.getItem('token')
-    var obId=obvId;
-    var recId=recoId;
-    var votes=Votes;
-    var agree1="agreeButton"+obId+recId;
-    var remove1="removeButton"+obId+recId;
-    console.log(obId,recId)
+    var agree1="agreeButton"+obvId+recoId;
+    var remove1="removeButton"+obvId+recoId;
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/removeRecommendationVote?obvId="+obId+"&recoId="+recId,
-      headers :{
-        'X-Auth-Token' : token,
-        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-        'Accept'        :"text/json"
-      },
+      url :   Config.api.ROOT_URL+"/observation/removeRecommendationVote",
+      params: {'obvId':obvId, 'recoId':recoId, 'format':'json'},
       json: 'true'
     }
     axios(options)
           .then((response)=>{
-            console.log("agree",response)
             this.getRecoName(this.props.id)
-          })
+          }).catch((error)=>{
+            (error.response.status == 401)?
+            (
+              this.setState({
+              login_modal:!(this.state.login_modal),
+              options:options
+            })
 
+            ):console.log(error)
+          })
   }
 
   validatePost(recoId,obvId){
-    var token=localStorage.getItem('token')
-    var obId=obvId;
-    var recId=recoId;
-    var validate1="validateButton"+obId+recId;
-    var unlock1="unlockButton"+obId+recId;
-    var options={
-      method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/"+obId+"/lock?lockType=Validate&recoId="+recId,
-      headers :{
-        'X-Auth-Token' : token,
-        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-        'Accept'        :"text/json"
-      },
-      json: 'true'
-    }
+    var validate1="validateButton"+obvId+recoId;
+    var unlock1="unlockButton"+obvId+recoId;
+      var options={
+          method: 'POST',
+          url :   Config.api.ROOT_URL+"/observation/lock",
+          params : {"id":obvId, "lockType":'Validate', "recoId":recoId, 'format':'json'},
+          json: 'true'
+      }
     axios(options)
           .then((response)=>{
-            console.log("validate",response)
             this.getRecoName(this.props.id)
+          }).catch((error)=>{
+            (error.response.status == 401)?
+            (
+              this.setState({
+              login_modal:!(this.state.login_modal),
+              options:options
+            })
+
+            ):console.log(error)
           })
+
+
   }
 
   unlockPost(recoId,obvId){
-    var token=localStorage.getItem('token')
-    var obId=obvId;
-    var recId=recoId;
-    var validate1="validateButton"+obId+recId;
-    var unlock1="unlockButton"+obId+recId;
+    var validate1="validateButton"+obvId+recoId;
+    var unlock1="unlockButton"+obvId+recoId;
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/"+obId+"/lock?lockType=Unlock&recoId="+recId,
-      headers :{
-        'X-Auth-Token' : token,
-        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-        'Accept'        :"text/json"
-      },
+      url :   Config.api.ROOT_URL+"/observation/lock",
+      params : {'lockType':'Unlock', 'id':obvId, 'recoId':recoId, 'format':'json'},
       json: 'true'
     }
     axios(options)
           .then((response)=>{
-            console.log("validate",response)
             this.getRecoName(this.props.id)
+          }).catch((error)=>{
+            (error.response.status == 401)?
+            (
+              this.setState({
+              login_modal:!(this.state.login_modal),
+              options:options
+            })
+
+            ):console.log(error)
           })
+
   }
   setGroupName(){
     let groupName=this.props.location.pathname.split("/")[2];
@@ -148,20 +144,19 @@ class RecoName extends React.Component {
         groupName
       })
     }
-
   }
+
   componentDidMount(){
       this.setGroupName();
   }
 
 
   render(){
-    console.log("islocked",this.props.islocked)
     return(
     <div>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}
       <div>{
-      this.state.response.hasOwnProperty('recoVotes')?(
+      ((this.state.response != undefined) && (this.state.response.hasOwnProperty('recoVotes'))) ?(
       this.state.response.recoVotes.length>0?
       (
 

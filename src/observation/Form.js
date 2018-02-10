@@ -71,7 +71,7 @@ class Formsuggest extends React.Component {
 
           this.props.getReco(this.props.id2)
         })
-        .catch((response)=>{
+        .catch((error)=>{
           (response=="Error: Request failed with status code 401")?
           (
             this.setState({
@@ -137,7 +137,7 @@ class Formsuggest extends React.Component {
      return suggestion.value
    } ;
 
-   renderSuggestion_c (suggestion,{ query, isHighlighted })  {
+    renderSuggestion_c = (suggestion,{ query, isHighlighted }) => {
      return(
     <div className="row ">
         <div className="col-sm-2" style={{marginTop:'1%'}}>
@@ -173,14 +173,14 @@ class Formsuggest extends React.Component {
   }
 
 
-  onChange1 (event, { newValue })  {
+    onChange1 = (event, { newValue }) => {
     var x=(event.target).getAttribute('id')
     this.setState({
       Cvalue: newValue,
     });
   };
 
-  onChange2 (event, { newValue })  {
+    onChange2 = (event, { newValue }) => {
     var x=(event.target).getAttribute('id')
     this.setState({
       Svalue: newValue,
@@ -188,14 +188,14 @@ class Formsuggest extends React.Component {
     });
   };
 
-  C_Callback (suggestions) {
+    C_Callback = (suggestions) => {
    this.setState({
      Csuggestions: suggestions
 
    });
   };
 
-  S_Callback (suggestions) {
+    S_Callback = (suggestions) => {
 
    this.setState({
      Ssuggestions: suggestions
@@ -204,18 +204,18 @@ class Formsuggest extends React.Component {
    console.log(this.state.Ssuggestions)
   };
 
-onSuggestionsFetchRequested_C ({ value })  {
+    onSuggestionsFetchRequested_C = ({ value }) =>  {
    this.getC_Suggestions(value,this.C_Callback);
 
   };
 
-  onSuggestionsFetchRequested_S ({ value })  {
+    onSuggestionsFetchRequested_S = ({ value }) => {
      this.getS_Suggestions(value,this.S_Callback);
 
     };
 
 
-  onSuggestionsClearRequested ()  {
+    onSuggestionsClearRequested = () => {
     this.setState({
       Csuggestions: [],
       Ssuggestions: [],
