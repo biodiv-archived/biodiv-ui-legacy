@@ -12,9 +12,17 @@ export function login({ email, password }) {
         axios(config).then(response => {
             console.log("got response from login api")
             loginService.clearCredentials();
+            var i;
+            for (i = 0; i < localStorage.length; i++)   {
+                console.log("beforeSetr",localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+            }
             loginService.setCredentials(response.data);
+            for (i = 0; i < localStorage.length; i++)   {
+                console.log("afterSet",localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+            }
             dispatch({ type: AuthConstants.AUTH_USER, payload:response});
         }).catch(function(error){
+            console.log(error);
             if(error.response && error.response.data)
                 dispatch(authError(error.response.data.message));
             else
@@ -30,6 +38,11 @@ export function logout() {
         axios(config).then(response => {
             console.log("got response from logout api")
             loginService.clearCredentials();
+            var i;
+            console.log("aTokennnnnnnnnnnnnnnnnn",localStorage.length)
+            for (i = 0; i < localStorage.length; i++)   {
+                console.log("after clear in logout function",localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+            }
             dispatch({ type: AuthConstants.UNAUTH_USER});
         }).catch(function(error){
             console.log(error);

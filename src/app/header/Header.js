@@ -121,9 +121,18 @@ class Header extends React.Component {
                   {<NavLink to={`/${this.props.PublicUrl}discussion/list`}>Discussions
                 </NavLink>}
                 </li>
-                <li>
-                  {<NavLink to={`/${this.props.PublicUrl}group/list`}>Groups
-                </NavLink>}
+                <li className="dropdown">
+                  {<NavLink className="dropdown-toggle" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
+                    <ul className="dropdown-menu pre-scrollable" style={{'height':'500px','width':'200px'}} role="menu">
+
+                    {this.props.UserGroupList?this.props.UserGroupList.map((item)=>{
+                      return (
+                        <div style={{'border':'1px'}}>
+                          <NavLink to={`/group/${item.webaddress}/show`}><li><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</li> </NavLink >
+                        </div>
+                      )
+                    }):"Loading...."}
+                    </ul>
                 </li>
                 <li>
                   {<NavLink to={`/${this.props.PublicUrl}page/4246006`}>Pages

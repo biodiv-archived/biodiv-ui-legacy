@@ -2,20 +2,20 @@ import React, {Component} from 'react';
 import LeftSidebar from './LeftSidebar';
 import  RightSidebar from './RightSidebar';
 import ObservationListContainer from '../observation/ObservationListContainer';
-import {fetchLanguages} from '../actions/index';
-import {fetchUserGroupList} from '../actions/index';
+import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../actions/index';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 class Content extends Component {
 
-    constructor(){
+    constructor(props){
         super();
     }
 
     componentDidMount(){
-      {this.props?this.props.fetchLanguages():null}
-      {this.props?this.props.fetchUserGroupList():null}
+      this.props.fetchLanguages()
+      this.props.fetchUserGroupList()
+      this.props.fetchSpeciesGroup()
     }
 
     showSidebar(){
@@ -37,14 +37,4 @@ class Content extends Component {
                 )
     }
 }
-
-function mapStateToProps(state){
-return {Languages:state.Languages,UserGroupList:state.UserGroupList,authenticated: state.auth.authenticated};
-}
-
-function mapDispatchToProps(dispatch){
-
-return bindActionCreators({fetchLanguages,fetchUserGroupList},dispatch);
-}
-
- export default connect(mapStateToProps,mapDispatchToProps)(Content);
+ export default connect(null,{fetchLanguages,fetchUserGroupList,fetchSpeciesGroup})(Content);

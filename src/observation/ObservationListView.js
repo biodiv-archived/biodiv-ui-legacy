@@ -14,7 +14,6 @@ import ShowGallery from './imageGallery/ImageShows';
 import Tabs from './Tabs';
 import {Config} from '../Config';
 import UserGroup from '../util/UserGroup';
-import SpeciesGroup from '../util/SpeciesGroup';
 import Navigate from '../bulk/Navigation.js'
 import AuthUtils from '../auth/AuthUtils.js';
 
@@ -37,50 +36,20 @@ class ListComponent extends Component{
 constructor(){
   super();
   this.state={
-    data:[],
     AllUserGroup:"",
     updateUserGroup:"",
     ObservationId:"",
     bulk:false,
     bulkId:[],
-    groupName:undefined,
     flag:false,
     rerun:false
   }
 }
-getEditUserGroupMethod() {
-       let me = this;
-           //UserGroup.fetch().then((response)=>{
-           UserGroup.list(function(values) {
-               me.setState({
-                   AllUserGroup:values//response.model.userGroupInstanceList
-               });
-           });
-   }
 
-   showEditGroupList() {
-       let me = this;
-       //SpeciesGroup.fetch().then((data)=>{
-       SpeciesGroup.list(function(values) {
-           me.setState({
-               data:values
-           });
-       });
-   }
-   setGroupName(){
-     let groupName=this.props.location.pathname.split("/")[2];
-     let groupsyntax=this.props.location.pathname.split("/")[1];
-     if(groupsyntax==="group"){
-       this.setState({
-         groupName
-       })
-     }
 
-   }
+
+
 componentDidMount(){
-    this.setGroupName();
-  this.showEditGroupList();
-  this.getEditUserGroupMethod()
   this.setState({
     flag:true
   })
@@ -100,23 +69,18 @@ fetchChange(id,event){
 
 handleEditUserGroupButton(previous_id){
 !AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
- let obj = this.state.data.find(x => x.name === this.state.updateUserGroup);
+ let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
  let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
 let options={
     method:'POST',
     url : url,
-    headers :{
-      'X-Auth-Token' :"eyJhbGciOiJIUzI1NiJ9.eyIkaW50X3Blcm1zIjpbXSwic3ViIjoib3JnLnBhYzRqLmNvcmUucHJvZmlsZS5Db21tb25Qcm9maWxlIzEiLCIkaW50X3JvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfU1BFQ0lFU19BRE1JTiIsIlJPTEVfQURNSU4iLCJST0xFX0NFUEZfQURNSU4iXSwiZXhwIjoxNTEyNTQ0NTY3NjkwLCJlbWFpbCI6ImFkbWluQHN0cmFuZGxzLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4ifQ.v_MqsgMnq2HHD0rFGDlu_RSFwfHCHZRrhUlo4IRPxCg",
-      'X-AppKey'     :"8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288",
-      'Accept'       :"application/json"
-    },
+    headers:AuthUtils.getAuthHeaders(),
     json: 'true'
   }
   axios(options)
       .then((response)=>{
-        console.log(this.props.item.speciesgroupid);
         Object.assign(this.props.item,response.data.document)
-        console.log(this.props.item.speciesgroupid);
+
         this.setState({
           rerun:true
         })
@@ -247,7 +211,7 @@ display(objs,selectAll){
                                       <div  style={{display:"none"}} ref={objs.id+"2"}>
                                         <div className="form-group form-inline">
                                           <select onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="bg-primary form-control-sm" >
-                                            {this.state.data?this.state.data.map((item)=>{
+                                            {this.props.SpeciesGroup?this.props.SpeciesGroup.map((item)=>{
                                             return   <option key={item.name}   value={item.name}>{item.name}</option>
                                             }):null}
                                           </select> {" "}
@@ -262,7 +226,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-                <Tabs objs={objs} /> 
+                {/* <Tabs objs={objs} /> */}
             <br />
             </div>
 
@@ -288,6 +252,7 @@ function mapStateToProps(state,ownProps) {
     authenticated: state.auth.authenticated,
     userData:state.auth.userData,
     PublicUrl:state.PublicUrl,
+    SpeciesGroup:state.SpeciesGroup,
     item:getList(state.Observation.all,ownProps.uniqueKey,true)
   };
 }

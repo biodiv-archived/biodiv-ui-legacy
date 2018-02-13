@@ -11,7 +11,10 @@ export const FETCH_UNIQUE_SPECIES_LOADMORE='FETCH_UNIQUE_SPECIES_LOADMORE';
 export const FETCH_UNIQUE_SPECIES_NEWFILTER='FETCH_UNIQUE_SPECIES_NEWFILTER';
 export const FETCH_USERGROUP_LIST='FETCH_USERGROUP_LIST';
 export const SET_GROUP_NAME='SET_GROUP_NAME';
+
 export const FETCH_RECOMMENDATIONS='FETCH_RECOMMENDATIONS';
+export const FETCH_SPECIES_GROUP ='FETCH_SPECIES_GROUP';
+
 
 export function fetchUniqueSpecies(params,count,flag){
   var options={
@@ -102,6 +105,14 @@ export function fetchUserGroupList(){
   const request = axios.get(url);
   return{
     type:FETCH_USERGROUP_LIST,
+    payload:request
+  }
+}
+export function fetchSpeciesGroup(){
+  const url = Config.api.API_ROOT_URL+"/species/list"
+  const request = axios.get(url);
+  return{
+    type:FETCH_SPECIES_GROUP,
     payload:request
   }
 }

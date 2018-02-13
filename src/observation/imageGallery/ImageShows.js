@@ -14,8 +14,15 @@ export default class LightboxExample extends Component {
             resource:[]
         };
     }
+    getUrl(thumbnail){
+      var res = thumbnail.split(".");
+      return `/biodiv/observations/`+res[0]+"_th1."+res[1];
+    }
     render() {
-      const images = this.props.images?this.props.images:null;
+      let images=[];
+      this.props.images?this.props.images.map((data)=>{
+         images.push(this.getUrl(data));
+      }):null;
       const {photoIndex,isOpen} = this.state;
 
         return (
@@ -25,8 +32,7 @@ export default class LightboxExample extends Component {
                 <div className="carousel-inner">
                   <div className="item active">
                         <NavLink to={`show/${this.props.objs.id}`} >
-                    <img src={`/biodiv/observations/`+this.props.thumbnail} style={{paddingTop:'5px',paddingBottom:'5px',height:'200px',width:'200px'}}
-                    className="media-object img-responsive img-rounded" />
+                    <img src={this.getUrl(this.props.thumbnail)} className="media-object img-responsive img-rounded" />
                      </NavLink>
                     <div className="carousel-caption ">
                          <strong onClick={() => this.setState({ isOpen: true })}>View Gallery {this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>

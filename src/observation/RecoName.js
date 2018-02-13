@@ -26,8 +26,6 @@ class RecoName extends React.Component {
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
-  //  this.getRecoName(this.props.id)
-  //console.log("cookie",localStorage.getItem('token'))
 
   }
 
@@ -43,6 +41,13 @@ class RecoName extends React.Component {
       json: 'true'
     }
     axios(options)
+=======
+    this.getRecoName(this.props.id)
+  }
+
+  getRecoName(id){
+    axios.get(Config.api.ROOT_URL+"/observation/getRecommendationVotes?format=json&id="+ id)
+>>>>>>> a3a4a6af922593a75fcae135b4996808ff9b2eaf
         .then((response)=>{
           if(response.status === 200){
             this.setState({
@@ -88,6 +93,7 @@ class RecoName extends React.Component {
   }
 
   removePost(recoId,obvId,Votes){
+
     var token=localStorage.getItem('token')
     var obId=obvId;
     var recId=recoId;
@@ -153,18 +159,14 @@ class RecoName extends React.Component {
               login_modal:!(this.state.login_modal),
               options:options
             })
-            }else{
-              console.log(error)
-            }
+
+          }else console.log(error)
           })
   }
 
   unlockPost(recoId,obvId){
-    var token=localStorage.getItem('token')
-    var obId=obvId;
-    var recId=recoId;
-    var validate1="validateButton"+obId+recId;
-    var unlock1="unlockButton"+obId+recId;
+    var validate1="validateButton"+obvId+recoId;
+    var unlock1="unlockButton"+obvId+recoId;
     var options={
       method: 'POST',
       url :   Config.api.ROOT_URL+"/api/observation/"+obId+"/lock",
@@ -183,14 +185,13 @@ class RecoName extends React.Component {
             }
           })
           .catch((error)=>{
-            if(error.response.status === 401){
+            (error.response.status == 401)?
+            (
               this.setState({
               login_modal:!(this.state.login_modal),
               options:options
             })
-            }else{
-              console.log(error)
-            }
+            ):console.log(error)
           })
   }
   setGroupName(){
@@ -201,20 +202,20 @@ class RecoName extends React.Component {
         groupName
       })
     }
-
   }
+
   componentDidMount(){
       this.setGroupName();
   }
 
 
   render(){
-    //console.log("islocked",this.props.islocked)
 
     return(
     <div>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}
       <div>{
+
 
       this.state.response.length>0?
       (

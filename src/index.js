@@ -6,14 +6,13 @@ import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
-import Cookies from 'universal-cookie';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reactTimeAgo from 'react-time-ago'
 import javascriptTimeAgo from 'javascript-time-ago'
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
-import { Login, Logout, AuthUtils} from './auth';
+import { Login, Logout, AuthUtils,Register,ForgetPassword,ResetPassword} from './auth';
 
 import reducers from './reducers';
 import Footer from './app/footer/Footer';
@@ -22,6 +21,7 @@ import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
 import {SET_GROUP_NAME} from './actions/index';
+import naksha from 'naksha-react-ui'
 
 javascriptTimeAgo.locale(require('javascript-time-ago/locales/en'))
 javascriptTimeAgo.locale(require('javascript-time-ago/locales/ru'))
@@ -29,9 +29,7 @@ javascriptTimeAgo.locale(require('javascript-time-ago/locales/ru'))
 require('javascript-time-ago/intl-messageformat-global')
 require('intl-messageformat/dist/locale-data/en')
 require('intl-messageformat/dist/locale-data/ru')
-
 require('dotenv').config()
-
 
 
 
@@ -74,11 +72,20 @@ ReactDOM.render(
       <div>
         <Header title={"IBP"}/>
         <div className="container-fluid">
+          
           <Route exact path="/" component={HomePageContainer} />
+
           <Route exact path="/observation/list" component={App} props={search2} />
-          <Route exact path="/login" component={Login}/>
-          <Route exact path="/logout" component={Logout} />
           <Route  path="/group/:groupName/observation" component={App} />
+          
+          <Route  path="/group/:groupName/login" component={App} />
+          <Route path="/login" component={Login}/>
+          <Route exact path="/logout" component={Logout} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/forget_password" component={ForgetPassword} />
+          <Route exact path="/reset_password" component={ResetPassword} />
+
+          <Route exact path="/map" component={naksha.Layers} />
         </div>
         <Footer />
       </div>

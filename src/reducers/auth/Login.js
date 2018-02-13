@@ -20,10 +20,10 @@ class Login extends Component {
     }
 
     isAuthenticated(){
-        const loggedIn = this.props.authenticated;
-        if(loggedIn) {
-            this.props.closeModal ? this.props.closeModal() : this.props.history.push('/');
-        }
+      const loggedIn = this.props.authenticated;
+      if(loggedIn) {
+        this.props.closeModal ? this.props.closeModal() : null
+      }
     }
 
     renderAlert() {
