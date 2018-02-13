@@ -24,7 +24,7 @@ class Header extends React.Component {
 
 
   render() {
-    console.log("authenticayted or not",this.props.authenticated)
+    //console.log("authenticayted or not",this.props.authenticated)
     return (
       <div className="container-fluid">
         <div className="row">

@@ -54,7 +54,7 @@ class UndockedDrawer extends React.Component {
   handleRightClose () {this.toggleDrawer('right', false);}
 
   render() {
-    console.log(this.props.filterParams)
+    //console.log(this.props.filterParams)
     const sideList = (
       <div >
             <UniqueSpecies params={this.props.filterParams}/>

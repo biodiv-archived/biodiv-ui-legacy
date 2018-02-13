@@ -7,7 +7,7 @@ import loginService from './LoginService';
  */
 class AuthUtils {
     static isLoggedIn() {
-      console.log(loginService.getAccessToken());
+      //console.log(loginService.getAccessToken());
         if(loginService.getAccessToken()) return true;
         else return false;
     }
@@ -29,12 +29,12 @@ class AuthUtils {
     }
 
     static isUserGroupFounder() {
-      console.log("isUserGroupFounder")
+      //console.log("isUserGroupFounder")
         return AuthUtils.currentUserHasRole('ROLE_USERGROUP_FOUNDER');
     }
 
     static isUserGroupExpert(){
-      console.log("isUserGroupExpert")
+      //console.log("isUserGroupExpert")
         return AuthUtils.currentUserHasRole('ROLE_USERGROUP_EXPERT');
     }
 
@@ -51,7 +51,7 @@ class AuthUtils {
     }
 
     static currentUserHasRole(role) {
-      console.log("currentUserHasRole")
+      //console.log("currentUserHasRole")
         if(loginService.getAccessToken()) {
             if(loginService.hasRole(role))  { return true; }
             else { return false; }
@@ -62,7 +62,7 @@ class AuthUtils {
     static getAuthHeaders() {
       return {
         'X-Auth-Token' : loginService.getAccessToken(),
-        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288"
+        'X-AppKey'     : "8acc2ea1-2cfc-4be5-8e2d-560b7c4cc288" //
       }
     }
 }

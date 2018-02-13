@@ -10,20 +10,29 @@ import commentWithTagStyle from './commentWithTagStyle.js'
 import { Config } from '../Config';
 import ModalPopup from '../auth/Modal.js';
 import AuthUtils from '../auth/AuthUtils.js';
+import RichTextEditor from '../util/richEditor/RichTextEditor.js'
+import $ from 'jquery'
+import './recoComment.css'
 
 class RecoComment extends React.Component {
 
   constructor(props) {
     super(props);
     this.state={
-      response:'',
+      response:[],
       login_modal:false,
       options:'',
-      value:''
+      value:'',
+      commentCount:this.props.commentCount,
+      remainingCommentCount:null
     }
-
+    //console.log("count of recoComent",this.props.commentCount)
+    this.semiComments=[]
+    this.fetchCount=0;
+    this.refTym='';
     this.getRecoComment=this.getRecoComment.bind(this)
-    this.getRecoComment(this.props.id1,this.props.id2)
+    this.incrementCount = this.incrementCount.bind(this)
+    //this.getRecoComment(this.props.id1,this.props.id2)
 
   }
 
@@ -51,20 +60,78 @@ class RecoComment extends React.Component {
     })
  }
 
-  getRecoComment(id1,id2){
-    var d = new Date();
-    var tym = d.getTime();
-    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&max=3%20&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
-        .then((response)=>{
-          this.setState({
-            response:response
-          });
+  getRecoComment(first,second){
+    var pop = "popup"+this.props.id1
+    if(first === true || second === true){
+      this.refs[pop].className = "drop-content container"
+    }
+    if(this.refs[pop].className.trim() === "drop-content container".trim()){
+      this.refs[pop].className = "drop-content container show"
+
+      var refTime;
+      var id1 = this.props.id1
+      var id2 = this.props.id2
+      if(first === true)
+      {
+        this.setState({
+          response:[],
+        });
+        //console.log("inside fistr ttrue")
+        //console.log(this.fetchCount,this.state.response)
+        this.fetchCount=0;
+      }
+      if(this.fetchCount>0){
+        refTime = this.refTym
+        console.log("using older time")
+      }else{
+        var d = new Date();
+        var tym = d.getTime();
+        refTime = tym;
+        console.log("using current time")
+      }
+      var options = {
+        method: 'GET',
+        url :     Config.api.ROOT_URL+"/comment/getComments",
+        params:{
+          commentHolderId:id1,
+          commentHolderType:"species.participation.Recommendation",
+          rootHolderId:id2,
+          rootHolderType:"species.participation.Observation",
+          refTime:refTime,
+          timeLine:"older",
+          commentType:"context",
+          max:3
+        },
+        json: 'true'
+      }
+      axios(options)
+          .then((response)=>{
+            if(response.status === 200){
+              if(response.data){
+                console.log("setting data")
+              this.semiComments=response.data.model.instanceList.reverse();
+              this.semiComments=this.semiComments.concat(this.state.response)
+              console.log("semifeeeeds",this.semiComments)
+              this.setState({
+                response:this.semiComments,
+                remainingCommentCount:response.data.model.remainingCommentCount
+              })
+              this.refTym = response.data.model.olderTimeRef
+              this.fetchCount++
+            }
+          }
         })
-  }
+    }else{
+      if(this.refs[pop].className.trim() === "drop-content container show".trim()){
+        this.refs[pop].className = "drop-content container"
+      }
+    }
+      }
+
   getRecoCommentAgain(id1,id2){
     var d = new Date();
     var tym = d.getTime();
-    axios.get(Config.api.ROOT_URL+"/api/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&format=json")
+    axios.get(Config.api.ROOT_URL+"/comment/getComments?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&max=30&rootHolderType=species.participation.Observation&refTime="+tym+"&%20timeLine=older&commentType=context&format=json")
         .then((response)=>{
           this.setState({
             response:response
@@ -77,7 +144,11 @@ show(id2,id1){
   this.refs.hasOwnProperty(comment_table1)?(this.refs[comment_table1].style.display="block"):null
 }
 
-
+incrementCount(){
+  this.setState({
+    commentCount: (this.state.commentCount)+1
+  })
+}
 
 
 recoCommentPost(e){
@@ -90,7 +161,15 @@ recoCommentPost(e){
   var tym = d.getTime();
   var options={
     method:'POST',
-    url :   Config.api.ROOT_URL+"/api/comment/addComment?commentHolderId="+id1+"&commentHolderType=species.participation.Recommendation&rootHolderId="+id2+"&rootHolderType=species.participation.Observation&commentBody="+value1+"&newerTimeRef="+tym,
+    url :   Config.api.ROOT_URL+"/comment/addComment",
+    params:{
+      commentHolderId:id1,
+      commentHolderType:"species.participation.Recommendation",
+      rootHolderId:id2,
+      rootHolderType:"species.participation.Observation",
+      commentBody:value1,
+      newerTimeRef:tym
+    },
     headers : AuthUtils.getAuthHeaders(),
     json: 'true'
   }
@@ -101,78 +180,154 @@ recoCommentPost(e){
   })
   axios(options)
       .then((response)=>{
-        console.log("comment",response)
-        this.getRecoComment(this.props.id1,this.props.id2)
+        //console.log("comment",response)
+        if(response.status === 200){
+          this.getRecoComment()
+//console.log("commentCounbt",this.state.commentCount)
+        }
+
       })
-      .catch((response)=>{
-        (response=="Error: Request failed with status code 401")?
-        (
+      .catch((error)=>{
+        if(error.response.status === 401){
           this.setState({
           login_modal:!(this.state.login_modal),
           options:options
         })
-
-        ):console.log("fofoofof")
+      }else{
+          console.log(error)
+      }
       })
     }
   }
 
+  editOnComment(id,id2){
+    var del = "Delete"+id+id2;
+    var rep = "Reply"+id+id2;
+    var edit = "Edit"+id+id2;
+    var box = "Replybox"+id+id2;
+    var box2 = "Editbox"+id+id2;
+    var canEdit ="CancelEdit"+id+id2;
+    this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="none"):null
+    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
+    this.refs.hasOwnProperty(del)?(this.refs[del].style.display="none"):null
+    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="block"):null
+    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="block"):null
+    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+  }
 
+  deleteOnComment(id){
+    //console.log("deleteonCommmmmmmmmmmment",id)
+    var options={
+       method:'POST',
+       url :   Config.api.API_ROOT_URL+"/comment/removeComment?commentId="+id,
+       headers : AuthUtils.getAuthHeaders(),
+       json: 'true'
+     }
+     axios(options)
+         .then((response)=>{
+           //console.log("comment",response)
+           //console.log(this.props.fetchFeeds)
+           if(response.status === 200){
+             this.setState({
+               commentCount:(this.state.commentCount)- 1
+             })
+             this.getRecoComment(true);
+           }
+
+         })
+          .catch((error)=>{
+            if(error.response.status == 401){
+              this.setState({
+              login_modal:!(this.state.login_modal),
+              options:options
+            })
+          }else{
+            console.log(error.response.statusText)
+          }
+          })
+  }
+
+  cancelEditOnComment(item,id2){
+    var rep = "Reply"+item.id+id2;
+    var box = "Replybox"+item.id+id2;
+    var box2 = "Editbox"+item.id+id2;
+    var canEdit ="CancelEdit"+item.id+id2;
+    var edit = "Edit"+item.id+id2;
+    var del = "Delete"+item.id+id2;
+    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="none"):null
+    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="block"):null
+
+    if(AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id){
+      this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="block"):null
+      this.refs.hasOwnProperty(del)?(this.refs[del].style.display="block"):null
+    }
+    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
+    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+  }
+
+   handleClick(e){
+
+     e.stopPropagation();
+     console.log("stop")
+     console.log(e.stopPropagation())
+   }
+
+   handleSpace = (e) =>{
+     //console.log("spaceeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",e)
+     //console.log(e.keyCode)
+     if(e.keyCode === 32){
+       //console.log("keycode 32")
+        // e.stopPropagation();
+         console.log("inside reco comment handle spoace")
+    //  e.preventDefault();
+
+       //this.editor.focus();
+       //console.log(convertToRaw(this.state.editorState.getCurrentContent()))
+
+
+     }
+
+   };
 render(){
       return(
-      <span>
+      <div>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoComment} id={this.props.id2} id1={this.props.id1}/>):null}
       {
-        this.state.response.hasOwnProperty('data')?
-        (
-                <span className="comment-popup dropdown " ref={"popup"}>
+          <div className="comment-popup drop "  onKeyDown={this.handleSpace}>
 
-                    <a className="btn btn-xs btn-warning dropdown-toggle" data-toggle="dropdown" href="#">
+                    <a className="btn btn-xs btn-warning"  onClick={this.getRecoComment}>
                                 <span className="glyphicon glyphicon-comment"></span>
                                 {" "}
-                    {this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.length+this.state.response.data.model.remainingCommentCount):null}
+                    {this.state.commentCount}
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-right" style={{width:'500px'}} >
+                    <div className="drop-content container" ref={"popup"+this.props.id1} >
                           <div className="reco-comment-table" ref={"comment_table"+this.props.id2+this.props.id1}>
-                              <div className="post-comment">
-                                  <form className="form-horizontal post-comment-form" style={{top:'3px'}} onSubmit={this.recoCommentPost.bind(this)}>
-                                    <div className="row">
-                                      <div className="col-sm-10" >
-                                      <MentionsInput
-                                          ref={"recoComment"+this.props.id2+this.props.id1}
-                                          value={this.state.value}
-                                          onChange={this.handleChange.bind(this)}
-                                          style={commentWithTagStyle}
-                                          placeholder="Write Comment on Species call"
-                                       >
-                                          <Mention trigger="@"
-                                              data={this.getUsers.bind(this)}
-                                              style={{backgroundColor: '#90D547'}}
-                                            />
-
-                                      </MentionsInput>
-                                      </div>
-                                      <div className="col-sm-2">
-  		                                <input type="submit" value="Post" className="btn comment-post-btn btn-sm" />
-                                      </div>
-                                    </div>
-  	                              </form>
+                              <div className="post-comment row">
+                                      <div style={{marginLeft:'2%',marginTop:'1%'}}>
+                                        <RichTextEditor ref={"recoComment"+this.props.id1+this.props.id2} key={"richtextComment"+this.props.id1+this.props.id2}
+                                                    //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+                                                    obvId={this.props.id2}
+                                                    chId={this.props.id1}
+                                                    getRecoComment={this.getRecoComment}
+                                                    incrementCount={this.incrementCount}
+                                        />
+                                        </div>
                               </div>
-                              <li className="divider row"></li>
-                              <div className="previous-comments-container pre-scrollable">
-                                   <ul>
+
+                              <div className="previous-comments-container pre-scrollable" style={{marginTop:'0.7%'}}>
+                                   <ul className="list-unstyled">
                                       {
-                                          this.state.response.data.model.hasOwnProperty('instanceList')?(this.state.response.data.model.instanceList.map((item,index)=>{
+                                          this.state.response && this.state.response.length>0?(this.state.response.map((item,index)=>{
                                             return(
                                               <li key={index} className="list-unstyled">
-                                                  <div className="comment-container well well-sm" style={{width:'90%',marginLeft:'5%'}}>
+                                                  <div className="comment-container well well-sm" style={{marginBottom:'0.2%'}}>
                                                       <div className="row">
-                                                            <div className="author-icon col-md-2">
+                                                            <div className="author-icon col-sm-2">
                                                                   <a href={"/user/show/"+ item.author.id}>
                                                                       <img src={item.author.icon} title={item.author.name} width='40px' height='40px'/>
                                                                   </a>
                                                             </div>
-                                                            <div className="col-md-10">
+                                                            <div className="col-sm-10">
                                                                   <b>{item.author.name}</b>
                                                                   <div className="comment-on-species ellipsis">
                                                                         comment on species call:
@@ -192,11 +347,11 @@ render(){
                                                                   </div>
                                                                   <div className="comment body">
                                                                   {
-                                                                    <span style={{color:'black'}}>{item.text}</span>
+                                                                    <span className="parse" style={{color:'black',wordWrap:'break-word'}} dangerouslySetInnerHTML={{ __html: item.text }} />
                                                                   }
                                                                   </div>
                                                                   <div className="comment-attributes">
-                                                                      <time className="timeago" dateTime={this.state.response.data.model.olderTimeRef}>
+                                                                      <time className="timeago" >
                                                                       {
                                                                         <Moment date={item.lastUpdated}/>
                                                                       }
@@ -204,6 +359,36 @@ render(){
                                                                   </div>
                                                             </div>
                                                        </div>
+                                                      <div className="row" style={{marginLeft:'15%'}}>
+                                                          <a  className="col-xs-2" style={{display:'none'}} ref={"CancelEdit"+item.id+this.props.id2} onClick={this.cancelEditOnComment.bind(this,item,this.props.id2)}>Cancel</a>
+                                                          {
+                                                            (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
+                                                            (
+                                                              <a  className="col-xs-2" style={{display:'block'}} ref={"Edit"+item.id+this.props.id2} onClick={this.editOnComment.bind(this,item.id,this.props.id2)}>Edit</a>
+
+                                                            ):null
+                                                          }
+                                                          {
+                                                            (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
+                                                            (
+                                                              <a  className="col-xs-2" style={{display:'block'}} ref={"Delete"+item.id+this.props.id2} onClick={this.deleteOnComment.bind(this,item.id)}>Delete</a>
+
+                                                            ):null
+                                                          }
+                                                      </div>
+                                                      <div className="row">
+                                                      <div className="col-sm-12" style={{display:'none'}} ref={"Editbox"+item.id+this.props.id2}>
+                                                      {console.log(item.id,item.text)}
+                                                          <RichTextEditor ref={"editOnComment"+this.props.id1} key={"richtextEdit"+this.props.id1+item.id}
+                                                                      htm={item.text}
+                                                                      //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+                                                                      currentCommentId={item.id}
+                                                                      getRecoComment={this.getRecoComment}
+                                                                      obvId={this.props.id2}
+                                                                      chId={this.props.id1}
+                                                          />
+                                                      </div>
+                                                      </div>
                                                   </div>
                                               </li>
                                           )
@@ -211,22 +396,19 @@ render(){
                                           ):null
                                         }
                                     </ul>
-
-                                    {
-                                      this.state.response.data.model.remainingCommentCount>0?
-                                      (
-                                        <a className="btn btn-small" onClick={this.getRecoCommentAgain.bind(this,this.props.id1,this.props.id2)}>Show {this.state.response.data.model.remainingCommentCount} more Comments</a>
-                                      ):null
-                                    }
                               </div>
+                              {
+                                this.state.remainingCommentCount && this.state.remainingCommentCount>0?
+                                (
+                                  <a className="btn btn-small" onClick={this.getRecoComment.bind(this,false,true)}>Show {this.state.remainingCommentCount} more Comment(s)</a>
+                                ):null
+                              }
                               <input type="hidden" name="olderTimeRef" value/>
                           </div>
-                    </ul>
-                </span>
-
-      ):null
+                    </div>
+            </div>
       }
-      </span>
+      </div>
     )
   }
 

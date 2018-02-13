@@ -14,6 +14,7 @@ import Language_reducer from './reducer_languages.js';
 import UniqueSpecies_reducer from './reducer_uniqueSpecies.js';
 import UserGroupList_reducer from './reducer_userGroup_list.js';
 import UserGroupNameForUrl from './reducer_getUserGroupName';
+import Recommendation_reducer from './reducer_Recommendation.js';
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
   ChartData:SpeciesChartReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   form:form,
   UniqueSpeciesList:UniqueSpecies_reducer,
   UserGroupList:UserGroupList_reducer,
-  PublicUrl:UserGroupNameForUrl
+  PublicUrl:UserGroupNameForUrl,
+  Recommendations:Recommendation_reducer
 });
 
 export default rootReducer;

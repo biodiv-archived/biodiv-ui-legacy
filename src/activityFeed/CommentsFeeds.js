@@ -64,9 +64,9 @@ class CommentsFeeds extends React.Component {
  }
 
  fetchFeeds(id,first){
-   console.log("fetchFeeds calllllllllled",first)
-   console.log("sdhyfsfhyshs",this)
-   console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+   //console.log("fetchFeeds calllllllllled",first)
+   //console.log("sdhyfsfhyshs",this)
+   //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     var refTime;
     if(first === true)
     {
@@ -492,6 +492,7 @@ class CommentsFeeds extends React.Component {
                                                                             parentCommentId={item.activityHolderId}
                                                                             getFeeds={this.fetchFeeds}
                                                                             obvId={this.props.id}
+                                                                            chId={this.props.id}
                                                                 />
                                                             </div>
                                                             <div className="col-sm-12" style={{display:'none'}} ref={"Editbox"+item.id}>
@@ -501,6 +502,7 @@ class CommentsFeeds extends React.Component {
                                                                             currentCommentId={item.activityHolderId}
                                                                             getFeeds={this.fetchFeeds}
                                                                             obvId={this.props.id}
+                                                                            chId={this.props.id}
                                                                 />
                                                             </div>
                                                         </div>
@@ -524,6 +526,7 @@ class CommentsFeeds extends React.Component {
                 <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
                             //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
                             obvId={this.props.id}
+                            chId={this.props.id}
                             getFeeds={this.fetchFeeds}
                 />
             </div>

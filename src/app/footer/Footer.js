@@ -17,7 +17,7 @@ import _ from "lodash";
    }
 
    componentDidMount(){
-     console.log("public url",this.props.publicUrl)
+     //console.log("public url",this.props.publicUrl)
      if(this.props.publicUrl.groupName != ""){
        var ugId;
        this.getNewsLetters(ugId);
@@ -55,9 +55,9 @@ import _ from "lodash";
        .then((response)=>{
          //console.log("#######################################",response)
            if(response.status == 200){
-             console.log("response",response.data)
+            // console.log("response",response.data)
              var grouped = _.orderBy((_.groupBy(response.data, 'parentId')),['displayOrder'],['desc'])
-             console.log("grouped response",grouped)
+            // console.log("grouped response",grouped)
 
              for(var i=0;i<response.data.length;i++){
                if(response.data[i].parentId == 0){
@@ -98,8 +98,8 @@ import _ from "lodash";
             //  array.push(TermsConditions);
             //  this.children.set(4250187,array);
 
-             console.log("parent",this.parents);
-             console.log("children",this.children);
+      //console.log("parent",this.parents);
+      //console.log("children",this.children);
               //this.children = m;
             //  for(int i=0; i<response.data.length ; i++){
             //     if
@@ -118,6 +118,7 @@ import _ from "lodash";
    render(){
      return (
          <footer className="container-fluid">
+            <br/>
            <div className="row">
                {
                  this.state.parents !=null?

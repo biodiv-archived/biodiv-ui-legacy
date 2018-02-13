@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import  queryString from 'query-string';
 import _ from "lodash";
 import  scrollIntoView  from 'dom-scroll-into-view';
-import Dropdown from 'react-dropdown'
+// import Dropdown from 'react-dropdown'
 
 import 'rc-tree/assets/index.css';
 import style from './style.css';
@@ -178,7 +178,7 @@ getClassificationData(){
   })
 }
   componentDidMount() {
-  this.getClassificationData();
+  //this.getClassificationData();
   this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }
@@ -243,7 +243,7 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
 
   }
   //TODO :: do something here if u want to change the way how the taxon browser collapse
-  
+
   onExpand(expandedKeys,{expanded: bool, node}){
     if(!bool){
       this.setState({
@@ -299,7 +299,6 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const treeNodes = loop(this.props.treeData);
     return (
             <div>
-             <Dropdown options={this.state.classificationTable} value={this.state.classificationSelected} onChange={this.changeTaxonomy.bind(this)} placeholder="IBP" />
                 <div id="container-sunil" className="pre-scrollable">
                 <Tree
                   selectable={true}

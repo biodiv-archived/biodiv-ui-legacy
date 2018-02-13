@@ -186,10 +186,32 @@ class RichTextEditor extends React.Component {
     this.editor.focus();
   };
 
+  handleSpace = (e) =>{
+    //console.log("spaceeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",e)
+    console.log(e.keyCode)
+    if(e.keyCode === 32){
+      console.log("keycode 32")
+    //  e.preventDefault();
+      //this.editor.focus();
+      // var raw =convertToRaw(this.state.editorState.getCurrentContent())
+      // raw.blocks[0].text = raw.blocks[0].text + " ";
+      // // var blocks= raw.blocks;
+      // // var entityMap = raw.entityMap
+      // // var entityRanges = blocks[0].entityRanges;
+      // // var text = blocks[0].text;
+      // // text = text + " ";
+      // // this.state.editorState.getCurrentContent().blocks[0].text = text ;
+      // this.setState({
+      //   editorState: EditorState.createWithContent(ContentState.createFromBlockArray(raw.blocks,raw.entityMap ),new CompositeDecorator(this.decorator))
+      // })
+    }
+  };
+
   onCommentPost(e){
     e.preventDefault();
     console.log("parentCommentID",this.props.parentCommentId)
-    var id1=this.props.obvId;
+    var id1=this.props.chId;
+    var id2=this.props.obvId;
     var raw=convertToRaw(this.state.editorState.getCurrentContent());
     console.log("rawhtmldkjgerjg",raw)
     var blocks = raw.blocks;
@@ -242,7 +264,10 @@ class RichTextEditor extends React.Component {
     var d = new Date();
     var tym = d.getTime();
     var options;
-    console.log("*******************************************************************",this.props.parentCommentId)
+    //console.log("*******************************************************************",this.props.parentCommentId)
+    var commentHolderType = (id1===id2)?("species.participation.Observation"):("species.participation.Recommendation");
+    var rootHolderType = "species.participation.Observation"
+
     if(this.props.parentCommentId){
       console.log("tobepostedasreply",value1)
       if(this.taggedUsers.length == 0){
@@ -252,12 +277,13 @@ class RichTextEditor extends React.Component {
           params:{
             commentBody:value1,
             commentHolderId:id1,
-            commentHolderType:"species.participation.Observation",
-            rootHolderId:id1,
-            rootHolderType:"species.participation.Observation",
+            commentHolderType:commentHolderType,
+            rootHolderId:id2,
+            rootHolderType:rootHolderType,
             parentId:this.props.parentCommentId,
             commentPostUrl:"/comment/addComment",
-            userLanguage:"en"
+            userLanguage:"en",
+            newerTimeRef:tym
           },
           headers : AuthUtils.getAuthHeaders(),
           json: 'true'
@@ -269,13 +295,14 @@ class RichTextEditor extends React.Component {
           params:{
             commentBody:value1,
             commentHolderId:id1,
-            commentHolderType:"species.participation.Observation",
-            rootHolderId:id1,
-            rootHolderType:"species.participation.Observation",
+            commentHolderType:commentHolderType,
+            rootHolderId:id2,
+            rootHolderType:rootHolderType,
             parentId:this.props.parentCommentId,
             commentPostUrl:"/comment/addComment",
             userLanguage:"en",
-            tagUserId:this.taggedUsers.toString()
+            tagUserId:this.taggedUsers.toString(),
+            newerTimeRef:tym
           },
           headers : AuthUtils.getAuthHeaders(),
           json: 'true'
@@ -291,12 +318,13 @@ class RichTextEditor extends React.Component {
             params:{
               commentBody:value1,
               commentHolderId:id1,
-              commentHolderType:"species.participation.Observation",
-              rootHolderId:id1,
-              rootHolderType:"species.participation.Observation",
+              commentHolderType:commentHolderType,
+              rootHolderId:id2,
+              rootHolderType:rootHolderType,
               commentId:this.props.currentCommentId,
               commentPostUrl:"/comment/addComment",
-              userLanguage:"en"
+              userLanguage:"en",
+              newerTimeRef:tym
             },
             headers : AuthUtils.getAuthHeaders(),
             json: 'true'
@@ -308,13 +336,14 @@ class RichTextEditor extends React.Component {
             params:{
               commentBody:value1,
               commentHolderId:id1,
-              commentHolderType:"species.participation.Observation",
-              rootHolderId:id1,
-              rootHolderType:"species.participation.Observation",
+              commentHolderType:commentHolderType,
+              rootHolderId:id2,
+              rootHolderType:rootHolderType,
               commentId:this.props.currentCommentId,
               commentPostUrl:"/comment/addComment",
               userLanguage:"en",
-              tagUserId:this.taggedUsers.toString()
+              tagUserId:this.taggedUsers.toString(),
+              newerTimeRef:tym
             },
             headers : AuthUtils.getAuthHeaders(),
             json: 'true'
@@ -330,11 +359,12 @@ class RichTextEditor extends React.Component {
           params:{
             commentBody:value1,
             commentHolderId:id1,
-            commentHolderType:"species.participation.Observation",
-            rootHolderId:id1,
-            rootHolderType:"species.participation.Observation",
+            commentHolderType:commentHolderType,
+            rootHolderId:id2,
+            rootHolderType:rootHolderType,
             commentPostUrl:"/comment/addComment",
-            userLanguage:"en"
+            userLanguage:"en",
+            newerTimeRef:tym
           },
           headers : AuthUtils.getAuthHeaders(),
           json: 'true'
@@ -346,12 +376,13 @@ class RichTextEditor extends React.Component {
           params:{
             commentBody:value1,
             commentHolderId:id1,
-            commentHolderType:"species.participation.Observation",
-            rootHolderId:id1,
-            rootHolderType:"species.participation.Observation",
+            commentHolderType:commentHolderType,
+            rootHolderId:id2,
+            rootHolderType:rootHolderType,
             commentPostUrl:"/comment/addComment",
             userLanguage:"en",
-            tagUserId:this.taggedUsers.toString()
+            tagUserId:this.taggedUsers.toString(),
+            newerTimeRef:tym
           },
           headers : AuthUtils.getAuthHeaders(),
           json: 'true'
@@ -369,14 +400,25 @@ class RichTextEditor extends React.Component {
     axios(options)
         .then((response)=>{
           //console.log("comment",response)
+          console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6")
           //console.log(this.props.fetchFeeds)
-          if(response.status == 200){
-            this.props.getFeeds(this.props.obvId,true);
+          if(response.status === 200){
+            if(this.props.getFeeds){
+              this.props.getFeeds(this.props.obvId,true);
+            }
+            if(this.props.getRecoComment){
+              if(this.props.incrementCount){
+                this.props.incrementCount();
+                this.props.getRecoComment(true,false);
+              }else{
+                this.props.getRecoComment(true,false);
+              }
+            }
           }
 
         })
          .catch((error)=>{
-           if(error.response.status == 401){
+           if(error.response.status === 401){
              this.setState({
              login_modal:!(this.state.login_modal),
              options:options
@@ -391,13 +433,13 @@ class RichTextEditor extends React.Component {
   render() {
     const { MentionSuggestions } = this.mentionPlugin;
     const plugins = [this.mentionPlugin,this.imagePlugin,this.linkifyPlugin,this.hashtagPlugin];
-    console.log("console of different key&&&&&&&&&&&&&&&&&&&&&&&&&7",this.props.id)
+    //console.log("console of different key&&&&&&&&&&&&&&&&&&&&&&&&&7",this.props.id)
 
     return (
       <div className="row" >
         {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} id={this.props.obvId} funcRefresh={this.props.getFeeds} type={"Reply/Add Comment"}/>):null}
         <div className="col-xs-10" style={{marginLeft:'1%'}}>
-        <div className="editor" style={{marginTop:'0%'}} onClick={this.focus}>
+        <div className="editor" style={{marginTop:'0%'}} onClick={this.focus} onKeyDown={this.handleSpace}>
         <Editor
           decorators={this.decorator}
           key={this.state.key}
