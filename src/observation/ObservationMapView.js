@@ -18,17 +18,17 @@ class ObservationMapView extends Component{
   }
 
   map() {
-    let url = Config.api.API_ROOT_URL + "/naksha" +this.props.filterUrl;
+    let url = Config.api.PAMBA_API_ROOT_URL + "/naksha" +this.props.filterUrl;
     return (
       <Naksha.MapHolder url={url}
            location_field="location"
-           default_zoom="3"
            map_container="map2"
+           restrict_to_bounds={[[68, 5.75], [98, 37.5]]}
            url_response_geohash_field="geohashAggregation"
-           url_response_filtered_geohash_field="geohashAggregation"
-           color_scheme="YlOrRd"
-           legend_stops="9"
-           restrict_to_bounds={[[42, 4], [117, 39]]}
+           url_response_filtered_geohash_field="viewFilteredGeohashAggregation"
+           color_scheme="YlOrBr"
+           no_legend_stops="6"
+           is_legend_stops_data_driven={true}
       />
     )
   }
