@@ -41,13 +41,6 @@ class RecoName extends React.Component {
       json: 'true'
     }
     axios(options)
-=======
-    this.getRecoName(this.props.id)
-  }
-
-  getRecoName(id){
-    axios.get(Config.api.ROOT_URL+"/observation/getRecommendationVotes?format=json&id="+ id)
->>>>>>> a3a4a6af922593a75fcae135b4996808ff9b2eaf
         .then((response)=>{
           if(response.status === 200){
             this.setState({
@@ -57,19 +50,16 @@ class RecoName extends React.Component {
         })
   }
 
-  agreePost(recoId,obvId,Votes){
-    var obId=obvId;
-    var recId=recoId;
-    var votes=Votes;
-    var agree1="agreeButton"+obId+recId;
-    var remove1="removeButton"+obId+recId;
+  agreePost(recoId,obvId,votes){
+    var agree1="agreeButton"+obvId+recoId;
+    var remove1="removeButton"+obvId+recoId;
     //console.log(obId,recId)
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/addAgreeRecommendationVote",
+      url :   Config.api.ROOT_URL+"/observation/addAgreeRecommendationVote",
       params:{
         obvId:obvId,
-        recoId:recId,
+        recoId:recoId,
         currentVotes:votes
       },
       headers : AuthUtils.getAuthHeaders(),
@@ -93,20 +83,16 @@ class RecoName extends React.Component {
   }
 
   removePost(recoId,obvId,Votes){
-
-    var token=localStorage.getItem('token')
-    var obId=obvId;
-    var recId=recoId;
     var votes=Votes;
-    var agree1="agreeButton"+obId+recId;
-    var remove1="removeButton"+obId+recId;
+    var agree1="agreeButton"+obvId+recoId;
+    var remove1="removeButton"+obvId+recoId;
     //console.log(obId,recId)
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/removeRecommendationVote",
+      url :   Config.api.ROOT_URL+"/observation/removeRecommendationVote",
       params:{
-        obvId:obId,
-        recoId:recId
+        obvId:obvId,
+        recoId:recoId
       },
       headers :AuthUtils.getAuthHeaders(),
       json: 'true'
@@ -131,17 +117,14 @@ class RecoName extends React.Component {
   }
 
   validatePost(recoId,obvId){
-    var token=localStorage.getItem('token')
-    var obId=obvId;
-    var recId=recoId;
-    var validate1="validateButton"+obId+recId;
-    var unlock1="unlockButton"+obId+recId;
+    var validate1="validateButton"+obvId+recoId;
+    var unlock1="unlockButton"+obvId+recoId;
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/"+obId+"/lock",
+      url :   Config.api.ROOT_URL+"/observation/"+obvId+"/lock",
       params:{
         lockType:"Validate",
-        recoId:recId
+        recoId:recoId
       },
       headers :AuthUtils.getAuthHeaders(),
       json: 'true'
@@ -169,10 +152,10 @@ class RecoName extends React.Component {
     var unlock1="unlockButton"+obvId+recoId;
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/"+obId+"/lock",
+      url :   Config.api.ROOT_URL+"/observation/"+obvId+"/lock",
       params:{
         lockType:"Unlock",
-        recoId:recId
+        recoId:recoId
       },
       headers :AuthUtils.getAuthHeaders(),
       json: 'true'

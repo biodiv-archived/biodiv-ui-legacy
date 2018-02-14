@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { withStyles, createStyleSheet } from 'material-ui/styles';
 import {Button} from 'react-bootstrap';
 import createHistory from 'history/createBrowserHistory';
 import EllipsisText  from 'react-ellipsis-text';

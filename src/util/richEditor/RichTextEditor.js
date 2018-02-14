@@ -224,7 +224,7 @@ class RichTextEditor extends React.Component {
     if(entityRanges.length>0){
       for(i=0;i<entityRanges.length;i++){
         var toBeReplaced = text.slice(entityRanges[i].offset,entityRanges[i].offset+entityRanges[i].length)
-        if(i==0){
+        if(i===0){
           var n = text.slice(0,entityRanges[i].offset+entityRanges[i].length)
           f=n;
           x=n;
@@ -270,7 +270,7 @@ class RichTextEditor extends React.Component {
 
     if(this.props.parentCommentId){
       console.log("tobepostedasreply",value1)
-      if(this.taggedUsers.length == 0){
+      if(this.taggedUsers.length === 0){
         options={
           method:'POST',
           url :    Config.api.API_ROOT_URL+"/comment/addComment",
@@ -311,7 +311,7 @@ class RichTextEditor extends React.Component {
 
     }else if(this.props.currentCommentId){
       console.log("tobeposted",value1)
-        if(this.taggedUsers.length == 0){
+        if(this.taggedUsers.length === 0){
           options={
             method:'POST',
             url :    Config.api.API_ROOT_URL+"/comment/addComment",
@@ -351,7 +351,7 @@ class RichTextEditor extends React.Component {
         }
 
     }else{
-      if(this.taggedUsers.length == 0){
+      if(this.taggedUsers.length === 0){
         console.log("tobeposted",value1)
         options={
           method:'POST',
@@ -391,7 +391,7 @@ class RichTextEditor extends React.Component {
 
     }
 
-    if(value1!="")
+    if(value1!=="")
     {
     this.setState({
         editorState: EditorState.createEmpty(),
@@ -437,7 +437,7 @@ class RichTextEditor extends React.Component {
 
     return (
       <div className="row" >
-        {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} id={this.props.obvId} funcRefresh={this.props.getFeeds} type={"Reply/Add Comment"}/>):null}
+        {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} id={this.props.obvId} funcRefresh={this.props.getFeeds} type={"Reply/Add Comment"}/>):null}
         <div className="col-xs-10" style={{marginLeft:'1%'}}>
         <div className="editor" style={{marginTop:'0%'}} onClick={this.focus} onKeyDown={this.handleSpace}>
         <Editor

@@ -60,7 +60,15 @@ class Formsuggest extends React.Component {
 
     var options={
       method:'POST',
-      url :   Config.api.ROOT_URL+"/api/observation/addRecommendationVote?commonName="+cNameValue+"&languageName="+langValue+"&recoName="+sNameValue+"&recoId=&recoComment="+value1+"&obvId="+obvId+"&format=json",
+      url :   Config.api.ROOT_URL+"/observation/addRecommendationVote",
+      params:{
+        commonName:cNameValue,
+        languageName:langValue,
+        recoName:sNameValue,
+
+        recoComment:value1,
+        obvId:obvId
+      },
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
@@ -68,18 +76,19 @@ class Formsuggest extends React.Component {
     {
     axios(options)
         .then((response)=>{
-
-          this.props.getReco(this.props.id2)
+          if(response.status === 200){
+              this.props.getReco(this.props.id2)
+          }
         })
         .catch((error)=>{
-          (response=="Error: Request failed with status code 401")?
-          (
+          if(error.response.status === 401){
             this.setState({
             login_modal:!(this.state.login_modal),
             options:options
           })
-
-          ):console.log("fofoofof")
+        }else{
+          console.log("fofoofof")
+        }
         })
 
     this.setState({
@@ -91,42 +100,63 @@ class Formsuggest extends React.Component {
   }
   }
 
- getC_Suggestions (value,C_Callback)  {
+ getC_Suggestions =(value,C_Callback) => {
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
-       console.log("got")
-       console.log(inputValue)
-        inputLength===0?C_Callback([]):
-
-        (axios.get(Config.api.ROOT_URL+"/recommendation/suggest?term="+inputValue+"&nameFilter=commonNames&format=json")
-        .then(function (response) {
-
-
-                Csuggest=response.data.model.instanceList
-                const new_suggest=Csuggest.filter(common =>
-                   common.value.toLowerCase().slice(0, inputLength) === inputValue)
-                   console.log(new_suggest)
-                 C_Callback(new_suggest);
-        }))
+       //console.log("got")
+       //console.log(inputValue)
+        if(inputLength===0){
+          C_Callback([])
+        }else{
+          var options={
+            method:'GET',
+            url: Config.api.ROOT_URL+"/recommendation/suggest",
+            params:{
+              term:inputValue,
+              nameFilter:"commonNames"
+            },
+            json:'true'
+          }
+          axios(options)
+              .then((response)=> {
+                if(response.status === 200){
+                  Csuggest=response.data.model.instanceList
+                  const new_suggest=Csuggest.filter(common =>
+                  common.value.toLowerCase().slice(0, inputLength) === inputValue)
+                     //console.log(new_suggest)
+                   C_Callback(new_suggest);
+                }
+               })
+        }
   };
 
 
-   getS_Suggestions (value,S_Callback)  {
-    console.log("got_s")
+   getS_Suggestions =(value,S_Callback) => {
+        //console.log("got_s")
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
-        inputLength===0?S_Callback([]):
-
-        (axios.get(Config.api.ROOT_URL+"/recommendation/suggest?term="+inputValue+"&nameFilter=scientificNames&format=json")
-        .then(function (response) {
-
-
-                Ssuggest=response.data.model.instanceList
-                const new1_suggest=Ssuggest.filter(sci =>
-                   sci.value.toLowerCase().slice(0, inputLength) === inputValue)
-                 S_Callback(new1_suggest);
-        }))
-
+        if(inputLength===0){
+          S_Callback([])
+        }else{
+          var options={
+            method:'GET',
+            url: Config.api.ROOT_URL+"/recommendation/suggest",
+            params:{
+              term:inputValue,
+              nameFilter:"scientificNames"
+            },
+            json:'true'
+          }
+          axios(options)
+              .then((response)=> {
+                if(response.status === 200){
+                  Ssuggest=response.data.model.instanceList
+                  const new1_suggest=Ssuggest.filter(sci =>
+                     sci.value.toLowerCase().slice(0, inputLength) === inputValue)
+                   S_Callback(new1_suggest);
+                }
+              })
+        }
   };
 
 
@@ -156,6 +186,7 @@ class Formsuggest extends React.Component {
   };
 
    getSuggestionValue_S =(suggestion) => {
+     console.log("selected ^^^^^^^^^^^^^^^^^")
      return suggestion.value
    };
 
@@ -173,14 +204,14 @@ class Formsuggest extends React.Component {
   }
 
 
-  onChange1 =(event, { newValue })=>  {
+  onChange1 = (event, { newValue })=>  {
     var x=(event.target).getAttribute('id')
     this.setState({
       Cvalue: newValue,
     });
   };
 
-  onChange2= (event, { newValue })=>  {
+  onChange2 = (event, { newValue })=>  {
     var x=(event.target).getAttribute('id')
     this.setState({
       Svalue: newValue,
@@ -188,30 +219,28 @@ class Formsuggest extends React.Component {
     });
   };
 
-  C_Callback =(suggestions)=> {
+  C_Callback = (suggestions)=> {
    this.setState({
      Csuggestions: suggestions
 
    });
   };
 
-  S_Callback =(suggestions) =>{
+  S_Callback = (suggestions)=>{
 
    this.setState({
      Ssuggestions: suggestions
 
    });
-   console.log(this.state.Ssuggestions)
+   //console.log(this.state.Ssuggestions)
   };
 
-onSuggestionsFetchRequested_C= ({ value }) => {
+  onSuggestionsFetchRequested_C= ({ value }) => {
    this.getC_Suggestions(value,this.C_Callback);
-
   };
 
   onSuggestionsFetchRequested_S =({ value }) => {
      this.getS_Suggestions(value,this.S_Callback);
-
     };
 
 
@@ -264,12 +293,12 @@ onSuggestionsFetchRequested_C= ({ value }) => {
              </div>
              <div className="col-sm-2 ">
                    <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'97%'}}/>
-                   <datalist id="browsers">
+                   <datalist id="browsers" dir={"rtl"} style={{wordWrap:'break-word',maxWidth:'10px',fontSize:'5px'}}>
                    {
                          this.props.Languages?(
                          this.props.Languages.map((item,index)=>{
                            return(
-                           <div key={index}><option value={item} style={{fontColor:'green'}}/></div>
+                           <option key={index} value={item} style={{fontColor:'green'}}/>
                          )
                          }
                        )

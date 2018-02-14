@@ -226,7 +226,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-                {/* <Tabs objs={objs} /> */}
+                { <Tabs objs={objs} /> }
             <br />
             </div>
 

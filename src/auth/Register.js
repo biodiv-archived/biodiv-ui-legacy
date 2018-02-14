@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-form';
 import {NavLink} from 'react-router-dom';
-import ReCAPTCHA from 'react-google-recaptcha';
  const profession = [
    {
      label: 'Agriculture',

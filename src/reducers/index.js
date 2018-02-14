@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
   UniqueSpeciesList:UniqueSpecies_reducer,
   UserGroupList:UserGroupList_reducer,
   PublicUrl:UserGroupNameForUrl,
-  Recommendations:Recommendation_reducer
+  Recommendations:Recommendation_reducer,
   SpeciesGroup:SpeciesGroup
 });
 
