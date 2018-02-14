@@ -52,7 +52,7 @@ class Tabs extends React.Component {
                   <div className="tab-pane fade in active" id={this.props.objs.id+"_tab1"}>
                         <div>
                           {
-                            (this.props.Recommendations && Object.keys(this.props.Recommendations).length>0 && this.props.Recommendations[this.props.objs.id] != null)?<RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]}/>:null
+                            (this.props.Recommendations && Object.keys(this.props.Recommendations).length>0 && this.props.Recommendations[this.props.objs.id] != null)?<RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]}/>:<div className="loading" style={{marginLeft:'50%'}}></div>
                           }
                         </div>
                   </div>

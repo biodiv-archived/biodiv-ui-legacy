@@ -22,7 +22,8 @@ class RecoName extends React.Component {
       response:this.props.recos['recoVotes'],
       login_modal:false,
       options:'',
-      groupName:undefined
+      groupName:undefined,
+      loading:false
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
@@ -65,12 +66,21 @@ class RecoName extends React.Component {
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
+    this.setState({
+      loading:true
+    })
     axios(options)
           .then((response)=>{
             //console.log("agree",response)
             this.getRecoName(this.props.id)
+            // this.setState({
+            //   loading:false
+            // })
           })
           .catch((error)=>{
+            // this.setState({
+            //   loading:false
+            // })
             if(error.response.status === 401){
               this.setState({
               login_modal:!(this.state.login_modal),
@@ -196,8 +206,8 @@ class RecoName extends React.Component {
 
     return(
     <div>
-      {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}
-      <div>{
+      {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}
+    <div>{
 
 
       this.state.response.length>0?

@@ -161,9 +161,11 @@ class Formsuggest extends React.Component {
 
 
    getSuggestionValue_C =(suggestion) => {
-     this.setState({
-       Svalue:suggestion.acceptedName
-     })
+     if(suggestion.acceptedName !== null){
+       this.setState({
+         Svalue:suggestion.acceptedName
+       })
+     }
      return suggestion.value
    } ;
 
