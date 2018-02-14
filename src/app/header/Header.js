@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 
 import {NavLink,withRouter} from 'react-router-dom';
 import {getGroupName} from './HeaderApi';
+import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
+
+import AuthUtils from '../../auth/AuthUtils';
 
 import {connect} from 'react-redux';
 import $ from 'jquery';
@@ -19,6 +22,9 @@ class Header extends React.Component {
   }
 
   componentDidMount(){
+    this.props.fetchLanguages()
+    this.props.fetchUserGroupList()
+    this.props.fetchSpeciesGroup()
 
   }
 
@@ -186,9 +192,10 @@ class Header extends React.Component {
                         : null}
                     </NavLink>
                     {`\u00A0`}
-                    <NavLink to="/logout">Logout</NavLink>
+                    <NavLink to="/logout"><img  className="img-circle" height="35" width="35" src={"http://indiabiodiversity.org/biodiv/users/"+AuthUtils.getLoggedInUser().pic?AuthUtils.getLoggedInUser().pic:"/user_large.png"} /> Logout</NavLink>
                   </div>
                 : <NavLink to="/login">Login</NavLink>}
+
             </div>
 
           </div>
@@ -212,4 +219,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(Header));
+export default withRouter(connect(mapStateToProps,{fetchLanguages,fetchUserGroupList,fetchSpeciesGroup})(Header));

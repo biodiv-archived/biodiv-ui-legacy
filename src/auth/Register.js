@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-form';
 import {NavLink} from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
+
+import LocationSuggest from './LocationSuggest';
  const profession = [
    {
      label: 'Agriculture',
@@ -173,6 +175,8 @@ const institutions=[
                      <div className="col-sm-3"></div>
                      <button type="submit" className="mb-4 btn btn-primary">Submit</button>
                   </div>
+                  <LocationSuggest />
+
                  </form>
                )}
              </Form>

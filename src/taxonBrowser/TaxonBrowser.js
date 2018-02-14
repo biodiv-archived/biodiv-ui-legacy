@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import  queryString from 'query-string';
 import _ from "lodash";
 import  scrollIntoView  from 'dom-scroll-into-view';
-import Dropdown from 'react-dropdown'
 
 import 'rc-tree/assets/index.css';
 import style from './style.css';

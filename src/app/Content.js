@@ -13,9 +13,9 @@ class Content extends Component {
     }
 
     componentDidMount(){
-      this.props.fetchLanguages()
-      this.props.fetchUserGroupList()
-      this.props.fetchSpeciesGroup()
+      // this.props.fetchLanguages()
+      // this.props.fetchUserGroupList()
+      // this.props.fetchSpeciesGroup()
     }
 
     showSidebar(){

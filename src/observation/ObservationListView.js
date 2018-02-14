@@ -46,9 +46,6 @@ constructor(){
   }
 }
 
-
-
-
 componentDidMount(){
   this.setState({
     flag:true
