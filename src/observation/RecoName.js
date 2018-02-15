@@ -274,8 +274,8 @@ class RecoName extends React.Component {
                               return(
                                 <div key={index} className="col-sm-1">
                                 <li >
-                                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${aut[0].id}`}>    <img className="small-profile-pic img-circle" title={aut[0].name}  src={aut[0].icon} width="30" height="30" />
-                                  </NavLink>:<NavLink to={`/user/show/${aut[0].id}`}> <img className="small-profile-pic img-circle"  title={aut[0].name} src={aut[0].icon} width="30" height="30" /></NavLink>}
+                                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${aut[0].id}`}>    <img className="small-profile-pic img-circle" title={aut[0].name}  src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" />
+                                  </NavLink>:<NavLink to={`/user/show/${aut[0].id}`}> <img className="small-profile-pic img-circle"  title={aut[0].name} src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" /></NavLink>}
                                 </li>
                                 </div>
                               )
