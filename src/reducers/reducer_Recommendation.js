@@ -1,4 +1,6 @@
 import {FETCH_RECOMMENDATIONS} from '../actions/index';
+import {DELETE_RECOMMENDATIONS} from '../actions';
+
 import merge from "lodash/merge";
 
 export default function Recommendations_reducer(state={},action){
@@ -23,8 +25,9 @@ export default function Recommendations_reducer(state={},action){
       return merge({}, state, action.payload.data);
         //console.log("conact",state)
     }
-    //return [action.payload.data, ...state];
 
+    case DELETE_RECOMMENDATIONS:
+        return merge({}, {}, {});
   }
   return state;
 }
