@@ -13,6 +13,8 @@ export const FETCH_USERGROUP_LIST='FETCH_USERGROUP_LIST';
 export const SET_GROUP_NAME='SET_GROUP_NAME';
 
 export const FETCH_RECOMMENDATIONS='FETCH_RECOMMENDATIONS';
+export const DELETE_RECOMMENDATIONS='DELETE_RECOMMENDATIONS';
+
 export const FETCH_SPECIES_GROUP ='FETCH_SPECIES_GROUP';
 
 
@@ -129,5 +131,12 @@ export function fetchRecommendations(obvIds){
   return{
     type:FETCH_RECOMMENDATIONS,
     payload:request
+  }
+}
+
+export function clearRecommendations(){
+  return{
+    type:DELETE_RECOMMENDATIONS,
+    payload:{}
   }
 }

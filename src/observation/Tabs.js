@@ -19,22 +19,22 @@ class Tabs extends React.Component {
   }
 
   setTrait(){
-  this.setState({Traitflag:1});
+  this.setState({Traitflag:1,Customflag:0,Groupsflag:0,Activityflag:0});
   }
 
   setCustom(){
-    console.log("setcalled")
-  this.setState({Customflag:1});
+    //console.log("setcalled")
+  this.setState({Customflag:1,Traitflag:0,Groupsflag:0,Activityflag:0});
   }
 
   setGroup(){
-    console.log("groupcalled")
-  this.setState({Groupsflag:1});
+    //console.log("groupcalled")
+  this.setState({Groupsflag:1,Traitflag:0,Customflag:0,Activityflag:0});
   }
 
   setActivity(){
-    console.log("activityCalled")
-    this.setState({ActivityFlag:1})
+    //console.log("activityCalled")
+    this.setState({ActivityFlag:1,Traitflag:0,Customflag:0,Groupsflag:0})
   }
 
   render(){
@@ -57,7 +57,7 @@ class Tabs extends React.Component {
                         </div>
                   </div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab2"}>{this.state.Groupsflag===1?<Groups id={this.props.objs.id}/>:null}</div>
-                  <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.group.id} owner={this.props.objs.author.id}/>:null}</div>
+                  <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.speciesgroupid} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.ActivityFlag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
                </div>
