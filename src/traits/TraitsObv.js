@@ -173,7 +173,7 @@ submitTraits(id1,id2){
                                                 <div className="snippet tablet">
                                                 <div className="figure pull-left">
                                                 <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
-                                                <span>{it.value}</span>
+                                                <span >{it.value}</span>
                                                 </div>
                                                 </div>
                                                 </button>

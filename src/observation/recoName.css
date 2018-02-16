@@ -1,4 +1,4 @@
-.badge:hover .dropdown-menu {
+.badge:hover .open>.dropdown-menu {
   display: block;
 }
 

@@ -26,9 +26,12 @@ export function login({ email, password }) {
 export function logout() {
     return function(dispatch) {
         let config = Config.api.logout.default;
-        console.log("headers",config);
+        config.params={
+          refresh_token:loginService.getRefreshToken()
+        }
+        //console.log("headers",config);
         axios(config).then(response => {
-            console.log("got response from logout api")
+            //console.log("got response from logout api")
             loginService.clearCredentials();
             dispatch({ type: AuthConstants.UNAUTH_USER});
         }).catch(function(error){

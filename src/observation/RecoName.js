@@ -262,14 +262,14 @@ class RecoName extends React.Component {
                   )
                 }
                 {item.hasOwnProperty('commonNames')?<span style={{color:'black'}}>{item.commonNames}</span>:null}
-                    <a className="dropdown-toggle" data-toggle="dropdown"><span className="badge" style={{backgroudColor:'red'}}>{item.authors.length}</span></a>
+                    <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span className="badge" style={{backgroudColor:'red'}}>{item.authors.length}</span></a>
                     <ul className="dropdown-menu row " style={{backgroundColor:'#99E0EE'}}>
                         {
                           item.authors.map((aut,index)=>{
                             authArray=authArray.concat(aut[0].id)
                             //console.log(authArray)
                             //console.log(localStorage.getItem('id'))
-                            var a=localStorage.getItem('id')
+                            var a=AuthUtils.getLoggedInUser().id;
                             //console.log(item.recoId,$.inArray(parseInt(a),authArray))
                               return(
                                 <div key={index} className="col-sm-1">
@@ -320,7 +320,7 @@ class RecoName extends React.Component {
                   {
                     (AuthUtils.isLoggedIn())?
                         (
-                          ($.inArray(parseInt(localStorage.getItem('id')),authArray))>=0?
+                          ($.inArray(parseInt(AuthUtils.getLoggedInUser().id),authArray))>=0?
                           (
 
                               item.isLocked==false?

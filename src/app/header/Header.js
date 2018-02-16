@@ -9,17 +9,22 @@ import {Config} from '../../Config'
 import style from './style/headerstyle.css';
 
 import Banner from './Banner';
-
+import {logout} from '../../auth/AuthActions';
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state={
       PublicUrl:this.props.PublicUrl
     }
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount(){
 
+  }
+
+  logout(){
+    this.props.logout();
   }
 
 
@@ -186,7 +191,7 @@ class Header extends React.Component {
                         : null}
                     </NavLink>
                     {`\u00A0`}
-                    <NavLink to="/logout">Logout</NavLink>
+                    <a onClick={this.logout}>Logout</a>
                   </div>
                 : <NavLink to="/login">Login</NavLink>}
             </div>
@@ -212,4 +217,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(Header));
+
+export default withRouter(connect(mapStateToProps,{logout})(Header));
