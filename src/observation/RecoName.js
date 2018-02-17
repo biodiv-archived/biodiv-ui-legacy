@@ -216,7 +216,7 @@ class RecoName extends React.Component {
           var authArray=[]
             return(
           <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.2%'}}>
-              <div className="dropdown col-sm-9 col-md-6 col-lg-9">
+              <div className="dropdown col-sm-6 ">
                 {
                   item.isScientificName===true?
                     (
@@ -262,31 +262,29 @@ class RecoName extends React.Component {
                   )
                 }
                 {item.hasOwnProperty('commonNames')?<span style={{color:'black'}}>{item.commonNames}</span>:null}
-                    <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><span className="badge" style={{backgroudColor:'red'}}>{item.authors.length}</span></a>
-                    <ul className="dropdown-menu row " style={{backgroundColor:'#99E0EE'}}>
-                        {
-                          item.authors.map((aut,index)=>{
-                            authArray=authArray.concat(aut[0].id)
-                            //console.log(authArray)
-                            //console.log(localStorage.getItem('id'))
-                            var a=AuthUtils.getLoggedInUser().id;
-                            //console.log(item.recoId,$.inArray(parseInt(a),authArray))
-                              return(
-                                <div key={index} className="col-sm-1">
-                                <li >
-                                  {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${aut[0].id}`}>    <img className="small-profile-pic img-circle" title={aut[0].name}  src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" />
-                                  </NavLink>:<NavLink to={`/user/show/${aut[0].id}`}> <img className="small-profile-pic img-circle"  title={aut[0].name} src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" /></NavLink>}
-                                </li>
-                                </div>
-                              )
-                            })
-                      }
-                    </ul>
-
                </div>
-               <div className="col-sm-3 col-md-6 col-lg-3 ">
+               <div className="col-sm-3" style={{marginLeft:'0%'}}>
+                   <div className="row pull-left">
+                       {
+                         item.authors.map((aut,index)=>{
+                           authArray=authArray.concat(aut[0].id)
+                           //console.log(authArray)
+                           //console.log(localStorage.getItem('id'))
+                           //var a=AuthUtils.getLoggedInUser().id;
+                           //console.log(item.recoId,$.inArray(parseInt(a),authArray))
+                             return(
+                               <div key={index} className="col-xs-1">
+                                 {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${aut[0].id}`}>    <img className="small-profile-pic img-circle" title={aut[0].name}  src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" />
+                                 </NavLink>:<NavLink to={`/user/show/${aut[0].id}`}> <img className="small-profile-pic img-circle"  title={aut[0].name} src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" /></NavLink>}
+                               </div>
+                             )
+                           })
+                     }
+                   </div>
+               </div>
+               <div className="col-sm-3 ">
                   <div className="row pull-right">
-                  <div className="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+                  <div className="col-xs-4">
                   {
                     item.isLocked==false?
                     (
@@ -316,7 +314,7 @@ class RecoName extends React.Component {
                     )
                   }
                   </div>
-                  <div className="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+                  <div className="col-xs-4">
                   {
                     (AuthUtils.isLoggedIn())?
                         (
@@ -361,7 +359,7 @@ class RecoName extends React.Component {
                         )
                     }
                     </div>
-                    <div className="col-sm-4 col-md-4 col-lg-4 col-xs-4">
+                    <div className="col-xs-4">
                       <RecoComment key={item.recoId} getReco={this.getRecoName} id1={item.recoId} id2={this.props.id} speciesId={item.hasOwnProperty('speciesId')?(item.speciesId!=null?item.speciesId:"no"):"no"} name={item.name} votes={item.authors.length} commentCount={item.totalCommentCount}/>
                     </div >
                       </div>

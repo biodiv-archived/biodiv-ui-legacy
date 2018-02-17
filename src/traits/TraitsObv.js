@@ -27,7 +27,7 @@ class Traits extends React.Component {
    getTraits(id,sGroup){
      var options={
        method:'GET',
-       url: Config.api.ROOT_URL+"/trait/list",
+       url: Config.api.API_ROOT_URL+"/trait/list",
        params:{
          objectId:id,
          objectType:"species.participation.Observation",
@@ -58,12 +58,12 @@ pushTraitsRadio(value){
   //console.log("fired")
   this.myMap.clear()
   this.myMap.set(value,value)
-  //console.log(this.myMap)
+  console.log(this.myMap)
 }
 pushTraitsCheckbox(value){
   //console.log("fired")
   this.myMap.get(value)?this.myMap.delete(value):this.myMap.set(value,value)
-  //console.log(this.myMap)
+  console.log(this.myMap)
 }
 
 submitTraits(id1,id2){
