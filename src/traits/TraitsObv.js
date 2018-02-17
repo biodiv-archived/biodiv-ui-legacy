@@ -27,7 +27,7 @@ class Traits extends React.Component {
    getTraits(id,sGroup){
      var options={
        method:'GET',
-       url: Config.api.ROOT_ROOT_URL+"/trait/list",
+       url: Config.api.ROOT_URL+"/trait/list",
        params:{
          objectId:id,
          objectType:"species.participation.Observation",
