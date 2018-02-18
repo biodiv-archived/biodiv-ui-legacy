@@ -14,7 +14,7 @@ class Tabs extends React.Component {
       Traitflag:0,
       Customflag:0,
       Groupsflag:0,
-      ActivityFlag:0,
+      Activityflag:0,
     }
   }
 
@@ -34,7 +34,7 @@ class Tabs extends React.Component {
 
   setActivity(){
     //console.log("activityCalled")
-    this.setState({ActivityFlag:1,Traitflag:0,Customflag:0,Groupsflag:0})
+    this.setState({Activityflag:1,Traitflag:0,Customflag:0,Groupsflag:0})
   }
 
   render(){
@@ -59,7 +59,7 @@ class Tabs extends React.Component {
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab2"}>{this.state.Groupsflag===1?<Groups id={this.props.objs.id}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.speciesgroupid} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id}/>:null}</div>
-                  <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.ActivityFlag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
+                  <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.Activityflag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
                </div>
              </div>
 
