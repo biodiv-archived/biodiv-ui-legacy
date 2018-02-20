@@ -19,6 +19,7 @@ class Traits extends React.Component {
       options:''
     }
     this.fact=[];
+    this.traitIdMap = new Map();
     this.myMap= new Map();
     this.getTraits=this.getTraits.bind(this)
     this.getTraits(this.props.id,this.props.sGroup)
@@ -54,21 +55,36 @@ class Traits extends React.Component {
         })
 }
 
-pushTraitsRadio(value){
+pushTraitsRadio(traitId,value){
   //console.log("fired")
-  this.myMap.clear()
-  this.myMap.set(value,value)
+  if(this.traitIdMap.get(traitId) !== undefined){
+    this.traitIdMap.get(traitId).clear();
+  }
+  //this.myMap.clear()
+  var x = new Map();
+  //this.myMap.set(value,value)
+  x.set(value,value)
+  this.traitIdMap.set(traitId,x);
   //console.log(this.myMap)
+  //console.log(this.traitIdMap)
 }
-pushTraitsCheckbox(value){
+pushTraitsCheckbox(traitId,value){
   //console.log("fired")
-  this.myMap.get(value)?this.myMap.delete(value):this.myMap.set(value,value)
+  //console.log(this.traitIdMap.get(traitId))
+  if(this.traitIdMap.get(traitId) ===undefined){
+    this.traitIdMap.set(traitId,new Map());
+  }
+  //console.log(this.traitIdMap.get(traitId))
+  //this.myMap.get(value)?this.myMap.delete(value):this.myMap.set(value,value)
   //console.log(this.myMap)
+  this.traitIdMap.get(traitId).get(value)?this.traitIdMap.get(traitId).delete(value):this.traitIdMap.get(traitId).set(value,value);
+  //console.log(this.traitIdMap)
 }
 
 submitTraits(id1,id2){
+  var x = this.traitIdMap.get(id1);
   var arr=[]
-  this.myMap.forEach(function(value){
+  x.forEach(function(value){
     arr=arr.concat(value)
   })
   var list=arr.toString()
@@ -86,7 +102,10 @@ submitTraits(id1,id2){
     headers : AuthUtils.getAuthHeaders(),
     json: 'true'
   }
-  this.myMap.clear()
+  //this.myMap.clear()
+  this.traitIdMap.delete(id1);
+  //console.log(this.traitIdMap)
+  //console.log(options)
   this.hide(id2,id1);
   axios(options)
         .then((response)=>{
@@ -196,7 +215,7 @@ submitTraits(id1,id2){
                                                if($.inArray(possible.value,this.fact)>=0)
                                                {return(
 
-                                             <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                             <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)}>
                                                <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
                                                <div className="snippet tablet">
                                                    <div className="figure pull-left">
@@ -212,7 +231,7 @@ submitTraits(id1,id2){
                                              else{
                                              return(
 
-                                           <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                           <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)}>
                                              <input type="checkbox" name={possible.value} autoComplete="off" / >
                                              <div className="snippet tablet">
                                                  <div className="figure pull-left">
@@ -237,7 +256,7 @@ submitTraits(id1,id2){
                                                if($.inArray(possible.value,this.fact)>=0){
                                                  return(
 
-                                               <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                               <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)}>
                                                  <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
                                                  <div className="snippet tablet">
                                                      <div className="figure pull-left">
@@ -253,7 +272,7 @@ submitTraits(id1,id2){
                                                else{
                                                return(
 
-                                             <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                             <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)}>
                                                <input type="radio" name="trait_edit" id={possible.value} / >
                                                <div className="snippet tablet">
                                                    <div className="figure pull-left">
@@ -331,7 +350,7 @@ submitTraits(id1,id2){
                                                           if($.inArray(possible.value,this.fact)>=0)
                                                           {return(
 
-                                                        <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                        <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)}>
                                                           <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
                                                           <div className="snippet tablet">
                                                               <div className="figure pull-left">
@@ -347,7 +366,7 @@ submitTraits(id1,id2){
                                                         else{
                                                         return(
 
-                                                      <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                      <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)}>
                                                         <input type="checkbox" name={possible.value} autoComplete="off" / >
                                                         <div className="snippet tablet">
                                                             <div className="figure pull-left">
@@ -372,7 +391,7 @@ submitTraits(id1,id2){
                                                           if($.inArray(possible.value,this.fact)>=0){
                                                             return(
 
-                                                          <label key={index} className="btn btn-info btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                          <label key={index} className="btn btn-info btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)}>
                                                             <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
                                                             <div className="snippet tablet">
                                                                 <div className="figure pull-left">
@@ -388,7 +407,7 @@ submitTraits(id1,id2){
                                                           else{
                                                           return(
 
-                                                        <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                        <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)}>
                                                           <input type="radio" name="trait_edit" id={possible.value} / >
                                                           <div className="snippet tablet">
                                                               <div className="figure pull-left">
@@ -460,7 +479,7 @@ submitTraits(id1,id2){
                                                              if($.inArray(possible.value,this.fact)>=0)
                                                              {return(
 
-                                                           <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                           <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)}>
                                                              <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
                                                              <div className="snippet tablet">
                                                                  <div className="figure pull-left">
@@ -476,7 +495,7 @@ submitTraits(id1,id2){
                                                            else{
                                                            return(
 
-                                                         <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,possible.value)}>
+                                                         <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)}>
                                                            <input type="checkbox" name={possible.value} autoComplete="off" / >
                                                            <div className="snippet tablet">
                                                                <div className="figure pull-left">
@@ -501,7 +520,7 @@ submitTraits(id1,id2){
                                                              if($.inArray(possible.value,this.fact)>=0){
                                                                return(
 
-                                                             <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                             <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)}>
                                                                <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
                                                                <div className="snippet tablet">
                                                                    <div className="figure pull-left">
@@ -517,7 +536,7 @@ submitTraits(id1,id2){
                                                              else{
                                                              return(
 
-                                                           <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="radio_select" onClick={this.pushTraitsRadio.bind(this,possible.value)}>
+                                                           <label key={index} className="btn btn-info  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)}>
                                                              <input type="radio" name="trait_edit" id={possible.value} / >
                                                              <div className="snippet tablet">
                                                                  <div className="figure pull-left">

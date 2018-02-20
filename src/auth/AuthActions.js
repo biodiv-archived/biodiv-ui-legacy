@@ -34,6 +34,7 @@ export function logout() {
             //console.log("got response from logout api")
             loginService.clearCredentials();
             dispatch({ type: AuthConstants.UNAUTH_USER});
+            window.location.reload(true);
         }).catch(function(error){
             console.log(error);
             if(error.response && error.response.data)
