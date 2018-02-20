@@ -14,15 +14,16 @@ class Tabs extends React.Component {
       Traitflag:0,
       Customflag:0,
       Groupsflag:0,
-      ActivityFlag:0,
+      Activityflag:0,
     }
   }
 
   setTrait(){
-  this.setState({Traitflag:1});
+  this.setState({Traitflag:1,Customflag:0,Groupsflag:0,Activityflag:0});
   }
 
   setCustom(){
+
   this.setState({Customflag:1});
   }
 
@@ -32,13 +33,31 @@ class Tabs extends React.Component {
 
   setActivity(){
     this.setState({ActivityFlag:1})
+
+    //console.log("setcalled")
+  this.setState({Customflag:1,Traitflag:0,Groupsflag:0,Activityflag:0});
+  }
+
+  setGroup(){
+    //console.log("groupcalled")
+  this.setState({Groupsflag:1,Traitflag:0,Customflag:0,Activityflag:0});
+  }
+
+  setActivity(){
+    //console.log("activityCalled")
+    this.setState({Activityflag:1,Traitflag:0,Customflag:0,Groupsflag:0})
+  }
+
+  setReco(){
+    this.setState({Activityflag:0,Traitflag:0,Customflag:0,Groupsflag:0})
+
   }
 
   render(){
     return(
 <div>
             <ul className="nav nav-tabs">
-                <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab">Suggest id</a></li>
+                <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab" onClick={this.setReco.bind(this)}>Suggest id</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab2"} data-toggle="tab" onClick={this.setGroup.bind(this)}>Groups</a></li>
                 <li><a  href={"#"+this.props.objs.id+"_tab3"}  data-toggle="tab" data-tab-url={"#"+this.props.objs.id+"_tab3"} onClick={this.setTrait.bind(this)} >Traits</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab4"} data-toggle="tab" onClick={this.setCustom.bind(this)} >Custom fields</a></li>
@@ -49,14 +68,14 @@ class Tabs extends React.Component {
                   <div className="tab-pane fade in active" id={this.props.objs.id+"_tab1"}>
                         <div>
                           {
-                            (this.props.Recommendations && Object.keys(this.props.Recommendations).length>0 && this.props.Recommendations[this.props.objs.id] != null)?<RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]}/>:null
+                            (this.props.Recommendations && Object.keys(this.props.Recommendations).length>0 && this.props.Recommendations[this.props.objs.id] != null)?<RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]}/>:<div className="loading" style={{marginLeft:'50%'}}></div>
                           }
                         </div>
                   </div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab2"}>{this.state.Groupsflag===1?<Groups id={this.props.objs.id}/>:null}</div>
-                  <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.group.id} owner={this.props.objs.author.id}/>:null}</div>
+                  <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.speciesgroupid} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id}/>:null}</div>
-                  <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.ActivityFlag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
+                  <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.Activityflag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
                </div>
              </div>
 

@@ -12,13 +12,14 @@ import {Config} from '../../Config'
 import style from './style/headerstyle.css';
 
 import Banner from './Banner';
-
+import {logout} from '../../auth/AuthActions';
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state={
       PublicUrl:this.props.PublicUrl
     }
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount(){
@@ -26,6 +27,11 @@ class Header extends React.Component {
     this.props.fetchUserGroupList()
     this.props.fetchSpeciesGroup()
 
+  }
+
+
+  logout(){
+    this.props.logout();
   }
 
 
@@ -85,6 +91,10 @@ class Header extends React.Component {
                       {<NavLink to={`/${this.props.PublicUrl}datasource/list`}>Datasets
                     </NavLink>}
                     </li>
+                    <li>
+                      {<NavLink to={`/${this.props.PublicUrl}dataTable/list?type=observations`}>Observation Datatables
+                    </NavLink>}
+                    </li>
                   </ul>
                 </li>
                 <li>
@@ -125,6 +135,20 @@ class Header extends React.Component {
                 <li>
                   {<NavLink to={`/${this.props.PublicUrl}discussion/list`}>Discussions
                 </NavLink>}
+                </li>
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Datasets<span className="caret"></span>
+                  </a>
+                  <ul className="dropdown-menu" role="menu">
+                    <li>
+                      {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5136151&offset=&view=grid`}>Generic Biodiversity Datasets
+                    </NavLink>}
+                    </li>
+                    <li>
+                      {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5168239&offset=&view=grid`}>{"People's Biodiversity Registers"}
+                    </NavLink>}
+                    </li>
+                  </ul>
                 </li>
                 <li className="dropdown">
                   {<NavLink className="dropdown-toggle" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
@@ -180,24 +204,14 @@ class Header extends React.Component {
 
             </div>
             {/* <!-- /.navbar-collapse -->*/}
-
             <div className="nav navbar-header pull-right margintople margintopde ">
-              {this.props.authenticated
-                ? <div >
-                    <NavLink to={`/user/show/${this.props.userData
-                      ? this.props.userData.id
-                      : null}`}>{this.props.userData
-                        ? this.props.userData.id
-                        : null}
-                    </NavLink>
-                    {`\u00A0`}
-                    <NavLink to="/logout"><img  className="img-circle" height="35" width="35" src={"http://indiabiodiversity.org/biodiv/users/"+AuthUtils.getLoggedInUser().pic?AuthUtils.getLoggedInUser().pic:"/user_large.png"} /> Logout</NavLink>
-                  </div>
-                : <NavLink to="/login">Login</NavLink>}
-
+              {AuthUtils.isLoggedIn() ?
+                <a onClick={this.logout}><img  className="img-circle" height="35" width="35" src={"http://indiabiodiversity.org/biodiv/users/"+AuthUtils.getLoggedInUser().pic?AuthUtils.getLoggedInUser().pic:"/user_large.png"} />Logout</a>
+                 :<NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>
+              }
             </div>
 
-          </div>
+            </div>
         </nav>
       </div>
       <div className="row">
@@ -218,4 +232,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps,{fetchLanguages,fetchUserGroupList,fetchSpeciesGroup})(Header));
+
+export default withRouter(connect(mapStateToProps,{logout,fetchLanguages,fetchUserGroupList,fetchSpeciesGroup})(Header));

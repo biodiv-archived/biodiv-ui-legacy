@@ -14,6 +14,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import {fetchObservations} from './ObservationActions';
 import {fetchRecommendations} from '../actions'
 import {ClearObservationPage} from '../actions';
+import {clearRecommendations} from '../actions'
 
 import ObservationListWrapper from './ObservationListWrapper';
 
@@ -205,7 +206,8 @@ class ObservationListContainer extends Component {
           })
 
           this.props.fetchObservations(params);
-
+          this.props.clearRecommendations();
+          this.fetchReco = true;
     }
 
       taxonFilterEventListner(e){
@@ -826,4 +828,4 @@ return {
   Observation:state.Observation,Recommendations:state.Recommendations
 };
 }
-export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage,fetchRecommendations})(ObservationListContainer));
+export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage,fetchRecommendations,clearRecommendations})(ObservationListContainer));

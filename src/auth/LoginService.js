@@ -39,7 +39,14 @@ class LoginService {
         var c = this.loginStore.get();
         //console.log("get",c.aToken)
 
-        return c.hasOwnProperty('aToken') ? c.aToken : false;
+        return c.hasOwnProperty('aToken') ? c.aToken : null;
+    }
+    getRefreshToken() {
+      //console.log("getAccessToken")
+        var c = this.loginStore.get();
+        //console.log("get",c.aToken)
+
+        return c.hasOwnProperty('rToken') ? c.rToken : null;
     }
 
     getCurrentUser() {
@@ -53,7 +60,6 @@ class LoginService {
         var c = this.loginStore.get();
         // console.log("getCurrentUserRoles",c)
         //var json = (c.roles).to_json;
-        // console.log(c.roles)
         return (c.roles);
     }
 
@@ -84,9 +90,9 @@ class LoginStore {
             }*/
             console.log(props);
             const cookies = new Cookies();
-            cookies.set('BAToken', props['aToken'], { path: '/' });//add expires_in etc, m axAge, 
-            cookies.set('BRToken', props['rToken'], { path: '/' });//add expires_in etc, m axAge, 
-            cookies.set('id', props['id'], { path: '/' });//add expires_in etc, m axAge, 
+            cookies.set('BAToken', props['aToken'], { path: '/' });//add expires_in etc, m axAge,
+            cookies.set('BRToken', props['rToken'], { path: '/' });//add expires_in etc, m axAge,
+            cookies.set('id', props['id'], { path: '/' });//add expires_in etc, m axAge,
             _credentials = this.get();
         }
 
@@ -116,7 +122,7 @@ class LoginStore {
                     })
 
                     items['aToken'] = BAToken
-                    items['email'] = decoded.email 
+                    items['email'] = decoded.email
                     items['expires_in'] = expires_in
                     items['id'] = cookies.get('id')
                     items['roles'] = roles;

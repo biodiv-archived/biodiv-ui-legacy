@@ -4,6 +4,8 @@ import { reduxForm, Field, Form } from 'redux-form';
 import {NavLink} from 'react-router-dom';
 import * as AuthActions from './AuthActions';
 
+import { Config } from '../Config';
+
 const renderInput = field => {
     const { input, type } = field;
     return (
@@ -37,10 +39,31 @@ class Login extends Component {
         }
     }
 
+/*    fbLogin() {
+
+        let facebookLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=facebookClient&scope=user_likes,user_about_me,user_birthday,user_education_history,email,user_hometown,user_relationship_details,user_location,user_religion_politics,user_relationships,user_website,user_work_history&state=biodiv-api-state";
+        var loginWindow = window.open(facebookLink,'sharer', 'toolbar=0,status=0,width=548,height=325');
+        loginWindow.onbeforeunload = function () {
+            alert('reload');
+            window.location.reload();
+        }
+    }
+
+    googleLogin() {
+        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
+        var loginWindow = window.open(googleLink,'sharer', 'toolbar=0,status=0,width=548,height=325');
+        loginWindow.onbeforeunload = function () {
+            alert('reload');
+            window.location.reload();
+        }
+    }
+*/
 
     render(){
         const { handleSubmit } = this.props;
-        return (
+        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=facebookClient&scope=user_likes,user_about_me,user_birthday,user_education_history,email,user_hometown,user_relationship_details,user_location,user_religion_politics,user_relationships,user_website,user_work_history&state=biodiv-api-state";
+        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
+       return (
           <div className="container">
             <div className="col-sm-3 hidden-xs"></div>
             <div  style={{backgroundColor: 'white'}} className="col-sm-6 col-xs-12">
@@ -90,12 +113,15 @@ class Login extends Component {
                   <br />
                   <div className="row">
                     <div className="col-sm-6">
-                      <a target="_blank" href="https://www.facebook.com/login.php?skip_api_login=1&api_key=115305755799166&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.10%2Fdialog%2Foauth%3Fredirect_uri%3Dhttp%253A%252F%252Fapi.local.ibp.org%252Flogin%252Fcallback%253Fclient_name%253DfacebookClient%26state%3Dbiodiv-api-state%26scope%3Duser_likes%252Cuser_about_me%252Cuser_birthday%252Cuser_education_history%252Cemail%252Cuser_hometown%252Cuser_relationship_details%252Cuser_location%252Cuser_religion_politics%252Cuser_relationships%252Cuser_website%252Cuser_work_history%26response_type%3Dcode%26client_id%3D115305755799166%26ret%3Dlogin%26logger_id%3D7a4c3278-f44e-89ec-8aaa-5bce47a177ab&cancel_url=http%3A%2F%2Fapi.local.ibp.org%2Flogin%2Fcallback%3Fclient_name%3DfacebookClient%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%26state%3Dbiodiv-api-state%23_%3D_&display=page&locale=en_GB&logger_id=7a4c3278-f44e-89ec-8aaa-5bce47a177ab" className="btn btn-block btn-social btn-facebook">
+
+                      <a target="_blank" href="https://www.facebook.com/login.php?skip_api_login=1&api_key=115305755799166&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.10%2Fdialog%2Foauth%3Fredirect_uri%3Dhttp%253A%252F%252Fapi.local.ibp.org%252Flogin%252Fcallback%253Fclient_name%253DfacebookClient%26state%3Dbiodiv-api-state%26scope%3Duser_likes%252Cuser_about_me%252Cuser_birthday%252Cuser_education_history%252Cemail%252Cuser_hometown%252Cuser_relationship_details%252Cuser_location%252Cuser_religion_politics%252Cuser_relationships%252Cuser_website%252Cuser_work_history%26response_type%3Dcode%26client_id%3D115305755799166%26ret%3Dlogin%26logger_id%3D7a4c3278-f44e-89ec-8aaa-5bce47a177ab&cancel_url=http%3A%2F%2Fapi.local.ibp.org%2Flogin%2Fcallback%3Fclient_name%3DfacebookClient%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%26state%3Dbiodiv-api-state%23_%3D_&display=page&locale=en_GB&logger_id=7a4c3278-f44e-89ec-8aaa-5bce47a177ab" className="btn btn-block btn-social btn-facebook"></a>
+
+                        <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
                         <span className="fa fa-facebook"></span> Sign in with Facebook
                       </a>
                     </div>
                     <div className="col-sm-6">
-                      <a className="btn btn-block btn-social btn-google">
+                        <a className="btn btn-block btn-social btn-google" href={googleLink}>
                         <span className="fa fa-google"></span> Sign in with Google
                       </a>
                     </div>
