@@ -6,11 +6,13 @@ import AuthUtils from './auth/AuthUtils.js';
 export let ROOT_URL;
 export let PAMBA_API_ROOT_URL;
 export let API_ROOT_URL;
+export let API_ROOT_URL2;
 
 if(process.env.NODE_ENV=="development" ){
 
   ROOT_URL="http://hybrid.indiabiodiversity.org"
   API_ROOT_URL="http://hybrid.indiabiodiversity.org/biodiv-api"
+  API_ROOT_URL2="http://api.local.ibp.org"
   //ROOT_URL="https://hybrid.pamba.strandls.com"
   //API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
@@ -21,6 +23,7 @@ if(process.env.NODE_ENV=="kk" ){
     ROOT_URL="http://indiabiodiversity.org";
     PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
     API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
+    API_ROOT_URL2="https://api.indiabiodiversity.org";
 }
 if(process.env.NODE_ENV=="production" ){
 
@@ -28,6 +31,7 @@ if(process.env.NODE_ENV=="production" ){
     ROOT_URL="https://hybrid.pamba.strandls.com";
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
     API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
+    API_ROOT_URL="https://api.pamba.strandls.com"
 }
 
 axios.defaults.baseURL = ROOT_URL;
@@ -66,6 +70,7 @@ axios.interceptors.response.use(function (response) {
 export let Config = {
     api:{
         API_ROOT_URL : API_ROOT_URL,
+        API_ROOT_URL2 : API_ROOT_URL2,
         PAMBA_API_ROOT_URL : PAMBA_API_ROOT_URL,
         ROOT_URL : ROOT_URL,
         login : {
