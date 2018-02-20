@@ -4,6 +4,8 @@ import CustomFields from './CustomFields.js'
 import Groups from '../userGroup/Groups.js'
 import Traits from '../traits/TraitsObv.js'
 import CommentsFeeds from '../activityFeed/CommentsFeeds.js'
+import {NavLink,withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 class Tabs extends React.Component {
   constructor(props){
@@ -21,17 +23,14 @@ class Tabs extends React.Component {
   }
 
   setCustom(){
-    console.log("setcalled")
   this.setState({Customflag:1});
   }
 
   setGroup(){
-    console.log("groupcalled")
   this.setState({Groupsflag:1});
   }
 
   setActivity(){
-    console.log("activityCalled")
     this.setState({ActivityFlag:1})
   }
 
@@ -49,7 +48,9 @@ class Tabs extends React.Component {
                <div className="tab-content">
                   <div className="tab-pane fade in active" id={this.props.objs.id+"_tab1"}>
                         <div>
-                        <RecoName id={this.props.objs.id} islocked={this.props.objs.islocked}/>
+                          {
+                            (this.props.Recommendations && Object.keys(this.props.Recommendations).length>0 && this.props.Recommendations[this.props.objs.id] != null)?<RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]}/>:null
+                          }
                         </div>
                   </div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab2"}>{this.state.Groupsflag===1?<Groups id={this.props.objs.id}/>:null}</div>
@@ -63,4 +64,9 @@ class Tabs extends React.Component {
     )
   }
 }
-export default Tabs;
+function mapStateToProps(state){
+return {
+  Recommendations:state.Recommendations
+};
+}
+export default  withRouter(connect(mapStateToProps, null)(Tabs));

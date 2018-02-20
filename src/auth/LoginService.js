@@ -1,6 +1,6 @@
 import jwt_decode from 'jwt-decode';
 import $ from 'jquery';
-
+import Cookies from 'universal-cookie';
 /**
 * singleton service class to encapsulate login related logic
 **/
@@ -14,9 +14,8 @@ class LoginService {
         if(response == undefined) return;
 
         //HACK to use old grails token login
-
-      //  this.loginStore.set({'id': response.model.id, 'email': response.model.username, 'roles': response.model.roles, 'aToken': response.model.token});
-     var decoded = jwt_decode(response.access_token);
+        //  this.loginStore.set({'id': response.model.id, 'email': response.model.username, 'roles': response.model.roles, 'aToken': response.model.token});
+        var decoded = jwt_decode(response.access_token);
         var expires_in = new Date();
         expires_in.setTime(expires_in.getTime() + decoded.exp);
         var roles = [];
@@ -74,39 +73,56 @@ class LoginStore {
         var _credentials = {};
 
         this.set = function(props) {
-            for(var key in props) {
+            /*for(var key in props) {
                 if(props.hasOwnProperty(key)) {
                     if(typeof props[key] === 'object') {
                         localStorage.setItem('auth_'+key, JSON.stringify(props[key]));
-                        // console.log("object_json",localStorage.getItem('auth_'+key))
                     } else {
                         localStorage.setItem('auth_'+key, props[key]);
                     }
                 }
-            }
+            }*/
+            console.log(props);
+            const cookies = new Cookies();
+            cookies.set('BAToken', props['aToken'], { path: '/' });//add expires_in etc, m axAge, 
+            cookies.set('BRToken', props['rToken'], { path: '/' });//add expires_in etc, m axAge, 
+            cookies.set('id', props['id'], { path: '/' });//add expires_in etc, m axAge, 
             _credentials = this.get();
-            var i;
-            for (i = 0; i < localStorage.length; i++)   {
-                // console.log("in set of loginStore",localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
-            }
-            // console.log("credentials variable",_credentials);
         }
 
         this.get = function() {
             if(_credentials != undefined && _credentials.hasOwnProperty('aToken')) return _credentials;
             else {
                 var items = {};
-                for(var key in localStorage) {
-                    if(localStorage.hasOwnProperty(key) && key.startsWith('auth_'))
+                /*for(var key in localStorage) {
+                    if(localStorage.hasOwnProperty(key) && key.startsWith('auth_')) {
                         var auth_key = key.substring(key.indexOf('_') + 1);
                         if(auth_key === 'roles') {
                             items[auth_key] = JSON.parse(localStorage.getItem(key));
-                            //console.log("roles_item_aut_ key",items[auth_key])
-                        } else
+                        } else {
                             items[auth_key] = localStorage.getItem(key);
+                        }
+                    }
+                }*/
+                const cookies = new Cookies(document.cookie);
+                var BAToken = cookies.get("BAToken");
+                if(BAToken) {
+                    var decoded = jwt_decode(BAToken);
+                    var expires_in = new Date();
+                    expires_in.setTime(expires_in.getTime() + decoded.exp);
+                    var roles = [];
+                    decoded['$int_roles'].map((item)=>{
+                        roles = roles.concat(item)
+                    })
+
+                    items['aToken'] = BAToken
+                    items['email'] = decoded.email 
+                    items['expires_in'] = expires_in
+                    items['id'] = cookies.get('id')
+                    items['roles'] = roles;
+                    items['rToken'] = cookies.get('BRToken');
                 }
                 _credentials = items;
-                // console.log("credentials in loginStore get",_credentials);
 
                 return _credentials;
             }
@@ -114,10 +130,16 @@ class LoginStore {
 
         this.clear = function() {
           // console.log("loginStore clear function")
+            const cookies = new Cookies();
             for(var key in localStorage) {
-                if(localStorage.hasOwnProperty(key) && key.startsWith('auth_'))
+                if(localStorage.hasOwnProperty(key) && key.startsWith('auth_')) {
                     localStorage.removeItem(key);
+                }
             }
+            cookies.remove("BAToken", { path: '/' });
+            cookies.remove("BRToken", { path: '/' });
+            cookies.remove("id", { path: '/' });
+
             _credentials = {};
         }
     }

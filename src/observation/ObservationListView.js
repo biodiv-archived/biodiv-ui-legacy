@@ -5,8 +5,9 @@ import EllipsisText  from 'react-ellipsis-text';
 import Moment from 'react-moment';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import createHistory from 'history/createBrowserHistory';
+import Parser from 'html-react-parser';
 
+import createHistory from 'history/createBrowserHistory';
 
 import style from './ObservationStyle.css';
 
@@ -181,7 +182,7 @@ display(objs,selectAll){
                          </tr>
                          <tr>
                            <td className="col-sm-4" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
-                           <td id ="hatethis" className="col-sm-8" > {objs.notes?objs.notes:"Not provided"}  </td>
+                           <td id ="hatethis" className="col-sm-8" >{objs.notes?Parser(objs.notes):"Not provided"}  </td>
                         </tr>
                       </tbody>
                       </table>
@@ -223,7 +224,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-                {/* <Tabs objs={objs} /> */}
+                { <Tabs objs={objs} /> }
             <br />
             </div>
 

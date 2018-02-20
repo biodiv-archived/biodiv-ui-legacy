@@ -6,7 +6,6 @@ import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
-import Cookies from 'universal-cookie';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reactTimeAgo from 'react-time-ago'
 import javascriptTimeAgo from 'javascript-time-ago'
@@ -78,8 +77,9 @@ ReactDOM.render(
 
           <Route exact path="/observation/list" component={App} props={search2} />
           <Route  path="/group/:groupName/observation" component={App} />
-
-          <Route exact path="/login" component={Login}/>
+          
+          <Route  path="/group/:groupName/login" component={App} />
+          <Route path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/forget_password" component={ForgetPassword} />

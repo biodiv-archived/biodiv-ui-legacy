@@ -30,7 +30,6 @@ class Header extends React.Component {
 
 
   render() {
-    console.log("authenticayted or not",this.props.authenticated)
     return (
       <div className="container-fluid">
         <div className="row">
@@ -131,9 +130,9 @@ class Header extends React.Component {
                   {<NavLink className="dropdown-toggle" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
                     <ul className="dropdown-menu pre-scrollable" style={{'height':'500px','width':'200px'}} role="menu">
 
-                    {this.props.UserGroupList?this.props.UserGroupList.map((item)=>{
+                    {this.props.UserGroupList?this.props.UserGroupList.map((item,index)=>{
                       return (
-                        <div style={{'border':'1px'}}>
+                        <div key={index} style={{'border':'1px'}}>
                           <NavLink to={`/group/${item.webaddress}/show`}><li><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</li> </NavLink >
                         </div>
                       )

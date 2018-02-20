@@ -8,6 +8,7 @@ import  queryString from 'query-string';
 import _ from "lodash";
 import  scrollIntoView  from 'dom-scroll-into-view';
 
+
 import 'rc-tree/assets/index.css';
 import style from './style.css';
 
@@ -100,6 +101,12 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1).t
     showButton:taxonToshow1
   },()=>{
       this.setScrollClass();
+      var event = new CustomEvent("getTaxon-filter",{ "detail":{
+        taxon:[],
+        classification:this.state.classification
+      }
+    });
+    document.dispatchEvent(event);
   })
 
 });
@@ -115,8 +122,6 @@ nextFetch(){
   if(index<=size && index>=0){
     this.setState({
       Selected:showButton[index].split(",")
-    },()=>{
-        this.setScrollClass();
     })
   }
 
@@ -132,8 +137,6 @@ prevFetch(){
   if(index<=size && index>=0){
     this.setState({
       Selected:showButton[index].split(",")
-    },()=>{
-      this.setScrollClass();
     })
   }
 }
@@ -159,23 +162,23 @@ setScrollClass(){
 }
 
 }
-// getClassificationData(){
-//   axios.get(`${Config.api.API_ROOT_URL}/taxon/classification/list`).then((response)=>{
-//     let data=[];
-//     response.data.map((item)=>{
-//       let obj={};
-//       obj.label=item.name;
-//       obj.value=item.id;
-//       data.push(obj);
-//     })
-//       this.setState({
-//       classificationTable:data
-//     })
-//
-//   })
-// }
+getClassificationData(){
+  axios.get(`${Config.api.API_ROOT_URL}/taxon/classification/list`).then((response)=>{
+    let data=[];
+    response.data.map((item)=>{
+      let obj={};
+      obj.label=item.name;
+      obj.value=item.id;
+      data.push(obj);
+    })
+      this.setState({
+      classificationTable:data
+    })
+
+  })
+}
   componentDidMount() {
-  // this.getClassificationData()
+  //this.getClassificationData();
   this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }
@@ -296,7 +299,6 @@ generateTreeNodes(treeNode,classSystem,treeData,key) {
     const treeNodes = loop(this.props.treeData);
     return (
             <div>
-             {/* <Dropdown options={this.state.classificationTable} value={this.state.classificationSelected} onChange={this.changeTaxonomy.bind(this)} placeholder="IBP" /> */}
                 <div id="container-sunil" className="pre-scrollable">
                 <Tree
                   selectable={true}

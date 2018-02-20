@@ -12,6 +12,7 @@ import _ from "lodash";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {fetchObservations} from './ObservationActions';
+import {fetchRecommendations} from '../actions'
 import {ClearObservationPage} from '../actions';
 
 import ObservationListWrapper from './ObservationListWrapper';
@@ -59,7 +60,7 @@ class ObservationListContainer extends Component {
         view:1,
         showMap:false,
         selectAll:false,
-        urlforPassing:undefined
+        urlforPassing:undefined,
       }
       this.url;
       const newparams=  queryString.parse(document.location.search);
@@ -107,9 +108,12 @@ class ObservationListContainer extends Component {
         this.props.fetchObservations(this.state.params)
       }
 
-      this.url="/observation/observations?"+search2;
+      this.url="/observation/observation?"+search2;
       this.loadMore=this.loadMore.bind(this);
 
+      this.fetchReco = true;
+      this.obvResponse = this.obvResponse.bind(this);
+      this.fetchRecos = this.fetchRecos.bind(this);
     };
 
 
@@ -195,10 +199,11 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search1
           })
-          let url="/observation/observations?"+search1;
+          let url="/observation/observation?"+search1;
           this.setState({
             urlforPassing:url
           })
+
           this.props.fetchObservations(params);
 
     }
@@ -603,13 +608,13 @@ class ObservationListContainer extends Component {
         //   pathname:this.props.location.pathname,
         //   search:search1
         // })
-        let url="/observation/observations?"+search1;
+        let url="/observation/observation?"+search1;
         this.setState({
           urlforPassing:url
         })
 
         this.props.fetchObservations(params);
-
+        this.fetchReco = true;
         }
 
       componentDidMount(){
@@ -703,13 +708,48 @@ class ObservationListContainer extends Component {
         event.preventDefault();
         }
 
+        fetchRecos(){
+          //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77");
+        //  if(this.props.Observation){
+          //  if(this.props.Observation.all.length>0){
+            var allObvs = this.props.Observation.all
+            var lastTenObvs = allObvs.slice(allObvs.length-10)
+            //console.log(x)
+
+              var obvIds = []
+              lastTenObvs.map((item,index)=>{
+                obvIds.push(item.id)
+              })
+              //console.log("***************************************************************88",obvIds.toString())
+            //  if(this.state.fetchReco === true){
+                this.props.fetchRecommendations(obvIds.toString());
+                this.fetchReco = false;
+                // this.setState({
+                //   fetchReco:false
+                // })
+            //  }
+
+          //  }
+        //  }
+        }
+
+        obvResponse(){
+          //console.log("going to call recos")
+          if(this.props.Observation){
+            if(this.props.Observation.all.length>0){
+              if(this.fetchReco === true){
+                this.fetchRecos();
+              }
+            }
+          }
+        }
   render(){
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
 return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
 }):null;
     return(
       <div>
-
+            {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
               <div>
                 <div className="hidden-sm hidden-md hidden-lg">
@@ -783,7 +823,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
 }
 function mapStateToProps(state){
 return {
-  Observation:state.Observation
+  Observation:state.Observation,Recommendations:state.Recommendations
 };
 }
-export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage})(ObservationListContainer));
+export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage,fetchRecommendations})(ObservationListContainer));
