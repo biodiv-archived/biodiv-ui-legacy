@@ -9,7 +9,6 @@ export let API_ROOT_URL;
 export let API_ROOT_URL2;
 
 if(process.env.NODE_ENV=="development" ){
-
   ROOT_URL="http://hybrid.indiabiodiversity.org"
   API_ROOT_URL="http://hybrid.indiabiodiversity.org/biodiv-api"
   API_ROOT_URL2="http://api.local.ibp.org"
@@ -26,12 +25,10 @@ if(process.env.NODE_ENV=="kk" ){
     API_ROOT_URL2="https://api.indiabiodiversity.org";
 }
 if(process.env.NODE_ENV=="production" ){
-
-
     ROOT_URL="https://hybrid.pamba.strandls.com";
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
     API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
-    API_ROOT_URL="https://api.pamba.strandls.com"
+    API_ROOT_URL2="https://api.pamba.strandls.com"
 }
 
 axios.defaults.baseURL = ROOT_URL;
@@ -115,4 +112,15 @@ export let Config = {
             }
         }
     }
+}
+
+if(process.env.NODE_ENV=="development" ) {
+    Config.api.fbId = "115305755799166"
+    Config.api.googleId = "317806372709-roromqiujiji1po5jh8adpcr5um895mb.apps.googleusercontent.com"
+} else if(process.env.NODE_ENV=="kk" ){
+    Config.api.fbId = "320284831369968"
+    Config.api.googleId = "317806372709-tm8qc7j41enrblvqisd11b3mqrjdijfv.apps.googleusercontent.com" 
+} else if(process.env.NODE_ENV=="production" ){
+    Config.api.fbId = "2008434629393838"
+    Config.api.googleId = "317806372709-o80ff31oilqdcpujs8264u5ef9m5ejsd.apps.googleusercontent.com" 
 }
