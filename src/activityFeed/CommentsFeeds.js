@@ -4,7 +4,8 @@ import Moment from 'react-moment'
 import ReactTimeAgo from 'react-time-ago'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { MentionsInput, Mention } from 'react-mentions'
+import {NavLink} from 'react-router-dom';
+import UserAvatar from '../util/userIcon'
 
 import commentWithTagStyle from '../observation/commentWithTagStyle.js'
 
@@ -37,6 +38,7 @@ class CommentsFeeds extends React.Component {
   componentDidMount(){
     this.fetchFeeds(this.props.id);
   }
+
 
   getUsers(query, callback){
     var userData
@@ -88,7 +90,22 @@ class CommentsFeeds extends React.Component {
     var feed1="feedbtn" + id
     var feedMore="moreFeedBtn"+id
     console.log("in the fecth feeds")
-    axios.get(Config.api.API_ROOT_URL+"/activityFeed/feeds?rootHolderId="+id+"&rootHolderType=species.participation.Observation&feedType=specific&feedPermission=editable&feedOrder=oldestFirst&refreshType=manual&timeLine=older&refTime="+refTime+"&max=2")
+    var options={
+      method:"GET",
+      url: Config.api.API_ROOT_URL+"/activityFeed/feeds",
+      params:{
+        rootHolderId:id,
+        rootHolderType:"species.participation.Observation",
+        feedType:"specific",
+        feedPermission:"editable",
+        feedOrder:"oldestFirst",
+        refrshType:"manual",
+        timeLine:"older",
+        refTime:refTime,
+        max:2
+      }
+    }
+    axios(options)
         .then((response)=>{
           console.log(response.data)
         //  this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null
@@ -338,17 +355,21 @@ class CommentsFeeds extends React.Component {
                                   <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
                                       <div className="row">
                                             <div  className="author-icon col-sm-1">
-                                                <a href={Config.api.ROOT_URL+"/user/show/" + item.author.id}>
-                                                    {
-                                                      item.author.icon?
-                                                      (
-                                                        <img className="small-profile-pic" src={"http://indiabiodiversity.org/"+"biodiv/users"+item.author.icon} alt={"Avatar"} title={item.author.name} height='40px' width='40px' style={{borderRadius:'50%'}}/>
-                                                      ):
-                                                      (
-                                                        <img className="small-profile-pic" src={"http://indiabiodiversity.org/"+"biodiv/users"+"/user.png"} alt={"Avatar"} title={item.author.name} height='40px' width='40px' style={{borderRadius:'50%'}}/>
-                                                      )
-                                                    }
-                                                </a>
+                                            {
+
+                                                <NavLink to={`/${this.props.PublicUrl}user/show/${item.author.id}`}>
+                                                  {
+                                                    item.author.icon?
+                                                    (
+                                                      <UserAvatar  name={item.author.name} title={item.author.name} src={Config.api.ROOT_URL+"/biodiv/users/"+item.author.icon}  size="40" />
+                                                    )
+                                                    :
+                                                    (
+                                                      <UserAvatar  name={item.author.name} title={item.author.name}   size="40" />
+                                                    )
+                                                  }
+                                                </NavLink>
+                                            }
                                             </div>
                                             {
                                               (item.activityType == 'Suggested species name' || item.activityType == 'obv unlocked' || item.activityType == 'obv locked' ||
@@ -538,7 +559,7 @@ class CommentsFeeds extends React.Component {
 }
 //export default CommentsFeeds;
 function mapStateToProps(state){
-return {UserGroupList:state.UserGroupList};
+return {UserGroupList:state.UserGroupList,PublicUrl:state.PublicUrl.url};
 }
 
 function mapDispatchToProps(dispatch){

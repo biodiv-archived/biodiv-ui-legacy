@@ -20,7 +20,6 @@ class Header extends React.Component {
   }
 
   componentDidMount(){
-
   }
 
   logout(){
@@ -85,6 +84,10 @@ class Header extends React.Component {
                       {<NavLink to={`/${this.props.PublicUrl}datasource/list`}>Datasets
                     </NavLink>}
                     </li>
+                    <li>
+                      {<NavLink to={`/${this.props.PublicUrl}dataTable/list?type=observations`}>Observation Datatables
+                    </NavLink>}
+                    </li>
                   </ul>
                 </li>
                 <li>
@@ -125,6 +128,20 @@ class Header extends React.Component {
                 <li>
                   {<NavLink to={`/${this.props.PublicUrl}discussion/list`}>Discussions
                 </NavLink>}
+                </li>
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Datasets<span className="caret"></span>
+                  </a>
+                  <ul className="dropdown-menu" role="menu">
+                    <li>
+                      {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5136151&offset=&view=grid`}>Generic Biodiversity Datasets
+                    </NavLink>}
+                    </li>
+                    <li>
+                      {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5168239&offset=&view=grid`}>{"People's Biodiversity Registers"}
+                    </NavLink>}
+                    </li>
+                  </ul>
                 </li>
                 <li className="dropdown">
                   {<NavLink className="dropdown-toggle" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
@@ -193,7 +210,7 @@ class Header extends React.Component {
                     {`\u00A0`}
                     <a onClick={this.logout}>Logout</a>
                   </div>
-                : <NavLink to="/login">Login</NavLink>}
+                : <NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>}
             </div>
 
           </div>

@@ -150,7 +150,7 @@ display(objs,selectAll){
                     <div className="media-left">
                         <ShowGallery thumbnail={objs.thumbnail} objs={objs} objid={objs.id} images={objs.imageresource} />
                         {
-                          (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
+                          (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
                           (
                             selectAll==true?
                             (<input type="checkbox" className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)

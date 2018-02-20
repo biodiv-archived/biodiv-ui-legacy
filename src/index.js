@@ -72,13 +72,13 @@ ReactDOM.render(
       <div>
         <Header title={"IBP"}/>
         <div className="container-fluid">
-          
+
           <Route exact path="/" component={HomePageContainer} />
 
           <Route exact path="/observation/list" component={App} props={search2} />
           <Route  path="/group/:groupName/observation" component={App} />
-          
-          <Route  path="/group/:groupName/login" component={App} />
+
+          <Route  path="/group/:groupName/login" component={Login} />
           <Route path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/register" component={Register} />

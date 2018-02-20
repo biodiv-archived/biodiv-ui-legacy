@@ -37,11 +37,15 @@ class Tabs extends React.Component {
     this.setState({Activityflag:1,Traitflag:0,Customflag:0,Groupsflag:0})
   }
 
+  setReco(){
+    this.setState({Activityflag:0,Traitflag:0,Customflag:0,Groupsflag:0})
+  }
+
   render(){
     return(
 <div>
             <ul className="nav nav-tabs">
-                <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab">Suggest id</a></li>
+                <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab" onClick={this.setReco.bind(this)}>Suggest id</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab2"} data-toggle="tab" onClick={this.setGroup.bind(this)}>Groups</a></li>
                 <li><a  href={"#"+this.props.objs.id+"_tab3"}  data-toggle="tab" data-tab-url={"#"+this.props.objs.id+"_tab3"} onClick={this.setTrait.bind(this)} >Traits</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab4"} data-toggle="tab" onClick={this.setCustom.bind(this)} >Custom fields</a></li>

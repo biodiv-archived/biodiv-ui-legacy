@@ -3,6 +3,7 @@ import axios from 'axios';
 import $ from 'jquery'
 import {NavLink,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import UserAvatar from '../util/userIcon'
 
 import './recoName.css'
 
@@ -22,7 +23,6 @@ class RecoName extends React.Component {
       response:this.props.recos['recoVotes'],
       login_modal:false,
       options:'',
-      groupName:undefined,
       loading:false
     }
     this.authArray=[];
@@ -187,18 +187,10 @@ class RecoName extends React.Component {
             ):console.log(error)
           })
   }
-  setGroupName(){
-    let groupName=this.props.location.pathname.split("/")[2];
-    let groupsyntax=this.props.location.pathname.split("/")[1];
-    if(groupsyntax==="group"){
-      this.setState({
-        groupName
-      })
-    }
-  }
+
 
   componentDidMount(){
-      this.setGroupName();
+
   }
 
 
@@ -224,15 +216,12 @@ class RecoName extends React.Component {
                       (
                           item.speciesId!=null?
                           (
-                            this.state.groupName?
-                              <NavLink to={`/group/${this.state.groupName}/species/show/${item.speciesId}`}>
-                                <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
-                                {"    "}  </i></NavLink>
+                            <NavLink to={`/${this.props.PublicUrl}species/show/${item.speciesId}`}>
 
-                                :<NavLink to={`/species/show/${item.speciesId}`}>
-                                  <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
-                                {"    "}
-                            </i></NavLink>
+                            <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
+                            {"    "}  </i>
+
+                          </NavLink>
                           ):
                           (
                               <a>
@@ -274,8 +263,21 @@ class RecoName extends React.Component {
                            //console.log(item.recoId,$.inArray(parseInt(a),authArray))
                              return(
                                <div key={index} className="col-xs-1">
-                                 {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${aut[0].id}`}>    <img className="small-profile-pic img-circle" title={aut[0].name}  src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" />
-                                 </NavLink>:<NavLink to={`/user/show/${aut[0].id}`}> <img className="small-profile-pic img-circle"  title={aut[0].name} src={Config.api.ROOT_URL+"/users/"+aut[0].icon} width="30" height="30" /></NavLink>}
+                                 {
+                                      <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}`}>
+                                          {
+                                            aut[0].icon?
+                                            (
+                                              <UserAvatar  name={aut[0].name} title={aut[0].name} src={Config.api.ROOT_URL+"/biodiv/users/"+aut[0].icon}  size="30" />
+                                            )
+                                            :
+                                            (
+                                              <UserAvatar  name={aut[0].name} title={aut[0].name}   size="30" />
+                                            )
+                                          }
+
+                                      </NavLink>
+                                 }
                                </div>
                              )
                            })
@@ -389,7 +391,8 @@ class RecoName extends React.Component {
 }
 function mapStateToProps(state){
 return {
-  Recommendations:state.Recommendations
+  Recommendations:state.Recommendations,
+  PublicUrl:state.PublicUrl.url
 };
 }
 export default  withRouter(connect(mapStateToProps, {fetchRecommendations})(RecoName));
