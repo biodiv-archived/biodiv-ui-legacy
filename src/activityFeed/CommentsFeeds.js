@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Moment from 'react-moment'
-import ReactTimeAgo from 'react-time-ago'
+import TimeAgo from 'react-time-ago'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavLink} from 'react-router-dom';
@@ -433,15 +433,7 @@ class CommentsFeeds extends React.Component {
                                                       ):null
                                                     }
                                                     <div className="row" style={{marginTop:'1%'}}>
-                                                        {
-                                                          (new Date().getTime() - item.lastUpdated)>172800000?
-                                                          (
                                                             <time className="timeago"><Moment date={item.lastUpdated}/></time>
-                                                          ):
-                                                          (
-                                                            <ReactTimeAgo locale={'en-GB'}>{item.lastUpdated}</ReactTimeAgo>
-                                                          )
-                                                        }
                                                     </div>
                                                 </div>
                                               )
@@ -474,15 +466,7 @@ class CommentsFeeds extends React.Component {
                                                         <span className="parse" style={{wordWrap:'break-word'}} dangerouslySetInnerHTML={{ __html: item.descriptionJson.description }} />
                                                     </div>
                                                     <div className="row" style={{marginTop:'1%'}}>
-                                                    {
-                                                      (new Date().getTime() - item.lastUpdated)>172800000?
-                                                      (
                                                         <time className="timeago"><Moment date={item.lastUpdated}/></time>
-                                                      ):
-                                                      (
-                                                        <ReactTimeAgo locale={'en-GB'}>{item.lastUpdated}</ReactTimeAgo>
-                                                      )
-                                                    }
                                                     </div>
                                                     {
                                                       (item.descriptionJson.activity_performed == 'Added a comment' || item.descriptionJson.activity_performed == 'In reply to')?
