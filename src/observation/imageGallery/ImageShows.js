@@ -15,8 +15,12 @@ export default class LightboxExample extends Component {
         };
     }
     getUrl(thumbnail){
-      var res = thumbnail.split(".");
+      let res = thumbnail?thumbnail.split("."):null;
+      if(res)
       return `/biodiv/observations/`+res[0]+"_th1."+res[1];
+      else {
+        return null
+      }
     }
     render() {
       let images=[];

@@ -23,6 +23,17 @@ class Tabs extends React.Component {
   }
 
   setCustom(){
+
+  this.setState({Customflag:1});
+  }
+
+  setGroup(){
+  this.setState({Groupsflag:1});
+  }
+
+  setActivity(){
+    this.setState({ActivityFlag:1})
+
     //console.log("setcalled")
   this.setState({Customflag:1,Traitflag:0,Groupsflag:0,Activityflag:0});
   }
@@ -39,6 +50,7 @@ class Tabs extends React.Component {
 
   setReco(){
     this.setState({Activityflag:0,Traitflag:0,Customflag:0,Groupsflag:0})
+
   }
 
   render(){

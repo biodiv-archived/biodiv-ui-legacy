@@ -15,7 +15,7 @@ const renderInput = field => {
 }
 
 class Login extends Component {
- 
+
     handleFormSubmit({ email, password }) {
         this.props.login({ email, password });
     }
@@ -45,7 +45,7 @@ class Login extends Component {
         loginWindow.onbeforeunload = function () {
             alert('reload');
             window.location.reload();
-        } 
+        }
     }
 
     googleLogin() {
@@ -54,7 +54,7 @@ class Login extends Component {
         loginWindow.onbeforeunload = function () {
             alert('reload');
             window.location.reload();
-        } 
+        }
     }
 */
 
@@ -112,7 +112,10 @@ class Login extends Component {
                   <br />
                   <div className="row">
                     <div className="col-sm-6">
-                        <a className="btn btn-block btn-social btn-facebook" href={fbLink}>
+
+                      <a target="_blank" href="https://www.facebook.com/login.php?skip_api_login=1&api_key=115305755799166&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.10%2Fdialog%2Foauth%3Fredirect_uri%3Dhttp%253A%252F%252Fapi.local.ibp.org%252Flogin%252Fcallback%253Fclient_name%253DfacebookClient%26state%3Dbiodiv-api-state%26scope%3Duser_likes%252Cuser_about_me%252Cuser_birthday%252Cuser_education_history%252Cemail%252Cuser_hometown%252Cuser_relationship_details%252Cuser_location%252Cuser_religion_politics%252Cuser_relationships%252Cuser_website%252Cuser_work_history%26response_type%3Dcode%26client_id%3D115305755799166%26ret%3Dlogin%26logger_id%3D7a4c3278-f44e-89ec-8aaa-5bce47a177ab&cancel_url=http%3A%2F%2Fapi.local.ibp.org%2Flogin%2Fcallback%3Fclient_name%3DfacebookClient%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied%26state%3Dbiodiv-api-state%23_%3D_&display=page&locale=en_GB&logger_id=7a4c3278-f44e-89ec-8aaa-5bce47a177ab" className="btn btn-block btn-social btn-facebook"></a>
+
+                        <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
                         <span className="fa fa-facebook"></span> Sign in with Facebook
                       </a>
                     </div>

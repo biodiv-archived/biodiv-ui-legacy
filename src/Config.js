@@ -13,7 +13,6 @@ if(process.env.NODE_ENV=="development" ){
   //ROOT_URL="https://hybrid.pamba.strandls.com"
   //API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
-    // API_ROOT_URL="https://api.pamba.strandls.com";
 }
 
 if(process.env.NODE_ENV=="kk" ){
@@ -21,6 +20,7 @@ if(process.env.NODE_ENV=="kk" ){
     PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
     API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
 }
+
 if(process.env.NODE_ENV=="production" ){
     ROOT_URL="https://hybrid.pamba.strandls.com";
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";

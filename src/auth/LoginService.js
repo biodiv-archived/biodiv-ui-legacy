@@ -25,7 +25,7 @@ class LoginService {
             roles = roles.concat(item)
         })
 
-        this.loginStore.set({'id': response.userId, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in});
+        this.loginStore.set({'id': response.userId, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in,'pic':response.pic});
     }
 
     getCredentails() {
@@ -54,7 +54,7 @@ class LoginService {
     getCurrentUser() {
         var c = this.loginStore.get();
         if(c.hasOwnProperty('aToken')) {
-            return {'id':c.id, 'email':c.email};
+            return {'id':c.id, 'email':c.email,'pic':c.pic};
         }
     }
 
