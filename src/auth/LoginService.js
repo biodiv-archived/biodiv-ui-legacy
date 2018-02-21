@@ -1,6 +1,8 @@
 import jwt_decode from 'jwt-decode';
 import $ from 'jquery';
 import Cookies from 'universal-cookie';
+import { Config } from '../Config';
+
 /**
 * singleton service class to encapsulate login related logic
 **/
@@ -90,9 +92,10 @@ class LoginStore {
             }*/
             console.log(props);
             const cookies = new Cookies();
-            cookies.set('BAToken', props['aToken'], { path: '/' });//add expires_in etc, m axAge,
-            cookies.set('BRToken', props['rToken'], { path: '/' });//add expires_in etc, m axAge,
-            cookies.set('id', props['id'], { path: '/' });//add expires_in etc, m axAge,
+            var domain = Config.api.cookie.domain;
+            cookies.set('BAToken', props['aToken'], { path: Config.api.cookie.path , domain: domain});//add expires_in etc, m axAge,
+            cookies.set('BRToken', props['rToken'], { path: Config.api.cookie.path , domain: domain});//add expires_in etc, m axAge,
+            cookies.set('id', props['id'], { path: Config.api.cookie.path , domain: domain });//add expires_in etc, m axAge,
             _credentials = this.get();
         }
 
@@ -142,10 +145,11 @@ class LoginStore {
                     localStorage.removeItem(key);
                 }
             }
-            cookies.remove("BAToken", { path: '/' });
-            cookies.remove("BRToken", { path: '/' });
-            cookies.remove("id", { path: '/' });
 
+            var domain = Config.api.cookie.domains;
+            cookies.remove("BAToken", { path: Config.api.cookie.path , domain: domain});
+            cookies.remove("BRToken", { path: Config.api.cookie.path , domain: domain});
+            cookies.remove("id", { path: Config.api.cookie.path , domain: domain});
             _credentials = {};
         }
     }

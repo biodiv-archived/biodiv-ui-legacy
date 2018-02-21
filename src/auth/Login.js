@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, Form } from 'redux-form';
 import {NavLink} from 'react-router-dom';
 import * as AuthActions from './AuthActions';
-
 import { Config } from '../Config';
 
 const renderInput = field => {
@@ -41,7 +40,7 @@ class Login extends Component {
 
 /*    fbLogin() {
 
-        let facebookLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=facebookClient&scope=user_likes,user_about_me,user_birthday,user_education_history,email,user_hometown,user_relationship_details,user_location,user_religion_politics,user_relationships,user_website,user_work_history&state=biodiv-api-state";
+        let facebookLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=user_likes,user_about_me,user_birthday,user_education_history,email,user_hometown,user_relationship_details,user_location,user_religion_politics,user_relationships,user_website,user_work_history&state=biodiv-api-state";
         var loginWindow = window.open(facebookLink,'sharer', 'toolbar=0,status=0,width=548,height=325');
         loginWindow.onbeforeunload = function () {
             alert('reload');
@@ -50,7 +49,7 @@ class Login extends Component {
     }
 
     googleLogin() {
-        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
+        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
         var loginWindow = window.open(googleLink,'sharer', 'toolbar=0,status=0,width=548,height=325');
         loginWindow.onbeforeunload = function () {
             alert('reload');
@@ -61,8 +60,8 @@ class Login extends Component {
 
     render(){
         const { handleSubmit } = this.props;
-        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=facebookClient&scope=user_likes,user_about_me,user_birthday,user_education_history,email,user_hometown,user_relationship_details,user_location,user_religion_politics,user_relationships,user_website,user_work_history&state=biodiv-api-state";
-        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL2+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
+        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=user_likes,user_about_me,user_birthday,user_education_history,email,user_hometown,user_relationship_details,user_location,user_religion_politics,user_relationships,user_website,user_work_history&state=biodiv-api-state";
+        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
        return (
           <div className="container">
             <div className="col-sm-3 hidden-xs"></div>
