@@ -109,7 +109,7 @@ class ObservationListContainer extends Component {
         this.props.fetchObservations(this.state.params)
       }
 
-      this.url="/observation/observations?"+search2;
+      this.url="/observation/observation?"+search2;
       this.loadMore=this.loadMore.bind(this);
 
       this.fetchReco = true;
@@ -200,10 +200,11 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search1
           })
-          let url="/observation/observations?"+search1;
+          let url="/observation/observation?"+search1;
           this.setState({
             urlforPassing:url
           })
+
           this.props.fetchObservations(params);
           this.props.clearRecommendations();
           this.fetchReco = true;
@@ -609,7 +610,7 @@ class ObservationListContainer extends Component {
         //   pathname:this.props.location.pathname,
         //   search:search1
         // })
-        let url="/observation/observations?"+search1;
+        let url="/observation/observation?"+search1;
         this.setState({
           urlforPassing:url
         })

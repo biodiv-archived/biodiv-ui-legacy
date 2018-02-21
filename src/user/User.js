@@ -28,7 +28,7 @@ class Example extends Component {
     };
       this.onSuggestionSelected=this.onSuggestionSelected.bind(this);
       this.onChange=this.onChange.bind(this);
-      this.S_Callback=this.S_Callback.bind(this); 
+      this.S_Callback=this.S_Callback.bind(this);
   }
 
   getSuggestions (value, S_Callback) {
@@ -60,6 +60,9 @@ class Example extends Component {
   };
 
   getSuggestionValue (suggestion) {
+    this.setState({
+      value:""
+    })
     return suggestion.instance.name + ":" + suggestion.id
   }
 

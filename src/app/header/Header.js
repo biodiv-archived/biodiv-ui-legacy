@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 
 import {NavLink,withRouter} from 'react-router-dom';
 import {getGroupName} from './HeaderApi';
+import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
+
+import AuthUtils from '../../auth/AuthUtils';
 
 import {connect} from 'react-redux';
 import $ from 'jquery';
@@ -20,7 +23,12 @@ class Header extends React.Component {
   }
 
   componentDidMount(){
+    this.props.fetchLanguages()
+    this.props.fetchUserGroupList()
+    this.props.fetchSpeciesGroup()
+
   }
+
 
   logout(){
     this.props.logout();
@@ -28,7 +36,6 @@ class Header extends React.Component {
 
 
   render() {
-    //console.log("authenticayted or not",this.props.authenticated)
     return (
       <div className="container-fluid">
         <div className="row">
@@ -197,23 +204,14 @@ class Header extends React.Component {
 
             </div>
             {/* <!-- /.navbar-collapse -->*/}
-
             <div className="nav navbar-header pull-right margintople margintopde ">
-              {this.props.authenticated
-                ? <div >
-                    <NavLink to={`/user/show/${this.props.userData
-                      ? this.props.userData.id
-                      : null}`}>{this.props.userData
-                        ? this.props.userData.id
-                        : null}
-                    </NavLink>
-                    {`\u00A0`}
-                    <a onClick={this.logout}>Logout</a>
-                  </div>
-                : <NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>}
+              {AuthUtils.isLoggedIn() ?
+                <a onClick={this.logout}><img  className="img-circle" height="35" width="35" src={"http://indiabiodiversity.org/biodiv/users/"+AuthUtils.getLoggedInUser().pic?AuthUtils.getLoggedInUser().pic:"/user_large.png"} />Logout</a>
+                 :<NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>
+              }
             </div>
 
-          </div>
+            </div>
         </nav>
       </div>
       <div className="row">
@@ -235,4 +233,4 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps,{logout})(Header));
+export default withRouter(connect(mapStateToProps,{logout,fetchLanguages,fetchUserGroupList,fetchSpeciesGroup})(Header));

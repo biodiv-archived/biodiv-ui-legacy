@@ -9,13 +9,16 @@ export let API_ROOT_URL;
 export let API_ROOT_URL2;
 
 if(process.env.NODE_ENV=="development" ){
+  ROOT_URL="https://hybrid.pamba.strandls.com"
+  API_ROOT_URL="http://localhost:8090/biodiv-api"
+
+
   ROOT_URL="http://hybrid.indiabiodiversity.org"
   API_ROOT_URL="http://hybrid.indiabiodiversity.org/biodiv-api"
   API_ROOT_URL2="http://api.local.ibp.org"
-  //ROOT_URL="https://hybrid.pamba.strandls.com"
-  //API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
+
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
-    // API_ROOT_URL="https://api.pamba.strandls.com";
+    
 }
 
 if(process.env.NODE_ENV=="kk" ){
