@@ -92,7 +92,12 @@ class ObservationListContainer extends Component {
         newparams.hasMore=true;
       }
       let search1=queryString.stringify(newparams);
+        console.log(search1);
        let search2 = decodeURIComponent( search1 );
+        
+       console.log("***********");
+       console.log(search2);
+       console.log("&&&&&&&&&&&&&&");
           if(!deepEqual(this.state.params,newparams) ){
             history.push({
           pathname:this.props.location.pathname,
@@ -101,6 +106,9 @@ class ObservationListContainer extends Component {
       this.props.fetchObservations(newparams);
       }
       else {
+        console.log("***********");
+        console.log(search2);
+        console.log("&&&&&&&&&&&&&&");
         history.push({
           pathname:this.props.location.pathname,
           search:search2
@@ -195,7 +203,11 @@ class ObservationListContainer extends Component {
           params.count=0;
           params.offset=0;
           const seacrh=queryString.stringify(params)
+          console.log(seacrh);
           const search1=decodeURIComponent(seacrh);
+          console.log("***********");
+          console.log(search1);
+          console.log("&&&&&&&&&&&&&&");
           history.push({
             pathname:this.props.location.pathname,
             search:search1
@@ -606,10 +618,7 @@ class ObservationListContainer extends Component {
         params.trait_15=params.trait_15.join(",");
         const seacrh=queryString.stringify(params)
         const search1=decodeURIComponent(seacrh);
-        // history.push({
-        //   pathname:this.props.location.pathname,
-        //   search:search1
-        // })
+
         let url="/observation/observation?"+search1;
         this.setState({
           urlforPassing:url
