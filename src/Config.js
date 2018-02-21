@@ -13,7 +13,7 @@ if(process.env.NODE_ENV=="development" ){
   //ROOT_URL="https://hybrid.pamba.strandls.com"
   //API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
-    
+
 }
 
 if(process.env.NODE_ENV=="kk" ){
@@ -111,8 +111,7 @@ export let Config = {
         }
     }
 }
-<<<<<<< HEAD
-=======
+
 
 if(process.env.NODE_ENV=="development" ) {
     Config.api.fbId = "115305755799166"
@@ -127,4 +126,3 @@ if(process.env.NODE_ENV=="development" ) {
     Config.api.googleId = "317806372709-o80ff31oilqdcpujs8264u5ef9m5ejsd.apps.googleusercontent.com"
     Config.api.cookie = {domain : '.pamba.strandls.com', path : '/'};
 }
->>>>>>> e35e3b20ee99377a2b14054abec911cf1bf9e3a1
