@@ -7,8 +7,8 @@ import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import reactTimeAgo from 'react-time-ago'
-import javascriptTimeAgo from 'javascript-time-ago'
+//import reactTimeAgo from 'react-time-ago'
+import TimeAgo from 'javascript-time-ago'
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
@@ -23,13 +23,17 @@ import {AUTH_USER} from './auth/AuthConstants'
 import {SET_GROUP_NAME} from './actions/index';
 import naksha from 'naksha-react-ui'
 
-javascriptTimeAgo.locale(require('javascript-time-ago/locales/en'))
-javascriptTimeAgo.locale(require('javascript-time-ago/locales/ru'))
+// Load locale-specific relative date/time formatting rules.
+import en from 'javascript-time-ago/locales/en'
+import ru from 'javascript-time-ago/locales/ru'
 
-require('javascript-time-ago/intl-messageformat-global')
-require('intl-messageformat/dist/locale-data/en')
-require('intl-messageformat/dist/locale-data/ru')
-require('dotenv').config()
+// require('javascript-time-ago/intl-messageformat-global')
+// require('intl-messageformat/dist/locale-data/en')
+// require('intl-messageformat/dist/locale-data/ru')
+// require('dotenv').config()
+
+TimeAgo.locale(en)
+TimeAgo.locale(ru)
 
 
 
