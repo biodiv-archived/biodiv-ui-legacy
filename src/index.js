@@ -12,7 +12,7 @@ import TimeAgo from 'javascript-time-ago'
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
-import { Login, Logout, AuthUtils,Register,ForgetPassword,ResetPassword} from './auth';
+import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
 
 import reducers from './reducers';
 import Footer from './app/footer/Footer';
@@ -86,7 +86,7 @@ ReactDOM.render(
           <Route path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/register/forgotPassword" component={ForgetPassword} />
+          <Route exact path="/register/forgotPassword" component={ForgotPassword} />
           <Route exact path="/register/resetPassword" component={ResetPassword} />
 
           <Route exact path="/map" component={naksha.Layers} />
