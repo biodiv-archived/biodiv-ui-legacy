@@ -127,6 +127,7 @@ class RecoComment extends React.Component {
           }
         })
     }else{
+      document.body.style.cursor = "default";
       if(this.refs[pop].className.trim() === "drop-content container show".trim()){
         this.refs[pop].className = "drop-content container"
       }

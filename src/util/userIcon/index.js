@@ -51,8 +51,10 @@ class UserAvatar extends React.Component {
 
     const innerStyle = {
       lineHeight: size,
-      textAlign: 'center',
-      borderRadius
+       textAlign: 'center',
+       fontWeight:'bold',
+       color:'white',
+       borderRadius
     };
 
     if (size) {
