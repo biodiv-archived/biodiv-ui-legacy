@@ -5,6 +5,7 @@ import ObservationListContainer from '../observation/ObservationListContainer';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../actions/index';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import style from './style.css';
 
 class Content extends Component {
 
