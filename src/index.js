@@ -86,8 +86,8 @@ ReactDOM.render(
           <Route path="/login" component={Login}/>
           <Route exact path="/logout" component={Logout} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/forget_password" component={ForgetPassword} />
-          <Route exact path="/reset_password" component={ResetPassword} />
+          <Route exact path="/register/forgotPassword" component={ForgetPassword} />
+          <Route exact path="/register/resetPassword" component={ResetPassword} />
 
           <Route exact path="/map" component={naksha.Layers} />
         </div>
