@@ -1,5 +1,5 @@
 .react-autosuggest__container {
-
+  position: inherit;
 }
 
 .react-autosuggest__input {

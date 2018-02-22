@@ -21,7 +21,7 @@ import ObservationListWrapper from './ObservationListWrapper';
 import Right_stats from '../app/RightMaterial';
 import MobileRightSidebar from '../app/MobileRightSidebar';
 import AuthUtils from '../auth/AuthUtils.js';
-
+import UserGroupName from '../util/UserGroup';
 const history = createHistory();
 
 class ObservationListContainer extends Component {
@@ -74,50 +74,92 @@ class ObservationListContainer extends Component {
       //   newparams.webaddress=parts[0];
       //   }
       if(groupName){
-        newparams.webaddress=groupName;
-      }
-      if(!newparams.sort){
-        newparams.sort="lastrevised"
-      }
-      if(!newparams.max){
-        newparams.max=10;
-      }
-      if(!newparams.offset){
-        newparams.offset=0
-      }
-      if(!newparams.count){
-        newparams.count=0;
-      }
-      if(!newparams.hasMore){
-        newparams.hasMore=true;
-      }
-      let search1=queryString.stringify(newparams);
-        console.log(search1);
-       let search2 = decodeURIComponent( search1 );
-        
-       console.log("***********");
-       console.log(search2);
-       console.log("&&&&&&&&&&&&&&");
-          if(!deepEqual(this.state.params,newparams) ){
-            history.push({
-          pathname:this.props.location.pathname,
-          search:search2
-        })
-      this.props.fetchObservations(newparams);
-      }
-      else {
-        console.log("***********");
-        console.log(search2);
-        console.log("&&&&&&&&&&&&&&");
-        history.push({
-          pathname:this.props.location.pathname,
-          search:search2
-        })
+          UserGroupName.list().then(data=>{
 
-        this.props.fetchObservations(this.state.params)
+            let group=data.model.userGroupInstanceList.find((item)=>{
+                return item.webaddress==groupName
+            })
+            console.log(group.id);
+            newparams.userGroupList=group.id;
+            if(!newparams.sort){
+              newparams.sort="lastrevised"
+            }
+            if(!newparams.max){
+              newparams.max=10;
+            }
+            if(!newparams.offset){
+              newparams.offset=0
+            }
+            if(!newparams.count){
+              newparams.count=0;
+            }
+            if(!newparams.hasMore){
+              newparams.hasMore=true;
+            }
+            let search1=queryString.stringify(newparams);
+              console.log(search1);
+             let search2 = decodeURIComponent( search1 );
+
+                if(!deepEqual(this.state.params,newparams) ){
+                  history.push({
+                pathname:this.props.location.pathname,
+                search:search2
+              })
+            this.props.fetchObservations(newparams);
+            }
+            else {
+              history.push({
+                pathname:this.props.location.pathname,
+                search:search2
+              })
+
+              this.props.fetchObservations(this.state.params)
+            }
+            this.url="/observation/observation?"+search2;
+
+          });
+
+      }
+      else{
+        if(!newparams.sort){
+          newparams.sort="lastrevised"
+        }
+        if(!newparams.max){
+          newparams.max=10;
+        }
+        if(!newparams.offset){
+          newparams.offset=0
+        }
+        if(!newparams.count){
+          newparams.count=0;
+        }
+        if(!newparams.hasMore){
+          newparams.hasMore=true;
+        }
+
+        let search1=queryString.stringify(newparams);
+          console.log(search1);
+         let search2 = decodeURIComponent( search1 );
+
+            if(!deepEqual(this.state.params,newparams) ){
+              history.push({
+            pathname:this.props.location.pathname,
+            search:search2
+          })
+        this.props.fetchObservations(newparams);
+        }
+        else {
+          history.push({
+            pathname:this.props.location.pathname,
+            search:search2
+          })
+
+          this.props.fetchObservations(this.state.params)
+        }
+
+        this.url="/observation/observation?"+search2;
       }
 
-      this.url="/observation/observation?"+search2;
       this.loadMore=this.loadMore.bind(this);
 
       this.fetchReco = true;
@@ -203,11 +245,7 @@ class ObservationListContainer extends Component {
           params.count=0;
           params.offset=0;
           const seacrh=queryString.stringify(params)
-          console.log(seacrh);
           const search1=decodeURIComponent(seacrh);
-          console.log("***********");
-          console.log(search1);
-          console.log("&&&&&&&&&&&&&&");
           history.push({
             pathname:this.props.location.pathname,
             search:search1
@@ -720,32 +758,18 @@ class ObservationListContainer extends Component {
         }
 
         fetchRecos(){
-          //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77");
-        //  if(this.props.Observation){
-          //  if(this.props.Observation.all.length>0){
             var allObvs = this.props.Observation.all
             var lastTenObvs = allObvs.slice(allObvs.length-10)
-            //console.log(x)
 
               var obvIds = []
               lastTenObvs.map((item,index)=>{
                 obvIds.push(item.id)
               })
-              //console.log("***************************************************************88",obvIds.toString())
-            //  if(this.state.fetchReco === true){
                 this.props.fetchRecommendations(obvIds.toString());
                 this.fetchReco = false;
-                // this.setState({
-                //   fetchReco:false
-                // })
-            //  }
-
-          //  }
-        //  }
         }
 
         obvResponse(){
-          //console.log("going to call recos")
           if(this.props.Observation){
             if(this.props.Observation.all.length>0){
               if(this.fetchReco === true){
@@ -834,7 +858,9 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
 }
 function mapStateToProps(state){
 return {
-  Observation:state.Observation,Recommendations:state.Recommendations
+  Observation:state.Observation,
+  Recommendations:state.Recommendations,
+  UserGroupList:state.UserGroupList
 };
 }
 export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage,fetchRecommendations,clearRecommendations})(ObservationListContainer));
