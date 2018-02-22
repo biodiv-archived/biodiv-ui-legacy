@@ -31,6 +31,10 @@ class RecoName extends React.Component {
   }
 
   getRecoName(id){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var obvIds = []
     obvIds.push(id)
     var options = {
@@ -43,6 +47,10 @@ class RecoName extends React.Component {
     }
     axios(options)
         .then((response)=>{
+          document.body.style.cursor = "default";
+          this.setState({
+            loading:false
+          })
           if(response.status === 200){
             this.setState({
               response:response.data[id]['recoVotes']
@@ -52,6 +60,10 @@ class RecoName extends React.Component {
   }
 
   agreePost(recoId,obvId,votes){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var agree1="agreeButton"+obvId+recoId;
     var remove1="removeButton"+obvId+recoId;
     //console.log(obId,recId)
@@ -66,21 +78,25 @@ class RecoName extends React.Component {
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
-    this.setState({
-      loading:true
-    })
     axios(options)
           .then((response)=>{
             //console.log("agree",response)
-            this.getRecoName(this.props.id)
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
+            if(response.status === 200){
+              this.getRecoName(this.props.id)
+            }
             // this.setState({
             //   loading:false
             // })
           })
           .catch((error)=>{
-            // this.setState({
-            //   loading:false
-            // })
+            document.body.style.cursor = "default";
+             this.setState({
+               loading:false
+             })
             if(error.response.status === 401){
               this.setState({
               login_modal:!(this.state.login_modal),
@@ -93,6 +109,10 @@ class RecoName extends React.Component {
   }
 
   removePost(recoId,obvId,Votes){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var votes=Votes;
     var agree1="agreeButton"+obvId+recoId;
     var remove1="removeButton"+obvId+recoId;
@@ -110,11 +130,19 @@ class RecoName extends React.Component {
     axios(options)
           .then((response)=>{
             //console.log("agree",response)
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
             if(response.status === 200){
               this.getRecoName(this.props.id)
             }
           })
           .catch((error)=>{
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
             if(error.response.status === 401){
               this.setState({
               login_modal:!(this.state.login_modal),
@@ -127,6 +155,10 @@ class RecoName extends React.Component {
   }
 
   validatePost(recoId,obvId){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var validate1="validateButton"+obvId+recoId;
     var unlock1="unlockButton"+obvId+recoId;
     var options={
@@ -142,11 +174,19 @@ class RecoName extends React.Component {
     axios(options)
           .then((response)=>{
             //console.log("validate",response)
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
             if(response.status === 200){
               this.getRecoName(this.props.id)
             }
           })
           .catch((error)=>{
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
             if(error.response.status === 401){
               this.setState({
               login_modal:!(this.state.login_modal),
@@ -158,6 +198,10 @@ class RecoName extends React.Component {
   }
 
   unlockPost(recoId,obvId){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var validate1="validateButton"+obvId+recoId;
     var unlock1="unlockButton"+obvId+recoId;
     var options={
@@ -173,11 +217,19 @@ class RecoName extends React.Component {
     axios(options)
           .then((response)=>{
             //console.log("validate",response)
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
             if(response.status === 200){
               this.getRecoName(this.props.id)
             }
           })
           .catch((error)=>{
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
             (error.response.status == 401)?
             (
               this.setState({
@@ -295,7 +347,7 @@ class RecoName extends React.Component {
 
                           (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
                             (
-                                <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.validatePost.bind(this,item.recoId,this.props.id)}>Validate</button>
+                                <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.validatePost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Validate</button>
                             ):
                             null
 
@@ -307,7 +359,7 @@ class RecoName extends React.Component {
 
                           (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
                             (
-                               <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)}>Unlock</button>
+                               <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
                             ):
                             (
                               <span className="glyphicon glyphicon-lock tooltip-content" data-toggle="tooltip" title={"This species id islocked"}></span>
@@ -325,7 +377,7 @@ class RecoName extends React.Component {
 
                               item.isLocked==false?
                               (
-                                <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>Remove</button>
+                                <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Remove</button>
                               ):
                               (
                                 <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" disabled>Remove</button>
@@ -338,7 +390,7 @@ class RecoName extends React.Component {
 
                               item.isLocked==false?
                               (
-                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} >agree</button>
+                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>agree</button>
                               ):
                               (
                                 <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "   disabled>agree</button>
@@ -352,7 +404,7 @@ class RecoName extends React.Component {
 
                             item.isLocked===false?
                             (
-                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} >agree</button>
+                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>agree</button>
                             ):
                             (
                               <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "   disabled>agree</button>

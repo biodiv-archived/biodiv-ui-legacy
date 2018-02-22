@@ -13,6 +13,9 @@ import style from './style/headerstyle.css';
 
 import Banner from './Banner';
 import {logout} from '../../auth/AuthActions';
+
+import UserAvatar from '../../util/userIcon'
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -205,9 +208,25 @@ class Header extends React.Component {
             </div>
             {/* <!-- /.navbar-collapse -->*/}
             <div className="nav navbar-header pull-right margintople margintopde ">
-              {AuthUtils.isLoggedIn() ?
-                <a onClick={this.logout}><img  className="img-circle" height="35" width="35" src={"http://indiabiodiversity.org/biodiv/users/"+AuthUtils.getLoggedInUser().pic?AuthUtils.getLoggedInUser().pic:"/user_large.png"} />Logout</a>
-                 :<NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>
+              {
+                AuthUtils.isLoggedIn() ?
+                (
+                  <div>
+                  <NavLink to={`/${this.props.PublicUrl}user/show/${AuthUtils.getLoggedInUser().id}`}>
+                {
+                  AuthUtils.getLoggedInUser().pic?
+                  (
+                    <UserAvatar  name={AuthUtils.getLoggedInUser().name} title={AuthUtils.getLoggedInUser().name} src={Config.api.ROOT_URL+"/biodiv/users/"+AuthUtils.getLoggedInUser().pic}  size="35" />
+                  ):
+                  (
+                    <UserAvatar  name={AuthUtils.getLoggedInUser().name} title={AuthUtils.getLoggedInUser().name}   size="35" />
+                  )
+                }
+                </NavLink>
+                <NavLink onClick={this.logout}>Logout</NavLink>
+                </div>
+              ):
+              (<NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>)
               }
             </div>
 

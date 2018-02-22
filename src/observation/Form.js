@@ -22,30 +22,34 @@ class Formsuggest extends React.Component {
       Csuggestions: [],
       Ssuggestions: [],
       login_modal:false,
-      options:''
+      options:'',
+      loading:false
     };
-    this.theme={
-      input:{
-        width:'100%'
-      },
-      suggestionsContainerOpen:{
-        padding:'2px',
-        color:'black',
-        border:'2px solid #D89922',
-        height:'150px',
-        overflowY:'scroll',
-
-      },
-      suggestionHighlighted:{
-        backgroundColor: '#D5D822'
-      }
-    }
+    // this.theme={
+    //   input:{
+    //     width:'100%'
+    //    },
+    // suggestionsContainerOpen:{
+      //   padding:'2px',
+      //   color:'black',
+      //   border:'2px solid #D89922',
+      //   height:'150px',
+      //   overflowY:'scroll',
+      //
+      // },
+      // suggestionHighlighted:{
+      //   backgroundColor: '#D5D822'
+      // }
+    // }
   }
 
   suggestIdPost(e){
 
     e.preventDefault();
-
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var token=localStorage.getItem('token')
     var cName1="cName"+this.props.id2
     var cNameValue=this.refs[cName1].autowhatever.input.defaultValue
@@ -76,11 +80,19 @@ class Formsuggest extends React.Component {
     {
     axios(options)
         .then((response)=>{
+          this.setState({
+            loading:false
+          })
+          document.body.style.cursor = "default";
           if(response.status === 200){
               this.props.getReco(this.props.id2)
           }
         })
         .catch((error)=>{
+          this.setState({
+            loading:false
+          })
+          document.body.style.cursor = "default";
           if(error.response.status === 401){
             this.setState({
             login_modal:!(this.state.login_modal),
@@ -101,6 +113,8 @@ class Formsuggest extends React.Component {
   }
 
  getC_Suggestions =(value,C_Callback) => {
+
+        document.body.style.cursor = "wait";
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
        //console.log("got")
@@ -119,6 +133,7 @@ class Formsuggest extends React.Component {
           }
           axios(options)
               .then((response)=> {
+                document.body.style.cursor = "default";
                 if(response.status === 200){
                   Csuggest=response.data.model.instanceList
                   const new_suggest=Csuggest.filter(common =>
@@ -133,6 +148,7 @@ class Formsuggest extends React.Component {
 
    getS_Suggestions =(value,S_Callback) => {
         //console.log("got_s")
+        document.body.style.cursor = "wait";
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         if(inputLength===0){
@@ -149,6 +165,7 @@ class Formsuggest extends React.Component {
           }
           axios(options)
               .then((response)=> {
+                document.body.style.cursor = "default";
                 if(response.status === 200){
                   Ssuggest=response.data.model.instanceList
                   const new1_suggest=Ssuggest.filter(sci =>
@@ -294,7 +311,7 @@ class Formsuggest extends React.Component {
                 />
              </div>
              <div className="col-sm-2 ">
-                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'97%'}}/>
+                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'97%',borderRadius:'6px'}}/>
                    <datalist id="browsers" dir={"rtl"} style={{wordWrap:'break-word',maxWidth:'10px',fontSize:'5px'}}>
                    {
                          this.props.Languages?(
@@ -330,10 +347,10 @@ class Formsuggest extends React.Component {
           <div className="form-group row" style={{marginBottom:'0.1%'}}>
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
               <div className="col-sm-8">
-                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%'}}/>
+                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%',borderRadius:'6px'}}/>
               </div>
               <div className="col-sm-2">
-                <input  type="submit" value="Add" className="btn btn-default btn-sm" />
+                <input  type="submit" value="Add" className="btn btn-default btn-sm"  disabled={this.state.loading}/>
               </div>
           </div>
       </form>

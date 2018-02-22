@@ -13,7 +13,8 @@ class CustomFields extends React.Component {
     this.state={
       response:null,
       login_modal:false,
-      options:''
+      options:'',
+      loading:false
     }
 
     this.getCustomFields=this.getCustomFields.bind(this)
@@ -22,9 +23,11 @@ class CustomFields extends React.Component {
   }
 
   getCustomFields(id){
+    document.body.style.cursor = "wait";
     axios.get( Config.api.API_ROOT_URL+"/observation/customFields?obvId="+id)
         .then((response)=>{
-          console.log(response.data)
+          document.body.style.cursor = "default";
+          //console.log(response.data)
           this.setState({
             response:response.data
           })
@@ -46,6 +49,10 @@ class CustomFields extends React.Component {
 
 
   customFieldPost(key,cfId){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var id=this.props.id
     var custom1="custom"+this.props.id+cfId
     var value1=this.refs[custom1].value
@@ -76,12 +83,20 @@ class CustomFields extends React.Component {
     axios(options)
         .then((response)=>{
           //console.log("comment",response)
+          document.body.style.cursor = "default";
+          this.setState({
+            loading:false
+          })
           if(response.status == 200){
             this.getCustomFields(this.props.id)
           }
         })
         .catch((error)=>{
           //console.log("response",error.response)
+          document.body.style.cursor = "default";
+          this.setState({
+            loading:false
+          })
           if(error.response.status == 401)
           {
             this.setState({
@@ -124,8 +139,8 @@ class CustomFields extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-2">
-                        <div className="editCustomField btn btn-xs btn-primary" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id)} style={{display:'none'}} >Submit</div>
-                        <div className="editCustomField btn btn-xs btn-primary" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id,)} style={{display:'block'}}>Edit</div>
+                        <div className="editCustomField btn btn-xs btn-primary" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id)} style={{display:'none'}} disabled={this.state.loading}>Submit</div>
+                        <div className="editCustomField btn btn-xs btn-primary" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id,)} style={{display:'block'}} disabled={this.state.loading}>Edit</div>
                     </div>
                 </div>
               )

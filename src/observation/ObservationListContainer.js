@@ -802,16 +802,10 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                 <button className={`btn ${this.state.view===2?"btn-success":"btn-default"}`} onClick={this.showMapView.bind(this,2)} ><span className="glyphicon glyphicon-map-marker"> </span>Map</button>
 
                 {
-                  (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
-                  (
-                    <button className="btn btn-info" onClick={this.selectAll.bind(this)}>Select All</button>
-                  ):null
+                  //SelectALl  buttonsremoved as filterUrl support not present
                 }
                 {
-                  (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder())?
-                  (
-                    <button className="btn btn-info" onClick={this.resetAll.bind(this)}>Reset All</button>
-                  ):null
+                  //ResetALl  buttonsremoved as filterUrl support not present
                 }
                 </div>
 

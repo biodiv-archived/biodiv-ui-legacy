@@ -24,7 +24,8 @@ class CommentsFeeds extends React.Component {
       login_modal:false,
       options:'',
       value:'',
-      remainingFeedCount:null
+      remainingFeedCount:null,
+      loading:false
     }
     this.semiFeeds=[];
     this.res=[];
@@ -69,6 +70,7 @@ class CommentsFeeds extends React.Component {
    //console.log("fetchFeeds calllllllllled",first)
    //console.log("sdhyfsfhyshs",this)
    //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+   document.body.style.cursor = "wait";
     var refTime;
     if(first === true)
     {
@@ -107,9 +109,10 @@ class CommentsFeeds extends React.Component {
     }
     axios(options)
         .then((response)=>{
-          console.log(response.data)
+          //console.log(response.data)
         //  this.refs.hasOwnProperty(feed1)?(this.refs[feed1].style.display="none"):null
         //  this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="block"):null
+          document.body.style.cursor = "default";
           if(response.data.remainingFeedCount ==0){
             this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="none"):null
           }else{
@@ -200,7 +203,8 @@ class CommentsFeeds extends React.Component {
   }
 
   deleteOnComment(id){
-    console.log("deleteonCommmmmmmmmmmment",id)
+    //console.log("deleteonCommmmmmmmmmmment",id)
+    document.body.style.cursor = "wait";
     var options={
        method:'POST',
        url :   Config.api.API_ROOT_URL+"/comment/removeComment?commentId="+id,
@@ -209,11 +213,13 @@ class CommentsFeeds extends React.Component {
      }
      axios(options)
          .then((response)=>{
-           console.log("comment",response)
-           console.log(this.props.fetchFeeds)
+           //console.log("comment",response)
+           //console.log(this.props.fetchFeeds)
+           document.body.style.cursor = "default";
            this.fetchFeeds(this.props.id,true);
          })
           .catch((error)=>{
+            document.body.style.cursor = "default";
             if(error.response.status == 401){
               this.setState({
               login_modal:!(this.state.login_modal),
@@ -315,227 +321,237 @@ class CommentsFeeds extends React.Component {
             </div>
           )
   }
+
+
   render(){
     return(
       <div style={{marginTop:'1%'}}>
-      {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} />):null}
-        <div className=" union-comment" id={this.props.id+"_comments"} >
-            <div className="activityfeed activityfeedSpecific" >
-                  <input type="hidden" name="newerTimeRef" value="1502258631007"/>
-                  <input type="hidden" name="olderTimeRef" value="1502258631007"/>
-                  <input type="hidden" name="feedType" value="Specific"/>
-                  <input type="hidden" name="feedCategory" value=""/>
-                  <input type="hidden" name="feedClass" value=""/>
-                  <input type="hidden" name="feedOrder" value="oldestFirst"/>
-                  <input type="hidden" name="feedPermission" value="editable"/>
-                  <input type="hidden" name="refreshType" value="manual"/>
-                  <input type="hidden" name="rootHolderId" value="1747730"/>
-                  <input type="hidden" name="rootHolderType" value="species.participation.Observation"/>
-                  <input type="hidden" name="activityHolderId" value=""/>
-                  <input type="hidden" name="activityHolderType" value=""/>
-                  <input type="hidden" name="feedUrl" value="/activityFeed/getFeeds"/>
-                  <input type="hidden" name="webaddress" value=""/>
-                  <input type="hidden" name="user" value=""/>
-                  <input type="hidden" name="userGroupFromUserProfile" value=""/>
-                  <input type="hidden" name="subRootHolderId" value=""/>
-                  <input type="hidden" name="subRootHolderType" value=""/>
-                  <input type="hidden" name="feedHomeObjectId" value="1747730"/>
-                  <input type="hidden" name="feedHomeObjectType" value="species.participation.Observation"/>
-                  <div className="row" style={{marginLeft:'2%'}}>
-                      <a className="activiyfeednewermsg " style={{display:'block'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{"Show "+this.state.remainingFeedCount+ " older Feed(s)"}</a>
-                      {/*<a className="activiyfeedoldermsg " style={{display:'block'}} title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>*/}
-                  </div>
-                  <ul className="list-unstyled row pre-scrollable" id={this.props.id+"feedlist"} style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'2%'}}>
-                      {
-                        this.state.response?(
-                          this.state.response.length>0?(
-                          this.state.response.map((item,index)=>{
-                            return(
-                              <li key={index} style={{display:'list-item'}}>
-                                  <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
-                                      <div className="row">
-                                            <div  className="author-icon col-sm-1">
-                                            {
+      {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} />):null}
+      {this.state.loading ===true?<div className="loading"></div>:
+      (
+      <div className=" union-comment" id={this.props.id+"_comments"} >
+          <div className="activityfeed activityfeedSpecific" >
+                <input type="hidden" name="newerTimeRef" value="1502258631007"/>
+                <input type="hidden" name="olderTimeRef" value="1502258631007"/>
+                <input type="hidden" name="feedType" value="Specific"/>
+                <input type="hidden" name="feedCategory" value=""/>
+                <input type="hidden" name="feedClass" value=""/>
+                <input type="hidden" name="feedOrder" value="oldestFirst"/>
+                <input type="hidden" name="feedPermission" value="editable"/>
+                <input type="hidden" name="refreshType" value="manual"/>
+                <input type="hidden" name="rootHolderId" value="1747730"/>
+                <input type="hidden" name="rootHolderType" value="species.participation.Observation"/>
+                <input type="hidden" name="activityHolderId" value=""/>
+                <input type="hidden" name="activityHolderType" value=""/>
+                <input type="hidden" name="feedUrl" value="/activityFeed/getFeeds"/>
+                <input type="hidden" name="webaddress" value=""/>
+                <input type="hidden" name="user" value=""/>
+                <input type="hidden" name="userGroupFromUserProfile" value=""/>
+                <input type="hidden" name="subRootHolderId" value=""/>
+                <input type="hidden" name="subRootHolderType" value=""/>
+                <input type="hidden" name="feedHomeObjectId" value="1747730"/>
+                <input type="hidden" name="feedHomeObjectType" value="species.participation.Observation"/>
+                <div className="row" style={{marginLeft:'2%'}}>
+                    <a className="activiyfeednewermsg " style={{display:'block'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{"Show "+this.state.remainingFeedCount+ " older Feed(s)"}</a>
+                    {/*<a className="activiyfeedoldermsg " style={{display:'block'}} title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>*/}
+                </div>
+                <ul className="list-unstyled row pre-scrollable" id={this.props.id+"feedlist"} style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'2%'}}>
+                    {
+                      this.state.response?(
+                        this.state.response.length>0?(
+                        this.state.response.map((item,index)=>{
+                          return(
+                            <li key={index} style={{display:'list-item'}}>
+                                <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
+                                    <div className="row">
+                                          <div  className="author-icon col-sm-1">
+                                          {
 
-                                                <NavLink to={`/${this.props.PublicUrl}user/show/${item.author.id}`}>
-                                                  {
-                                                    item.author.icon?
-                                                    (
-                                                      <UserAvatar  name={item.author.name} title={item.author.name} src={Config.api.ROOT_URL+"/biodiv/users/"+item.author.icon}  size="40" />
-                                                    )
-                                                    :
-                                                    (
-                                                      <UserAvatar  name={item.author.name} title={item.author.name}   size="40" />
-                                                    )
-                                                  }
-                                                </NavLink>
-                                            }
-                                            </div>
-                                            {
-                                              (item.activityType == 'Suggested species name' || item.activityType == 'obv unlocked' || item.activityType == 'obv locked' ||
-                                              item.activityType == 'Agreed on species name' || item.activityType == 'Suggestion removed')?
-                                              (
-                                                <div className="feed col-sm-10" style={{marginLeft:'5%'}}>
-                                                    <div className="row">
-                                                      <b>
-                                                          {item.author.name}   :
-                                                          <span className="yj-context text-success">  {item.descriptionJson.activity_performed + ' '}
-                                                              {
-                                                                (item.descriptionJson.name && item.descriptionJson.ro_id)?
+                                              <NavLink to={`/${this.props.PublicUrl}user/show/${item.author.id}`}>
+                                                {
+                                                  item.author.icon?
+                                                  (
+                                                    <UserAvatar  name={item.author.name} title={item.author.name} src={Config.api.ROOT_URL+"/biodiv/users/"+item.author.icon}  size="40" />
+                                                  )
+                                                  :
+                                                  (
+                                                    <UserAvatar  name={item.author.name} title={item.author.name}   size="40" />
+                                                  )
+                                                }
+                                              </NavLink>
+                                          }
+                                          </div>
+                                          {
+                                            (item.activityType == 'Suggested species name' || item.activityType == 'obv unlocked' || item.activityType == 'obv locked' ||
+                                            item.activityType == 'Agreed on species name' || item.activityType == 'Suggestion removed')?
+                                            (
+                                              <div className="feed col-sm-10" style={{marginLeft:'5%'}}>
+                                                  <div className="row">
+                                                    <b>
+                                                        {item.author.name}   :
+                                                        <span className="yj-context text-success">  {item.descriptionJson.activity_performed + ' '}
+                                                            {
+                                                              (item.descriptionJson.name && item.descriptionJson.ro_id)?
+                                                              (
+                                                                item.descriptionJson.is_scientific_name?
                                                                 (
-                                                                  item.descriptionJson.is_scientific_name?
-                                                                  (
-                                                                    <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
-                                                                        <i>{item.descriptionJson.name}</i>
-                                                                    </a>
-                                                                  )
-                                                                  :
-                                                                  (
-                                                                    <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
-                                                                      {item.descriptionJson.name}
-                                                                    </a>
-                                                                  )
+                                                                  <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
+                                                                      <i>{item.descriptionJson.name}</i>
+                                                                  </a>
                                                                 )
                                                                 :
                                                                 (
-                                                                  item.descriptionJson.description?
-                                                                  (
-                                                                    <span className="parse" dangerouslySetInnerHTML={{ __html: item.descriptionJson.description }} />
-                                                                  )
-                                                                  :
-                                                                  (
-                                                                    item.descriptionJson.name?
-                                                                    (
-                                                                      item.descriptionJson.is_scientific_name?
-                                                                      (
-                                                                        <i style={{color:'#337ab7'}}>{item.descriptionJson.name}</i>
-                                                                      )
-                                                                      :
-                                                                      (
-                                                                        <span style={{color:'#337ab7'}}>{item.descriptionJson.name}</span>
-                                                                      )
-                                                                    ):null
-                                                                  )
+                                                                  <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
+                                                                    {item.descriptionJson.name}
+                                                                  </a>
                                                                 )
-                                                              }
-                                                          </span>
-                                                      </b>
-                                                    </div>
-                                                    {
-                                                      item.activityType != 'Suggestion removed'?
+                                                              )
+                                                              :
+                                                              (
+                                                                item.descriptionJson.description?
+                                                                (
+                                                                  <span className="parse" dangerouslySetInnerHTML={{ __html: item.descriptionJson.description }} />
+                                                                )
+                                                                :
+                                                                (
+                                                                  item.descriptionJson.name?
+                                                                  (
+                                                                    item.descriptionJson.is_scientific_name?
+                                                                    (
+                                                                      <i style={{color:'#337ab7'}}>{item.descriptionJson.name}</i>
+                                                                    )
+                                                                    :
+                                                                    (
+                                                                      <span style={{color:'#337ab7'}}>{item.descriptionJson.name}</span>
+                                                                    )
+                                                                  ):null
+                                                                )
+                                                              )
+                                                            }
+                                                        </span>
+                                                    </b>
+                                                  </div>
+                                                  {
+                                                    item.activityType != 'Suggestion removed'?
+                                                    (
+                                                      item.descriptionJson.description?
                                                       (
-                                                        item.descriptionJson.description?
-                                                        (
-                                                          <div className = "description row" style={{color:'#3B2F2F'}}>
-                                                              <span className="parse" dangerouslySetInnerHTML={{ __html: "Given name: "+item.descriptionJson.description }} />
-                                                          </div>
-                                                        ):null
+                                                        <div className = "description row" style={{color:'#3B2F2F'}}>
+                                                            <span className="parse" dangerouslySetInnerHTML={{ __html: "Given name: "+item.descriptionJson.description }} />
+                                                        </div>
                                                       ):null
-                                                    }
-                                                    <div className="row" style={{marginTop:'1%'}}>
-                                                            <time className="timeago"><Moment date={item.lastUpdated}/></time>
-                                                    </div>
-                                                </div>
-                                              )
-                                              :
-                                              (
-                                                <div className="feed col-sm-10" style={{marginLeft:'5%'}}>
-                                                    <div className="row">
-                                                      <b>
-                                                          {item.author.name}   :
-                                                          <span className="yj-context text-success">  {item.descriptionJson.activity_performed + ' '}
+                                                    ):null
+                                                  }
+                                                  <div className="row" style={{marginTop:'1%'}}>
+                                                          <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                  </div>
+                                              </div>
+                                            )
+                                            :
+                                            (
+                                              <div className="feed col-sm-10" style={{marginLeft:'5%'}}>
+                                                  <div className="row">
+                                                    <b>
+                                                        {item.author.name}   :
+                                                        <span className="yj-context text-success">  {item.descriptionJson.activity_performed + ' '}
+                                                        {
+                                                          item.descriptionJson.ro_type === "userGroup"?
+                                                          (
+                                                            <a href={this.getGroupUrlById(item.descriptionJson.ro_id)}>
+                                                            {item.descriptionJson.name}
+                                                            </a>
+                                                          ):
+                                                          (
+                                                            <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
+                                                            {item.descriptionJson.name}
+                                                            </a>
+                                                          )
+                                                        }
+
+                                                        </span>
+
+                                                    </b>
+                                                  </div>
+                                                  <div className = "description row" style={{color:'#3B2F2F'}}>
+                                                      <span className="parse" style={{wordWrap:'break-word'}} dangerouslySetInnerHTML={{ __html: item.descriptionJson.description }} />
+                                                  </div>
+                                                  <div className="row" style={{marginTop:'1%'}}>
+                                                      <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                  </div>
+                                                  {
+                                                    (item.descriptionJson.activity_performed == 'Added a comment' || item.descriptionJson.activity_performed == 'In reply to')?
+                                                    (
+                                                      <div>
+                                                      <div className="row">
+                                                          <a  className="col-xs-2" style={{display:'block'}} ref={"Reply"+item.id} onClick={this.replyOnComment.bind(this,item.id)}>Reply</a>
+                                                          <a  className="col-xs-2" style={{display:'none'}} ref={"CancelReply"+item.id} onClick={this.cancelReplyOnComment.bind(this,item)}>Cancel</a>
                                                           {
-                                                            item.descriptionJson.ro_type === "userGroup"?
+                                                            (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
                                                             (
-                                                              <a href={this.getGroupUrlById(item.descriptionJson.ro_id)}>
-                                                              {item.descriptionJson.name}
-                                                              </a>
-                                                            ):
-                                                            (
-                                                              <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
-                                                              {item.descriptionJson.name}
-                                                              </a>
-                                                            )
+                                                              <a  className="col-xs-2" style={{display:'block'}} ref={"Edit"+item.id} onClick={this.editOnComment.bind(this,item.id)}>Edit</a>
+
+                                                            ):null
                                                           }
+                                                          <a  className="col-xs-2" style={{display:'none'}} ref={"CancelEdit"+item.id} onClick={this.cancelEditOnComment.bind(this,item)}>Cancel</a>
+                                                          {
+                                                            (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
+                                                            (
+                                                              <a  className="col-xs-2" style={{display:'block'}} ref={"Delete"+item.id} onClick={this.deleteOnComment.bind(this,item.activityHolderId)}>Delete</a>
+                                                            ):null
+                                                          }
+                                                      </div>
+                                                      <div className="row">
+                                                          <div className="col-sm-12" style={{display:'none'}} ref={"Replybox"+item.id}>
+                                                              <RichTextEditor ref={"replyOnComment"+this.props.id} key={"richtextReply"+this.props.id}
 
-                                                          </span>
-
-                                                      </b>
-                                                    </div>
-                                                    <div className = "description row" style={{color:'#3B2F2F'}}>
-                                                        <span className="parse" style={{wordWrap:'break-word'}} dangerouslySetInnerHTML={{ __html: item.descriptionJson.description }} />
-                                                    </div>
-                                                    <div className="row" style={{marginTop:'1%'}}>
-                                                        <time className="timeago"><Moment date={item.lastUpdated}/></time>
-                                                    </div>
-                                                    {
-                                                      (item.descriptionJson.activity_performed == 'Added a comment' || item.descriptionJson.activity_performed == 'In reply to')?
-                                                      (
-                                                        <div>
-                                                        <div className="row">
-                                                            <a  className="col-xs-2" style={{display:'block'}} ref={"Reply"+item.id} onClick={this.replyOnComment.bind(this,item.id)}>Reply</a>
-                                                            <a  className="col-xs-2" style={{display:'none'}} ref={"CancelReply"+item.id} onClick={this.cancelReplyOnComment.bind(this,item)}>Cancel</a>
-                                                            {
-                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
-                                                              (
-                                                                <a  className="col-xs-2" style={{display:'block'}} ref={"Edit"+item.id} onClick={this.editOnComment.bind(this,item.id)}>Edit</a>
-
-                                                              ):null
-                                                            }
-                                                            <a  className="col-xs-2" style={{display:'none'}} ref={"CancelEdit"+item.id} onClick={this.cancelEditOnComment.bind(this,item)}>Cancel</a>
-                                                            {
-                                                              (AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id)?
-                                                              (
-                                                                <a  className="col-xs-2" style={{display:'block'}} ref={"Delete"+item.id} onClick={this.deleteOnComment.bind(this,item.activityHolderId)}>Delete</a>
-                                                              ):null
-                                                            }
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col-sm-12" style={{display:'none'}} ref={"Replybox"+item.id}>
-                                                                <RichTextEditor ref={"replyOnComment"+this.props.id} key={"richtextReply"+this.props.id}
-
-                                                                            parentCommentId={item.activityHolderId}
-                                                                            getFeeds={this.fetchFeeds}
-                                                                            obvId={this.props.id}
-                                                                            chId={this.props.id}
-                                                                />
-                                                            </div>
-                                                            <div className="col-sm-12" style={{display:'none'}} ref={"Editbox"+item.id}>
-                                                                <RichTextEditor ref={"editOnComment"+this.props.id} key={"richtextEdit"+this.props.id}
-                                                                            htm={item.descriptionJson.description}
-                                                                            //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
-                                                                            currentCommentId={item.activityHolderId}
-                                                                            getFeeds={this.fetchFeeds}
-                                                                            obvId={this.props.id}
-                                                                            chId={this.props.id}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                      ):null
-                                                    }
-                                                </div>
-                                              )
-                                            }
-                                       </div>
-                                  </div>
-                              </li>
-                            )
-                          })
-                        ):null
+                                                                          parentCommentId={item.activityHolderId}
+                                                                          getFeeds={this.fetchFeeds}
+                                                                          obvId={this.props.id}
+                                                                          chId={this.props.id}
+                                                                          PublicUrl={this.props.PublicUrl}
+                                                              />
+                                                          </div>
+                                                          <div className="col-sm-12" style={{display:'none'}} ref={"Editbox"+item.id}>
+                                                              <RichTextEditor ref={"editOnComment"+this.props.id} key={"richtextEdit"+this.props.id}
+                                                                          htm={item.descriptionJson.description}
+                                                                          //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+                                                                          currentCommentId={item.activityHolderId}
+                                                                          getFeeds={this.fetchFeeds}
+                                                                          obvId={this.props.id}
+                                                                          chId={this.props.id}
+                                                                          PublicUrl={this.props.PublicUrl}
+                                                              />
+                                                          </div>
+                                                      </div>
+                                                      </div>
+                                                    ):null
+                                                  }
+                                              </div>
+                                            )
+                                          }
+                                     </div>
+                                </div>
+                            </li>
+                          )
+                        })
                       ):null
-                      }
-                  </ul>
-            </div>
-            <div className="comment">
-                <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
-                            //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
-                            obvId={this.props.id}
-                            chId={this.props.id}
-                            getFeeds={this.fetchFeeds}
-                />
-            </div>
-       </div>
+                    ):null
+                    }
+                </ul>
+          </div>
+          <div className="comment">
+              <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
+                          //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
+                          obvId={this.props.id}
+                          chId={this.props.id}
+                          getFeeds={this.fetchFeeds}
+                          PublicUrl={this.props.PublicUrl}
+              />
+          </div>
+     </div>
+      )
+    }
+
 
     </div>
     )
