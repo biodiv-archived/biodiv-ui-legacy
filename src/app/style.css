@@ -1,9 +1,9 @@
 .react-autosuggest__container {
-
+    position:inherit;
 }
 
 .react-autosuggest__input {
-  width: 91%;
+  width: 100%;
   padding: 1px 2px;
 
   border: 1px solid #aaa;
@@ -27,7 +27,7 @@
   display: block;
   position: absolute;
   width: 84%;
-  height: 300px;
+  height: 200px;
   border: 1px solid #aaa;
   background-color: #fff;
   overflow: scroll;

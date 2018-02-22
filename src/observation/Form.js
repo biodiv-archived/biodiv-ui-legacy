@@ -25,22 +25,22 @@ class Formsuggest extends React.Component {
       options:'',
       loading:false
     };
-    this.theme={
-      input:{
-        width:'100%'
-      },
-      suggestionsContainerOpen:{
-        padding:'2px',
-        color:'black',
-        border:'2px solid #D89922',
-        height:'150px',
-        overflowY:'scroll',
-
-      },
-      suggestionHighlighted:{
-        backgroundColor: '#D5D822'
-      }
-    }
+    // this.theme={
+    //   input:{
+    //     width:'100%'
+    //    },
+    // suggestionsContainerOpen:{
+      //   padding:'2px',
+      //   color:'black',
+      //   border:'2px solid #D89922',
+      //   height:'150px',
+      //   overflowY:'scroll',
+      //
+      // },
+      // suggestionHighlighted:{
+      //   backgroundColor: '#D5D822'
+      // }
+    // }
   }
 
   suggestIdPost(e){
@@ -311,7 +311,7 @@ class Formsuggest extends React.Component {
                 />
              </div>
              <div className="col-sm-2 ">
-                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'97%'}}/>
+                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'97%',borderRadius:'6px'}}/>
                    <datalist id="browsers" dir={"rtl"} style={{wordWrap:'break-word',maxWidth:'10px',fontSize:'5px'}}>
                    {
                          this.props.Languages?(
@@ -347,10 +347,10 @@ class Formsuggest extends React.Component {
           <div className="form-group row" style={{marginBottom:'0.1%'}}>
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
               <div className="col-sm-8">
-                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%'}}/>
+                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%',borderRadius:'6px'}}/>
               </div>
               <div className="col-sm-2">
-                <input  type="submit" value="Add" className="btn btn-default btn-sm" disabled={this.state.loading}/>
+                <input  type="submit" value="Add" className="btn btn-default btn-sm"  disabled={this.state.loading}/>
               </div>
           </div>
       </form>
