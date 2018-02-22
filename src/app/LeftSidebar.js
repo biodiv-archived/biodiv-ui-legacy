@@ -135,7 +135,7 @@ render(){
             <UserGroup />
           </Collapsible>
           </div>
-          <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger="SpeciesName ">
+          <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger="Data validation ">
             <ScientificNameFilter />
           </Collapsible>
 
@@ -159,7 +159,7 @@ render(){
           <Month_Filter />
           </Collapsible>
 
-          <Collapsible lazyRender={true} open={this.state.validateOpen} trigger="Validate">
+          <Collapsible lazyRender={true} open={this.state.validateOpen} trigger="Validation ">
           <Validate_Filter />
           </Collapsible>
 

@@ -61,7 +61,7 @@ handleCheckboxes(event){
                 value={"UNIDENTIFED"}
                 checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"UnKnown"}
+            />{" Unidentified"}
         </label>
         <br />
         <label>
@@ -69,7 +69,7 @@ handleCheckboxes(event){
                 value={"IDENTIFED"}
                 checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"Known"}
+            />{" Identified"}
         </label>
 
       </div>

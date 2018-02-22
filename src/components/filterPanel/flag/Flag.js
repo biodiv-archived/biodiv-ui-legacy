@@ -63,7 +63,7 @@ class FlaggedFilter extends React.Component {
                 checked={this.state.isFlagged.includes("0")?true:false}
                 value={"0"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"UnFlagged"}
+            />{" Unflagged"}
         </label>
         <br />
         <label>
@@ -71,7 +71,7 @@ class FlaggedFilter extends React.Component {
               checked={this.state.isFlagged.includes("1")?true:false}
                 value={"1"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"Falgged"}
+            />{" Flagged"}
         </label>
 
       </div>

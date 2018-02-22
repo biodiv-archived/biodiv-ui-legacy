@@ -104,10 +104,7 @@ event.preventDefault();
       item1.id=item.id;
       item1.webaddress=item.webaddress;
       item1.label=item.name;
-      if(index>=7){
         data.push(item1)
-      }
-
       if(index<7){
         data10.push(item1);
       }

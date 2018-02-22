@@ -61,7 +61,7 @@ class MediaFilter extends React.Component {
                 value={"noofaudio"}
                 checked={ this.state.mediaFilter.includes("noofaudio")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{ "Audio"}
+            />{" Audio"}
         </label>
         <br />
         <label>
@@ -69,7 +69,7 @@ class MediaFilter extends React.Component {
                 checked={ this.state.mediaFilter.includes("noofvideos")?true:false }
                 value={"noofvideos"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{ "Video"}
+            />{" Video"}
         </label>
         <br />
         <label>
@@ -77,7 +77,7 @@ class MediaFilter extends React.Component {
                 checked={ this.state.mediaFilter.includes("noofimages")?true:false }
                 value={"noofimages"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{ "Images"}
+            />{" Images"}
         </label>
       </div>
     )

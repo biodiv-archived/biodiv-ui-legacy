@@ -61,7 +61,7 @@ handleCheckboxes(event){
                 value={"validate"}
                 checked={ this.state.ValidateFilter.includes("validate")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"Validate"}
+            />{" validated "}
         </label>
         <br />
         <label>
@@ -69,7 +69,7 @@ handleCheckboxes(event){
                 value={"invalidate"}
                 checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{"invalidate"}
+            />{" not validated "}
         </label>
 
       </div>
