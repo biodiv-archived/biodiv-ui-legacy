@@ -149,9 +149,13 @@ class LoginStore {
                     localStorage.removeItem(key);
                 }
             }
+
 */
             const cookies = new Cookies();
             var domain = Config.api.cookie.domains;
+
+            var domain = Config.api.cookie.domain;
+
             cookies.remove("BAToken", { path: Config.api.cookie.path , domain: domain});
             cookies.remove("BRToken", { path: Config.api.cookie.path , domain: domain});
             //cookies.remove("id", { path: Config.api.cookie.path , domain: domain});

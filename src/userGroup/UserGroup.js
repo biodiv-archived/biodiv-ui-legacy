@@ -10,9 +10,6 @@ import 'rc-checkbox/assets/index.css';
  import style from './userGroup.css';
 
 import {ClearObservationPage} from '../actions/index';
-import {FetchUserGroupName} from './UserGroupActions';
-import UserGroupList from '../util/UserGroup';
-
 
 class UserGroup extends Component{
 
@@ -25,11 +22,13 @@ constructor(){
 }
 
   getUrlParameter(){
+
     const newparams = queryString.parse(document.location.search);
     if(newparams.userGroupList){
       let ids=newparams.userGroupList.split(",").map(item=>  parseInt(item,10));
-      UserGroupList.list((values)=> {
-      let selectValues=values.model.userGroupInstanceList.filter(item=>{
+
+
+      let selectValues=this.props.UserGroupList.filter(item=>{
          return ids.indexOf(item.id) > -1;
       });
       let itemSelected=[];
@@ -45,12 +44,11 @@ constructor(){
       this.setState({
         selectValues:itemSelected
       })
-      });
+
     }
   }
   componentDidMount(){
       this.getUrlParameter();
-      this.props.FetchUserGroupName();
   }
 
  logChange(val) {
@@ -93,7 +91,6 @@ handleCheckboxes(event){
        document.dispatchEvent(event);
       })
   }else{
-
     this.logChange(event.target.value)
   }
 event.preventDefault();
@@ -101,7 +98,7 @@ event.preventDefault();
   render(){
     const data=[];
     const data10=[];
-    this.props.UserGroupNames.map((item,index)=>{
+    this.props.UserGroupList.map((item,index)=>{
       let item1={};
       item1.value=item.name;
       item1.id=item.id;
@@ -160,7 +157,7 @@ event.preventDefault();
 }
 function mapStateToProps(state){
 return {
-  UserGroupNames:state.UserGroupNames,
+  UserGroupList:state.UserGroupList,
 };
 }
-export default connect(mapStateToProps, {FetchUserGroupName,ClearObservationPage})(UserGroup);
+export default connect(mapStateToProps, {ClearObservationPage})(UserGroup);
