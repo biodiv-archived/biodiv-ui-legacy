@@ -21,12 +21,13 @@ class GroupsBulk extends React.Component{
     this.unpost=[];
     this.checked="Post to Groups";
     this.getUserGroupsWithWrite = this.getUserGroupsWithWrite.bind(this)
-    this.state.responseUser.length==0?this.getUserGroupsWithWrite():null
+    this.state.responseUser.length===0?this.getUserGroupsWithWrite():null
     console.log("checking_id",this.props.ids)
     console.log(this.props.selectAll)
   }
 
   getUserGroupsWithWrite(){
+    document.body.style.cursor = "wait";
     var options={
       method: 'GET',
       url :   Config.api.API_ROOT_URL +"/user/currentUserUserGroups",
@@ -35,6 +36,7 @@ class GroupsBulk extends React.Component{
 
     axios(options)
       .then((response)=>{
+        document.body.style.cursor = "default";
         this.setState({
           responseUser:response.data
         });
@@ -235,6 +237,10 @@ class GroupsBulk extends React.Component{
   }
 
   submitPost(){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var list1=this.post.toString()
     var ids=this.props.ids.toString()
     if(this.props.selectAll==true)
@@ -257,7 +263,7 @@ class GroupsBulk extends React.Component{
       if(this.post.length>0){
         axios(optionsPost)
           .then((response)=>{
-              console.log(response)
+              //console.log(response)
           })
       }
     }
@@ -280,13 +286,21 @@ class GroupsBulk extends React.Component{
       if(this.post.length>0 && this.props.ids.length>0){
         axios(optionsPost)
           .then((response)=>{
-              console.log(response)
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
+              //console.log(response)
           })
       }
     }
   }
 
   submitUnpost(){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     var list1=this.unpost.toString()
     var ids=this.props.ids.toString()
     if(this.props.selectAll==true){
@@ -308,7 +322,11 @@ class GroupsBulk extends React.Component{
       if(this.unpost.length>0){
         axios(optionsPost)
           .then((response)=>{
-              console.log(response)
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
+              //console.log(response)
           })
       }
     }
@@ -331,7 +349,11 @@ class GroupsBulk extends React.Component{
       if(this.unpost.length>0 && this.props.ids.length>0){
         axios(optionsUnpost)
           .then((response)=>{
-              console.log(response)
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
+              //console.log(response)
           })
       }
     }
@@ -378,7 +400,7 @@ class GroupsBulk extends React.Component{
               </div>
               <div className="col-sm-6">
                 <div className="row pull-right" style={{marginRight:'0.2%'}}>
-                  <button   className="btn btn-primary btn-xs nameAgree" onClick={this.submitPost.bind(this)}>Post</button>
+                  <button   className="btn btn-primary btn-xs nameAgree" onClick={this.submitPost.bind(this)} disabled={this.state.loading}>Post</button>
                 </div>
               </div>
             </div>
@@ -415,7 +437,7 @@ class GroupsBulk extends React.Component{
               </div>
               <div className="col-sm-6">
                 <div className="row pull-right" style={{marginRight:'0.2%'}}>
-                  <button   className="btn btn-primary btn-xs nameAgree" onClick={this.submitUnpost.bind(this)}>UnPost</button>
+                  <button   className="btn btn-primary btn-xs nameAgree" onClick={this.submitUnpost.bind(this)} disabled={this.state.loading}>UnPost</button>
                 </div>
               </div>
             </div>

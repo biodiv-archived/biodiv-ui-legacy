@@ -223,7 +223,7 @@ class Header extends React.Component {
                   )
                 }
                 </NavLink>
-                <NavLink onClick={this.logout}>Logout</NavLink>
+                <a onClick={this.logout}>Logout</a>
                 </div>
               ):
               (<NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>)
