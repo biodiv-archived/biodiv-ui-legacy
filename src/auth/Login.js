@@ -52,7 +52,7 @@ class Login extends Component {
                   <div className="col-sm-4"></div>
                   <div className="col-sm-4">
                     <NavLink to="/register">Register</NavLink>|
-                    <NavLink to="/forget_password">Forget Password</NavLink>
+                    <NavLink to="/register/forgotPassword">Forgot Password</NavLink>
                   </div>
                   <div className="col-sm-4"></div>
               </div>
