@@ -7,6 +7,8 @@ import { CompositeDecorator,
         ContentState,
         EditorState,
         convertFromHTML,convertToRaw } from 'draft-js';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin,{ defaultSuggestionsFilter } from 'draft-js-mention-plugin';
@@ -152,6 +154,7 @@ class RichTextEditor extends React.Component {
       key:this.props.obvId,
       login_modal:false,
       options:'',
+      loading:false
     };
     this.taggedUsers=[];
     this.onChange =  this.onChange.bind(this);
@@ -166,13 +169,15 @@ class RichTextEditor extends React.Component {
   };
 
   onSearchChange ({ value }) {
+    document.body.style.cursor = "wait";
     axios.get(Config.api.ROOT_URL+"/user/terms?term="+value+"&format=json")
         .then((response)=>{
+          document.body.style.cursor = "default";
           let data1= response.data.map((user,index)=>{
               let data={}
              data.id=JSON.stringify(user.userId)
              data.name=user.value
-             data.link=Config.api.ROOT_URL+"/user/show/"+JSON.stringify(user.userId);
+             data.link=this.props.PublicUrl+"/user/show/"+JSON.stringify(user.userId);
              data.avatar=user.user_pic
              return data
            })
@@ -208,6 +213,10 @@ class RichTextEditor extends React.Component {
   };
 
   onCommentPost(e){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     e.preventDefault();
     console.log("parentCommentID",this.props.parentCommentId)
     var id1=this.props.chId;
@@ -399,9 +408,12 @@ class RichTextEditor extends React.Component {
       this.taggedUsers=[];
     axios(options)
         .then((response)=>{
-          //console.log("comment",response)
           console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6")
           //console.log(this.props.fetchFeeds)
+          document.body.style.cursor = "default";
+          this.setState({
+            loading:false
+          })
           if(response.status === 200){
             if(this.props.getFeeds){
               this.props.getFeeds(this.props.obvId,true);
@@ -415,9 +427,12 @@ class RichTextEditor extends React.Component {
               }
             }
           }
-
         })
          .catch((error)=>{
+           document.body.style.cursor = "default";
+           this.setState({
+             loading:false
+           })
            if(error.response.status === 401){
              this.setState({
              login_modal:!(this.state.login_modal),
@@ -456,13 +471,17 @@ class RichTextEditor extends React.Component {
         </div>
         </div>
         <div className="col-xs-1 pull-right" style={{marginRight:'2%'}}>
-          <input type="submit" value="Post" className="btn btn-xs comment-post-btn " style={{float:'right'}} onClick={this.onCommentPost.bind(this)}/>
+          <input type="submit" value="Post" className="btn btn-xs comment-post-btn " style={{float:'right'}} onClick={this.onCommentPost.bind(this)} disabled={this.state.loading}/>
         </div>
       </div>
     );
   }
 }
 
-
-
+// function mapStateToProps(state){
+// return {
+//   PublicUrl:state.PublicUrl.url
+// };
+//
+// export default  withRouter(connect(mapStateToProps)(RichTextEditor));
 export default RichTextEditor;

@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import Moment from 'react-moment'
 import {bindActionCreators} from 'redux';
 import { MentionsInput, Mention } from 'react-mentions'
+import {withRouter} from 'react-router-dom';
+
 
 import commentWithTagStyle from './commentWithTagStyle.js'
 
@@ -24,7 +26,8 @@ class RecoComment extends React.Component {
       options:'',
       value:'',
       commentCount:this.props.commentCount,
-      remainingCommentCount:null
+      remainingCommentCount:null,
+      loading:false
     }
     //console.log("count of recoComent",this.props.commentCount)
     this.semiComments=[]
@@ -61,6 +64,7 @@ class RecoComment extends React.Component {
  }
 
   getRecoComment(first,second){
+    document.body.style.cursor = "wait";
     var pop = "popup"+this.props.id1
     if(first === true || second === true){
       this.refs[pop].className = "drop-content container"
@@ -106,6 +110,7 @@ class RecoComment extends React.Component {
       }
       axios(options)
           .then((response)=>{
+            document.body.style.cursor = "default";
             if(response.status === 200){
               if(response.data){
                 console.log("setting data")
@@ -217,6 +222,7 @@ recoCommentPost(e){
 
   deleteOnComment(id){
     //console.log("deleteonCommmmmmmmmmmment",id)
+    document.body.style.cursor = "wait";
     var options={
        method:'POST',
        url :   Config.api.API_ROOT_URL+"/comment/removeComment?commentId="+id,
@@ -227,6 +233,7 @@ recoCommentPost(e){
          .then((response)=>{
            //console.log("comment",response)
            //console.log(this.props.fetchFeeds)
+           document.body.style.cursor = "default";
            if(response.status === 200){
              this.setState({
                commentCount:(this.state.commentCount)- 1
@@ -236,6 +243,7 @@ recoCommentPost(e){
 
          })
           .catch((error)=>{
+            document.body.style.cursor = "default";
             if(error.response.status == 401){
               this.setState({
               login_modal:!(this.state.login_modal),
@@ -310,6 +318,7 @@ render(){
                                                     chId={this.props.id1}
                                                     getRecoComment={this.getRecoComment}
                                                     incrementCount={this.incrementCount}
+                                                    PublicUrl={this.props.PublicUrl}
                                         />
                                         </div>
                               </div>
@@ -323,7 +332,7 @@ render(){
                                                   <div className="comment-container well well-sm" style={{marginBottom:'0.2%'}}>
                                                       <div className="row">
                                                             <div className="author-icon col-sm-2">
-                                                                  <a href={"/user/show/"+ item.author.id}>
+                                                                  <a href={this.props.PublicUrl+"/user/show/"+ item.author.id}>
                                                                       <img src={item.author.icon} title={item.author.name} width='40px' height='40px'/>
                                                                   </a>
                                                             </div>
@@ -386,6 +395,7 @@ render(){
                                                                       getRecoComment={this.getRecoComment}
                                                                       obvId={this.props.id2}
                                                                       chId={this.props.id1}
+                                                                      PublicUrl={this.props.PublicUrl}
                                                           />
                                                       </div>
                                                       </div>
@@ -413,5 +423,10 @@ render(){
   }
 
 }
-
-export default RecoComment;
+function mapStateToProps(state){
+return {
+  PublicUrl:state.PublicUrl.url
+};
+}
+export default  withRouter(connect(mapStateToProps)(RecoComment));
+//export default RecoComment;

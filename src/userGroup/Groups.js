@@ -23,7 +23,8 @@ class Groups extends React.Component {
       mapped:false,
       intersected:[],
       final:false,
-      dropdown:[]
+      dropdown:[],
+      loading:false
     }
     this.userGrp = [];
     this.post=[];
@@ -35,6 +36,7 @@ class Groups extends React.Component {
     this.getUserGroups()
   }
   getUserGroups(){
+    document.body.style.cursor = "wait";
     var options={
       method: 'GET',
       url:  Config.api.API_ROOT_URL+"/observation/"+this.props.id+"/userGroups",
@@ -44,6 +46,7 @@ class Groups extends React.Component {
     }
     axios(options)
         .then((response)=>{
+          document.body.style.cursor = "default";
           this.setState({
             responseObv:response.data,
           });
@@ -53,6 +56,7 @@ class Groups extends React.Component {
 
   getUserGroupsWithWrite(){
     console.log("gggggg")
+    document.body.style.cursor = "wait";
     var options={
       method: 'GET',
       url :  Config.api.API_ROOT_URL +"/user/currentUserUserGroups",
@@ -60,6 +64,7 @@ class Groups extends React.Component {
     }
     axios(options)
         .then((response)=>{
+          document.body.style.cursor = "default";
           this.setState({
             responseUser:response.data
           });
@@ -242,6 +247,10 @@ class Groups extends React.Component {
   }
 
   submitGroups(){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
     console.log("post",this.post)
     console.log("unpost",this.unpost)
     var list1=this.post.toString()
@@ -287,6 +296,10 @@ class Groups extends React.Component {
               axios(optionsPost)
                   .then((response)=>{
                     //console.log("#######################################",response)
+                    document.body.style.cursor = "default";
+                    this.setState({
+                      loading:false
+                    })
                       if(response.status == 200){
                         this.getUserGroups()
                       }
@@ -299,6 +312,10 @@ class Groups extends React.Component {
           axios(optionsUnpost)
             .then((response)=>{
               //console.log("#######################################",response)
+              document.body.style.cursor = "default";
+              this.setState({
+                loading:false
+              })
               if(response.status == 200){
                 this.getUserGroups()
               }
@@ -308,6 +325,10 @@ class Groups extends React.Component {
           axios(optionsPost)
             .then((response)=>{
               //console.log("#######################################",response)
+              document.body.style.cursor = "default";
+              this.setState({
+                loading:false
+              })
               if(response.status == 200){
                 this.getUserGroups()
               }
@@ -391,8 +412,8 @@ class Groups extends React.Component {
           </div>
           <div className="col-sm-6">
             <div className="row pull-right" style={{marginRight:'0.2%'}}>
-              <button   className="btn btn-primary btn-xs nameAgree" onClick={this.submitGroups.bind(this)}>Submit</button>
-              <button   className="btn btn-primary btn-xs nameAgree" onClick={this.hide.bind(this,this.props.id)}>Cancel</button>
+              <button   className="btn btn-primary btn-xs nameAgree" onClick={this.submitGroups.bind(this)} disabled={this.state.loading}>Submit</button>
+              <button   className="btn btn-primary btn-xs nameAgree" onClick={this.hide.bind(this,this.props.id)} disabled={this.state.loading}>Cancel</button>
             </div>
           </div>
         </div>

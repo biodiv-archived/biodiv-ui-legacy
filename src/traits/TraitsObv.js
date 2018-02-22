@@ -16,7 +16,8 @@ class Traits extends React.Component {
     this.state={
       response:null,
       login_modal:false,
-      options:''
+      options:'',
+      loading:false
     }
     this.fact=[];
     this.traitIdMap = new Map();
@@ -26,6 +27,7 @@ class Traits extends React.Component {
 }
 
    getTraits(id,sGroup){
+     document.body.style.cursor = "wait";
      var options={
        method:'GET',
        url: Config.api.ROOT_URL+"/trait/list",
@@ -47,6 +49,7 @@ class Traits extends React.Component {
     axios(options)
         .then((response)=>{
           //console.log("traityy",response)
+          document.body.style.cursor = "default";
           if(response.status === 200){
             this.setState({
               response:response.data.model
@@ -82,6 +85,10 @@ pushTraitsCheckbox(traitId,value){
 }
 
 submitTraits(id1,id2){
+  document.body.style.cursor = "wait";
+  this.setState({
+    loading:true
+  })
   var x = this.traitIdMap.get(id1);
   var arr=[]
   x.forEach(function(value){
@@ -110,11 +117,19 @@ submitTraits(id1,id2){
   axios(options)
         .then((response)=>{
           //console.log("traitpost",response)
+          document.body.style.cursor = "default";
+          this.setState({
+            loading:false
+          })
           if(response.status === 200){
             this.getTraits(this.props.id,this.props.sGroup)
           }
         })
         .catch((error)=>{
+          document.body.style.cursor = "default";
+          this.setState({
+            loading:false
+          })
           if(error.response.status === 401){
             this.setState({
             login_modal:!(this.state.login_modal),
@@ -176,9 +191,9 @@ submitTraits(id1,id2){
                                      </a>
                                 </div>
                                 <div className="buttons col-sm-4">
-                                    <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
-                                    <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
-                                    <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
+                                    <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)} disabled={this.state.loading}>edit</a>
+                                    <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)} disabled={this.state.loading}>cancel</a>
+                                    <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)} disabled={this.state.loading}/>
                                 </div>
                             </div>
                             <div className="traits ">
@@ -307,13 +322,13 @@ submitTraits(id1,id2){
                                            </div>
                                            <div className="buttons col-sm-4">
                                                {
-                                                 ((localStorage.getItem('id')===this.props.owner) || AuthUtils.isAdmin())?
+                                                 ((AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
                                                  (
-                                                   <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
+                                                   <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)} disabled={this.state.loading}>edit</a>
                                                  ):null
                                                }
-                                               <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
-                                               <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
+                                               <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)} disabled={this.state.loading}>cancel</a>
+                                               <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)} disabled={this.state.loading}/>
                                            </div>
                                        </div>
                                        <div className="traits">
@@ -430,7 +445,7 @@ submitTraits(id1,id2){
                                  )
                               }
                               else{
-                                 if((localStorage.getItem('id')===this.props.owner) || AuthUtils.isAdmin()) {
+                                 if((AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin()) {
                                     return(
                                       <div key={index} className="well well-sm " style={{width:'99%',marginLeft:'0.5%',marginBottom:'0.2%'}}>
                                           <div className="name-and-button row" >
@@ -440,9 +455,9 @@ submitTraits(id1,id2){
                                                    </a>
                                               </div>
                                               <div className="buttons col-sm-4">
-                                                  <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
-                                                  <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
-                                                  <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
+                                                  <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'block',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)} disabled={this.state.loading}>edit</a>
+                                                  <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)} disabled={this.state.loading}>cancel</a>
+                                                  <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)} disabled={this.state.loading}/>
                                               </div>
                                           </div>
                                           <div className="traits">
@@ -572,9 +587,9 @@ submitTraits(id1,id2){
                                                </a>
                                           </div>
                                           <div className="buttons col-sm-4">
-                                              <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)}>edit</a>
-                                              <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)}>cancel</a>
-                                              <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)}/>
+                                              <a className="btn btn-xs btn-primary pull-right" ref={"edit_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.show.bind(this,this.props.id,item.id)} disabled={this.state.loading}>edit</a>
+                                              <a className="btn btn-xs btn-primary pull-right" ref={"cancel_"+this.props.id+item.id} style={{display:'none',marginTop:'0%'}} onClick={this.hide.bind(this,this.props.id,item.id)} disabled={this.state.loading}>cancel</a>
+                                              <input className="btn btn-xs btn-primary pull-right" ref={"sub_"+this.props.id+item.id} type="submit" value="submit" style={{display:'none',marginTop:'0%'}} onClick={this.submitTraits.bind(this,item.id,this.props.id)} disabled={this.state.loading}/>
                                           </div>
                                       </div>
                                       <div className="traits">

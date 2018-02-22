@@ -41,7 +41,17 @@ class UserAvatar extends React.Component {
 
     if (!name) throw new Error('UserAvatar requires a name');
 
-    const abbr = initials(name);
+    var abbr;
+    if(name === name.toUpperCase()){
+        if(!(/\s/g.test(name))){
+          abbr = initials(name.substring(0,2))
+          console.log(name,name.substring(0,2))
+        }else{
+          abbr =  initials(name);
+        }
+    }else{
+       abbr = initials(name);
+    }
     size = addPx(size);
 
     const imageStyle = {
@@ -81,7 +91,7 @@ class UserAvatar extends React.Component {
       }
 
       innerStyle.backgroundColor = background;
-      inner = abbr;
+      inner = <div title={title}>{abbr}</div>;
     }
 
     if (innerStyle.backgroundColor) {

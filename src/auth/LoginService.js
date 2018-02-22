@@ -25,7 +25,7 @@ class LoginService {
             roles = roles.concat(item)
         })
 
-        this.loginStore.set({'id': response.userId, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in,'pic':response.pic});
+        this.loginStore.set({'id': response.userId, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in,'pic':response.pic,'name':response.name});
     }
 
     getCredentails() {
@@ -54,7 +54,7 @@ class LoginService {
     getCurrentUser() {
         var c = this.loginStore.get();
         if(c.hasOwnProperty('aToken')) {
-            return {'id':c.id, 'email':c.email,'pic':c.pic};
+            return {'id':c.id, 'email':c.email,'pic':c.pic,'name':c.name};
         }
     }
 
@@ -95,7 +95,10 @@ class LoginStore {
             var domain = Config.api.cookie.domain;
             cookies.set('BAToken', props['aToken'], { path: Config.api.cookie.path , domain: domain});//add expires_in etc, m axAge,
             cookies.set('BRToken', props['rToken'], { path: Config.api.cookie.path , domain: domain});//add expires_in etc, m axAge,
-            cookies.set('id', props['id'], { path: Config.api.cookie.path , domain: domain });//add expires_in etc, m axAge,
+            //cookies.set('id', props['id'], { path: Config.api.cookie.path , domain: domain });//add expires_in etc, m axAge,
+            localStorage.setItem('id', props['id']);
+            localStorage.setItem('pic', props['pic']);
+            localStorage.setItem('name', props['name']);
             _credentials = this.get();
         }
 
@@ -127,9 +130,11 @@ class LoginStore {
                     items['aToken'] = BAToken
                     items['email'] = decoded.email
                     items['expires_in'] = expires_in
-                    items['id'] = cookies.get('id')
+                    items['id'] = localStorage.getItem('id');
                     items['roles'] = roles;
                     items['rToken'] = cookies.get('BRToken');
+                    items['pic'] = localStorage.getItem('pic');
+                    items['name'] = localStorage.getItem('name');
                 }
                 _credentials = items;
 
@@ -139,17 +144,20 @@ class LoginStore {
 
         this.clear = function() {
           // console.log("loginStore clear function")
-            const cookies = new Cookies();
-            for(var key in localStorage) {
+/*            for(var key in localStorage) {
                 if(localStorage.hasOwnProperty(key) && key.startsWith('auth_')) {
                     localStorage.removeItem(key);
                 }
             }
-
+*/
+            const cookies = new Cookies();
             var domain = Config.api.cookie.domains;
             cookies.remove("BAToken", { path: Config.api.cookie.path , domain: domain});
             cookies.remove("BRToken", { path: Config.api.cookie.path , domain: domain});
-            cookies.remove("id", { path: Config.api.cookie.path , domain: domain});
+            //cookies.remove("id", { path: Config.api.cookie.path , domain: domain});
+            localStorage.removeItem('id');
+            localStorage.removeItem('pic');
+            localStorage.removeItem('name');
             _credentials = {};
         }
     }
