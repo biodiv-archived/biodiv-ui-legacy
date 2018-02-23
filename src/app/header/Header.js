@@ -36,6 +36,14 @@ class Header extends React.Component {
   logout(){
     this.props.logout();
   }
+searchTerm(event){
+  console.log("i called");
+  console.log(event.target.value);
+  if(event.target.value){
+    this.props.history.push(`/search/select?query=${event.target.value}`);
+  }
+  event.preventDefault();
+}
 
 
   render() {
@@ -200,7 +208,8 @@ class Header extends React.Component {
                 }}>
 
                   <form id="demo-2">
-                    <input type="search" placeholder="Search"/>
+                    <input onClick={this.searchTerm.bind(this)} type="search" placeholder="Search"/>
+
                   </form>
                 </li>
               </ul>
