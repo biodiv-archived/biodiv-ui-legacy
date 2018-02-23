@@ -169,7 +169,7 @@ display(objs,selectAll){
                                 <td  className={` col-sm-4 ${objs.position==="WORKING"?"showWorking":
                                    objs.position==="CLEAN"?"showClean":
                                    objs.position==="RAW"?"showRaw":null}`} >
-                                  {objs.status}
+                                   <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}>{objs.status}</NavLink>
                               </td>
                             </tr>
                             <tr>

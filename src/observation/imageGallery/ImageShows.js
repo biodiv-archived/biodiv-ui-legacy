@@ -4,7 +4,8 @@ import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 
 import {Config} from '../../Config';
-import createHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createBrowserHistory';
+import style from './style.css'
 export default class LightboxExample extends Component {
     constructor(props) {
         super(props);
@@ -36,13 +37,14 @@ export default class LightboxExample extends Component {
                 <div className="carousel-inner">
                   <div className="item active">
                         <NavLink to={`show/${this.props.objs.id}`} >
-                    <img src={this.getUrl(this.props.thumbnail)} className="media-object img-responsive img-rounded" />
+                    <img src={this.getUrl(this.props.thumbnail)} style={{height:'200px',width:'200px'}} className="media-object img-responsive img-rounded" />
                      </NavLink>
-                    <div className="carousel-caption ">
-                         <strong onClick={() => this.setState({ isOpen: true })}>View Gallery {this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
-                         <strong onClick={() => this.setState({ isOpen: true })}>View Audio {this.props.objs.noofaudio}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
-                         <strong onClick={() => this.setState({ isOpen: true })}>View Video {this.props.objs.noofvideos}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
-
+                    <div className="carousel-caption" >
+                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
+                         {"           "}
+                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofaudio}  <i className="fa fa-file-audio-o" aria-hidden="true"></i></strong>
+                         {"        "}
+                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofvideos}  <i className="fa fa-video-camera" aria-hidden="true"></i></strong>
                     </div>
                     {isOpen &&
                         <Lightbox

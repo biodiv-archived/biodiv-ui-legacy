@@ -1,35 +1,89 @@
 import React, {Component} from 'react';
-
 import {NavLink,withRouter} from 'react-router-dom';
 import {getGroupName} from './HeaderApi';
-import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
-
-import AuthUtils from '../../auth/AuthUtils';
-
+import _ from "lodash";
 import {connect} from 'react-redux';
+import axios from 'axios';
+
+
+import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
+import AuthUtils from '../../auth/AuthUtils';
 import $ from 'jquery';
 import {Config} from '../../Config'
 import style from './style/headerstyle.css';
-
 import Banner from './Banner';
 import {logout} from '../../auth/AuthActions';
+import UserAvatar from '../../util/userIcon';
 
-import UserAvatar from '../../util/userIcon'
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      PublicUrl:this.props.PublicUrl
+      PublicUrl:this.props.PublicUrl,
+      parents:null,
+      children:null
     }
     this.logout = this.logout.bind(this);
+    this.children = new Map();
+    this.parents = [];
   }
 
   componentDidMount(){
     this.props.fetchLanguages()
     this.props.fetchUserGroupList()
     this.props.fetchSpeciesGroup()
+    if(this.props.PublicUrl.groupName != ""){
+      var ugId;
+      this.getNewsLetters(ugId);
+    }else{
+      this.getNewsLetters(null);
+    }
+  }
 
+
+  getNewsLetters(ugId){
+    var options;
+    if(ugId == null){
+      options={
+        method: 'GET',
+        url :   Config.api.API_ROOT_URL+"/newsletters/pages",
+        json: 'true'
+      }
+    }else{
+      options={
+        method: 'GET',
+        url :   Config.api.API_ROOT_URL+"/newsletters/pages",
+        params:{
+          userGroupId:ugId
+        },
+        json: 'true'
+      }
+    }
+
+    axios(options)
+      .then((response)=>{
+          if(response.status == 200){
+            var grouped = _.orderBy((_.groupBy(response.data, 'parentId')),['displayOrder'],['desc'])
+            for(var i=0;i<response.data.length;i++){
+              if(response.data[i].parentId == 0){
+                 this.parents.push(response.data[i])
+              }else{
+                if(this.children.get(response.data[i].parentId) == null){
+                  this.children.set(response.data[i].parentId,[response.data[i]])
+                }else{
+                  var array=this.children.get(response.data[i].parentId);
+                  array.push(response.data[i])
+                  this.children.set(response.data[i].paraentId,array);
+                }
+              }
+            }
+            this.setState({
+              parents:this.parents,
+              children:this.children
+            })
+          }
+      })
   }
 
 
@@ -44,6 +98,8 @@ searchTerm(event){
 
 
   render() {
+    console.log(this.state.parents);
+    console.log(this.state.children);
     return (
       <div className="container-fluid">
         <div className="row">
@@ -171,9 +227,40 @@ searchTerm(event){
                     }):"Loading...."}
                     </ul>
                 </li>
-                <li>
-                  {<NavLink to={`/${this.props.PublicUrl}page/4246006`}>Pages
-                </NavLink>}
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Pages
+                    <span className="caret"></span>
+                  </a>
+                    <ul className="dropdown-menu" role="menu"  style={{'width':'200px',border:'1px solid grey'}}>
+                      {
+                        this.state.parents !=null?
+                        (
+                          this.state.parents.map((item1,index1)=>{
+                            return(
+                              <div key={index1} >
+                                <div style={{textDecoration: 'underline'}}>
+                                <li style={{"marginBottom":'5px',"marginTop":'5px',borderRadius:'1px'}} key={index1} ><NavLink to={`/${this.props.PublicUrl}page/${item1.id}`}><b>{item1.title.toUpperCase()}</b></NavLink></li>
+                                </div>
+                                {
+                                  (this.state.children.get(item1.id) != null)?
+                                   (
+                                    this.state.children.get(item1.id).map((item2,index2)=>{
+                                      return(
+                                        <div>
+                                         <li key={index2} ><NavLink to={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</NavLink></li>
+                                         </div>
+                                      )
+
+                                    })
+                                  ):null
+                                }
+                              </div>
+                            )
+                          })
+                        ):null
+                      }
+
+                  </ul>
                 </li>
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">More

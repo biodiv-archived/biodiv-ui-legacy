@@ -193,8 +193,6 @@ function mapStateToProps(state){
 return {publicUrl:state.PublicUrl};
 }
 
-function mapDispatchToProps(dispatch){
-  return null;
-}
+
 
  export default connect(mapStateToProps)(Footer);
