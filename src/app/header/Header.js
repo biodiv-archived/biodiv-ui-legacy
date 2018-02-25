@@ -15,6 +15,8 @@ import Banner from './Banner';
 import {logout} from '../../auth/AuthActions';
 import UserAvatar from '../../util/userIcon';
 
+import UserGroupName from '../../util/UserGroup';
+
 
 class Header extends React.Component {
   constructor(props) {
@@ -34,8 +36,16 @@ class Header extends React.Component {
     this.props.fetchUserGroupList()
     this.props.fetchSpeciesGroup()
     if(this.props.PublicUrl.groupName != ""){
-      var ugId;
-      this.getNewsLetters(ugId);
+      let groupName=this.props.PublicUrl.split("/")[1];
+      UserGroupName.list().then(data=>{
+
+        let group=data.model.userGroupInstanceList.find((item)=>{
+            return item.webaddress==groupName
+        })
+        this.getNewsLetters(group.id);
+      })
+
+
     }else{
       this.getNewsLetters(null);
     }

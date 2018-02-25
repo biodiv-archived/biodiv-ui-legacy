@@ -4,6 +4,10 @@ import {connect} from 'react-redux';
 import { Config } from '../../Config';
 import axios from 'axios';
 import _ from "lodash";
+
+
+import UserGroupName from '../../util/UserGroup';
+
  class Footer extends React.Component {
 
    constructor(props){
@@ -19,8 +23,14 @@ import _ from "lodash";
    componentDidMount(){
      //console.log("public url",this.props.publicUrl)
      if(this.props.publicUrl.groupName != ""){
-       var ugId;
-       this.getNewsLetters(ugId);
+       let groupName=this.props.publicUrl.url.split("/")[1];
+       UserGroupName.list().then(data=>{
+
+         let group=data.model.userGroupInstanceList.find((item)=>{
+             return item.webaddress==groupName
+         })
+         this.getNewsLetters(group.id);
+       })
      }else{
        this.getNewsLetters(null);
      }

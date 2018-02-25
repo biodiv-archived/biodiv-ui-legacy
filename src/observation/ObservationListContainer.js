@@ -41,7 +41,6 @@ class ObservationListContainer extends Component {
           speciesName:[],
           mediaFilter:[],
           sort:"lastrevised",
-          webaddress:undefined,
           minDate:undefined,
           maxDate:undefined,
           months:[],
@@ -67,12 +66,6 @@ class ObservationListContainer extends Component {
       const newparams=  queryString.parse(document.location.search);
       let {groupName}=this.props.match.params;
 
-      // let host = window.location.host;
-      //
-      // let parts = host.split(".");
-      // if (parts.length >= 4) {
-      //   newparams.webaddress=parts[0];
-      //   }
       if(groupName){
           UserGroupName.list().then(data=>{
 
@@ -179,7 +172,6 @@ class ObservationListContainer extends Component {
           let user=params.user;
           let offset=params.offset;
           let count=params.count;
-          let webaddress=params.webaddress;
 
           let minDate=params.minDate;
           let maxDate=params.maxDate;
@@ -209,7 +201,7 @@ class ObservationListContainer extends Component {
                 mediaFilter:mediaFilter,
                 sort:params.sort,
                 user:user,
-                webaddress:webaddress,
+
                 minDate:minDate,
                 maxDate:maxDate,
                 minDay:minDay,
@@ -452,6 +444,7 @@ class ObservationListContainer extends Component {
 
       setParameter(){
         const {groupName}=this.props.match.params;
+
         const newparams=  queryString.parse(document.location.search);
         if(newparams.sGroup){
           newparams.sGroup=newparams.sGroup.split(",");
@@ -496,9 +489,7 @@ class ObservationListContainer extends Component {
         else{
           newparams.mediaFilter=[];
         }
-        if(groupName){
-          newparams.webaddress=groupName;
-        }
+
         if(!newparams.max){
           newparams.max=10;
         }
@@ -587,7 +578,7 @@ class ObservationListContainer extends Component {
         let classification=params.classification;
 
         let user=params.user;
-        let webaddress=params.webaddress;
+
 
         let minDate=params.minDate;
         let maxDate=params.maxDate;
@@ -621,7 +612,6 @@ class ObservationListContainer extends Component {
               mediaFilter:mediaFilter,
               sort:params.sort,
               user:user,
-              webaddress:webaddress,
               minDate:minDate,
               maxDate:maxDate,
               minDay:minDay,
