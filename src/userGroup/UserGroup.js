@@ -224,8 +224,7 @@ onChangeCheck(event){
         />
         <br />
         <div>
-            {console.log(this.state.selectValues)}
-            {console.log(newList)}
+          
 
           {newList.map((item,index)=>{
             return(
