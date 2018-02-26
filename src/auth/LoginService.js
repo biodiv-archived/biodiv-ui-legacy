@@ -15,17 +15,15 @@ class LoginService {
     setCredentials(response) {
         if(response == undefined) return;
 
-        //HACK to use old grails token login
-        //  this.loginStore.set({'id': response.model.id, 'email': response.model.username, 'roles': response.model.roles, 'aToken': response.model.token});
         var decoded = jwt_decode(response.access_token);
-        var expires_in = new Date();
-        expires_in.setTime(expires_in.getTime() + decoded.exp);
+        var expires_in = new Date(decoded.exp*1000);
+        var rToken_expires_in = new Date(Date.now()+2592000*1000);
         var roles = [];
         decoded['$int_roles'].map((item)=>{
             roles = roles.concat(item)
         })
 
-        this.loginStore.set({'id': response.userId, 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in,'pic':response.pic,'name':response.name});
+        this.loginStore.set({'id': parseInt(decoded.id), 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in,'pic':response.pic,'name':decoded.username, 'rToken_expires_in':rToken_expires_in, 'last_login_date':new Date(decoded.iat*1000)});
     }
 
     getCredentails() {
@@ -37,18 +35,18 @@ class LoginService {
     }
 
     getAccessToken() {
-      //console.log("getAccessToken")
         var c = this.loginStore.get();
-        //console.log("get",c.aToken)
-
         return c.hasOwnProperty('aToken') ? c.aToken : null;
     }
-    getRefreshToken() {
-      //console.log("getAccessToken")
-        var c = this.loginStore.get();
-        //console.log("get",c.aToken)
 
+    getRefreshToken() {
+        var c = this.loginStore.get();
         return c.hasOwnProperty('rToken') ? c.rToken : null;
+    }
+
+    getLastLoginDate() {
+        var c = this.loginStore.get();
+        return c.hasOwnProperty('last_login_date') ? new Date(c.last_login_date) : null;
     }
 
     getCurrentUser() {
@@ -93,12 +91,13 @@ class LoginStore {
             console.log(props);
             const cookies = new Cookies();
             var domain = Config.api.cookie.domain;
-            cookies.set('BAToken', props['aToken'], { path: Config.api.cookie.path , domain: domain});//add expires_in etc, m axAge,
-            cookies.set('BRToken', props['rToken'], { path: Config.api.cookie.path , domain: domain});//add expires_in etc, m axAge,
+            cookies.set('BAToken', props['aToken'], { path: Config.api.cookie.path , domain: domain, expires:props['expires_in']});//expiry time in 2 days
+            cookies.set('BRToken', props['rToken'], { path: Config.api.cookie.path , domain: domain, expires:props['rToken_expires_in']});//max age of 30days in sec
             //cookies.set('id', props['id'], { path: Config.api.cookie.path , domain: domain });//add expires_in etc, m axAge,
             localStorage.setItem('id', props['id']);
             localStorage.setItem('pic', props['pic']);
             localStorage.setItem('name', props['name']);
+            localStorage.setItem('last_login_date', props['last_login_date']);
             _credentials = this.get();
         }
 
@@ -120,8 +119,7 @@ class LoginStore {
                 var BAToken = cookies.get("BAToken");
                 if(BAToken) {
                     var decoded = jwt_decode(BAToken);
-                    var expires_in = new Date();
-                    expires_in.setTime(expires_in.getTime() + decoded.exp);
+                    var expires_in = new Date(decoded.exp*1000);
                     var roles = [];
                     decoded['$int_roles'].map((item)=>{
                         roles = roles.concat(item)
@@ -130,12 +128,15 @@ class LoginStore {
                     items['aToken'] = BAToken
                     items['email'] = decoded.email
                     items['expires_in'] = expires_in
+                    items['issued_at'] = new Date(decoded.iat*1000);
                     items['id'] = localStorage.getItem('id');
                     items['roles'] = roles;
-                    items['rToken'] = cookies.get('BRToken');
                     items['pic'] = localStorage.getItem('pic');
                     items['name'] = localStorage.getItem('name');
                 }
+                //even if batoken is expired these values are needed to getNewAccessToken
+                items['rToken'] = cookies.get('BRToken');
+                items['last_login_date'] = localStorage.getItem('last_login_date');
                 _credentials = items;
 
                 return _credentials;
@@ -162,6 +163,7 @@ class LoginStore {
             localStorage.removeItem('id');
             localStorage.removeItem('pic');
             localStorage.removeItem('name');
+            localStorage.removeItem('last_login_date');
             _credentials = {};
         }
     }

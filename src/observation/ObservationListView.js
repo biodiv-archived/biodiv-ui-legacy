@@ -17,127 +17,140 @@ import {Config} from '../Config';
 import UserGroup from '../util/UserGroup';
 import Navigate from '../bulk/Navigation.js'
 import AuthUtils from '../auth/AuthUtils.js';
+import ModalPopup from '../auth/Modal.js';
 
 const history = createHistory();
 
 function getList(Observation,id,flag) {
-  if(flag){
-    let item=Observation.filter((item)=>item.id==id)[0];
-      return item
-  }
-  else{
-    return Observation;
-  }
+    if(flag){
+        let item=Observation.filter((item)=>item.id==id)[0];
+        return item
+    }
+    else{
+        return Observation;
+    }
 
 }
 
 
 class ListComponent extends Component{
 
-constructor(){
-  super();
-  this.state={
-    AllUserGroup:"",
-    updateUserGroup:"",
-    ObservationId:"",
-    bulk:false,
-    bulkId:[],
-    flag:false,
-    rerun:false
-  }
-}
+    constructor(){
+        super();
+        this.state={
+            AllUserGroup:"",
+            updateUserGroup:"",
+            ObservationId:"",
+            bulk:false,
+            bulkId:[],
+            flag:false,
+            login_modal:false,
+            rerun:false
+        }
+    }
 
-componentDidMount(){
-  this.setState({
-    flag:true
-  })
-
-}
-
-submitUserGroup(id){
-   let sid=id+"3";
-
-}
-fetchChange(id,event){
-  this.setState({
-     updateUserGroup:event.target.value,
-     ObservationId:id
-  })
-}
-
-handleEditUserGroupButton(previous_id){
-!AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
- let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
- let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
-let options={
-    method:'POST',
-    url : url,
-    headers:AuthUtils.getAuthHeaders(),
-    json: 'true'
-  }
-  axios(options)
-      .then((response)=>{
-        Object.assign(this.props.item,response.data.document)
-
+    componentDidMount(){
         this.setState({
-          rerun:true
+            flag:true
         })
-        let sid2=this.props.item.id+"2";
-        let sid1=this.props.item.id+"1";
 
-        this.refs[sid2].style.display='none';
+    }
+
+    submitUserGroup(id){
+        let sid=id+"3";
+
+    }
+    fetchChange(id,event){
+        this.setState({
+            updateUserGroup:event.target.value,
+            ObservationId:id
+        })
+    }
+
+    handleEditUserGroupButton(previous_id){
+        //        !AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
+
+        let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
+        if(obj) {
+            let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
+            let options={
+                method:'POST',
+                url : url,
+                headers:AuthUtils.getAuthHeaders(),
+                json: 'true'
+            }
+
+            axios(options)
+                .then((response)=>{
+                    Object.assign(this.props.item,response.data.document)
+
+                    this.setState({
+                        rerun:true
+                    })
+                    let sid2=this.props.item.id+"2";
+                    let sid1=this.props.item.id+"1";
+
+                    this.refs[sid2].style.display='none';
+                    this.refs[sid1].style.display='block';
+                })
+                .catch((error)=>{
+                    if(error.response.status === 401){
+                        this.setState({
+                            login_modal:!(this.state.login_modal),
+                            options:options
+                        })
+                    } else {
+                        console.log(response);
+                    }
+                })
+        }
+    }
+
+
+    changeStyle(id){
+        let sid1=id+"1";
+        let sid2=id+"2"
+        this.refs[sid1].style.display='none';
+        this.refs[sid2].style.display='block';
+    }
+    changeStyle2(id){
+        let sid1=id+"1";
+        let sid2=id+"2"
         this.refs[sid1].style.display='block';
-      })
-      .catch((response)=>{
+        this.refs[sid2].style.display='none';
 
-      })
-}
+    }
 
+    launchBulk(obvId){
+        let _bulkId=this.state.bulkId
+        function checkIndex(id){
+            return id==obvId
+        }
+        let index = _bulkId.findIndex(checkIndex)
+        if(index<0)
+        {
+            _bulkId=_bulkId.concat(obvId)
+            this.setState({
+                bulkId:_bulkId,
+            })
+        }
+        else{
+            _bulkId.splice(index,1)
+            this.setState({
+                bulkId:_bulkId,
+            })
+        }
+        this.setState({
+            bulk:true,
+        })
 
-changeStyle(id){
-  let sid1=id+"1";
-  let sid2=id+"2"
-this.refs[sid1].style.display='none';
-this.refs[sid2].style.display='block';
-}
-changeStyle2(id){
-  let sid1=id+"1";
-  let sid2=id+"2"
-this.refs[sid1].style.display='block';
-this.refs[sid2].style.display='none';
+    }
 
-}
-
-launchBulk(obvId){
-  let _bulkId=this.state.bulkId
-  function checkIndex(id){
-    return id==obvId
-  }
-  let index = _bulkId.findIndex(checkIndex)
-  if(index<0)
-  {
-    _bulkId=_bulkId.concat(obvId)
-    this.setState({
-       bulkId:_bulkId,
-    })
-  }
-  else{
-   _bulkId.splice(index,1)
-    this.setState({
-       bulkId:_bulkId,
-    })
-  }
-  this.setState({
-     bulk:true,
-  })
-
-}
-
-resetBulk(){
-  this.setState({
-    bulk:false
-  })
-}
+    resetBulk(){
+        this.setState({
+            bulk:false
+        })
+    }
 
 display(objs,selectAll){
   return (
@@ -236,6 +249,7 @@ display(objs,selectAll){
 render(){
 return(
 <div>
+    {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} />):null}
     {(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null }
     {this.display(this.props.item,this.props.selectAll)}
 </div>

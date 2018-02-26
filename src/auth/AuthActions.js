@@ -45,6 +45,25 @@ export function logout() {
     }
 }
 
+export function getNewAccessToken() {
+    var rToken = loginService.getRefreshToken();
+    //return function(dispatch) {
+        let config = Config.api.login.token;
+        config.data = queryString.stringify({grant_type:'access_token', 'refresh_token': rToken}) ;
+    return axios(config).then(response => {
+            console.log("got response from token api")
+            loginService.clearCredentials();
+            loginService.setCredentials(response.data);
+            return { type: AuthConstants.AUTH_USER, payload:response};
+        }).catch(function(error){
+            if(error.response && error.response.data)
+                return authError(error.response.data.message);
+            else
+                return authError(error.response);
+        });
+    //}
+}
+
 export function authError(error) {
   return {
     type: AuthConstants.AUTH_ERROR,
