@@ -26,10 +26,10 @@ export default class LightboxExample extends Component {
     render() {
       let images=[];
       this.props.images?this.props.images.map((data)=>{
-         images.push(this.getUrl(data));
+        data="/biodiv/observations/"+data;
+         images.push(data);
       }):null;
       const {photoIndex,isOpen} = this.state;
-
         return (
             <div>
 
