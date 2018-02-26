@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
-import {NavLink} from 'react-router-dom';
-import {withRouter} from 'react-router-dom';
+import {NavLink,withRouter} from 'react-router-dom';
 import EllipsisText  from 'react-ellipsis-text';
 import Moment from 'react-moment';
 import axios from 'axios';
@@ -18,6 +17,7 @@ import UserGroup from '../util/UserGroup';
 import Navigate from '../bulk/Navigation.js'
 import AuthUtils from '../auth/AuthUtils.js';
 import ModalPopup from '../auth/Modal.js';
+import UserAvatar from '../util/userIcon';
 
 const history = createHistory();
 
@@ -157,7 +157,7 @@ display(objs,selectAll){
           <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white'}}>
 
                 <div className="media">
-                  <div style={{padding:'4px'}} className="col-xs-12 col-sm-3">
+                  <div style={{padding:'4px'}} className="pull-left">
                     <div  style={{marginLeft:'-10px'}} className="media-left">
                         <ShowGallery thumbnail={objs.thumbnail} objs={objs} objid={objs.id} images={objs.imageresource} />
                         {
@@ -171,9 +171,9 @@ display(objs,selectAll){
                         }
                     </div>
                   </div>
-                  <div className=" col-xs-12 col-sm-9">
+                  <div className="">
                     <div className="media-body" >
-                      <table className="table pull-right">
+                      <table className="table">
                            <tbody>
                             <tr>
                                 <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> <b>Name</b></td>
@@ -200,15 +200,12 @@ display(objs,selectAll){
                         </tr>
                       </tbody>
                       </table>
-                      <table  className="table  ">
+                      <table  className="table">
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
-
-                              {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${objs.authorid}`}>  <img className="img-circle" src={objs.authorprofilepic} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.authorname} />
-                            </NavLink>:<NavLink to={`/user/show/${objs.authorid}`}>  <img className="img-circle" src={objs.authorprofilepic} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.authorname} /></NavLink>}
-
-
+                              <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar title={objs.authorname} src={objs.authorprofilepic} name={objs.authorname} size="35"  ></UserAvatar>
+                              </NavLink>
                             </td>
                            <td className="col-xs-1 col-sm-1">
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.noofidentifications}`}></span>
@@ -238,10 +235,6 @@ display(objs,selectAll){
                           </tr>
                         </tbody>
                       </table>
-                      <table>
-
-                      </table>
-
                       </div>
                  </div>
               </div>

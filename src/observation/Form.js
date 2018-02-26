@@ -8,7 +8,6 @@ import { Config } from '../Config';
 import {fetchLanguages} from '../actions/index';
 import ModalPopup from '../auth/Modal.js';
 import AuthUtils from '../auth/AuthUtils.js';
-
 var Csuggest = []
 var Ssuggest = []
 
@@ -347,7 +346,7 @@ class Formsuggest extends React.Component {
           <div className="form-group row" style={{marginBottom:'0.1%'}}>
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
               <div className="col-sm-8">
-                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%',borderRadius:'6px'}}/>
+                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'91%',borderRadius:'6px'}}/>
               </div>
               <div className="col-sm-2">
                 <input  type="submit" value="Add" className="btn btn-default btn-sm"  disabled={this.state.loading}/>
