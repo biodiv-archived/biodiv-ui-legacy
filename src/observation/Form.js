@@ -8,7 +8,6 @@ import { Config } from '../Config';
 import {fetchLanguages} from '../actions/index';
 import ModalPopup from '../auth/Modal.js';
 import AuthUtils from '../auth/AuthUtils.js';
-import theme from './theme.css'
 var Csuggest = []
 var Ssuggest = []
 
