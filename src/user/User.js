@@ -10,7 +10,6 @@ import queryString from 'query-string';
 import _ from 'lodash';
 import Checkbox from 'rc-checkbox';
 
-import theme from './theme.css';
 
 import 'rc-checkbox/assets/index.css';
 

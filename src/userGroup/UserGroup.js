@@ -1,60 +1,80 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import Select from 'react-select';
+import Autosuggest from 'react-autosuggest';
 import _ from 'lodash';
 import queryString from 'query-string';
 import Checkbox from 'rc-checkbox';
 import 'rc-checkbox/assets/index.css';
+import AutosuggestHighlightMatch from 'autosuggest-highlight/match';
+import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
 
- import style from './userGroup.css';
+import UserGroupName from '../util/UserGroup';
 
 import {ClearObservationPage} from '../actions/index';
 
+function comparer(otherArray){
+  return function(current){
+    return otherArray.filter(function(other){
+      return other.value == current.value && other.display == current.display
+    }).length == 0;
+  }
+}
 class UserGroup extends Component{
 
 constructor(){
   super();
   this.state={
     selectValues:[],
-    AllUserGroup:[]
+    AllUserGroup:[],
+    value: '',
+    suggestions: [],
   }
+  this.onChangeCheck=this.onChangeCheck.bind(this)
 }
 
   getUrlParameter(){
-
     const newparams = queryString.parse(document.location.search);
     if(newparams.userGroupList){
       let ids=newparams.userGroupList.split(",").map(item=>  parseInt(item,10));
 
-
-      let selectValues=this.props.UserGroupList.filter(item=>{
-         return ids.indexOf(item.id) > -1;
-      });
-      let itemSelected=[];
-      selectValues.map(item=>{
-        let item1={};
-        item1.value=item.name;
-        item1.id=item.id;
-        item1.webaddress=item.webaddress;
-        item1.label=item.name;
-        itemSelected.push(item1);
+    UserGroupName.list().then(data=>{
+      let groupName=data.model.userGroupInstanceList.filter((item)=>{
+          return ids.indexOf(item.id) >-1;
       })
-        itemSelected=_.uniqBy(itemSelected,"id");
       this.setState({
-        selectValues:itemSelected
+        selectValues:groupName
       })
-
+    })
     }
   }
   componentDidMount(){
       this.getUrlParameter();
   }
 
- logChange(val) {
+
+
+ getSuggestions = value => {
+  const inputValue = value.trim().toLowerCase();
+  const inputLength = inputValue.length;
+
+  return inputLength === 0 ? [] : this.props.UserGroupList.filter(lang =>
+    lang.name.toLowerCase().slice(0, inputLength) === inputValue
+  );
+};
+
+
+ getSuggestionValue (suggestion) {
+   this.setState({
+     value:""
+   })
+   return suggestion.name
+ }
+
+ onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }){
    let selectValues=this.state.selectValues;
-   selectValues.push(val);
-   selectValues=_.uniqBy(selectValues,"id");
+   selectValues.push(suggestion);
+  selectValues=_.uniqBy(selectValues,"id");
    this.setState({
      selectValues
    },()=>{
@@ -69,18 +89,59 @@ constructor(){
     });
     document.dispatchEvent(event);
    })
-}
-handleCheckboxes(event){
-  let selectValues=this.state.selectValues;
-  if(!event.target.checked){
-      let selectValue=selectValues.filter((item)=>{
-       return item.id !== parseInt(event.target.id)
+ }
+
+ renderSuggestion (suggestion,{query}) {
+   const suggestionText = `${suggestion.name}`;
+   const matches = AutosuggestHighlightMatch(suggestionText, query);
+   const parts = AutosuggestHighlightParse(suggestionText, matches);
+    return(
+   <div>
+     {
+       parts.map((part, index) => {
+         const className = part.highlight ? 'highlight' : null;
+         return (
+             <span className={className} key={index}>{part.text}</span>
+         );
+       })
+     }
+     <br />
+   </div>
+
+ )
+ };
+onChange = (event, { newValue }) => {
+    this.setState({
+      value: newValue
+    });
+  };
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: this.getSuggestions(value)
+    });
+  };
+
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
+
+onChangeCheck(event){
+   if(!event.target.checked){
+      let item=event.target.item;
+      let selectValues=this.state.selectValues;
+      let newValues=selectValues.filter((item1)=>{
+        return item1.id!=item.id;
       })
+      newValues=_.uniqBy(newValues,"id");
       this.setState({
-        selectValues:selectValue
+        selectValues:newValues
       },()=>{
         let arr=[];
-        this.state.selectValues.map(item=>{
+        newValues.map(item=>{
           arr.push(item.id);
         })
        this.props.ClearObservationPage();
@@ -90,68 +151,109 @@ handleCheckboxes(event){
        });
        document.dispatchEvent(event);
       })
-  }else{
-    this.logChange(event.target.value)
-  }
-event.preventDefault();
+    }
+    else{
+        let item=event.target.item;
+        let selectValues=this.state.selectValues;
+        selectValues.push(event.target.item);
+        selectValues=_.uniqBy(selectValues,"id");
+         this.setState({
+           selectValues
+         },()=>{
+           let arr=[];
+           selectValues.map(item=>{
+             arr.push(item.id);
+           })
+          this.props.ClearObservationPage();
+          var event = new CustomEvent("userGroup-filter",{ "detail":{
+                id:arr
+          }
+          });
+          document.dispatchEvent(event);
+         })
+    }
+       event.preventDefault();
+
 }
+
   render(){
-    const data=[];
-    const data10=[];
-    this.props.UserGroupList.map((item,index)=>{
-      let item1={};
-      item1.value=item.name;
-      item1.id=item.id;
-      item1.webaddress=item.webaddress;
-      item1.label=item.name;
-        data.push(item1)
-      if(index<7){
-        data10.push(item1);
-      }
-    })
+
+  let result1=this.props.UserGroupList;
+  let result2=this.state.selectValues;
+
+  let newList = result1.filter(function(obj) {
+      return !result2.some(function(obj2) {
+          return obj.id == obj2.id;
+      });
+  });
+
+
+     const { value, suggestions } = this.state;
+     const inputProps = {
+      placeholder: 'Type a group Name',
+      value,
+      onChange: this.onChange
+    };
     return(
       <div>
-          {this.state.selectValues.map((item,index)=>{
-            return (
-              <div key={index}>
-                <label>
-                    <Checkbox
-                        checked
-                        id={item.id}
-                        value={item}
-                        value={item.value}
-                        onChange={this.handleCheckboxes.bind(this)}
-                    />
-                     {item.value}
-                  </label>
-              </div>
-          )}
-        )}
-        <Select
-          className="Select-custom"
-          name="user group filter"
-          value="one"
-          options={data}
-          onChange={this.logChange.bind(this)}
-        />
-        {data10?data10.map((item,index)=>{
+        {this.state.selectValues.length>0?this.state.selectValues.map((item)=>{
           return (
-              index<10?  <div key={item.id}>
-                  <label>
-                      <Checkbox
-                          id={item.id}
-                          value={item}
-                          onChange={this.handleCheckboxes.bind(this)}
-                      />{item.value}
-                  </label>
-                </div>:null
-        )
+            <div key={item.id}>
+            <label >
+            <Checkbox
+              defaultChecked={true}
+              onChange={this.onChangeCheck}
+              item={item}
+            />
+            &nbsp;{item.name}
+        </label>
+        </div>
+          )
+
         }):null}
+
+        <Autosuggest
+          theme={this.theme}
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue.bind(this)}
+          renderSuggestion={this.renderSuggestion}
+          onSuggestionSelected={this.onSuggestionSelected.bind(this)}
+          inputProps={inputProps}
+        />
+        <br />
+        <div>
+            {console.log(this.state.selectValues)}
+            {console.log(newList)}
+
+          {newList.map((item,index)=>{
+            return(
+              (this.state.selectValues.length+index)<10?
+              <div key={index}>
+                  <label >
+                <Checkbox
+                  checked={false}
+                  item={item}
+                  onChange={this.onChangeCheck.bind(this)}
+                />
+                &nbsp;{item.name}
+                </label>
+              </div>
+                :null
+            )
+
+          })}
+        </div>
       </div>
 
     )
-  }
-}
+  } //render
+
+
+
+
+} //class
 function mapStateToProps(state){
 return {
   UserGroupList:state.UserGroupList,

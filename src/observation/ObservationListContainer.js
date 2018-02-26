@@ -72,7 +72,7 @@ class ObservationListContainer extends Component {
             let group=data.model.userGroupInstanceList.find((item)=>{
                 return item.webaddress==groupName
             })
-            console.log(group.id);
+
             newparams.userGroupList=group.id;
             if(!newparams.sort){
               newparams.sort="lastrevised"
@@ -90,7 +90,7 @@ class ObservationListContainer extends Component {
               newparams.hasMore=true;
             }
             let search1=queryString.stringify(newparams);
-              console.log(search1);
+          
              let search2 = decodeURIComponent( search1 );
 
                 if(!deepEqual(this.state.params,newparams) ){
@@ -131,7 +131,6 @@ class ObservationListContainer extends Component {
         }
 
         let search1=queryString.stringify(newparams);
-          console.log(search1);
          let search2 = decodeURIComponent( search1 );
 
             if(!deepEqual(this.state.params,newparams) ){
