@@ -100,7 +100,7 @@ class ListComponent extends Component{
                             options:options
                         })
                     } else {
-                        console.log(response);
+                        console.log(error.response);
                     }
                 })
         }
