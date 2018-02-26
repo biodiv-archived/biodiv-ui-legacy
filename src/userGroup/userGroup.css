@@ -1,3 +1,4 @@
 .select-custom{
-  z-index: 10
+  z-index: 10;
+  position: inherit;
 }

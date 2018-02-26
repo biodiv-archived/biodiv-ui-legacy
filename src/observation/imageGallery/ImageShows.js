@@ -18,7 +18,7 @@ export default class LightboxExample extends Component {
     getUrl(thumbnail){
       let res = thumbnail?thumbnail.split("."):null;
       if(res)
-      return `/biodiv/observations/`+res[0]+"_th1."+res[1];
+      return `/biodiv/observations/`+res[0]+"_th1.jpg"
       else {
         return null
       }
@@ -26,10 +26,10 @@ export default class LightboxExample extends Component {
     render() {
       let images=[];
       this.props.images?this.props.images.map((data)=>{
-         images.push(this.getUrl(data));
+        data="/biodiv/observations/"+data;
+         images.push(data);
       }):null;
       const {photoIndex,isOpen} = this.state;
-
         return (
             <div>
 

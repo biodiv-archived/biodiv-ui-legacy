@@ -35,7 +35,9 @@ class Header extends React.Component {
     this.props.fetchLanguages()
     this.props.fetchUserGroupList()
     this.props.fetchSpeciesGroup()
-    if(this.props.PublicUrl.groupName != ""){
+    if(this.props.PublicUrl.groupName!= "" && this.props.PublicUrl.groupName!=undefined){
+      // console.log(this.props.PublicUrl.groupName);
+
       let groupName=this.props.PublicUrl.split("/")[1];
       UserGroupName.list().then(data=>{
 
@@ -108,8 +110,7 @@ searchTerm(event){
 
 
   render() {
-    console.log(this.state.parents);
-    console.log(this.state.children);
+  
     return (
       <div className="container-fluid">
         <div className="row">
@@ -256,8 +257,8 @@ searchTerm(event){
                                    (
                                     this.state.children.get(item1.id).map((item2,index2)=>{
                                       return(
-                                        <div>
-                                         <li key={index2} ><NavLink to={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</NavLink></li>
+                                        <div key={item2.id}>
+                                         <li  ><NavLink to={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</NavLink></li>
                                          </div>
                                       )
 
