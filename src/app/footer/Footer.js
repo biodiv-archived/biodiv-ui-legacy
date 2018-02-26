@@ -127,7 +127,7 @@ import UserGroupName from '../../util/UserGroup';
 
    render(){
      return (
-         <footer className="container-fluid">
+         <footer>
             <br/>
            <div className="row">
                {

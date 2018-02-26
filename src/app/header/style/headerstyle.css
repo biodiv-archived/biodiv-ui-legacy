@@ -115,3 +115,25 @@ input::-webkit-input-placeholder {
 #demo-2 input::-webkit-input-placeholder {
   color: transparent;
 }
+
+.logo {
+    border: 0 none;
+    height: 50px;
+    max-width: 220px;
+    /*margin-left: 16px;*/
+    margin-right: 16px;
+}
+
+.brand-bar {
+    background-image:-webkit-linear-gradient(left, #ECE9B7, #ebfefd);
+    margin-bottom:1px;
+}
+
+.menu-item {
+    /*background-image:-webkit-linear-gradient(left, #cccccc, #ffffff);*/
+}
+
+.viewContent {
+    background-color:#dff0d8;
+    padding-top:10px;
+}

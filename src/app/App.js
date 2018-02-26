@@ -3,13 +3,8 @@ import Content from './Content';
 
 export default class App extends React.Component {
   render() {
-    return (
-      <div id="container" style={{"padding-left":"3px"}}>
-        <div className="row">
+      return (
         <Content />
-      </div>
-
-      </div>
-    );
+      );
   }
 }
