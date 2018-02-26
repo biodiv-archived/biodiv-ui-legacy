@@ -1,20 +1,19 @@
 import axios from 'axios';
 
-import LoginService from './auth/LoginService';
 import AuthUtils from './auth/AuthUtils.js';
+import loginService from './auth/LoginService';
+import { getNewAccessToken } from './auth/AuthActions';
 
 export let ROOT_URL;
 export let PAMBA_API_ROOT_URL;
 export let API_ROOT_URL;
 
 if(process.env.NODE_ENV=="development" ){
-  ROOT_URL="http://hybrid.indiabiodiversity.org"
-  API_ROOT_URL="http://hybrid.indiabiodiversity.org/biodiv-api"
-  //ROOT_URL="https://hybrid.pamba.strandls.com"
-  //API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
-
+    ROOT_URL="http://hybrid.indiabiodiversity.org"
+    API_ROOT_URL="http://hybrid.indiabiodiversity.org/biodiv-api"
+    //ROOT_URL="https://hybrid.pamba.strandls.com"
+    //API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
-
 }
 
 if(process.env.NODE_ENV=="kk" ){
@@ -39,7 +38,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.interceptors.request.use(function (config) {
 
 //    console.log('---------------------BEFORE REQUEST START------------------------');
-    var accessToken = LoginService.accessToken;
+    var accessToken = loginService.accessToken;
     if(accessToken) {
         //  console.log('Adding access token in axios header');
         //  config.headers = { 'X-AUTH-TOKEN' : accessToken};
@@ -53,11 +52,28 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(function (response) {
     //console.log('---------------------ON RESPONSE START------------------------');
-  //  console.log(response);
-  //  console.log('---------------------ON RESPONSE END------------------------');
+    //console.log(response);
+    //console.log('---------------------ON RESPONSE END------------------------');
     return response;
-}, function (error) {
-    return Promise.reject(error);
+}, function(error) { 
+    console.log(error);
+    if(error.response.status == 401) {
+        /*        var credentials = loginService.getCredentials(); 
+        var now = new Date().getTime();
+        var brToken = credentials.getRefreshToken();
+        var timeLeftForRToken = credentials.getLastLoginDate().getTime() + (30*24*60*60*1000) - now;//issued at+30 days - now
+
+        //if only 5 days are left to get new refresh token we will
+        //propmt the user to login again to progress his login window by another 30 days
+        if(brToken == null || timeLeftForRToken <= 5) {
+        } else {
+            //get new accessToken with existing refreshtoken
+            getNewAccessToken();
+        }*/
+        return Promise.reject(error);
+    } else {
+        return Promise.reject(error);
+    }
 });
 
 
@@ -73,14 +89,14 @@ export let Config = {
             default : {
                 method : 'post',
                 baseURL:'',
-                url :  API_ROOT_URL+'/login',
+                url :  API_ROOT_URL+'/login/auth',
                 headers : {'Content-Type' : 'application/x-www-form-urlencoded'},
                 data : {}
             },
             token : {
                 method: 'post',
                 baseURL:'',
-                url : API_ROOT_URL+'/token'
+                url : API_ROOT_URL+'/login/token'
             }
         },
         logout : {

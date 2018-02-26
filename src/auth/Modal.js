@@ -4,6 +4,12 @@ import Modal from 'react-modal';
 import LogIn from './Login.js'
 import axios from 'axios';
 import AuthUtils from './AuthUtils.js';
+import {connect} from 'react-redux';
+import * as AuthConstants from  './AuthConstants';
+import loginService from './LoginService';
+
+
+import { getNewAccessToken } from './AuthActions';
 
 const customStyles = {
   content : {
@@ -17,77 +23,110 @@ const customStyles = {
 };
 
 class ModalPopup extends React.Component {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.state = {
-      modalIsOpen: true
-    };
+        this.state = {
+            modalIsOpen: false
+        };
 
-    this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
 
-  }
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
-   openModal() {
-     console.log("openmodal")
-    this.setState({modalIsOpen: true});
-  }
+    }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
+    componentDidMount() {
+        var brToken = loginService.getRefreshToken();
+        var now = new Date().getTime();
+        var timeLeftForRToken = loginService.getLastLoginDate().getTime() + (30*24*60*60*1000) - now;//issued at+30 days - now
 
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-
-    if(this.props.options)
-    {
-    var newOptions=this.props.options
-   newOptions.headers=AuthUtils.getAuthHeaders(),
-    axios(newOptions)
-    .then((response)=>{
-      console.log("comment",response)
-      if(this.props.type){
-        if(this.props.type == "Reply/Add Comment"){
-          this.props.funcRefresh(this.props.id,true)
+        //if only 5 days are left to get new refresh token we will
+        //propmt the user to login again to progress his login window by another 30 days
+        if(brToken == null || timeLeftForRToken <= (5*24*60*60*1000)) {
+            this.openModal();
+        } else {
+            //get new accessToken with existing refreshtoken
+            return getNewAccessToken().then(data => {
+                this.props.dispatch(data);
+                if(data.type == AuthConstants.AUTH_USER) { 
+                    this.closeModal();
+                } else {
+                    this.openModal();
+                }
+            });
         }
-      }else{
-        this.props.sGroup?
-        (
-          this.props.funcRefresh?this.props.funcRefresh(this.props.id,this.props.sGroup):null
-        ):
-        (
-        this.props.funcRefresh?(this.props.id1?this.props.funcRefresh(this.props.id1,this.props.id):this.props.funcRefresh(this.props.id)):null
-        )
-      }
+    }
 
-    })
-   }
-   else{
-     this.props.func?this.props.func():null
-   }
-  }
+    openModal() {
+        console.log("openmodal")
+        this.setState({modalIsOpen: true});
+    }
 
-  render() {
-    return (
-      <div>
+    afterOpenModal() {
+        // references are now sync'd and can be accessed.
 
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-          <LogIn closeModal={this.closeModal}/>
-        </Modal>
-      </div>
-    );
-  }
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
+
+        if(this.props.options) {
+            var newOptions=this.props.options;
+            newOptions.headers=AuthUtils.getAuthHeaders(),
+                axios(newOptions)
+                .then((response)=>{
+                    console.log("comment",response)
+                    if(this.props.type){
+                        if(this.props.type == "Reply/Add Comment"){
+                            this.props.funcRefresh(this.props.id,true)
+                        }
+                    }else{
+                        this.props.sGroup?
+                            (
+                                this.props.funcRefresh?this.props.funcRefresh(this.props.id,this.props.sGroup):null
+                            ):
+                            (
+                                this.props.funcRefresh?(this.props.id1?this.props.funcRefresh(this.props.id1,this.props.id):this.props.funcRefresh(this.props.id)):null
+                            )
+                    }
+
+                })
+                .catch((error)=>{
+                    console.log(error);
+                    alert(error.message);
+                });
+        }
+        else{
+            this.props.func?this.props.func():null
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                >
+                    <LogIn closeModal={this.closeModal}/>
+                </Modal>
+            </div>
+        );
+    }
 }
 
 
-export default ModalPopup;
+function mapStateToProps(store) {
+    return {
+        dispatch:store.dispatch,
+        authenticated: store.auth.authenticated
+    };
+}
+
+
+export default connect(mapStateToProps, null)(ModalPopup);

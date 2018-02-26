@@ -314,7 +314,7 @@ searchTerm(event){
                   <div>
                   <NavLink to={`/${this.props.PublicUrl}user/show/${AuthUtils.getLoggedInUser().id}`}>
                 {
-                  AuthUtils.getLoggedInUser().pic?
+                  (AuthUtils.getLoggedInUser().pic) ?
                   (
                     <UserAvatar  name={AuthUtils.getLoggedInUser().name} title={AuthUtils.getLoggedInUser().name} src={Config.api.ROOT_URL+"/biodiv/users/"+AuthUtils.getLoggedInUser().pic}  size="35" />
                   ):

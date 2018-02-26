@@ -735,9 +735,9 @@ class ObservationListContainer extends Component {
         }
 
         handleChangeCheckbox(event){
-
-        if(event.target.value.trim()==="Last Visited".trim()){
-      this.sortObservation("lastrevised")
+          this.setState({ sortValue: event.target.value });
+          if(event.target.value.trim()==="Last Visited".trim()){
+            this.sortObservation("lastrevised")
         }
         else if(event.target.value.trim()==="Latest".trim()){
         this.sortObservation("createdon")
@@ -801,7 +801,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                 </div>
 
                 <div className="pull-right">
-                  <select className="form-control btn-default" onChange={this.handleChangeCheckbox} ref = {(input)=> this.menu = input }>
+                  <select className="form-control btn-default" onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
                      <option  value="Last Visited">Last Visited</option>
                      <option  value="Latest">Latest</option>
                      <option  value="Most Viewed">Most Viewed</option>

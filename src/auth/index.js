@@ -5,4 +5,4 @@ import Register from './Register';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 
-export {Login, Logout,AuthUtils,Register,ForgotPassword,ResetPassword}
+export {Login, Logout, AuthUtils, Register, ForgotPassword, ResetPassword}

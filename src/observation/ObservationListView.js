@@ -17,127 +17,138 @@ import {Config} from '../Config';
 import UserGroup from '../util/UserGroup';
 import Navigate from '../bulk/Navigation.js'
 import AuthUtils from '../auth/AuthUtils.js';
+import ModalPopup from '../auth/Modal.js';
 
 const history = createHistory();
 
 function getList(Observation,id,flag) {
-  if(flag){
-    let item=Observation.filter((item)=>item.id==id)[0];
-      return item
-  }
-  else{
-    return Observation;
-  }
+    if(flag){
+        let item=Observation.filter((item)=>item.id==id)[0];
+        return item
+    }
+    else{
+        return Observation;
+    }
 
 }
-
-
 class ListComponent extends Component{
 
-constructor(){
-  super();
-  this.state={
-    AllUserGroup:"",
-    updateUserGroup:"",
-    ObservationId:"",
-    bulk:false,
-    bulkId:[],
-    flag:false,
-    rerun:false
-  }
-}
+    constructor(){
+        super();
+        this.state={
+            AllUserGroup:"",
+            updateUserGroup:"",
+            ObservationId:"",
+            bulk:false,
+            bulkId:[],
+            flag:false,
+            login_modal:false,
+            rerun:false
+        }
+    }
 
-componentDidMount(){
-  this.setState({
-    flag:true
-  })
-
-}
-
-submitUserGroup(id){
-   let sid=id+"3";
-
-}
-fetchChange(id,event){
-  this.setState({
-     updateUserGroup:event.target.value,
-     ObservationId:id
-  })
-}
-
-handleEditUserGroupButton(previous_id){
-!AuthUtils.isLoggedIn()?this.props.history.push("/login"):null;
- let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
- let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
-let options={
-    method:'POST',
-    url : url,
-    headers:AuthUtils.getAuthHeaders(),
-    json: 'true'
-  }
-  axios(options)
-      .then((response)=>{
-        Object.assign(this.props.item,response.data.document)
-
+    componentDidMount(){
         this.setState({
-          rerun:true
+            flag:true
         })
-        let sid2=this.props.item.id+"2";
-        let sid1=this.props.item.id+"1";
 
-        this.refs[sid2].style.display='none';
+    }
+
+    submitUserGroup(id){
+        let sid=id+"3";
+
+    }
+    fetchChange(id,event){
+        this.setState({
+            updateUserGroup:event.target.value,
+            ObservationId:id
+        })
+    }
+
+    handleEditUserGroupButton(previous_id){
+
+
+        let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
+        if(obj) {
+            let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
+            let options={
+                method:'POST',
+                url : url,
+                headers:AuthUtils.getAuthHeaders(),
+                json: 'true'
+            }
+
+            axios(options)
+                .then((response)=>{
+                    Object.assign(this.props.item,response.data.document)
+
+                    this.setState({
+                        rerun:true
+                    })
+                    let sid2=this.props.item.id+"2";
+                    let sid1=this.props.item.id+"1";
+
+                    this.refs[sid2].style.display='none';
+                    this.refs[sid1].style.display='block';
+                })
+                .catch((error)=>{
+                    if(error.response.status === 401){
+                        this.setState({
+                            login_modal:!(this.state.login_modal),
+                            options:options
+                        })
+                    } else {
+                        console.log(error.response);
+                    }
+                })
+        }
+    }
+
+
+    changeStyle(id){
+        let sid1=id+"1";
+        let sid2=id+"2"
+        this.refs[sid1].style.display='none';
+        this.refs[sid2].style.display='block';
+    }
+    changeStyle2(id){
+        let sid1=id+"1";
+        let sid2=id+"2"
         this.refs[sid1].style.display='block';
-      })
-      .catch((response)=>{
+        this.refs[sid2].style.display='none';
 
-      })
-}
+    }
 
+    launchBulk(obvId){
+        let _bulkId=this.state.bulkId
+        function checkIndex(id){
+            return id==obvId
+        }
+        let index = _bulkId.findIndex(checkIndex)
+        if(index<0)
+        {
+            _bulkId=_bulkId.concat(obvId)
+            this.setState({
+                bulkId:_bulkId,
+            })
+        }
+        else{
+            _bulkId.splice(index,1)
+            this.setState({
+                bulkId:_bulkId,
+            })
+        }
+        this.setState({
+            bulk:true,
+        })
 
-changeStyle(id){
-  let sid1=id+"1";
-  let sid2=id+"2"
-this.refs[sid1].style.display='none';
-this.refs[sid2].style.display='block';
-}
-changeStyle2(id){
-  let sid1=id+"1";
-  let sid2=id+"2"
-this.refs[sid1].style.display='block';
-this.refs[sid2].style.display='none';
+    }
 
-}
-
-launchBulk(obvId){
-  let _bulkId=this.state.bulkId
-  function checkIndex(id){
-    return id==obvId
-  }
-  let index = _bulkId.findIndex(checkIndex)
-  if(index<0)
-  {
-    _bulkId=_bulkId.concat(obvId)
-    this.setState({
-       bulkId:_bulkId,
-    })
-  }
-  else{
-   _bulkId.splice(index,1)
-    this.setState({
-       bulkId:_bulkId,
-    })
-  }
-  this.setState({
-     bulk:true,
-  })
-
-}
-
-resetBulk(){
-  this.setState({
-    bulk:false
-  })
-}
+    resetBulk(){
+        this.setState({
+            bulk:false
+        })
+    }
 
 display(objs,selectAll){
   return (
@@ -165,25 +176,26 @@ display(objs,selectAll){
                       <table className="table pull-right">
                            <tbody>
                             <tr>
-                                <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Name</td>
+                                <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> <b>Name</b></td>
                                 {/* <td className="col-sm-4" dangerouslySetInnerHTML={{__html:objs.name}}></td> */}
-                                <td className="col-sm-4"><b><i> {objs.name?objs.name:("Unknown" +  <NavLink to={`/observation/show/${objs.id}`}> Help Identify</NavLink>)}</i></b></td>
-                                <td  className={` col-sm-4 ${objs.position==="WORKING"?"showWorking":
+                                <td className="col-sm-4"><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
+                                  <span style={{borderRadius:'5px'}} className={`${objs.position==="WORKING"?"showWorking":
                                    objs.position==="CLEAN"?"showClean":
                                    objs.position==="RAW"?"showRaw":null}`} >
-                                   <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}>{objs.status}</NavLink>
-                              </td>
+                                   <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}> {"  "}{objs.status?objs.status:null}</NavLink>
+                                  </span>
+                                </td>
                             </tr>
                             <tr>
-                              <td className="col-sm-4"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Place </td>
+                              <td className="col-sm-4"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span><b> Place</b> </td>
                               <td className="col-sm-8"> <EllipsisText text={objs.placename} length={30} /> </td>
                             </tr>
                           <tr>
-                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Observed On </td>
+                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Observed On </b> </td>
                             <td className="col-sm-8"><Moment format=" Do MMMM YYYY">{objs.fromdate }</Moment></td>
                          </tr>
                          <tr>
-                           <td className="col-sm-4" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span> Notes </td>
+                           <td className="col-sm-4" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Notes</b> </td>
                            <td id ="hatethis" className="col-sm-8" >{objs.notes?Parser(objs.notes):"Not provided"}  </td>
                         </tr>
                       </tbody>
@@ -192,8 +204,10 @@ display(objs,selectAll){
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
+
                               {this.state.groupName?<NavLink to={`/group/${this.state.groupName}/user/show/${objs.authorid}`}>  <img className="img-circle" src={objs.authorprofilepic} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.authorname} />
                             </NavLink>:<NavLink to={`/user/show/${objs.authorid}`}>  <img className="img-circle" src={objs.authorprofilepic} style={{height:'30px',width:'30px',padding:'2px'}} title={objs.authorname} /></NavLink>}
+
 
                             </td>
                            <td className="col-xs-1 col-sm-1">
@@ -243,6 +257,7 @@ display(objs,selectAll){
 render(){
 return(
 <div>
+    {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} />):null}
     {(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null }
     {this.display(this.props.item,this.props.selectAll)}
 </div>
@@ -256,7 +271,7 @@ function mapStateToProps(state,ownProps) {
   return {
     authenticated: state.auth.authenticated,
     userData:state.auth.userData,
-    PublicUrl:state.PublicUrl,
+    PublicUrl:state.PublicUrl.url,
     SpeciesGroup:state.SpeciesGroup,
     item:getList(state.Observation.all,ownProps.uniqueKey,true)
   };
