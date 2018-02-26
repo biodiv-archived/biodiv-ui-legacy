@@ -129,14 +129,17 @@ class LoginStore {
                     items['email'] = decoded.email
                     items['expires_in'] = expires_in
                     items['issued_at'] = new Date(decoded.iat*1000);
-                    items['id'] = localStorage.getItem('id');
+                    if(localStorage.getItem('id') != "null")
+                        items['id'] = localStorage.getItem('id');
                     items['roles'] = roles;
-                    items['pic'] = localStorage.getItem('pic');
+                    if(localStorage.getItem('pic') != "null")
+                        items['pic'] = localStorage.getItem('pic');
                     items['name'] = localStorage.getItem('name');
                 }
                 //even if batoken is expired these values are needed to getNewAccessToken
                 items['rToken'] = cookies.get('BRToken');
-                items['last_login_date'] = localStorage.getItem('last_login_date');
+                if(localStorage.getItem('last_login_date') != "null")
+                    items['last_login_date'] = localStorage.getItem('last_login_date');
                 _credentials = items;
 
                 return _credentials;
