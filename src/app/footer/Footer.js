@@ -128,14 +128,13 @@ import UserGroupName from '../../util/UserGroup';
    render(){
      return (
          <footer>
-            <br/>
-           <div className="row">
+           <div className="row footer">
                {
-                 this.state.parents !=null?
+                 this.state.parents != null?
                  (
                    this.state.parents.map((item1,index1)=>{
                      return(
-                       <div key={index1} className="col-xs-6 col-md-3">
+                       <div key={index1} className="col-xs-6 col-sm-2  col-md-offset-2 footer-item">
                          <span><a href={"http://indiabiodiversity.org/page/"+item1.id}><b>{item1.title.toUpperCase()}</b></a></span>
                          <ul className="list list-unstyled">
                          {
@@ -155,16 +154,16 @@ import UserGroupName from '../../util/UserGroup';
                    })
                  ):null
                }
-                <div className="col-xs-6 col-md-3">
-                         <span><a href={"http://indiabiodiversity.org/page/4250187"}><b>POLICY</b></a></span>
+                <div className={this.state.parents == null?'col-xs-6 col-sm-2 footer-item col-md-offset-2':'col-xs-6 col-sm-2 footer-item'}>
+                    <span><a href={"http://indiabiodiversity.org/page/4250187"}>POLICY</a></span>
                          <ul className="list list-unstyled">
                            <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250189"}>Data Sharing</a></li>
                            <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250212"}>Licenses</a></li>
                            <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250246"}>Terms & Conditions</a></li>
                          </ul>
                  </div>
-                <div  className="col-xs-6 col-md-3">
-                         <span><b>OTHERS</b></span>
+                <div  className="col-xs-6 col-sm-2 footer-item">
+                         <span>OTHERS</span>
                          <ul className="list list-unstyled">
                            <li className="list-item"><a href={"http://blog.indiabiodiversity.org/"}>Blog</a></li>
                            <li className="list-item"><a href={"http://indiabiodiversity.org/sitemap"}>Sitemap</a></li>
