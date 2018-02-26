@@ -65,7 +65,7 @@ else{
             checked={this.state.monthSelected.includes("1")}
             name={"Januray"}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           January
         </label>
         <br/>
@@ -75,9 +75,8 @@ else{
             id={"2"}
             checked={this.state.monthSelected.includes("2")}
             name={"February"}
-
           />
-          &nbsp;&nbsp;
+          &nbsp;
           February
         </label>
         <br/>
@@ -87,9 +86,8 @@ else{
             id={"3"}
             checked={this.state.monthSelected.includes("3")}
             name={"March"}
-
           />
-          &nbsp;&nbsp;
+          &nbsp;
           March
         </label>
         <br/>
@@ -100,7 +98,7 @@ else{
             name={"April"}
             checked={this.state.monthSelected.includes("4")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           April
         </label>
         <br/>
@@ -111,7 +109,7 @@ else{
             name={"May"}
             checked={this.state.monthSelected.includes("5")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           May
         </label>
         <br/>
@@ -122,7 +120,7 @@ else{
             name={"June"}
             checked={this.state.monthSelected.includes("6")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           June
         </label>
         <br/>
@@ -133,7 +131,7 @@ else{
             name={"July"}
             checked={this.state.monthSelected.includes("7")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           July
         </label>
         <br/>
@@ -144,7 +142,7 @@ else{
             name={"August"}
             checked={this.state.monthSelected.includes("8")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           August
         </label>
         <br/>
@@ -155,7 +153,7 @@ else{
             name={"September"}
             checked={this.state.monthSelected.includes("9")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           September
         </label>
         <br/>
@@ -166,7 +164,7 @@ else{
             name={"October"}
             checked={this.state.monthSelected.includes("10")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           October
         </label>
         <br/>
@@ -177,7 +175,7 @@ else{
             name={"November"}
             checked={this.state.monthSelected.includes("11")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           November
         </label>
         <br/>
@@ -188,7 +186,7 @@ else{
             name={"December"}
             checked={this.state.monthSelected.includes("12")}
           />
-          &nbsp;&nbsp;
+          &nbsp;
           December
         </label>
       </div>

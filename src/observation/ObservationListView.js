@@ -141,11 +141,13 @@ resetBulk(){
 
 display(objs,selectAll){
   return (
-    <div  className="container-fluid">
-          <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '25px'}}>
+    <div   className="container-fluid">
+
+          <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white'}}>
+
                 <div className="media">
-                  <div className="col-xs-12 col-sm-3">
-                    <div className="media-left">
+                  <div style={{padding:'4px'}} className="col-xs-12 col-sm-3">
+                    <div  style={{marginLeft:'-10px'}} className="media-left">
                         <ShowGallery thumbnail={objs.thumbnail} objs={objs} objid={objs.id} images={objs.imageresource} />
                         {
                           (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
@@ -159,13 +161,13 @@ display(objs,selectAll){
                     </div>
                   </div>
                   <div className=" col-xs-12 col-sm-9">
-                    <div className="media-body">
-                      <table className="table table-hover-success pull-right">
+                    <div className="media-body" >
+                      <table className="table pull-right">
                            <tbody>
                             <tr>
-                                <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true">Name</span></td>
+                                <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Name</td>
                                 {/* <td className="col-sm-4" dangerouslySetInnerHTML={{__html:objs.name}}></td> */}
-                                <td className="col-sm-4"><i> {objs.name}</i></td>
+                                <td className="col-sm-4"><b><i> {objs.name?objs.name:("Unknown" +  <NavLink to={`/observation/show/${objs.id}`}> Help Identify</NavLink>)}</i></b></td>
                                 <td  className={` col-sm-4 ${objs.position==="WORKING"?"showWorking":
                                    objs.position==="CLEAN"?"showClean":
                                    objs.position==="RAW"?"showRaw":null}`} >
@@ -186,7 +188,7 @@ display(objs,selectAll){
                         </tr>
                       </tbody>
                       </table>
-                      <table  className="table table-hover-success ">
+                      <table  className="table  ">
                         <tbody>
                           <tr>
                             <td className="col-xs-3 col-sm-6" >
@@ -218,16 +220,21 @@ display(objs,selectAll){
                                         </div>
                                     </div>
                             </td>
+
                           </tr>
                         </tbody>
                       </table>
+                      <table>
+
+                      </table>
+
                       </div>
                  </div>
               </div>
-                { <Tabs objs={objs} /> }
-            <br />
+                <Tabs objs={objs} />
+                <br />
             </div>
-
+            <br />
         </div>
   )
 

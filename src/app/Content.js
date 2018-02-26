@@ -30,7 +30,7 @@ class Content extends Component {
                     <div className={`col-sm-3 hidden-xs`}>
                         <LeftSidebar />
                     </div>
-                    <div  style={{backgroundColor:'#EEF9FC'}}  className="col-xs-12 col-sm-9 ">
+                    <div  style={{backgroundColor:'#dff0d8'}}  className="col-xs-12 col-sm-9 ">
                         <ObservationListContainer />
                     </div>
                 </div>

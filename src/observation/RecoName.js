@@ -259,7 +259,7 @@ class RecoName extends React.Component {
         this.state.response.map((item,index)=>{
           var authArray=[]
             return(
-          <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.2%'}}>
+          <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%'}}>
               <div className="dropdown col-sm-6 ">
                 {
                   item.isScientificName===true?

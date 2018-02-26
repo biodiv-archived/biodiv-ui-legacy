@@ -90,7 +90,7 @@ class ObservationListContainer extends Component {
               newparams.hasMore=true;
             }
             let search1=queryString.stringify(newparams);
-          
+
              let search2 = decodeURIComponent( search1 );
 
                 if(!deepEqual(this.state.params,newparams) ){
@@ -157,6 +157,7 @@ class ObservationListContainer extends Component {
       this.fetchReco = true;
       this.obvResponse = this.obvResponse.bind(this);
       this.fetchRecos = this.fetchRecos.bind(this);
+
     };
 
 
@@ -734,8 +735,9 @@ class ObservationListContainer extends Component {
         }
 
         handleChangeCheckbox(event){
+
         if(event.target.value.trim()==="Last Visited".trim()){
-        this.sortObservation("lastrevised")
+      this.sortObservation("lastrevised")
         }
         else if(event.target.value.trim()==="Latest".trim()){
         this.sortObservation("createdon")
@@ -743,7 +745,7 @@ class ObservationListContainer extends Component {
         else{
           this.sortObservation("visitcount")
         }
-        event.preventDefault();
+
         }
 
         fetchRecos(){
@@ -799,7 +801,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                 </div>
 
                 <div className="pull-right">
-                  <select className="form-control btn-default" onChange={this.handleChangeCheckbox.bind(this)}>
+                  <select className="form-control btn-default" onChange={this.handleChangeCheckbox} ref = {(input)=> this.menu = input }>
                      <option  value="Last Visited">Last Visited</option>
                      <option  value="Latest">Latest</option>
                      <option  value="Most Viewed">Most Viewed</option>
