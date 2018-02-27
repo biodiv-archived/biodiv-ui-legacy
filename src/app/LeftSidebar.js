@@ -123,7 +123,6 @@ render(){
           
         <div className="panel-heading vertical-align">
             <span className="glyphicon glyphicon-filter" title="Filters">Filters</span>
-            
        </div>
 
         <div className="panel-body">
@@ -173,6 +172,7 @@ render(){
             <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger="Traits">
             <Traits_Filter />
             </Collapsible>
+            <div style={{height:'107px'}}></div>
         </div>
     </div>
     )
