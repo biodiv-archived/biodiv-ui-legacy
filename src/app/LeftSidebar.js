@@ -124,16 +124,7 @@ render(){
         <div className="panel-heading vertical-align">
             <span className="glyphicon glyphicon-filter" title="Filters">Filters</span>
             
-            <div className="pull-right">
-                <span className="glyphicon glyphicon-sort" title="Sortby">Sortby</span>
-                <select className="">
-                    <option  value="Last Visited">Last Visited</option>
-                    <option  value="Latest">Latest</option>
-                    <option  value="Most Viewed">Most Viewed</option>
-                </select>
-
-            </div>
-        </div>
+       </div>
 
         <div className="panel-body">
             <Collapsible open={true} trigger="Taxon Browser">

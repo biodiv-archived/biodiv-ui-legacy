@@ -795,9 +795,14 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                           <li role="presentation" className={`${this.state.view===0?"active":""}`}><a href="#" onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th">Grid</span></a></li>
                           <li role="presentation" className={`${this.state.view===2?"active":""}`}><a href="#" onClick={this.showMapView.bind(this,2)} ><span className="glyphicon glyphicon-map-marker"> Map</span></a></li>
                       </ul>
-                    <div className="panel-title pull-right">
+                      <div className="panel-title">
                           <h5 className="text-primary">{this.props.Observation.count} result(s) found</h5>
                       </div>
+                      <select className="btn btn-default pull-right"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
+                          <option  value="Last Visited">Last Visited</option>
+                          <option  value="Latest">Latest</option>
+                          <option  value="Most Viewed">Most Viewed</option>
+                      </select>
 
 
                   </div>
