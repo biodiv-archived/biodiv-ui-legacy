@@ -6,6 +6,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import Parser from 'html-react-parser';
 
+
+import Truncate from 'react-truncate';
+
 import createHistory from 'history/createBrowserHistory';
 
 import style from './ObservationStyle.css';
@@ -164,77 +167,73 @@ display(objs,selectAll){
                           (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
                           (
                             selectAll==true?
-                            (<input type="checkbox" style={{"top":'-200px',left:'1px'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)
+                            (<input type="checkbox" style={{"top":'-200px',left:'1px',position:'inherit'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)
                             :
-                            (<input type="checkbox" style={{"top":'-200px',left:'1px'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
+                            (<input type="checkbox" style={{"top":'-200px',left:'1px',position:'inherit'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
                           ):null
                         }
                     </div>
                   </div>
                   <div className="">
                     <div className="media-body" >
-                      <table className="table">
-                           <tbody>
-                            <tr>
-                                <td className=""> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> <b>Name</b></td>
+
+                            <div className="props">
+                                <div className="key"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> <b>Name</b></div>
                                 {/* <td className="col-sm-4" dangerouslySetInnerHTML={{__html:objs.name}}></td> */}
-                                <td className=""><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
+                                <div className="values"><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
                                   <span style={{borderRadius:'5px'}} className={`${objs.position==="WORKING"?"showWorking":
                                    objs.position==="CLEAN"?"showClean":
                                    objs.position==="RAW"?"showRaw":null}`} >
                                    <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}> {"  "}<span style={{color:'#2B2929',textTransform:'capitalize'}}>{objs.status?objs.status.toLowerCase():null}</span></NavLink>
                                   </span>
-                                </td>
-                            </tr>
-                            <tr>
-                              <td className=""> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span><b> Place</b> </td>
-                              <td className=""> <EllipsisText text={objs.placename} length={30} /> </td>
-                            </tr>
-                          <tr>
-                            <td className=""> <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Observed On </b> </td>
-                            <td className=""><Moment format=" Do MMMM YYYY">{objs.fromdate }</Moment></td>
-                         </tr>
-                         <tr>
-                           <td className="" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Notes</b> </td>
-                           <td id ="hatethis" className="" >{objs.notes?Parser(objs.notes):"Not provided"}  </td>
-                        </tr>
-                      </tbody>
-                      </table>
-                      <table  className="table">
-                        <tbody>
-                          <tr>
-                            <td className="" >
-                              <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar title={objs.authorname} src={objs.authorprofilepic} name={objs.authorname} size="35"  ></UserAvatar>
-                              </NavLink>
-                            </td>
-                           <td className="">
-                             <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.noofidentifications}`}></span>
-                            </td>
-                            <td className=""> <span  title={`Submitted On: ${objs.createdon}` }  className="glyphicon glyphicon-time" aria-hidden="true"></span>  </td>
-                            <td className=""> <span title={`Updated On: ${objs.lastrevised}` } className="glyphicon glyphicon-hourglass" aria-hidden="true"></span> </td>
-                            <td className="pull-right">
-                                      <div style={{display:"block"}} ref={objs.id+"1"} >
-                                        <strong>{objs.speciesgroupname}</strong> {"  "}
-                                        <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">
-                                         <span className="glyphicon glyphicon-edit"></span>
-                                        </button>
-                                      </div>
-                                      <div  style={{display:"none"}} ref={objs.id+"2"}>
-                                        <div className="form-group form-inline">
-                                          <select onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="bg-primary form-control-sm" >
-                                            {this.props.SpeciesGroup?this.props.SpeciesGroup.map((item)=>{
-                                            return   <option key={item.name}   value={item.name}>{item.name}</option>
-                                            }):null}
-                                          </select> {" "}
-                                            <button className={"btn btn-warning btn-xs"}  onClick={this.changeStyle2.bind(this,objs.id)}> <span className="glyphicon glyphicon-remove-sign"></span></button> {"  "}
-                                            <button className={"btn btn-success btn-xs"}  onClick={this.handleEditUserGroupButton.bind(this,objs.speciesgroupid)} type="submit"><span className="glyphicon glyphicon-saved"></span></button>
-                                        </div>
-                                    </div>
-                            </td>
+                                </div>
+                            </div>
+                            <div className="props">
+                              <div className="key"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span><b> Place</b> </div>
+                              <div className="values" > <Truncate lines={1}>{objs.placename?objs.placename:"Not available"}</Truncate> </div>
+                            </div>
+                          <div className="props">
+                            <div className="key"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Observed On </b> </div>
+                            <div className="values"><Moment format=" Do MMMM YYYY">{objs.fromdate }</Moment></div>
+                         </div>
+                         <div className="props" style={{height:'30px'}}>
+                           <div className="key" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Notes</b> </div>
+                           <div className="values" > <Truncate lines={1} >{(objs.notes?objs.notes:"Not available")}</Truncate>  </div>
+                        </div>
 
-                          </tr>
-                        </tbody>
-                      </table>
+                          <div className="">
+                            <div className="pull-left" >
+                              <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar  title={objs.authorname} src={objs.authorprofilepic} name={objs.authorname} size="35"  ></UserAvatar>
+                              </NavLink>
+                            </div>
+
+                            <div className="pull-right groupEdit" >
+                              <div style={{display:"block"}} ref={objs.id+"1"} >
+                                <strong>{objs.speciesgroupname}</strong> {"  "}
+                                <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">
+                                 <span className="glyphicon glyphicon-edit"></span>
+                                </button>
+                              </div>
+                              <div  style={{display:"none"}} ref={objs.id+"2"}>
+                                <div className="form-group form-inline">
+                                  <select onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="bg-primary form-control-sm" >
+                                    {this.props.SpeciesGroup?this.props.SpeciesGroup.map((item)=>{
+                                    return   <option key={item.name}   value={item.name}>{item.name}</option>
+                                    }):null}
+                                  </select> {" "}
+                                    <button className={"btn btn-warning btn-xs"}  onClick={this.changeStyle2.bind(this,objs.id)}> <span className="glyphicon glyphicon-remove-sign"></span></button> {"  "}
+                                    <button className={"btn btn-success btn-xs"}  onClick={this.handleEditUserGroupButton.bind(this,objs.speciesgroupid)} type="submit"><span className="glyphicon glyphicon-saved"></span></button>
+                                </div>
+                            </div>
+                            </div>
+                            {/* <div className="pull-right speciesCallIcons">
+                                <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.noofidentifications}`}></span>
+                                <span  title={`Submitted On: ${objs.createdon}` }  className="glyphicon glyphicon-time" aria-hidden="true"></span>
+                                {"  speciesCallIcons"}
+                                <span title={`Updated On: ${objs.lastrevised}` } className="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
+                            </div> */}
+                          </div>
+
                       </div>
                  </div>
               </div>

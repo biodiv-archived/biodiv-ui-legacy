@@ -109,11 +109,12 @@ class ObservationListContainer extends Component {
 
               this.props.fetchObservations(this.state.params)
             }
-            this.url="/observation/observation?"+search2;
+            let url="/observation/observation?"+search2;
             let userGroupList=this.state.params.userGroupList;
             userGroupList.push(group.id);
             this.setState({
-              userGroupList:userGroupList
+              userGroupList:userGroupList,
+              urlforPassing:url
             })
           });
 
@@ -154,7 +155,10 @@ class ObservationListContainer extends Component {
           this.props.fetchObservations(this.state.params)
         }
 
-        this.url="/observation/observation?"+search2;
+        let url="/observation/observation?"+search2;
+        this.setState({
+          urlforPassing:url
+        })
       }
 
       this.loadMore=this.loadMore.bind(this);
@@ -560,9 +564,12 @@ class ObservationListContainer extends Component {
         else{
           newparams.trait_15=[];
         }
+        const seacrh=queryString.stringify(newparams)
+        const search1=decodeURIComponent(seacrh);
+        let url="/observation/observation?"+search1;
         this.setState({
           params:newparams,
-          urlforPassing:this.url
+          urlforPassing:url
         })
 
       }
