@@ -788,43 +788,22 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
       <div>
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
-              <div>
-                <div className="hidden-sm hidden-md hidden-lg">
-                  <MobileRightSidebar />
+              <div class="panel panel-success">
+                  <div className="panel-heading vertical-align">
+                      <ul className="nav nav-tabs" style={{display:'inline-block'}}>
+                          <li role="presentation" className={`${this.state.view===1?"active":""}`}><a href="#"  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list">List</span></a></li>
+                          <li role="presentation" className={`${this.state.view===0?"active":""}`}><a href="#" onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th">Grid</span></a></li>
+                          <li role="presentation" className={`${this.state.view===2?"active":""}`}><a href="#" onClick={this.showMapView.bind(this,2)} ><span className="glyphicon glyphicon-map-marker"> Map</span></a></li>
+                      </ul>
+                    <div className="panel-title pull-right">
+                          <h5 className="text-primary">{this.props.Observation.count} result(s) found</h5>
+                      </div>
+
+
                   </div>
-                <div className="pull-right">
-                  <Right_stats filterParams={this.state.params}/>
-                </div>
-
-                <button className="btn btn-success btn-xs text-primary">{this.props.Observation.count}</button>
-                <br /><br />
-                <div className="btn-group">
-                <button className={`btn ${this.state.view===1?"btn-success":"btn-default"}`}  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list"> </span>List</button>
-                <button className={`btn ${this.state.view===0?"btn-success":"btn-default"}`} onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th"> </span>Grid</button>
-                <button className={`btn ${this.state.view===2?"btn-success":"btn-default"}`} onClick={this.showMapView.bind(this,2)} ><span className="glyphicon glyphicon-map-marker"> </span>Map</button>
-
-                {
-                  //SelectALl  buttonsremoved as filterUrl support not present
-                }
-                {
-                  //ResetALl  buttonsremoved as filterUrl support not present
-                }
-                </div>
-
-                <div className="pull-right">
-                  <select className="form-control btn-default" onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
-                     <option  value="Last Visited">Last Visited</option>
-                     <option  value="Latest">Latest</option>
-                     <option  value="Most Viewed">Most Viewed</option>
-                   </select>
-                </div>
-                <br />
-                <br />
-
 
               {/* <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/> */}
-              <div>{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
-              <br />
+              <div class="panel-body">{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
 
 
               {this.state.view===2?null:<InfiniteScroll
@@ -846,8 +825,6 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                     </div>
                 </div>
             </div>}
-            <br />
-            <br />
       </div>
     )
   }

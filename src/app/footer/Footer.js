@@ -128,13 +128,13 @@ import UserGroupName from '../../util/UserGroup';
    render(){
      return (
          <footer>
-           <div className="row footer">
+           <div className="row">
                {
                  this.state.parents != null?
                  (
                    this.state.parents.map((item1,index1)=>{
                      return(
-                       <div key={index1} className="col-xs-6 col-sm-2  col-md-offset-2 footer-item">
+                       <div key={index1} className="col-xs-6 col-sm-2  footer-item">
                          <span><a href={"http://indiabiodiversity.org/page/"+item1.id}><b>{item1.title.toUpperCase()}</b></a></span>
                          <ul className="list list-unstyled">
                          {

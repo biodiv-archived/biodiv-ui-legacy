@@ -73,29 +73,27 @@ else{
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter forceRefresh={true}>
-      <div>
-          <div className="container-fluid">
+      <div className="container-fluid">
+          <div id="headerWrapper">
               <Header title={"IBP"}/>
           </div>
-          <div className="container-fluid">
+          <div id="contentWrapper">
+              <div id="content">
+                  <Route exact path="/" component={HomePageContainer} />
 
-              <Route exact path="/" component={HomePageContainer} />
+                  <Route exact path="/observation/list" component={App} props={search2} />
+                  <Route  path="/group/:groupName/observation" component={App} />
 
-              <Route exact path="/observation/list" component={App} props={search2} />
-              <Route  path="/group/:groupName/observation" component={App} />
+                  <Route  path="/group/:groupName/login" component={Login} />
+                  <Route path="/login" component={Login}/>
+                  <Route exact path="/logout" component={Logout} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/register/forgotPassword" component={ForgotPassword} />
+                  <Route exact path="/register/resetPassword" component={ResetPassword} />
 
-              <Route  path="/group/:groupName/login" component={Login} />
-              <Route path="/login" component={Login}/>
-              <Route exact path="/logout" component={Logout} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/register/forgotPassword" component={ForgotPassword} />
-              <Route exact path="/register/resetPassword" component={ResetPassword} />
-
-              <Route exact path="/map" component={naksha.Layers} />
-          </div>
-          <div className="container-fluid">
-              <Footer />
-          </div>
+                  <Route exact path="/map" component={naksha.Layers} />
+              </div>
+         </div>
       </div>
     </BrowserRouter>
   </Provider>
