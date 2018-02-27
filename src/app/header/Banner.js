@@ -191,9 +191,9 @@ class Banner extends Component{
 
                                     {this.props.UserGroupList?this.props.UserGroupList.map((item,index)=>{
                                         return (
-                                            <div key={index} style={{'border':'1px'}}>
-                                                <NavLink to={`/group/${item.webaddress}/show`}><li><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</li> </NavLink >
-                                            </div>
+                                            <li key={index} style={{'border':'1px'}}>
+                                                <NavLink to={`/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</NavLink >
+                                            </li>
                                         )
                                     }):"Loading...."}
                                 </ul>
@@ -202,35 +202,32 @@ class Banner extends Component{
                                 <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Pages
                                     <span className="caret"></span>
                                 </a>
-                                <ul className="dropdown-menu" role="menu"  style={{'width':'200px',border:'1px solid grey'}}>
+                                <ul className="dropdown-menu" role="menu">
                                     {
-                                        this.state.parents !=null?
-                                        (
+                                        this.state.parents != null ?
                                             this.state.parents.map((item1,index1)=>{
                                                 return(
-                                                    <div key={index1} >
-                                                        <div style={{textDecoration: 'underline'}}>
-                                                            <li style={{"marginBottom":'5px',"marginTop":'5px',borderRadius:'1px'}} key={index1} ><NavLink to={`/${this.props.PublicUrl}page/${item1.id}`}><b>{item1.title.toUpperCase()}</b></NavLink></li>
-                                                        </div>
-                                                        {
-                                                            (this.state.children.get(item1.id) != null)?
-                                                                (
+                                                    <li key={index1}>
+                                                        <NavLink to={`/${this.props.PublicUrl}page/${item1.id}`}>{item1.title}</NavLink>
+                                                        <ul>
+                                                            {
+                                                                this.state.children.get(item1.id) != null ? 
                                                                     this.state.children.get(item1.id).map((item2,index2)=>{
                                                                         return(
-                                                                            <div key={item2.id}>
-                                                                                <li  ><NavLink to={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</NavLink></li>
-                                                                            </div>
+                                                                            <li key={item2.id}>
+                                                                                <NavLink to={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</NavLink>
+                                                                            </li>
                                                                         )
-
                                                                     })
-                                                                ):null
-                                                        }
-                                                    </div>
-                                                )
-                                            })
-                                        ):null
-                                    }
+                                                                    :null
+                                                            }
 
+                                                        </ul>
+                                                    </li>
+
+                                                )
+                                            }):null
+                                    }
                                 </ul>
                             </li>
                             <li className="dropdown">

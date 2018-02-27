@@ -137,3 +137,22 @@ input::-webkit-input-placeholder {
     background-color:#dff0d8;
     padding-top:10px;
 }
+
+.footer {
+    margin:30px 0px;
+}
+
+.footer-item {
+/*    margin: 0 auto;
+    float:none;
+*/
+}
+
+.footer-item>span {
+    font-weight: bold;
+    font-color:#337ab7;
+}
+
+.footer-item>ul.list {
+    margin-top:10px;
+}
