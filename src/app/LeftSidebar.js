@@ -119,56 +119,73 @@ this.openFilter();
 
 render(){
   return (
-    <div id="leftSidebar">
-        <Collapsible open={true} trigger="Taxon Browser">
-          <div>
-            <TaxonBrowser />
-            <SearchBar />
-          </div>
-          </Collapsible>
+      <div id="leftSidebar" className="panel panel-success">
+          
+        <div className="panel-heading vertical-align">
+            <span className="glyphicon glyphicon-filter" title="Filters">Filters</span>
+            
+            <div className="pull-right">
+                <span className="glyphicon glyphicon-sort" title="Sortby">Sortby</span>
+                <select className="">
+                    <option  value="Last Visited">Last Visited</option>
+                    <option  value="Latest">Latest</option>
+                    <option  value="Most Viewed">Most Viewed</option>
+                </select>
 
-          <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger="Species Groups">
-            <SpeciesGroup />
-          </Collapsible>
-          <div ref="hide" style={{display:'block'}}>
-          <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger=" User Group">
-            <UserGroup />
-          </Collapsible>
-          </div>
-          <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger="Data validation ">
-            <ScientificNameFilter />
-          </Collapsible>
+            </div>
+        </div>
 
-          <Collapsible lazyRender={true} open={this.state.flagOpen} trigger="Flag">
-            <FlaggedFilter />
-          </Collapsible>
+        <div className="panel-body">
+            <Collapsible open={true} trigger="Taxon Browser">
+            <div>
+                <TaxonBrowser />
+                <SearchBar />
+            </div>
+            </Collapsible>
 
-          <Collapsible lazyRender={true} open={this.state.userOpen} trigger="User ">
-            <UserFilter/>
-          </Collapsible>
+            <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger="Species Groups">
+                <SpeciesGroup />
+            </Collapsible>
+            <div ref="hide" style={{display:'block'}}>
+            <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger=" User Group">
+                <UserGroup />
+            </Collapsible>
+            </div>
+            <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger="Data validation ">
+                <ScientificNameFilter />
+            </Collapsible>
 
-          <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger="Media Type">
-          <Media_Filter />
-          </Collapsible>
+            <Collapsible lazyRender={true} open={this.state.flagOpen} trigger="Flag">
+                <FlaggedFilter />
+            </Collapsible>
 
-          <Collapsible lazyRender={true} trigger="Date">
-          <Year_Filter />
-          </Collapsible>
+            <Collapsible lazyRender={true} open={this.state.userOpen} trigger="User ">
+                <UserFilter/>
+            </Collapsible>
 
-          <Collapsible lazyRender={true} open={this.state.monthOpen} trigger="Seasonal">
-          <Month_Filter />
-          </Collapsible>
+            <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger="Media Type">
+            <Media_Filter />
+            </Collapsible>
 
-          <Collapsible lazyRender={true} open={this.state.validateOpen} trigger="Validation ">
-          <Validate_Filter />
-          </Collapsible>
+            <Collapsible lazyRender={true} trigger="Date">
+            <Year_Filter />
+            </Collapsible>
 
-          <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger="Traits">
-          <Traits_Filter />
-          </Collapsible>
-  </div>
-  )
-}
+            <Collapsible lazyRender={true} open={this.state.monthOpen} trigger="Seasonal">
+            <Month_Filter />
+            </Collapsible>
+
+            <Collapsible lazyRender={true} open={this.state.validateOpen} trigger="Validation ">
+            <Validate_Filter />
+            </Collapsible>
+
+            <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger="Traits">
+            <Traits_Filter />
+            </Collapsible>
+        </div>
+    </div>
+    )
+    }
 }
 function mapStateToProps(state) {
   return {

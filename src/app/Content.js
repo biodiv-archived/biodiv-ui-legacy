@@ -27,7 +27,7 @@ class Content extends Component {
 
     render(){
         return (
-                <div className="viewContent">
+                <div>
                     <div className={`col-sm-3 hidden-xs`} id="leftSidebarWrapper">
                         <LeftSidebar />
                     </div>

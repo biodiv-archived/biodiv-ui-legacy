@@ -100,38 +100,49 @@ class Header extends React.Component {
                         </li>
 
 
-                        <li>
                             {
                                 AuthUtils.isLoggedIn() ?
                                     (
-                                        <div>
-                                            <NavLink to={`/${this.props.PublicUrl}user/show/${AuthUtils.getLoggedInUser().id}`}>
-                                                {
-                                                    (AuthUtils.getLoggedInUser().pic) ?
-                                                    (
-                                                        <UserAvatar  name={AuthUtils.getLoggedInUser().name} title={AuthUtils.getLoggedInUser().name} src={Config.api.ROOT_URL+"/biodiv/users/"+AuthUtils.getLoggedInUser().pic}  size="50" />
-                                                    ):
-                                                    (
-                                                        <UserAvatar  name={AuthUtils.getLoggedInUser().name} title={AuthUtils.getLoggedInUser().name}   size="50" />
-                                                    )
-                                                }
-                                            </NavLink>
-                                        </div>
-                                    ):
-                                    (<NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>)
+                                        <li>
+                                            <div>
+                                                <NavLink to={`/${this.props.PublicUrl}user/show/${AuthUtils.getLoggedInUser().id}`}>
+                                                    {
+                                                        (AuthUtils.getLoggedInUser().pic) ?
+                                                        (
+                                                            <UserAvatar  name={AuthUtils.getLoggedInUser().name} title={AuthUtils.getLoggedInUser().name} src={Config.api.ROOT_URL+"/biodiv/users/"+AuthUtils.getLoggedInUser().pic}  size="50" />
+                                                        ):
+                                                        (
+                                                            <UserAvatar  name={AuthUtils.getLoggedInUser().name} title={AuthUtils.getLoggedInUser().name}   size="50" />
+                                                        )
+                                                    }
+                                                </NavLink>
+                                            </div>
+                                        </li>
+                                    ):null
                             }
-                        </li>
-                        <li className="dropdown">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="glyphicon glyphicon-cog"></i>
-                                <span className="caret"></span>
-                            </a>
-                            <ul className="dropdown-menu" role="menu">
+                            {
+                                AuthUtils.isLoggedIn() ? (
+                                        <li className="dropdown">
+                                            <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="glyphicon glyphicon-cog"></i>
+                                                <span className="caret"></span>
+                                            </a>
+                                            <ul className="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a onClick={this.logout}>Logout</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                ):null
+                            }
+
+                             {
+                                !AuthUtils.isLoggedIn() ? (
                                 <li>
-                                    <a onClick={this.logout}>Logout</a>
+                                    <NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>
                                 </li>
-                            </ul>
-                        </li>
-                    </ul>
+                                ):null
+                            }
+                   </ul>
 
                       <Form   onSubmit={this.searchTerm.bind(this)}>
                        {formApi => (
