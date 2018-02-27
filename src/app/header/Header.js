@@ -89,7 +89,7 @@ class Header extends React.Component {
                                     </NavLink>}
                                 </li>
                                 <li>
-                                    {<NavLink to={`/${this.props.PublicUrl}checklist/create`}>Add a list
+                                    {<NavLink to={`/${this.props.PublicUrl}dataTable/create`}>Add a list
                                     </NavLink>}
                                 </li>
                                 <li>
