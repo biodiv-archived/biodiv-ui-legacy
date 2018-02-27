@@ -1,3 +1,6 @@
+
+
+
 .table>tbody>tr>td {
   padding:4px
 }
@@ -191,4 +194,26 @@ body {
 }
 .table{
     margin-bottom: 0px
+}
+.put-in-center {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px
+}
+
+.groupEdit{
+margin-top: 7px;
+margin-right: 15px
+}
+.props{
+    line-height: 25px;
+}
+.key{
+float:left;
+width: 140px;
+}
+.values{
+  margin-left: 200px
 }

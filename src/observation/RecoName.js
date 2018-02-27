@@ -432,7 +432,7 @@ class RecoName extends React.Component {
               <Formsuggest  id2={this.props.id} getReco={this.getRecoName}/>
             ):
             (
-              <span style={{color:'green'}}>This species is locked by author</span>
+              <center><span style={{color:'green'}}> This observation ID is locked by a  species curator. </span></center>
             )
 
           }

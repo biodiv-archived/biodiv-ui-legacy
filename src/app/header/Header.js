@@ -45,7 +45,7 @@ class Header extends React.Component {
     searchTerm(submittedValues){
       if(submittedValues.query!=null && submittedValues.query!=undefined){
         this.props.history.push(`/search/select?query=${submittedValues.query}`);
-          
+
       }
     }
 
