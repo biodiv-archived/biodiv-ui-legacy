@@ -788,7 +788,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
       <div>
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
-              <div class="panel panel-success">
+              <div className="panel panel-success">
                   <div className="panel-heading vertical-align">
                       <ul className="nav nav-tabs" style={{display:'inline-block'}}>
                           <li role="presentation" className={`${this.state.view===1?"active":""}`}><a href="#"  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list">List</span></a></li>
@@ -808,7 +808,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                   </div>
 
               {/* <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/> */}
-              <div class="panel-body">{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
+              <div className="panel-body">{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
 
 
               {this.state.view===2?null:<InfiniteScroll

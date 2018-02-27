@@ -6,8 +6,12 @@ import { connect } from 'react-redux';
 class ObservationGridView extends Component{
 
 getUrl(thumbnail){
-  var res = thumbnail.split(".");
-  return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg";
+  let res = thumbnail?thumbnail.split("."):null;
+  if(res)
+  return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
+  else {
+    return null
+  }
 }
 
 display(objs,index){
