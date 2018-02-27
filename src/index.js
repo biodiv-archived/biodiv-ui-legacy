@@ -73,11 +73,11 @@ else{
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter forceRefresh={true}>
-      <div>
-          <div className="container-fluid">
+      <div className="container-fluid">
+          <div id="headerWrapper">
               <Header title={"IBP"}/>
           </div>
-          <div className="container-fluid">
+          <div id="contentWrapper">
 
               <Route exact path="/" component={HomePageContainer} />
 
@@ -92,9 +92,6 @@ ReactDOM.render(
               <Route exact path="/register/resetPassword" component={ResetPassword} />
 
               <Route exact path="/map" component={naksha.Layers} />
-          </div>
-          <div className="container-fluid">
-              <Footer />
           </div>
       </div>
     </BrowserRouter>

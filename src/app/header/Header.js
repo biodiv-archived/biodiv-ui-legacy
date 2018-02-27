@@ -56,9 +56,7 @@ class Header extends React.Component {
         return (
             <div>
                 <nav className="navbar navbar-default navbar-inverse row" role="navigation" style={{
-                    border: '0px',
-                    marginTop: '2px',
-                    marginBottom: '5px',
+                    marginBottom: '0px',
                 }}>
                 <div className="navbar-header">
                     <button type="button" className="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#header_menu" aria-expanded="false">

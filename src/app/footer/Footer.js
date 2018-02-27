@@ -128,7 +128,7 @@ import UserGroupName from '../../util/UserGroup';
    render(){
      return (
          <footer>
-           <div className="row footer">
+           <div className="row">
                {
                  this.state.parents != null?
                  (

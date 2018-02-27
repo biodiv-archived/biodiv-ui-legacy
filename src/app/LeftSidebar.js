@@ -119,7 +119,7 @@ this.openFilter();
 
 render(){
   return (
-    <div>
+    <div id="leftSidebar">
         <Collapsible open={true} trigger="Taxon Browser">
           <div>
             <TaxonBrowser />
