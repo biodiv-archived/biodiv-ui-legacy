@@ -160,16 +160,16 @@ display(objs,selectAll){
           <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white'}}>
 
                 <div className="media">
-                  <div style={{padding:'4px'}} className="pull-left">
+                  <div style={{padding:'4px',position:'relative'}} className="pull-left">
                     <div  style={{marginLeft:'-10px'}} className="media-left">
                         <ShowGallery thumbnail={objs.thumbnail} objs={objs} objid={objs.id} images={objs.imageresource} />
                         {
-                          (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
+                           (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
                           (
                             selectAll==true?
-                            (<input type="checkbox" style={{"top":'-200px',left:'1px',position:'inherit'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)
+                            (<input type="checkbox" style={{top:'4px',left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)
                             :
-                            (<input type="checkbox" style={{"top":'-200px',left:'1px',position:'inherit'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
+                            (<input type="checkbox"  style={{top:'4px', left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
                           ):null
                         }
                     </div>
