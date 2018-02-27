@@ -42,12 +42,11 @@ class Header extends React.Component {
         this.props.logout();
     }
 
-    searchTerm(event){
-      console.log(event.target.value);
-        if(event.target.value){
-            this.props.history.push(`/search/select?query=${event.target.value}`);
-        }
-        event.preventDefault();
+    searchTerm(submittedValues){
+      if(submittedValues.query!=null && submittedValues.query!=undefined){
+        this.props.history.push(`/search/select?query=${submittedValues.query}`);
+          
+      }
     }
 
 
@@ -134,13 +133,13 @@ class Header extends React.Component {
                         </li>
                     </ul>
 
-                      <Form  className="navbar-form navbar-right" onSubmit={submittedValues => this.setState({ submittedValues })}>
+                      <Form   onSubmit={this.searchTerm.bind(this)}>
                        {formApi => (
-                         <form onSubmit={formApi.submitForm} id="form2">
-                             <div className="form-group">
-                           <label htmlFor="query"></label>
-                           <Text field="query" id="query" />
-                           </div>
+                         <form className="navbar-form navbar-right" onSubmit={formApi.submitForm} >
+                           <div className="form-group">
+                           <Text className="form-control" field="query" id="query" />
+                          </div>
+
                            <button type="submit" className="btn btn-link glyphicon glyphicon-search">
                            </button>
                          </form>
