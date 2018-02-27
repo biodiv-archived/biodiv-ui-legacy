@@ -343,13 +343,14 @@ class Formsuggest extends React.Component {
                   />
             </div>
           </div>
+
           <div className="form-group row" style={{marginBottom:'0.1%'}}>
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
               <div className="col-sm-8">
-                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'91%',borderRadius:'6px'}}/>
+                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'91%',paddind:'1px 2px',border:'1px solid #aaa',borderRadius:'4px'}}/>
               </div>
               <div className="col-sm-2">
-                <input  type="submit" value="Add" className="btn btn-default btn-sm"  disabled={this.state.loading}/>
+                <input  type="submit" value="Add" className="btn btn-primary btn-sm"  disabled={this.state.loading}/>
               </div>
           </div>
       </form>

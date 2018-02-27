@@ -74,6 +74,7 @@ class ObservationListContainer extends Component {
             })
 
             newparams.userGroupList=group.id;
+
             if(!newparams.sort){
               newparams.sort="lastrevised"
             }
@@ -109,7 +110,11 @@ class ObservationListContainer extends Component {
               this.props.fetchObservations(this.state.params)
             }
             this.url="/observation/observation?"+search2;
-
+            let userGroupList=this.state.params.userGroupList;
+            userGroupList.push(group.id);
+            this.setState({
+              userGroupList:userGroupList
+            })
           });
 
       }
@@ -153,7 +158,6 @@ class ObservationListContainer extends Component {
       }
 
       this.loadMore=this.loadMore.bind(this);
-
       this.fetchReco = true;
       this.obvResponse = this.obvResponse.bind(this);
       this.fetchRecos = this.fetchRecos.bind(this);

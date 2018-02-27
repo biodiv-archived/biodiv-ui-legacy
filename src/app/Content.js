@@ -26,11 +26,11 @@ class Content extends Component {
 
     render(){
         return (
-                <div class="row viewContent">
+                <div className="row viewContent">
                     <div className={`col-sm-3 hidden-xs`}>
                         <LeftSidebar />
                     </div>
-                    <div  style={{}}  className="col-xs-12 col-sm-9 ">
+                    <div   className="col-xs-12 col-sm-9 ">
                         <ObservationListContainer />
                     </div>
                 </div>

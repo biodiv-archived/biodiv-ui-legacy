@@ -6,7 +6,6 @@ import _ from "lodash";
 import {connect} from 'react-redux';
 import axios from 'axios';
 
-
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import {Config} from '../../Config'
@@ -31,15 +30,14 @@ class Banner extends Component{
     }
 
     componentDidMount(){
-        if(this.props.PublicUrl.groupName!= "" && this.props.PublicUrl.groupName!=undefined){
-            // console.log(this.props.PublicUrl.groupName);
-
+        if(this.props.groupName!= "" && this.props.groupName!=undefined){
             let groupName=this.props.PublicUrl.split("/")[1];
             UserGroupName.list().then(data=>{
 
                 let group=data.model.userGroupInstanceList.find((item)=>{
                     return item.webaddress==groupName
                 })
+                console.log(group);
                 this.getNewsLetters(group.id);
             })
         } else {
@@ -49,6 +47,7 @@ class Banner extends Component{
 
 
     getNewsLetters(ugId){
+      console.log(ugId);
         var options;
         if(ugId == null){
             options={
@@ -94,18 +93,18 @@ class Banner extends Component{
 
 
     render(){
-        let userGroup=this.props.userGroupList?this.props.userGroupList.filter((item)=>{return item.webaddress==this.props.groupName})[0]:null;
+        let userGroup=this.props.UserGroupList?this.props.UserGroupList.filter((item)=>{return item.webaddress==this.props.PublicUrl.split("/")[1]})[0]:null;
         //        userGroup = {name:'Assam Biodiversity Portal for invasive species', icon:'/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif'}
         if(true) {
             return(
                 <div className="navbar navbar-default row brand-bar">
 
                     <div className="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#header_menu2" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
+                        <button type="button" className="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#header_menu2" aria-expanded="false">
+                            <span className="sr-only">Toggle navigation</span>
+                            <span className="icon-bar"></span>
+                            <span className="icon-bar"></span>
+                            <span className="icon-bar"></span>
                         </button>
                         <NavLink to="/">
                             <img className="logo pull-left"  src={userGroup?"http://indiabiodiversity.org/biodiv/userGroups/"+userGroup.icon:"http://indiabiodiversity.org/logo/IBP.png"}></img>
@@ -211,7 +210,7 @@ class Banner extends Component{
                                                         <NavLink to={`/${this.props.PublicUrl}page/${item1.id}`}>{item1.title}</NavLink>
                                                         <ul>
                                                             {
-                                                                this.state.children.get(item1.id) != null ? 
+                                                                this.state.children.get(item1.id) != null ?
                                                                     this.state.children.get(item1.id).map((item2,index2)=>{
                                                                         return(
                                                                             <li key={item2.id}>

@@ -4,6 +4,7 @@ import {getGroupName} from './HeaderApi';
 import _ from "lodash";
 import {connect} from 'react-redux';
 import axios from 'axios';
+import { Form, Text} from 'react-form';
 
 
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
@@ -42,9 +43,11 @@ class Header extends React.Component {
     }
 
     searchTerm(event){
+      console.log(event.target.value);
         if(event.target.value){
             this.props.history.push(`/search/select?query=${event.target.value}`);
         }
+        event.preventDefault();
     }
 
 
@@ -58,11 +61,11 @@ class Header extends React.Component {
                     marginBottom: '5px',
                 }}>
                 <div className="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#header_menu" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                    <button type="button" className="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#header_menu" aria-expanded="false">
+                        <span className="sr-only">Toggle navigation</span>
+                        <span className="icon-bar"></span>
+                        <span className="icon-bar"></span>
+                        <span className="icon-bar"></span>
                     </button>
                     <NavLink to="/" className="navbar-brand">
                         India Biodiversity Portal
@@ -122,7 +125,7 @@ class Header extends React.Component {
                             }
                         </li>
                         <li className="dropdown">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i>
+                            <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="glyphicon glyphicon-cog"></i>
                                 <span className="caret"></span>
                             </a>
                             <ul className="dropdown-menu" role="menu">
@@ -132,12 +135,25 @@ class Header extends React.Component {
                             </ul>
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-right">
-                        <div class="form-group">
-                            <input type="text" class="form-control" onClick={this.searchTerm.bind(this)} placeholder="Search"/>
+
+                      <Form  className="navbar-form navbar-right" onSubmit={submittedValues => this.setState({ submittedValues })}>
+                       {formApi => (
+                         <form onSubmit={formApi.submitForm} id="form2">
+                             <div className="form-group">
+                           <label htmlFor="query"></label>
+                           <Text field="query" id="query" />
+                           </div>
+                           <button type="submit" className="btn btn-link glyphicon glyphicon-search">
+                           </button>
+                         </form>
+                       )}
+                     </Form>
+                    {/* <form className="navbar-form navbar-right">
+                        <div className="form-group">
+                            <input type="text" className="form-control" onClick={this.searchTerm.bind(this)} placeholder="Search"/>
                         </div>
-                        <button type="submit" class="btn btn-link glyphicon glyphicon-search"></button>
-                    </form>
+                        <button type="submit" className="btn btn-link glyphicon glyphicon-search"></button>
+                    </form> */}
 
 
 
@@ -145,7 +161,7 @@ class Header extends React.Component {
                 </div>
 
             </nav>
-            <Banner userGroupList={this.props.UserGroupList} groupName={this.props.groupName} />
+            <Banner   />
         </div>
         )
     }

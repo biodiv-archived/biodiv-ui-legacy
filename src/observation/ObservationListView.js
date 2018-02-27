@@ -166,7 +166,7 @@ display(objs,selectAll){
                             selectAll==true?
                             (<input type="checkbox" style={{"top":'-200px',left:'1px'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)
                             :
-                            (<input type="checkbox" className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
+                            (<input type="checkbox" style={{"top":'-200px',left:'1px'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
                           ):null
                         }
                     </div>
@@ -176,43 +176,43 @@ display(objs,selectAll){
                       <table className="table">
                            <tbody>
                             <tr>
-                                <td className="col-sm-4"> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> <b>Name</b></td>
+                                <td className=""> <span className="glyphicon glyphicon-share-alt" aria-hidden="true"></span> <b>Name</b></td>
                                 {/* <td className="col-sm-4" dangerouslySetInnerHTML={{__html:objs.name}}></td> */}
-                                <td className="col-sm-4"><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
+                                <td className=""><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
                                   <span style={{borderRadius:'5px'}} className={`${objs.position==="WORKING"?"showWorking":
                                    objs.position==="CLEAN"?"showClean":
                                    objs.position==="RAW"?"showRaw":null}`} >
-                                   <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}> {"  "}{objs.status?objs.status:null}</NavLink>
+                                   <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}> {"  "}<span style={{color:'#2B2929',textTransform:'capitalize'}}>{objs.status?objs.status.toLowerCase():null}</span></NavLink>
                                   </span>
                                 </td>
                             </tr>
                             <tr>
-                              <td className="col-sm-4"> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span><b> Place</b> </td>
-                              <td className="col-sm-8"> <EllipsisText text={objs.placename} length={30} /> </td>
+                              <td className=""> <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span><b> Place</b> </td>
+                              <td className=""> <EllipsisText text={objs.placename} length={30} /> </td>
                             </tr>
                           <tr>
-                            <td className="col-sm-4"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Observed On </b> </td>
-                            <td className="col-sm-8"><Moment format=" Do MMMM YYYY">{objs.fromdate }</Moment></td>
+                            <td className=""> <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Observed On </b> </td>
+                            <td className=""><Moment format=" Do MMMM YYYY">{objs.fromdate }</Moment></td>
                          </tr>
                          <tr>
-                           <td className="col-sm-4" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Notes</b> </td>
-                           <td id ="hatethis" className="col-sm-8" >{objs.notes?Parser(objs.notes):"Not provided"}  </td>
+                           <td className="" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Notes</b> </td>
+                           <td id ="hatethis" className="" >{objs.notes?Parser(objs.notes):"Not provided"}  </td>
                         </tr>
                       </tbody>
                       </table>
                       <table  className="table">
                         <tbody>
                           <tr>
-                            <td className="col-xs-3 col-sm-6" >
+                            <td className="" >
                               <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar title={objs.authorname} src={objs.authorprofilepic} name={objs.authorname} size="35"  ></UserAvatar>
                               </NavLink>
                             </td>
-                           <td className="col-xs-1 col-sm-1">
+                           <td className="">
                              <span className="glyphicon glyphicon-check" aria-hidden="true" title={`species call: ${objs.noofidentifications}`}></span>
                             </td>
-                            <td className="col-xs-1 col-sm-1"> <span  title={`Submitted On: ${objs.createdon}` }  className="glyphicon glyphicon-time" aria-hidden="true"></span>  </td>
-                            <td className="col-xs-1 col-sm-1"> <span title={`Updated On: ${objs.lastrevised}` } className="glyphicon glyphicon-hourglass" aria-hidden="true"></span> </td>
-                            <td className="col-xs-6 col-sm-2">
+                            <td className=""> <span  title={`Submitted On: ${objs.createdon}` }  className="glyphicon glyphicon-time" aria-hidden="true"></span>  </td>
+                            <td className=""> <span title={`Updated On: ${objs.lastrevised}` } className="glyphicon glyphicon-hourglass" aria-hidden="true"></span> </td>
+                            <td className="pull-right">
                                       <div style={{display:"block"}} ref={objs.id+"1"} >
                                         <strong>{objs.speciesgroupname}</strong> {"  "}
                                         <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">
