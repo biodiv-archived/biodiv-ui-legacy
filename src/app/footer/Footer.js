@@ -82,40 +82,7 @@ import UserGroupName from '../../util/UserGroup';
                  }
                }
              }
-            //  let policy={};
-            //  policy.id = 4250187;
-            //  policy.title = "policy";
-            //  let others={};
-            //  others.id = null;
-            //  others.title = "others";
-            //  this.parents.push(policy);
-            //  this.parents.push(others);
-             //
-            //  let DataSharing ={}
-            //  DataSharing.id = 4250189;
-            //  DataSharing.title = "Data Sharing";
-            //  this.children.set(4250187,[DataSharing]);
-            //  let Licences ={}
-            //  Licences.id = 4250212;
-            //  Licences.title = "Licences";
-            //  var array = this.children.get(4250187);
-            //  array.push(Licences);
-            //  this.children.set(4250187,array);
-            //  let TermsConditions ={}
-            //  TermsConditions.id = 4250246;
-            //  TermsConditions.title = "Terms & Conditions";
-            //  array = this.children.get(4250187);
-            //  array.push(TermsConditions);
-            //  this.children.set(4250187,array);
 
-      //console.log("parent",this.parents);
-      //console.log("children",this.children);
-              //this.children = m;
-            //  for(int i=0; i<response.data.length ; i++){
-            //     if
-            //      parent.put(response.data[i].id,response.data[i].parentId)
-            //    }
-            //  }
 
              this.setState({
                parents:this.parents,
@@ -126,15 +93,20 @@ import UserGroupName from '../../util/UserGroup';
    }
 
    render(){
+    let groupName=this.props.groupName;
+    console.log(groupName);
      return (
          <footer>
            <div className="row">
+             <div className={`col-sm-2 ${(groupName)?'col-sm-offset-2':null}` }>
+
+             </div>
                {
                  this.state.parents != null?
                  (
                    this.state.parents.map((item1,index1)=>{
                      return(
-                       <div key={index1} className="col-xs-6 col-sm-2  footer-item">
+                       <div key={index1} className="col-xs-6 col-sm-2">
                          <span><a href={"http://indiabiodiversity.org/page/"+item1.id}><b>{item1.title.toUpperCase()}</b></a></span>
                          <ul className="list list-unstyled">
                          {
@@ -172,6 +144,9 @@ import UserGroupName from '../../util/UserGroup';
                            <li className="list-item"><a href={"http://indiabiodiversity.org/contact"}>Contact Us</a></li>
                          </ul>
                  </div>
+                 <div className="col-sm-2">
+
+                 </div>
            </div>
            <br />
          <div className="row">
@@ -199,7 +174,10 @@ import UserGroupName from '../../util/UserGroup';
 }
 //export default Footer;
 function mapStateToProps(state){
-return {publicUrl:state.PublicUrl};
+return {
+  publicUrl:state.PublicUrl,
+  groupName:state.PublicUrl.groupName
+};
 }
 
 
