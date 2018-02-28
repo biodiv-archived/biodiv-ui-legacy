@@ -28,7 +28,7 @@ class ObservationMapView extends Component{
            restrict_to_bounds={[[68, 5.75], [98, 37.5]]}
            url_response_geohash_field="geohashAggregation"
            url_response_filtered_geohash_field="viewFilteredGeohashAggregation"
-           color_scheme="YlOrBr"
+           color_scheme="YlOrRd"
            no_legend_stops="6"
            is_legend_stops_data_driven={true}
            on_click={window.map_getPopup}
@@ -40,7 +40,7 @@ class ObservationMapView extends Component{
     return(
       <div style={{position:'relative'}}>
         {this.state.flag ? this.map() : null}
-        <div id="map2" style={{height:"672px"}}>
+        <div id="map2" style={{height:'-webkit-fill-available'}}>
         </div>
       </div>
     )
