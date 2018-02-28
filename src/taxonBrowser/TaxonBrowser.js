@@ -122,6 +122,8 @@ nextFetch(){
   if(index<=size && index>=0){
     this.setState({
       Selected:showButton[index].split(",")
+    },()=>{
+      this.setScrollClass();
     })
   }
 
@@ -137,6 +139,8 @@ prevFetch(){
   if(index<=size && index>=0){
     this.setState({
       Selected:showButton[index].split(",")
+    },()=>{
+      this.setScrollClass();
     })
   }
 }

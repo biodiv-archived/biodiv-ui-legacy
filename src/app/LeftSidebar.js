@@ -116,13 +116,16 @@ openFilter(){
 componentDidMount(){
 this.openFilter();
 }
+clearFilter(){
+  this.props.history.push(`${this.props.location.pathname}`)
+}
 
 render(){
   return (
       <div id="leftSidebar" className="panel panel-success">
-          
+
         <div className="panel-heading vertical-align">
-            <span className="glyphicon glyphicon-filter" title="Filters">Filters</span>
+            <span onClick={this.clearFilter.bind(this)} className="glyphicon glyphicon-filter" title="Filters">Filters</span>
        </div>
 
         <div className="panel-body">

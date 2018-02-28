@@ -132,6 +132,10 @@ class Banner extends Component{
                                     <li>
                                         <NavLink to={`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>Species Traits</NavLink>
                                     </li>
+                                    <li>
+                                        <NavLink to={`/${this.props.PublicUrl}dataTable/list?type=species`}>Species Datatables</NavLink>
+                                    </li>
+
                                 </ul>
                             </li>
                             <li className="dropdown">
@@ -152,6 +156,10 @@ class Banner extends Component{
                                         </NavLink>}
                                     </li>
                                     <li>
+                                        {<NavLink to={`/${this.props.PublicUrl}observation/traits/`}>Observation Traits
+                                        </NavLink>}
+                                    </li>
+                                    <li>
                                         {<NavLink to={`/${this.props.PublicUrl}dataTable/list?type=observations`}>Observation Datatables
                                         </NavLink>}
                                     </li>
@@ -161,10 +169,19 @@ class Banner extends Component{
                                 {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}map`}>Maps
                                 </NavLink>}
                             </li>
-                            <li>
+                            <li className="dropdown">
+                              <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Documents<span className="caret"></span>
+                              </a>
+                              <ul className="dropdown-menu" role="menu">
+                                <li>
                                 {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}document/list`}>Documents
                                 </NavLink>}
-
+                                </li>
+                                <li>
+                                {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}dataTable/list?type=documents`}>Document Datatables
+                                </NavLink>}
+                                </li>
+                              </ul>
                             </li>
                             <li>
                                 {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}discussion/list`}>Discussions
