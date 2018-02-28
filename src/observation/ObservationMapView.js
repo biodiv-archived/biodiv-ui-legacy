@@ -38,9 +38,9 @@ class ObservationMapView extends Component{
 
   render(){
     return(
-      <div>
+      <div style={{position:'relative'}}>
         {this.state.flag ? this.map() : null}
-        <div id="map2" style={{height:"522px"}}>
+        <div id="map2" style={{height:"672px"}}>
         </div>
       </div>
     )
