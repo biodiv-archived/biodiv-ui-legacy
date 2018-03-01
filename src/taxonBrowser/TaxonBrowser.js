@@ -166,23 +166,9 @@ setScrollClass(){
 }
 
 }
-getClassificationData(){
-  axios.get(`${Config.api.API_ROOT_URL}/taxon/classification/list`).then((response)=>{
-    let data=[];
-    response.data.map((item)=>{
-      let obj={};
-      obj.label=item.name;
-      obj.value=item.id;
-      data.push(obj);
-    })
-      this.setState({
-      classificationTable:data
-    })
 
-  })
-}
   componentDidMount() {
-  //this.getClassificationData();
+
   this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }
