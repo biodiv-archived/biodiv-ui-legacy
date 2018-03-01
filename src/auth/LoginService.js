@@ -19,7 +19,7 @@ class LoginService {
         var expires_in = new Date(decoded.exp*1000);
         var rToken_expires_in = new Date(Date.now()+30*24*60*60*1000);
         var roles = [];
-        decoded['$int_roles'].map((item)=>{
+        decoded['roles'].map((item)=>{
             roles = roles.concat(item)
         })
 
@@ -121,7 +121,7 @@ class LoginStore {
                     var decoded = jwt_decode(BAToken);
                     var expires_in = new Date(decoded.exp*1000);
                     var roles = [];
-                    decoded['$int_roles'].map((item)=>{
+                    decoded['roles'].map((item)=>{
                         roles = roles.concat(item)
                     })
 
