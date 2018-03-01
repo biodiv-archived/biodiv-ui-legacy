@@ -269,37 +269,33 @@ class RecoName extends React.Component {
                           item.speciesId!=null?
                           (
                             <NavLink to={`/${this.props.PublicUrl}species/show/${item.speciesId}`}>
-
                             <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
                             {"    "}  </i>
-
                           </NavLink>
                           ):
                           (
-                              <a>
                                 <i>
                                     {item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
                                     {"    "}
                                 </i>
-                             </a>
                           )
                       ):
                       (
-                            <a>
+
                               <i>
                                   {item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:(item.hasOwnProperty('name')?<span style={{fontWeight:'bold'}}>{item.name}</span>:null)}
                                   {"    "}
                               </i>
-                           </a>
+
                       )
                   ):
                   (
-                    <a >
+
                       <i>
                           {item.hasOwnProperty('name') ?<span style={{fontWeight:'bold'}}>{item.name}</span>:null}
                           {"    "}
                       </i>
-                   </a>
+
                   )
                 }
                 {item.hasOwnProperty('commonNames')?<span style={{color:'black'}}>{item.commonNames}</span>:null}
