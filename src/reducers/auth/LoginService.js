@@ -20,7 +20,7 @@ class LoginService {
         var expires_in = new Date();
         expires_in.setTime(expires_in.getTime() + decoded.exp);
         var roles = [];
-        decoded['$int_roles'].map((item)=>{
+        decoded['roles'].map((item)=>{
             roles = roles.concat(item)
         })
 
