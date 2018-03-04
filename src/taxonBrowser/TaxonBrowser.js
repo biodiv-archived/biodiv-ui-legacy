@@ -158,10 +158,10 @@ setScrollClass(){
     }
 
     if(myContainer.length){
-       myContainer[0].scrollIntoView();
+       myContainer[0].scrollIntoView({behavior: "smooth"});
     }
     if(myContainer1.length){
-       myContainer1[0].scrollIntoView();
+       myContainer1[0].scrollIntoView({behavior: "smooth"});
     }
 }
 

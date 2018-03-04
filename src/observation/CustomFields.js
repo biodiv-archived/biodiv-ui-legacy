@@ -113,7 +113,7 @@ class CustomFields extends React.Component {
 
 
   render(){
-      console.log(this.state.response)
+
       return(
         <div>
         {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getCustomFields} id={this.props.id} />):null}

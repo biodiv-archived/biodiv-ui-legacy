@@ -154,7 +154,7 @@ input::-webkit-input-placeholder {
     height: 100%;
     width: 100%;
     position: absolute;
-    top: 0px;
+    top: -4px;
     left: 0;
     display: inline-block;
 }
@@ -175,7 +175,7 @@ input::-webkit-input-placeholder {
 #leftSidebarWrapper {
     height: 100%;
     position: fixed;
-    padding:0px 10px 0px 0px;
+    padding:0px 0px 0px 0px;
     /*background-color:black;
     box-shadow:3px 3px 6px 3px rgb(0, 0, 0);*/
 
@@ -184,6 +184,7 @@ input::-webkit-input-placeholder {
     position: relative;
     height: 100%;
     overflow:auto;
+    margin-right: -10px;
 }
 #leftSidebar .list-group-item {
     border-radius: 0;
@@ -222,7 +223,7 @@ input::-webkit-input-placeholder {
 .panel>.panel-heading {
     height:52px; /*42 for nav-tabs + 10px padding*/
 /*    background-color:#3c763d;
-*/    
+*/
 }
 .vertical-align {
     display: flex;

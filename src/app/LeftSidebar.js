@@ -43,74 +43,64 @@ constructor(){
 }
 
 openFilter(){
-
   this.props.PublicUrl?this.refs.hide.style.display='none':null
    const newparams = queryString.parse(document.location.search);
-   let length=0;
    if(newparams.sGroup){
-     length++;
     this.setState({
       sGroupOpen:true
     })
    }
    if(newparams.taxon){
-     length++;
     this.setState({
       taxonOpen:true
     })
    }
    if(newparams.userGroupList){
-     length++;
     this.setState({
       userGroupOpen:true
     })
    }
    if(newparams.user){
-     length++;
     this.setState({
       userOpen:true
     })
    }
    if(newparams.mediaFilter){
-     length++;
     this.setState({
       mediaOpen:true
     })
    }
    if(newparams.isFlagged){
-     length++;
     this.setState({
       flagOpen:true
     })
    }
    if(newparams.months){
-     length++;
+
     this.setState({
       monthOpen:true
     })
    }
    if(newparams.speciesName){
-     length++;
+
      this.setState({
        speciesOpen:true
      })
    }
    if(newparams.validate){
-     length++;
+
      this.setState({
        validateOpen:true
      })
    }
    if(newparams.trait_8 || newparams.trait_9 ||newparams.trait_10 || newparams.trait_11 || newparams.trait_12 || newparams.trait_13 || newparams.trait_15){
-     length++;
+
      this.setState({
        traitsOpen:true
      })
    }
 
-   this.setState({
-     length
-   })
+
 
 }
 componentDidMount(){
@@ -121,58 +111,111 @@ clearFilter(){
 }
 
 render(){
+  let FilterCount=this.props.FilterCount.countUrl?this.props.FilterCount.countUrl.split("?")[1]:null;
+  let urlObject=queryString.parse(FilterCount);
+   this.length=0;
+  if(urlObject){
+    if(urlObject.taxon){
+      this.length++;
+
+    }
+    if(urlObject.sGroup){
+      this.length++;
+
+    }
+    if(urlObject.userGroupList){
+      this.length++;
+
+    }
+    if(urlObject.user){
+      this.length++;
+
+    }
+    if(urlObject.isFlagged){
+      this.length++;
+
+    }
+    if(urlObject.speciesName){
+      this.length++;
+
+    }
+    if(urlObject.mediaFilter){
+      this.length++;
+
+    }
+    if(urlObject.minDate || urlObject.maxDate){
+      this.length++;
+
+    }
+    if(urlObject.months){
+      this.length++;
+
+    }
+    if(urlObject.validate){
+      this.length++;
+
+    }
+    if(urlObject.trait_8 || urlObject.trait_9 || urlObject.trait_10|| urlObject.trait_11|| urlObject.trait_12|| urlObject.trait_13|| urlObject.trait_15){
+      this.length++;
+
+    }
+
+
+  }
+
   return (
       <div id="leftSidebar" className="panel panel-success">
 
         <div className="panel-heading vertical-align">
             <span onClick={this.clearFilter.bind(this)} className="glyphicon glyphicon-filter" title="Filters">Filters</span>
+            <span className="badge badge-light">{this.length}</span>
        </div>
 
-        <div className="panel-body">
-            <Collapsible open={true} trigger="Taxon Browser">
+        <div className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
+            <Collapsible open={true} trigger={`Taxon Browser  ${urlObject.taxon?urlObject.taxon.split(",").length: " "}`}>
             <div>
                 <TaxonBrowser />
                 <SearchBar />
             </div>
             </Collapsible>
 
-            <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger="Species Groups">
+            <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups          ${urlObject.sGroup?urlObject.sGroup.split(",").length:" "}`}>
                 <SpeciesGroup />
             </Collapsible>
             <div ref="hide" style={{display:'block'}}>
-            <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger=" User Group">
+            <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={`User Group  ${urlObject.userGroupList?urlObject.userGroupList.split(",").length:" "}`}>
                 <UserGroup />
             </Collapsible>
             </div>
-            <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger="Data validation ">
+            <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger={`Data Validation  ${urlObject.speciesName?urlObject.speciesName.split(",").length:" "}`}>
                 <ScientificNameFilter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.flagOpen} trigger="Flag">
+            <Collapsible lazyRender={true} open={this.state.flagOpen} trigger={`Flag  ${urlObject.isFlagged?urlObject.isFlagged.split(",").length:" "}`}>
                 <FlaggedFilter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.userOpen} trigger="User ">
+            <Collapsible lazyRender={true} open={this.state.userOpen} trigger={`User  ${urlObject.user?urlObject.user.split(",").length:" "}`}>
                 <UserFilter/>
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger="Media Type">
+            <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type  ${urlObject.mediaFilter?urlObject.mediaFilter.split(",").length:" "}`}>
             <Media_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} trigger="Date">
+            <Collapsible lazyRender={true} trigger={`Date  ${(urlObject.minDate || urlObject.maxDate)?"1":" "}`}>
             <Year_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.monthOpen} trigger="Seasonal">
+            <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal  ${urlObject.months?urlObject.months.split(",").length:" "}`}>
             <Month_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.validateOpen} trigger="Validation ">
+            <Collapsible lazyRender={true} open={this.state.validateOpen} trigger={`Validation  ${urlObject.validate?urlObject.validate.split(",").length:" "}`}>
             <Validate_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger="Traits">
+            <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits  ${urlObject.trait_8?urlObject.trait_8.split(",").length:" "}`}>
             <Traits_Filter />
             </Collapsible>
             <div style={{height:'107px'}}></div>
@@ -182,9 +225,11 @@ render(){
     }
 }
 function mapStateToProps(state) {
+
   return {
     PublicUrl:state.PublicUrl.url,
-    groupName:state.PublicUrl.groupName
+    groupName:state.PublicUrl.groupName,
+    FilterCount:state.FilterCount
   };
 }
 

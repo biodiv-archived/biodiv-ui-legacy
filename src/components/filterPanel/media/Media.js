@@ -79,6 +79,14 @@ class MediaFilter extends React.Component {
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Images"}
         </label>
+        <br />
+        <label>
+            <Checkbox
+                checked={ this.state.mediaFilter.includes("nomedia")?true:false }
+                value={"nomedia"}
+                onChange={this.handleCheckboxes.bind(this)}
+            />{" No media"}
+        </label>
       </div>
     )
   }

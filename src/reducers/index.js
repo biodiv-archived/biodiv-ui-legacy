@@ -17,6 +17,7 @@ import UserGroupNameForUrl from './reducer_getUserGroupName';
 
 import Recommendation_reducer from './reducer_Recommendation';
 import SpeciesGroup from './reducer_speciesGroup';
+import FilterCount from './reducer_filter_count';
 
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
   UserGroupList:UserGroupList_reducer,
   PublicUrl:UserGroupNameForUrl,
   Recommendations:Recommendation_reducer,
-  SpeciesGroup:SpeciesGroup
+  SpeciesGroup:SpeciesGroup,
+  FilterCount:FilterCount
 });
 
 export default rootReducer;

@@ -12,9 +12,8 @@ import _ from "lodash";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {fetchObservations} from './ObservationActions';
-import {fetchRecommendations} from '../actions'
-import {ClearObservationPage} from '../actions';
-import {clearRecommendations} from '../actions'
+import {fetchRecommendations,ClearObservationPage,clearRecommendations,fetchFilterCount} from '../actions'
+
 
 import ObservationListWrapper from './ObservationListWrapper';
 
@@ -22,6 +21,8 @@ import Right_stats from '../app/RightMaterial';
 import MobileRightSidebar from '../app/MobileRightSidebar';
 import AuthUtils from '../auth/AuthUtils.js';
 import UserGroupName from '../util/UserGroup';
+import ModelPopUp from './OpenModel';
+
 const history = createHistory();
 
 class ObservationListContainer extends Component {
@@ -44,8 +45,7 @@ class ObservationListContainer extends Component {
           minDate:undefined,
           maxDate:undefined,
           months:[],
-          minDay:undefined,
-          maxDay:undefined,
+
           validate:[],
           hasMore:true,
           trait_8:[],
@@ -61,6 +61,7 @@ class ObservationListContainer extends Component {
         showMap:false,
         selectAll:false,
         urlforPassing:undefined,
+        openModal:false
       }
       this.url;
       const newparams=  queryString.parse(document.location.search);
@@ -112,6 +113,7 @@ class ObservationListContainer extends Component {
             let url="/observation/observation?"+search2;
             let userGroupList=this.state.params.userGroupList;
             userGroupList.push(group.id);
+            this.props.fetchFilterCount(url);
             this.setState({
               userGroupList:userGroupList,
               urlforPassing:url
@@ -156,6 +158,7 @@ class ObservationListContainer extends Component {
         }
 
         let url="/observation/observation?"+search2;
+        this.props.fetchFilterCount(url);
         this.setState({
           urlforPassing:url
         })
@@ -183,8 +186,7 @@ class ObservationListContainer extends Component {
 
           let minDate=params.minDate;
           let maxDate=params.maxDate;
-          let minDay=params.minDay;
-          let maxDay=params.maxDay;
+
           let months=params.months;
           let hasMore=params.hasMore;
           let validate=params.validate;
@@ -212,8 +214,7 @@ class ObservationListContainer extends Component {
 
                 minDate:minDate,
                 maxDate:maxDate,
-                minDay:minDay,
-                maxDay:maxDay,
+
                 months:months,
                 hasMore:hasMore,
                 validate:validate,
@@ -251,6 +252,7 @@ class ObservationListContainer extends Component {
             search:search1
           })
           let url="/observation/observation?"+search1;
+          this.props.fetchFilterCount(url);
           this.setState({
             urlforPassing:url
           })
@@ -262,6 +264,7 @@ class ObservationListContainer extends Component {
 
       taxonFilterEventListner(e){
             this.props.ClearObservationPage();
+            this.props.fetchFilterCount();
             const params=this.state.params;
             if(!params.taxon){
               params.taxon=[];
@@ -567,6 +570,7 @@ class ObservationListContainer extends Component {
         const seacrh=queryString.stringify(newparams)
         const search1=decodeURIComponent(seacrh);
         let url="/observation/observation?"+search1;
+        this.props.fetchFilterCount(url);
         this.setState({
           params:newparams,
           urlforPassing:url
@@ -593,8 +597,7 @@ class ObservationListContainer extends Component {
 
         let minDate=params.minDate;
         let maxDate=params.maxDate;
-        let minDay=params.minDay;
-        let maxDay=params.maxDay;
+
         let months=params.months;
         let hasMore=params.hasMore;
         let validate=params.validate;
@@ -625,8 +628,7 @@ class ObservationListContainer extends Component {
               user:user,
               minDate:minDate,
               maxDate:maxDate,
-              minDay:minDay,
-              maxDay:maxDay,
+
               months:months,
               hasMore:hasMore,
               validate:validate,
@@ -659,6 +661,7 @@ class ObservationListContainer extends Component {
         const search1=decodeURIComponent(seacrh);
 
         let url="/observation/observation?"+search1;
+
         this.setState({
           urlforPassing:url
         })
@@ -780,7 +783,19 @@ class ObservationListContainer extends Component {
             }
           }
         }
+        setOpenModal(){
+          let openModal=this.state.openModal;
+          openModal=!openModal;
+          this.setState({
+            openModal
+          })
+        }
+        getParamsCount(){
+            this.props.fetchFilterCount(10);
+        }
   render(){
+
+
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
 return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
 }):null;
@@ -798,6 +813,9 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                       <div className="panel-title">
                           <h5 className="text-primary">{this.props.Observation.count} result(s) found</h5>
                       </div>
+
+                      <button onClick={this.setOpenModal.bind(this)} className="btn btn-default">Downloads</button>
+                      {this.state.openModal?<ModelPopUp />:null}
                       <select className="btn btn-default pull-right"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
                           <option  value="Last Visited">Last Visited</option>
                           <option  value="Latest">Latest</option>
@@ -835,10 +853,11 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
   }
 }
 function mapStateToProps(state){
+
 return {
   Observation:state.Observation,
   Recommendations:state.Recommendations,
   UserGroupList:state.UserGroupList
 };
 }
-export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage,fetchRecommendations,clearRecommendations})(ObservationListContainer));
+export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage,fetchRecommendations,clearRecommendations,fetchFilterCount})(ObservationListContainer));

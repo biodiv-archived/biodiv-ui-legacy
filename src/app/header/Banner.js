@@ -203,15 +203,15 @@ class Banner extends Component{
                             </li>
                             <li className="dropdown">
                                 {<NavLink className="dropdown-toggle menu-item" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
-                                <ul className="dropdown-menu pre-scrollable" style={{'height':'500px','width':'200px'}} role="menu">
+                                <ul className="dropdown-menu pre-scrollable" style={{'height':'auto','width':'200px'}} role="menu">
 
-                                    {this.props.UserGroupList?this.props.UserGroupList.map((item,index)=>{
+                                    {this.props.UserGroupList.length>0?this.props.UserGroupList.map((item,index)=>{
                                         return (
                                             <li key={index} style={{'border':'1px'}}>
                                                 <NavLink to={`/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</NavLink >
                                             </li>
                                         )
-                                    }):"Loading...."}
+                                    }):<div className="loader"></div>}
                                 </ul>
                             </li>
                             <li className="dropdown">

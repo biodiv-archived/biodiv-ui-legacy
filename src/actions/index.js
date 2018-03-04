@@ -16,6 +16,7 @@ export const FETCH_RECOMMENDATIONS='FETCH_RECOMMENDATIONS';
 export const DELETE_RECOMMENDATIONS='DELETE_RECOMMENDATIONS';
 
 export const FETCH_SPECIES_GROUP ='FETCH_SPECIES_GROUP';
+export const FETCH_FILTER_COUNT ='FETCH_FILTER_COUNT';
 
 
 export function fetchUniqueSpecies(params,count,flag){
@@ -88,6 +89,12 @@ export function fetchMessage() {
     return {
       type:DELETE_OBSERVATION,
       payload:[]
+    }
+  }
+  export function fetchFilterCount(data) {
+    return {
+      type:FETCH_FILTER_COUNT,
+      payload:data
     }
   }
 
