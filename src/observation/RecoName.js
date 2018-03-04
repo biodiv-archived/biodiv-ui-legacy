@@ -163,7 +163,7 @@ class RecoName extends React.Component {
     var unlock1="unlockButton"+obvId+recoId;
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/observation/"+obvId+"/lock",
+        url :   Config.api.ROOT_URL+"/observation/lock/"+obvId,
       params:{
         lockType:"Validate",
         recoId:recoId
