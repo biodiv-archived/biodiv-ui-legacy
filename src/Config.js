@@ -53,10 +53,10 @@ axios.interceptors.response.use(function (response) {
     //console.log(response);
     //console.log('---------------------ON RESPONSE END------------------------');
     return response;
-}, function(error) { 
+}, function(error) {
     console.log(error);
     if(error.response.status == 401) {
-        /*        var credentials = loginService.getCredentials(); 
+        /*        var credentials = loginService.getCredentials();
         var now = new Date().getTime();
         var brToken = credentials.getRefreshToken();
         var timeLeftForRToken = credentials.getLastLoginDate().getTime() + (30*24*60*60*1000) - now;//issued at+30 days - now

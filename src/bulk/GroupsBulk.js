@@ -22,8 +22,8 @@ class GroupsBulk extends React.Component{
     this.checked="Post to Groups";
     this.getUserGroupsWithWrite = this.getUserGroupsWithWrite.bind(this)
     this.state.responseUser.length===0?this.getUserGroupsWithWrite():null
-    console.log("checking_id",this.props.ids)
-    console.log(this.props.selectAll)
+    //console.log("checking_id",this.props.ids)
+    //console.log(this.props.selectAll)
   }
 
   getUserGroupsWithWrite(){
@@ -243,6 +243,7 @@ class GroupsBulk extends React.Component{
     })
     var list1=this.post.toString()
     var ids=this.props.ids.toString()
+    //console.log("all ids are here",ids)
     if(this.props.selectAll==true)
     {
       var optionsPost={

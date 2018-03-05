@@ -7,7 +7,7 @@ class Navigate extends React.Component {
     super(props);
 
     this.openNav = this.openNav.bind(this)
-    console.log("navigation")
+    //console.log("navigation")
   }
 
   openNav(){

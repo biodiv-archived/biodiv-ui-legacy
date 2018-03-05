@@ -116,35 +116,39 @@ class ListComponent extends Component{
 
     }
 
-    launchBulk(obvId){
-        let _bulkId=this.state.bulkId
-        function checkIndex(id){
-            return id==obvId
-        }
-        let index = _bulkId.findIndex(checkIndex)
-        if(index<0)
-        {
-            _bulkId=_bulkId.concat(obvId)
-            this.setState({
-                bulkId:_bulkId,
-            })
-        }
-        else{
-            _bulkId.splice(index,1)
-            this.setState({
-                bulkId:_bulkId,
-            })
-        }
-        this.setState({
-            bulk:true,
-        })
+    // launchBulk(obvId){
+    //     let _bulkId=this.state.bulkId
+    //     function checkIndex(id){
+    //         return id==obvId
+    //     }
+    //     let index = _bulkId.findIndex(checkIndex)
+    //     if(index<0)
+    //     {
+    //         _bulkId=_bulkId.concat(obvId)
+    //         this.setState({
+    //             bulkId:_bulkId,
+    //         })
+    //     }
+    //     else{
+    //         _bulkId.splice(index,1)
+    //         this.setState({
+    //             bulkId:_bulkId,
+    //         })
+    //     }
+    //     this.setState({
+    //         bulk:true,
+    //     })
+    //
+    // }
+    //
+    // resetBulk(){
+    //     this.setState({
+    //         bulk:false
+    //     })
+    // }
 
-    }
-
-    resetBulk(){
-        this.setState({
-            bulk:false
-        })
+    launch(id){
+      this.props.launchBulk(id);
     }
 
     getUserPhotoUrl(images){
@@ -176,9 +180,9 @@ display(objs,selectAll){
                            (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
                           (
                             selectAll==true?
-                            (<input type="checkbox" style={{top:'4px',left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)} checked={selectAll} disabled/>)
+                            (<input type="checkbox" style={{top:'4px',left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launch.bind(this,objs.id)} checked={selectAll} disabled/>)
                             :
-                            (<input type="checkbox"  style={{top:'4px', left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launchBulk.bind(this,objs.id)}/>)
+                            (<input type="checkbox"  style={{top:'4px', left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launch.bind(this,objs.id)}/>)
                           ):null
                         }
                     </div>
@@ -259,7 +263,7 @@ render(){
 return(
 <div>
     {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} />):null}
-    {(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null }
+    {/*(this.state.bulk==true || this.props.selectAll==true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk.bind(this)} resetSelectAll={this.props.resetSelectAll}/>):null */}
     {this.display(this.props.item,this.props.selectAll)}
 </div>
 )

@@ -22,6 +22,7 @@ import MobileRightSidebar from '../app/MobileRightSidebar';
 import AuthUtils from '../auth/AuthUtils.js';
 import UserGroupName from '../util/UserGroup';
 import ModelPopUp from './OpenModel';
+import Navigate from '../bulk/Navigation.js'
 
 const history = createHistory();
 
@@ -61,7 +62,9 @@ class ObservationListContainer extends Component {
         showMap:false,
         selectAll:false,
         urlforPassing:undefined,
-        openModal:false
+        openModal:false,
+        bulkId:[],
+        bulk:false
       }
       this.url;
       const newparams=  queryString.parse(document.location.search);
@@ -169,6 +172,8 @@ class ObservationListContainer extends Component {
       this.obvResponse = this.obvResponse.bind(this);
       this.fetchRecos = this.fetchRecos.bind(this);
 
+      this.launchBulk = this.launchBulk.bind(this);
+      this.resetBulk = this.resetBulk.bind(this);
     };
 
 
@@ -793,11 +798,47 @@ class ObservationListContainer extends Component {
         getParamsCount(){
             this.props.fetchFilterCount(10);
         }
+
+        launchBulk(obvId){
+          console.log("inside the launch  bulk action",this.state.bulkId)
+            let _bulkId=this.state.bulkId
+            // function checkIndex(id){
+            //     return id==obvId
+            // }
+            // let index = _bulkId.findIndex(checkIndex)
+            let index = _bulkId.indexOf(obvId)
+            if(index<0)
+            {
+                _bulkId=_bulkId.concat(obvId)
+                this.setState({
+                    bulkId:_bulkId,
+                })
+            }
+            else{
+                _bulkId.splice(index,1)
+                this.setState({
+                    bulkId:_bulkId,
+                })
+            }
+            this.setState({
+                bulk:true,
+            })
+
+            console.log("all the Ids",this.state.bulkId)
+
+        }
+
+        resetBulk(){
+            this.setState({
+                bulk:false
+            })
+        }
+
   render(){
 
 
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
-return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/>
+return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)} launchBulk={this.launchBulk}/>
 }):null;
     return(
       <div>
@@ -848,6 +889,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                     </div>
                 </div>
             </div>}
+            {(this.state.bulk===true || this.props.selectAll===true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk} resetSelectAll={this.props.resetSelectAll}/>):null }
       </div>
     )
   }
