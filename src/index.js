@@ -7,7 +7,7 @@ import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-//import reactTimeAgo from 'react-time-ago'
+
 import TimeAgo from 'javascript-time-ago'
 
 import registerServiceWorker from './registerServiceWorker';
@@ -30,7 +30,6 @@ import ru from 'javascript-time-ago/locales/ru'
 // require('javascript-time-ago/intl-messageformat-global')
 // require('intl-messageformat/dist/locale-data/en')
 // require('intl-messageformat/dist/locale-data/ru')
-// require('dotenv').config()
 
 TimeAgo.locale(en)
 TimeAgo.locale(ru)

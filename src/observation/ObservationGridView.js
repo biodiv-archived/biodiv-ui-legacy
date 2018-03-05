@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import UserAvatar from '../util/userIcon';
 import {NavLink,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+import isAbsoluteUrl  from 'is-absolute-url';
 
 class ObservationGridView extends Component{
 
@@ -14,17 +15,29 @@ getUrl(thumbnail){
   }
 }
 
+getUserPhotoUrl(images){
+    if(images){
+      if(isAbsoluteUrl(images)){
+        return images;
+      }
+      else{
+        let url=`http://indiabiodiversity.org/biodiv/users${images}`;
+        return url;
+      }
+    }
+    else{
+      return null;
+    }
+}
+
 display(objs,index){
-
-
-
   return (
     <li key= {index}>
                 <div style={{height:'280px',width:'200px'}} className="card ">
                     <img className="card-img-top" style={{height:'220px',width:'200px'}} src={this.getUrl(objs.thumbnail)} />
                     <div className="card-block">
                         <figure className="profile"  style={{height:'40px',width:'40px'}}>
-                          <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar title={objs.authorname} src={objs.authorprofilepic} name={objs.authorname} size="40"  ></UserAvatar>
+                          <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="40"  ></UserAvatar>
                         </NavLink>
                         </figure>
                         <i className="card-title"> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i>

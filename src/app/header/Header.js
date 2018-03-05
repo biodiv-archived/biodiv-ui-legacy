@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import { Form, Text} from 'react-form';
 
-
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import $ from 'jquery';
@@ -162,9 +161,6 @@ class Header extends React.Component {
                         </div>
                         <button type="submit" className="btn btn-link glyphicon glyphicon-search"></button>
                     </form> */}
-
-
-
 
                 </div>
 
