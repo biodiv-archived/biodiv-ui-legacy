@@ -206,7 +206,7 @@ class RecoName extends React.Component {
     var unlock1="unlockButton"+obvId+recoId;
     var options={
       method: 'POST',
-      url :   Config.api.ROOT_URL+"/observation/"+obvId+"/lock",
+      url :   Config.api.ROOT_URL+"/observation/lock"+obvId,
       params:{
         lockType:"Unlock",
         recoId:recoId
@@ -320,7 +320,14 @@ class RecoName extends React.Component {
                                             )
                                             :
                                             (
-                                              <UserAvatar  name={aut[0].name} title={aut[0].name}   size="30" />
+                                              aut[0].profilePic?
+                                              (
+                                                <UserAvatar  name={aut[0].name} title={aut[0].name} src={aut[0].profilePic}  size="30" />
+                                              )
+                                              :
+                                              (
+                                                <UserAvatar  name={aut[0].name} title={aut[0].name}   size="30" />
+                                              )
                                             )
                                           }
 
