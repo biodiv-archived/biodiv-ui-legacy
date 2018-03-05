@@ -175,7 +175,7 @@ display(objs,selectAll){
                 <div className="media">
                   <div style={{padding:'4px',position:'relative'}} className="pull-left">
                     <div  style={{marginLeft:'-10px'}} className="media-left">
-                        <ShowGallery thumbnail={objs.thumbnail} objs={objs} objid={objs.id} images={objs.imageresource} />
+                        <ShowGallery thumbnail={objs.thumbnail} speciesgroupname={objs.speciesgroupname} objs={objs} objid={objs.id} images={objs.imageresource} videos={objs.urlresource}/>
                         {
                            (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
                           (
