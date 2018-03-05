@@ -110,9 +110,14 @@ clearFilter(){
   this.props.history.push(`${this.props.location.pathname}`)
 }
 
+
+
 render(){
+
   let FilterCount=this.props.FilterCount.countUrl?this.props.FilterCount.countUrl.split("?")[1]:null;
   let urlObject=queryString.parse(FilterCount);
+  let taxonElement = <div><span>Taxon Browser</span> <span className="badge badge-light">{urlObject.taxon?urlObject.taxon.split(",").length:null}</span></div>;
+
    this.length=0;
   if(urlObject){
     if(urlObject.taxon){
@@ -172,50 +177,50 @@ render(){
        </div>
 
         <div className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
-            <Collapsible open={true} trigger={`Taxon Browser  ${urlObject.taxon?urlObject.taxon.split(",").length: " "}`}>
+            <Collapsible open={true} trigger={`Taxon Browser`}>
             <div>
                 <TaxonBrowser />
                 <SearchBar />
             </div>
             </Collapsible>
 
-            <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups          ${urlObject.sGroup?urlObject.sGroup.split(",").length:" "}`}>
+            <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups`}>
                 <SpeciesGroup />
             </Collapsible>
             <div ref="hide" style={{display:'block'}}>
-            <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={`User Group  ${urlObject.userGroupList?urlObject.userGroupList.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={`User Group`}>
                 <UserGroup />
             </Collapsible>
             </div>
-            <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger={`Data Validation  ${urlObject.speciesName?urlObject.speciesName.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger={`Data Validation `}>
                 <ScientificNameFilter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.flagOpen} trigger={`Flag  ${urlObject.isFlagged?urlObject.isFlagged.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.flagOpen} trigger={`Flag `}>
                 <FlaggedFilter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.userOpen} trigger={`User  ${urlObject.user?urlObject.user.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.userOpen} trigger={`User `}>
                 <UserFilter/>
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type  ${urlObject.mediaFilter?urlObject.mediaFilter.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type`}>
             <Media_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} trigger={`Date  ${(urlObject.minDate || urlObject.maxDate)?"1":" "}`}>
+            <Collapsible lazyRender={true} trigger={`Date`}>
             <Year_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal  ${urlObject.months?urlObject.months.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal`}>
             <Month_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.validateOpen} trigger={`Validation  ${urlObject.validate?urlObject.validate.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.validateOpen} trigger={`Validation`}>
             <Validate_Filter />
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits  ${urlObject.trait_8?urlObject.trait_8.split(",").length:" "}`}>
+            <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
             <Traits_Filter />
             </Collapsible>
             <div style={{height:'107px'}}></div>

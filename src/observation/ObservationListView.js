@@ -4,15 +4,11 @@ import EllipsisText  from 'react-ellipsis-text';
 import Moment from 'react-moment';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import Parser from 'html-react-parser';
-
-
+import isAbsoluteUrl  from 'is-absolute-url';
 import Truncate from 'react-truncate';
 
 import createHistory from 'history/createBrowserHistory';
-
 import style from './ObservationStyle.css';
-
 import ShowGallery from './imageGallery/ImageShows';
 import Tabs from './Tabs';
 import {Config} from '../Config';
@@ -69,8 +65,6 @@ class ListComponent extends Component{
     }
 
     handleEditUserGroupButton(previous_id){
-
-
         let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
         if(obj) {
             let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
@@ -157,6 +151,21 @@ class ListComponent extends Component{
       this.props.launchBulk(id);
     }
 
+    getUserPhotoUrl(images){
+        if(images){
+          if(isAbsoluteUrl(images)){
+            return images;
+          }
+          else{
+            let url=`http://indiabiodiversity.org/biodiv/users${images}`;
+            return url;
+          }
+        }
+        else{
+          return null;
+        }
+    }
+
 display(objs,selectAll){
   return (
     <div   className="container-fluid">
@@ -207,7 +216,7 @@ display(objs,selectAll){
 
                           <div className="">
                             <div className="pull-left" >
-                              <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar  title={objs.authorname} src={objs.authorprofilepic} name={objs.authorname} size="35"  ></UserAvatar>
+                              <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar  title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="35"  ></UserAvatar>
                               </NavLink>
                             </div>
 

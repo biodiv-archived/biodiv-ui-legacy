@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import Naksha from 'naksha-react-ui';
-import { Config } from '../Config';
 import axios from 'axios';
+
+import { Config } from '../Config';
 
 class ObservationMapView extends Component{
 

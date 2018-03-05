@@ -24,7 +24,9 @@
   border: 1px solid white;
   padding: 10px;
   background: #3c763d;
-  color: white; }
+  color: white;
+}
+
   .Collapsible__trigger:after {
     font-family: 'FontAwesome';
     content: '\f107';
@@ -32,22 +34,28 @@
     right: 10px;
     top: 10px;
     display: block;
-    transition: transform 300ms; }
+    transition: transform 300ms;
+  }
   .Collapsible__trigger.is-open:after {
-    transform: rotateZ(180deg); }
+    transform: rotateZ(180deg);
+   }
   .Collapsible__trigger.is-disabled {
     opacity: 0.5;
-    background-color: grey; }
+    background-color: grey;
+  }
 
 .CustomTriggerCSS {
   background-color: lightcoral;
-  transition: background-color 200ms ease; }
+  transition: background-color 200ms ease;
+}
 
 .CustomTriggerCSS--open {
-  background-color: darkslateblue; }
+  background-color: darkslateblue;
+ }
 
 .Collapsible__custom-sibling {
   padding: 5px;
   font-size: 12px;
   background-color: #CBB700;
-  color: black; }
+  color: black;
+ }
