@@ -471,7 +471,7 @@ class RichTextEditor extends React.Component {
         </div>
         </div>
         <div className="col-xs-1 pull-right" style={{marginRight:'2%'}}>
-          <input type="submit" value="Post" className="btn btn-xs comment-post-btn " style={{float:'right'}} onClick={this.onCommentPost.bind(this)} disabled={this.state.loading}/>
+          <input type="submit" value="Post" className="btn btn-xs btn-primary comment-post-btn " style={{float:'right'}} onClick={this.onCommentPost.bind(this)} disabled={this.state.loading}/>
         </div>
       </div>
     );

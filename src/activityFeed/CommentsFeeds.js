@@ -371,11 +371,11 @@ class CommentsFeeds extends React.Component {
                                                 {
                                                   item.author.icon?
                                                   (
-                                                    <UserAvatar  name={item.author.name} title={item.author.name} src={Config.api.ROOT_URL+"/biodiv/users/"+item.author.icon}  size="40" />
+                                                    <UserAvatar  name={item.author.name} title={item.author.name} src={Config.api.ROOT_URL+"/biodiv/users/"+item.author.icon}  size="30" />
                                                   )
                                                   :
                                                   (
-                                                    <UserAvatar  name={item.author.name} title={item.author.name}   size="40" />
+                                                    <UserAvatar  name={item.author.name} title={item.author.name}   size="30" />
                                                   )
                                                 }
                                               </NavLink>
@@ -430,6 +430,14 @@ class CommentsFeeds extends React.Component {
                                                             }
                                                         </span>
                                                     </b>
+                                                    <span>
+                                                    <b>
+                                                     {" : On "}
+                                                    </b>
+                                                    {
+                                                      <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                    }
+                                                    </span>
                                                   </div>
                                                   {
                                                     item.activityType != 'Suggestion removed'?
@@ -442,9 +450,9 @@ class CommentsFeeds extends React.Component {
                                                       ):null
                                                     ):null
                                                   }
-                                                  <div className="row" style={{marginTop:'1%'}}>
+                                                  {/*<div className="row" style={{marginTop:'1%'}}>
                                                           <time className="timeago"><Moment date={item.lastUpdated}/></time>
-                                                  </div>
+                                                  </div>*/}
                                               </div>
                                             )
                                             :
@@ -471,13 +479,21 @@ class CommentsFeeds extends React.Component {
                                                         </span>
 
                                                     </b>
+                                                    <span>
+                                                    <b>
+                                                     {" : On "}
+                                                    </b>
+                                                    {
+                                                      <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                    }
+                                                    </span>
                                                   </div>
                                                   <div className = "description row" style={{color:'#3B2F2F'}}>
                                                       <span className="parse" style={{wordWrap:'break-word'}} dangerouslySetInnerHTML={{ __html: item.descriptionJson.description }} />
                                                   </div>
-                                                  <div className="row" style={{marginTop:'1%'}}>
+                                                  {/*<div className="row" style={{marginTop:'1%'}}>
                                                       <time className="timeago"><Moment date={item.lastUpdated}/></time>
-                                                  </div>
+                                                  </div>*/}
                                                   {
                                                     (item.descriptionJson.activity_performed == 'Added a comment' || item.descriptionJson.activity_performed == 'In reply to')?
                                                     (

@@ -350,7 +350,7 @@ class Formsuggest extends React.Component {
                   <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'91%',paddind:'1px 2px',border:'1px solid #aaa',borderRadius:'4px'}}/>
               </div>
               <div className="col-sm-2">
-                <input  type="submit" value="Add" className="btn btn-primary btn-sm"  disabled={this.state.loading}/>
+                <input  type="submit" value="Add" className="btn btn-primary btn-xs"  disabled={this.state.loading}/>
               </div>
           </div>
       </form>

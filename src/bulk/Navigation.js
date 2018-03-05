@@ -17,7 +17,7 @@ class Navigate extends React.Component {
   closeNav(){
     document.getElementById("mySidenav").style.height = "0";
     this.props.resetBulk();
-    this.props.resetSelectAll();
+    //this.props.resetSelectAll();
   }
 
   render(){

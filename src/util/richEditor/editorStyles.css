@@ -1,9 +1,9 @@
 .editor {
   box-sizing: border-box;
-  border: 1px solid #181818;
+  border: 1px solid grey;
   cursor: text;
   padding: 2px;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-bottom: 0px;
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #fefefe;

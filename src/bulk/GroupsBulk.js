@@ -365,6 +365,7 @@ class GroupsBulk extends React.Component{
       <div className="well well-sm">
         <div className="row" style={{marginLeft:'2.5%'}}>
             <input type="radio" name="group" id={"postRadio"} value=" Post to Groups" defaultChecked onClick={this.change.bind(this)}/> Post to Groups
+            &nbsp;
             <input type="radio" name="group" id={"unpostRadio"} value="Unpost from Groups" onClick={this.change.bind(this)}/> Unpost from Groups
         </div>
         <br/>
