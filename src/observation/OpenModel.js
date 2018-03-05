@@ -1,8 +1,9 @@
 import React from 'react';
 import { Form, Text, Radio, Select, Checkbox } from 'react-form';
-
+import axios from 'axios';
 import Modal from 'react-modal';
-
+import {NavLink,withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
 const customStyles = {
   content : {
     top                   : '50%',
@@ -39,6 +40,12 @@ class DownloadModal extends React.Component {
   closeModal() {
     this.setState({modalIsOpen: false});
   }
+  getDownloads(){
+    let url = "http://localhost:8090/biodiv-api/download" + this.props.Url.countUrl + "&notes="+this.refs.notes.value;
+      axios.get(url).then((status)=>{
+        console.log(status);
+      })
+  }
 
   render() {
     return (
@@ -48,31 +55,25 @@ class DownloadModal extends React.Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
-          contentLabel="Export As"
+          contentLabel="Export"
         >
-          <h2>Export As</h2>
           <div className="container">
-<form>
-  <div className="radio">
-    <label><input type="radio" name="csv" />CSV</label>
-  </div>
-  <div className="radio">
-    <label><input type="radio" name="kml" />KML</label>
-  </div>
-  <div className="radio">
-    <label><input type="radio" name="DWCA" />DWCA</label>
-  </div>
-  <textarea  width="200px"></textarea>
-  <br />
-  <button className="btn btn-warning">Cancel</button>
-  <button className="btn btn-primary">Submit</button>
+            <h3 >Export as CSV</h3>
 
-</form>
-</div>
+            <textarea ref={"notes"} style={{width:'100%',border:'1px solid grey'}} placeholder="Please let us know how you intend to use this data"></textarea>
+            <br />
+            <button onClick={this.getDownloads.bind(this)} className="btn btn-primary pull-right">Submit</button> {"        "}
+            <button onClick={this.closeModal} className="btn btn-warning pull-right">Cancel</button>
+        </div>
 
         </Modal>
       </div>
     );
   }
 }
-export default DownloadModal;
+function mapStateToProps(state,ownProps) {
+  return {
+    Url:state.FilterCount
+  }
+}
+export default withRouter(connect(mapStateToProps,null)(DownloadModal ));

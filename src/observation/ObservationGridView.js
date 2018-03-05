@@ -6,14 +6,61 @@ import isAbsoluteUrl  from 'is-absolute-url';
 
 class ObservationGridView extends Component{
 
-getUrl(thumbnail){
-  let res = thumbnail?thumbnail.split("."):null;
-  if(res)
-  return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
-  else {
-    return null
+  getUrl(thumbnail,speciesGroup){
+
+    let group=speciesGroup.toLowerCase();
+    console.log(group);
+    let groupIcon=null;
+    if(group=="bird"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
+    }
+    if(group=="fish"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/fish_th1.png';
+    }
+    if(group=="fungi"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/fungi_th1.png';
+    }
+    if(group=="mammals"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/mammals_th1.png';
+    }
+    if(group=="all"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/all_th1.png';
+    }
+    if(group=="amphibians"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/amphibians_th1.png';
+    }
+    if(group=="reptiles"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/reptiles_th1.png';
+    }
+    if(group=="molluscs"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/molluscs_th1.png';
+    }
+    if(group=="arthropods"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/arthropods_th1.png';
+    }
+    if(group=="plants"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/plants_th1.png';
+    }
+    if(group=="others"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/others_th1.png';
+    }
+    if(group=="birds"){
+      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
+    }
+
+
+    let res = thumbnail?thumbnail.split("."):groupIcon;
+    if(res){
+      if(thumbnail)
+      return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
+      else{
+        return res;
+      }
+    }
+    else {
+      return null
+    }
   }
-}
 
 getUserPhotoUrl(images){
     if(images){
@@ -34,7 +81,7 @@ display(objs,index){
   return (
     <li key= {index}>
                 <div style={{height:'280px',width:'200px'}} className="card ">
-                    <img className="card-img-top" style={{height:'220px',width:'200px'}} src={this.getUrl(objs.thumbnail)} />
+                    <img className="card-img-top" style={{height:'220px',width:'200px'}} src={this.getUrl(objs.thumbnail,objs.speciesgroupname)} />
                     <div className="card-block">
                         <figure className="profile"  style={{height:'40px',width:'40px'}}>
                           <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="40"  ></UserAvatar>
