@@ -4,6 +4,7 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import {NavLink,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+import {Config} from '../Config'
 const customStyles = {
   content : {
     top                   : '50%',
@@ -41,7 +42,7 @@ class DownloadModal extends React.Component {
     this.setState({modalIsOpen: false});
   }
   getDownloads(){
-    let url = "http://localhost:8090/biodiv-api/download" + this.props.Url.countUrl + "&notes="+this.refs.notes.value;
+    let url = Config.api.API_ROOT_URL+"/naksha/download" + this.props.Url.countUrl + "&notes="+this.refs.notes.value;
       axios.get(url).then((status)=>{
         console.log(status);
       })

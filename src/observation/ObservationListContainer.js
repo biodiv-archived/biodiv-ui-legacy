@@ -21,8 +21,9 @@ import Right_stats from '../app/RightMaterial';
 import MobileRightSidebar from '../app/MobileRightSidebar';
 import AuthUtils from '../auth/AuthUtils.js';
 import UserGroupName from '../util/UserGroup';
-import ModelPopUp from './OpenModel';
+import DownloadModal from './DownloadModal';
 import Navigate from '../bulk/Navigation.js'
+import ModalPopup from '../auth/Modal.js';
 
 const history = createHistory();
 
@@ -64,7 +65,8 @@ class ObservationListContainer extends Component {
         urlforPassing:undefined,
         openModal:false,
         bulkId:[],
-        bulk:false
+        bulk:false,
+        login_modal:false,
       }
       this.url;
       const newparams=  queryString.parse(document.location.search);
@@ -174,6 +176,7 @@ class ObservationListContainer extends Component {
 
       this.launchBulk = this.launchBulk.bind(this);
       this.resetBulk = this.resetBulk.bind(this);
+      this.setOpenModal = this.setOpenModal.bind(this);
     };
 
 
@@ -789,12 +792,20 @@ class ObservationListContainer extends Component {
           }
         }
         setOpenModal(){
-          let openModal=this.state.openModal;
-          openModal=!openModal;
-          this.setState({
-            openModal
-          })
+          if(AuthUtils.isLoggedIn()){
+            let openModal=this.state.openModal;
+            openModal=!openModal;
+            this.setState({
+              openModal
+            })
+          }else{
+            this.setState({
+              login_modal:!(this.state.login_modal)
+            });
+          }
+
         }
+
         getParamsCount(){
             this.props.fetchFilterCount(10);
         }
@@ -842,6 +853,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
 }):null;
     return(
       <div>
+            {this.state.login_modal==true?(<ModalPopup key={"downloadLogin"}   id={"downloads login"} func={this.setOpenModal}/>):null}
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
               <div className="panel panel-success">
@@ -856,7 +868,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                       </div>
 
                       <button onClick={this.setOpenModal.bind(this)} className="btn btn-default">Downloads</button>
-                      {this.state.openModal?<ModelPopUp />:null}
+                      {this.state.openModal?<DownloadModal />:null}
                       <select className="btn btn-default pull-right"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
                           <option  value="Last Visited">Last Visited</option>
                           <option  value="Latest">Latest</option>
