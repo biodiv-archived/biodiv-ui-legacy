@@ -259,8 +259,8 @@ class RecoName extends React.Component {
         this.state.response.map((item,index)=>{
           var authArray=[]
             return(
-          <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',padding:'2px'}}>
-              <div className="col-sm-6">
+          <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
+              <div className="col-xs-6">
                 {
                   item.isScientificName===true?
                     (
@@ -300,7 +300,7 @@ class RecoName extends React.Component {
                 }
                 {item.hasOwnProperty('commonNames')?<span style={{color:'black'}}>{item.commonNames}</span>:null}
                </div>
-               <div className="col-sm-3" style={{marginLeft:'0%'}}>
+               <div className="col-xs-3" style={{marginLeft:'0%'}}>
                    <div className="row pull-left">
                        {
                          item.authors.map((aut,index)=>{
@@ -339,9 +339,10 @@ class RecoName extends React.Component {
                      }
                    </div>
                </div>
-               <div className="col-sm-3 ">
+               <div className="col-xs-3 ">
                   <div className="row pull-right">
                   <div className="col-xs-4">
+                  
                   {
                     item.isLocked==false?
                     (
@@ -370,8 +371,10 @@ class RecoName extends React.Component {
 
                     )
                   }
+
                   </div>
                   <div className="col-xs-4">
+
                   {
                     (AuthUtils.isLoggedIn())?
                         (
@@ -415,9 +418,12 @@ class RecoName extends React.Component {
 
                         )
                     }
+
                     </div>
                     <div className="col-xs-4">
+
                       <RecoComment key={item.recoId} getReco={this.getRecoName} id1={item.recoId} id2={this.props.id} speciesId={item.hasOwnProperty('speciesId')?(item.speciesId!=null?item.speciesId:"no"):"no"} name={item.name} votes={item.authors.length} commentCount={item.totalCommentCount}/>
+
                     </div >
                       </div>
                 </div>
