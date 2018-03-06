@@ -116,36 +116,7 @@ class ListComponent extends Component{
 
     }
 
-    // launchBulk(obvId){
-    //     let _bulkId=this.state.bulkId
-    //     function checkIndex(id){
-    //         return id==obvId
-    //     }
-    //     let index = _bulkId.findIndex(checkIndex)
-    //     if(index<0)
-    //     {
-    //         _bulkId=_bulkId.concat(obvId)
-    //         this.setState({
-    //             bulkId:_bulkId,
-    //         })
-    //     }
-    //     else{
-    //         _bulkId.splice(index,1)
-    //         this.setState({
-    //             bulkId:_bulkId,
-    //         })
-    //     }
-    //     this.setState({
-    //         bulk:true,
-    //     })
-    //
-    // }
-    //
-    // resetBulk(){
-    //     this.setState({
-    //         bulk:false
-    //     })
-    // }
+
 
     launch(id){
       this.props.launchBulk(id);

@@ -83,7 +83,6 @@ export default class LightboxExample extends Component {
       this.props.videos?this.props.videos.map((data)=>{
         images.push("https://cdn.pixabay.com/photo/2014/05/14/14/17/youtube-344107__340.png");
       }):null;
-      console.log(images);
       const {photoIndex,isOpen} = this.state;
         return (
             <div>
