@@ -54,6 +54,7 @@ class Tabs extends React.Component {
   }
 
   render(){
+    //console.log("tabs called gain")
     return(
 <div>
             <ul className="nav nav-tabs">
@@ -69,7 +70,7 @@ class Tabs extends React.Component {
                         <div>
                           {
                             (this.props.Recommendations && Object.keys(this.props.Recommendations).length>0 && this.props.Recommendations[this.props.objs.id] != null)?
-                            <RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]}/>
+                            <RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]} ObvRenderAgain={this.props.ObvRenderAgain} rerun={this.props.rerun}/>
                             :(
                               <div className="loader"></div>
                             )
