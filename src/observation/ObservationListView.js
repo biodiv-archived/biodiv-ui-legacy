@@ -44,6 +44,7 @@ class ListComponent extends Component{
             login_modal:false,
             rerun:false
         }
+        this.ObvRenderAgain = this.ObvRenderAgain.bind(this);
     }
 
     componentDidMount(){
@@ -77,11 +78,7 @@ class ListComponent extends Component{
 
             axios(options)
                 .then((response)=>{
-                    Object.assign(this.props.item,response.data.document)
-
-                    this.setState({
-                        rerun:true
-                    })
+                    this.ObvRenderAgain(response)
                     let sid2=this.props.item.id+"2";
                     let sid1=this.props.item.id+"1";
 
@@ -101,6 +98,14 @@ class ListComponent extends Component{
         }
     }
 
+    ObvRenderAgain(response){
+      console.log("called from tabs")
+      Object.assign(this.props.item,response.data.document)
+      this.setState({
+          rerun:true
+      })
+      console.log(this.state.rerun)
+    }
 
     changeStyle(id){
         let sid1=id+"1";
@@ -138,6 +143,7 @@ class ListComponent extends Component{
     }
 
 display(objs,selectAll){
+  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&")
   return (
     <div   className="container-fluid">
 
@@ -221,7 +227,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-                <Tabs objs={objs} />
+                <Tabs rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
                 <br />
             </div>
             <br />

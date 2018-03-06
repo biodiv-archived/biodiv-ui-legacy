@@ -27,7 +27,7 @@ class RecoName extends React.Component {
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
-
+    this.getObvAgain=this.getObvAgain.bind(this)
   }
 
   getRecoName(id){
@@ -179,6 +179,8 @@ class RecoName extends React.Component {
               loading:false
             })
             if(response.status === 200){
+              //this.getRecoName(this.props.id)
+              this.getObvAgain(this.props.id)
               this.getRecoName(this.props.id)
             }
           })
@@ -245,9 +247,30 @@ class RecoName extends React.Component {
 
   }
 
+  getObvAgain(obvId){
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
+    })
+    var options={
+      method:"GET",
+      url:Config.api.API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
+      headers :AuthUtils.getAuthHeaders(),
+      json: 'true'
+    }
+    axios(options)
+        .then((response)=>{
+          document.body.style.cursor = "default";
+          this.setState({
+            loading:false
+          })
+          this.props.ObvRenderAgain(response);
+        })
+  }
+
 
   render(){
-
+    console.log("recoName called agagin")
     return(
     <div>
       {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}
@@ -342,7 +365,7 @@ class RecoName extends React.Component {
                <div className="col-xs-3 ">
                   <div className="row pull-right">
                   <div className="col-xs-4">
-                  
+
                   {
                     item.isLocked==false?
                     (
