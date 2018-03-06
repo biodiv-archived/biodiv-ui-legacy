@@ -86,6 +86,7 @@ class RecoName extends React.Component {
               loading:false
             })
             if(response.status === 200){
+              this.getObvAgain(this.props.id)
               this.getRecoName(this.props.id)
             }
             // this.setState({
@@ -135,6 +136,7 @@ class RecoName extends React.Component {
               loading:false
             })
             if(response.status === 200){
+              this.getObvAgain(this.props.id)
               this.getRecoName(this.props.id)
             }
           })
@@ -224,6 +226,7 @@ class RecoName extends React.Component {
               loading:false
             })
             if(response.status === 200){
+              this.getObvAgain(this.props.id)
               this.getRecoName(this.props.id)
             }
           })
@@ -270,7 +273,7 @@ class RecoName extends React.Component {
 
 
   render(){
-    console.log("recoName called agagin")
+    //console.log("recoName called agagin")
     return(
     <div>
       {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}
@@ -461,7 +464,7 @@ class RecoName extends React.Component {
           {
             this.props.islocked==="false"?
             (
-              <Formsuggest  id2={this.props.id} getReco={this.getRecoName}/>
+              <Formsuggest  id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain}/>
             ):
             (
               <center><span style={{color:'green'}}> This observation ID is locked by a  species curator. </span></center>

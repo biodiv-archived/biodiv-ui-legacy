@@ -143,7 +143,6 @@ class ListComponent extends Component{
     }
 
 display(objs,selectAll){
-  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&")
   return (
     <div   className="container-fluid">
 

@@ -84,6 +84,7 @@ class Formsuggest extends React.Component {
           })
           document.body.style.cursor = "default";
           if(response.status === 200){
+              this.props.getObvAgain(this.props.id2)
               this.props.getReco(this.props.id2)
           }
         })
@@ -98,7 +99,7 @@ class Formsuggest extends React.Component {
             options:options
           })
         }else{
-          console.log("fofoofof")
+          console.log(error)
         }
         })
 
