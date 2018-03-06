@@ -291,7 +291,7 @@ class GroupsBulk extends React.Component{
             this.setState({
               loading:false
             })
-            alert("Bulk Action Performed Successfully")
+            alert(this.props.ids.length+ " observations posted succesfully")
               //console.log(response)
           })
       }
@@ -355,7 +355,7 @@ class GroupsBulk extends React.Component{
             this.setState({
               loading:false
             })
-            alert("Bulk Action Performed Successfully")
+            alert(this.props.ids.length + " observations unposted successfully")
               //console.log(response)
           })
       }
