@@ -116,9 +116,10 @@ class ObservationListContainer extends Component {
               this.props.fetchObservations(this.state.params)
             }
             let url="/search/observation/observation?"+search2;
+            let url1="/observation/observation?"+search2;
             let userGroupList=this.state.params.userGroupList;
             userGroupList.push(group.id);
-            this.props.fetchFilterCount(url);
+            this.props.fetchFilterCount(url1);
             this.setState({
               userGroupList:userGroupList,
               urlforPassing:url,
@@ -164,7 +165,8 @@ class ObservationListContainer extends Component {
         }
 
         let url="/search/observation/observation?"+search2;
-        this.props.fetchFilterCount(url);
+        let url1="/observation/observation?"+search2;
+        this.props.fetchFilterCount(url1);
         this.setState({
           urlforPassing:url,
           openModal:false
@@ -263,7 +265,8 @@ class ObservationListContainer extends Component {
             search:search1
           })
           let url="/search/observation/observation?"+search1;
-          this.props.fetchFilterCount(url);
+          let url1="/observation/observation?"+search1;
+          this.props.fetchFilterCount(url1);
           this.setState({
             urlforPassing:url,
             openModal:false
@@ -276,7 +279,7 @@ class ObservationListContainer extends Component {
 
       taxonFilterEventListner(e){
             this.props.ClearObservationPage();
-            this.props.fetchFilterCount();
+
             const params=this.state.params;
             if(!params.taxon){
               params.taxon=[];
@@ -582,7 +585,8 @@ class ObservationListContainer extends Component {
         const seacrh=queryString.stringify(newparams)
         const search1=decodeURIComponent(seacrh);
         let url="/search/observation/observation?"+search1;
-        this.props.fetchFilterCount(url);
+        let url1="/observation/observation?"+search1;
+        this.props.fetchFilterCount(url1);
         this.setState({
           params:newparams,
           urlforPassing:url,
@@ -812,9 +816,7 @@ class ObservationListContainer extends Component {
 
         }
 
-        getParamsCount(){
-            this.props.fetchFilterCount(10);
-        }
+      
 
         launchBulk(obvId){
           console.log("inside the launch  bulk action",this.state.bulkId)
