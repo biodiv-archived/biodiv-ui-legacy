@@ -3,7 +3,7 @@
   border-radius: 5px;
 }
 #radio_select.active {
-    background-color: green;
+    background-color: #51A351;
     border-radius: 5px;
 }
 
@@ -12,7 +12,7 @@
   border-radius: 5px;
 }
 #checkbox_select.active{
-  background-color: green;
+  background-color: #51A351;
   border-radius: 5px;
 }
 
@@ -27,7 +27,10 @@
   margin-top:0.7%;
   margin-right:0.7%;
   border-radius: 5px;
-  background-color: #C4E6CC;
+}
+
+.Values{
+  background-color:#51A351;
 }
 
 /*.btn-round-xs{
