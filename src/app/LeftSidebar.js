@@ -172,8 +172,11 @@ render(){
       <div id="leftSidebar" className="panel panel-success">
 
         <div className="panel-heading vertical-align">
-            <span onClick={this.clearFilter.bind(this)} className="glyphicon glyphicon-filter" title="Filters">Filters</span>
-            <span className="badge badge-light">{this.length}</span>
+            <span  className="glyphicon glyphicon-filter" title="Filters">Filters </span>
+            <span onClick={this.clearFilter.bind(this)} className="glyphicon glyphicon-trash">
+                <span style={{marginTop:'-9px',background:'rebeccapurple'}} className="badge badge-danger">{this.length}</span>
+            </span>
+
        </div>
 
         <div className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
