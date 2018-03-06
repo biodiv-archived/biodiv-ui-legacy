@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import  queryString from 'query-string';
 import Collapsible from 'react-collapsible';
-import {withRouter} from 'react-router-dom';
+import {withRouter,NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import style from './right_sidebar.css';
@@ -106,17 +106,13 @@ openFilter(){
 componentDidMount(){
 this.openFilter();
 }
-clearFilter(){
-  this.props.history.push(`${this.props.location.pathname}`)
-}
-
 
 
 render(){
 
   let FilterCount=this.props.FilterCount.countUrl?this.props.FilterCount.countUrl.split("?")[1]:null;
   let urlObject=queryString.parse(FilterCount);
-  let taxonElement = <div><span>Taxon Browser</span> <span className="badge badge-light">{urlObject.taxon?urlObject.taxon.split(",").length:null}</span></div>;
+  // let taxonElement = <div><span>Taxon Browser</span> <span className="badge badge-light">{urlObject.taxon?urlObject.taxon.split(",").length:null}</span></div>;
 
    this.length=0;
   if(urlObject){
@@ -170,16 +166,14 @@ render(){
 
   return (
       <div id="leftSidebar" className="panel panel-success">
-
-        <div className="panel-heading vertical-align">
+        <div  className="panel-heading vertical-align">
             <span  className="glyphicon glyphicon-filter" title="Filters">Filters </span>
-            <span onClick={this.clearFilter.bind(this)} className="glyphicon glyphicon-trash">
-                <span style={{marginTop:'-9px',background:'rebeccapurple'}} className="badge badge-danger">{this.length}</span>
-            </span>
-
+            <NavLink  to={`${this.props.location.pathname}`} className="glyphicon glyphicon-trash">
+                <span style={{marginTop:'-9px'}} className="badge badge-danger">{this.length}</span>
+            </NavLink>
        </div>
 
-        <div className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
+        <div  className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
             <Collapsible open={true} trigger={`Taxon Browser`}>
             <div>
                 <TaxonBrowser />

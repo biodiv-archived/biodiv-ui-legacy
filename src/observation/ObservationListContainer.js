@@ -121,7 +121,8 @@ class ObservationListContainer extends Component {
             this.props.fetchFilterCount(url);
             this.setState({
               userGroupList:userGroupList,
-              urlforPassing:url
+              urlforPassing:url,
+              openModal:false
             })
           });
 
@@ -165,7 +166,9 @@ class ObservationListContainer extends Component {
         let url="/observation/observation?"+search2;
         this.props.fetchFilterCount(url);
         this.setState({
-          urlforPassing:url
+          urlforPassing:url,
+          openModal:false
+
         })
       }
 
@@ -262,7 +265,8 @@ class ObservationListContainer extends Component {
           let url="/observation/observation?"+search1;
           this.props.fetchFilterCount(url);
           this.setState({
-            urlforPassing:url
+            urlforPassing:url,
+            openModal:false
           })
 
           this.props.fetchObservations(params);
@@ -581,7 +585,8 @@ class ObservationListContainer extends Component {
         this.props.fetchFilterCount(url);
         this.setState({
           params:newparams,
-          urlforPassing:url
+          urlforPassing:url,
+          openModal:false
         })
 
       }
@@ -671,7 +676,8 @@ class ObservationListContainer extends Component {
         let url="/observation/observation?"+search1;
 
         this.setState({
-          urlforPassing:url
+          urlforPassing:url,
+          openModal:false
         })
 
         this.props.fetchObservations(params);
@@ -800,7 +806,7 @@ class ObservationListContainer extends Component {
             })
           }else{
             this.setState({
-              login_modal:!(this.state.login_modal)
+              login_modal:true
             });
           }
 
