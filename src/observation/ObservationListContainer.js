@@ -115,7 +115,7 @@ class ObservationListContainer extends Component {
 
               this.props.fetchObservations(this.state.params)
             }
-            let url="/observation/observation?"+search2;
+            let url="/search/observation/observation?"+search2;
             let userGroupList=this.state.params.userGroupList;
             userGroupList.push(group.id);
             this.props.fetchFilterCount(url);
@@ -163,7 +163,7 @@ class ObservationListContainer extends Component {
           this.props.fetchObservations(this.state.params)
         }
 
-        let url="/observation/observation?"+search2;
+        let url="/search/observation/observation?"+search2;
         this.props.fetchFilterCount(url);
         this.setState({
           urlforPassing:url,
@@ -262,7 +262,7 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search1
           })
-          let url="/observation/observation?"+search1;
+          let url="/search/observation/observation?"+search1;
           this.props.fetchFilterCount(url);
           this.setState({
             urlforPassing:url,
@@ -581,7 +581,7 @@ class ObservationListContainer extends Component {
         }
         const seacrh=queryString.stringify(newparams)
         const search1=decodeURIComponent(seacrh);
-        let url="/observation/observation?"+search1;
+        let url="/search/observation/observation?"+search1;
         this.props.fetchFilterCount(url);
         this.setState({
           params:newparams,
@@ -673,7 +673,7 @@ class ObservationListContainer extends Component {
         const seacrh=queryString.stringify(params)
         const search1=decodeURIComponent(seacrh);
 
-        let url="/observation/observation?"+search1;
+        let url="/search/observation/observation?"+search1;
 
         this.setState({
           urlforPassing:url,

@@ -43,8 +43,8 @@ class DownloadModal extends React.Component {
   }
   getDownloads(){
     let url = Config.api.API_ROOT_URL+"/naksha/download" + this.props.Url.countUrl + "&notes="+this.refs.notes.value;
-      axios.get(url).then((status)=>{
-        console.log(status);
+      axios.get(url).then((response)=>{
+        alert("Your downlaod "+ response.data);
       })
   }
 
