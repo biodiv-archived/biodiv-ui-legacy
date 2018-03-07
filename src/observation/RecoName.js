@@ -399,7 +399,11 @@ class RecoName extends React.Component {
 
                             ):
                             (
-                              <span className="glyphicon glyphicon-lock tooltip-content" data-toggle="tooltip" title={"This species id islocked"}></span>
+                              (item.showLock === false)?
+                              (
+                                <span className="glyphicon glyphicon-lock tooltip-content" data-toggle="tooltip" title={"This species id islocked"}></span>
+
+                              ):null
                             )
 
                     )
