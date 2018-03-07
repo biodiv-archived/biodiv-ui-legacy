@@ -257,7 +257,7 @@ class RecoName extends React.Component {
     })
     var options={
       method:"GET",
-      url:Config.api.API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
+      url:Config.api.PAMBA_API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
       headers :AuthUtils.getAuthHeaders(),
       json: 'true'
     }
@@ -370,7 +370,7 @@ class RecoName extends React.Component {
                   <div className="col-xs-4">
 
                   {
-                    item.isLocked==false?
+                    item.isLocked===false?
                     (
 
 
@@ -389,7 +389,14 @@ class RecoName extends React.Component {
 
                           (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
                             (
-                               <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
+                                (item.showLock === false)?
+                                (
+                                  <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
+                                ):
+                                (
+                                  <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree"  disabled>Validate</button>
+                                )
+
                             ):
                             (
                               <span className="glyphicon glyphicon-lock tooltip-content" data-toggle="tooltip" title={"This species id islocked"}></span>
@@ -407,12 +414,19 @@ class RecoName extends React.Component {
                           ($.inArray(parseInt(AuthUtils.getLoggedInUser().id),authArray))>=0?
                           (
 
-                              item.isLocked==false?
+                              item.isLocked===false?
                               (
                                 <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Remove</button>
                               ):
                               (
-                                <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" disabled>Remove</button>
+                                (item.showLock===false)?
+                                (
+                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" disabled>Remove</button>
+                                ):
+                                (
+                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>Remove</button>
+                                )
+
                               )
 
                           )
@@ -420,7 +434,7 @@ class RecoName extends React.Component {
                           (
 
 
-                              item.isLocked==false?
+                              item.isLocked===false?
                               (
                                 <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
                               ):
