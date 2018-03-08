@@ -58,21 +58,20 @@ class FlaggedFilter extends React.Component {
   render() {
     return (
       <div>
-        <label>
+        <div>
             <Checkbox
                 checked={this.state.isFlagged.includes("0")?true:false}
                 value={"0"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Unflagged"}
-        </label>
-        <br />
-        <label>
+        </div>
+        <div>
             <Checkbox
               checked={this.state.isFlagged.includes("1")?true:false}
                 value={"1"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Flagged"}
-        </label>
+        </div>
 
       </div>
     )

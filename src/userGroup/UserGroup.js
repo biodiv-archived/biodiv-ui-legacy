@@ -31,6 +31,8 @@ constructor(){
     suggestions: [],
   }
   this.onChangeCheck=this.onChangeCheck.bind(this)
+  this.onChange=this.onChange.bind(this);
+  this.getSuggestions=this.getSuggestions.bind(this)
 }
 
   getUrlParameter(){
@@ -54,7 +56,7 @@ constructor(){
 
 
 
- getSuggestions = value => {
+ getSuggestions (value){
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
 
@@ -110,7 +112,7 @@ constructor(){
 
  )
  };
-onChange = (event, { newValue }) => {
+onChange (event, { newValue }) {
     this.setState({
       value: newValue
     });
@@ -224,7 +226,7 @@ onChangeCheck(event){
         />
         <br />
         <div>
-          
+
 
           {newList.map((item,index)=>{
             return(

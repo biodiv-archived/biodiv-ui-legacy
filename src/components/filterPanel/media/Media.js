@@ -56,37 +56,34 @@ class MediaFilter extends React.Component {
   render() {
     return (
       <div>
-        <label>
+        <div>
             <Checkbox
                 value={"noofaudio"}
                 checked={ this.state.mediaFilter.includes("noofaudio")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Audio"}
-        </label>
-        <br />
-        <label>
+        </div>
+        <div>
             <Checkbox
                 checked={ this.state.mediaFilter.includes("noofvideos")?true:false }
                 value={"noofvideos"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Video"}
-        </label>
-        <br />
-        <label>
+        </div>
+        <div>
             <Checkbox
                 checked={ this.state.mediaFilter.includes("noofimages")?true:false }
                 value={"noofimages"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Images"}
-        </label>
-        <br />
-        <label>
+        </div>
+        <div>
             <Checkbox
                 checked={ this.state.mediaFilter.includes("nomedia")?true:false }
                 value={"nomedia"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{" No media"}
-        </label>
+        </div>
       </div>
     )
   }

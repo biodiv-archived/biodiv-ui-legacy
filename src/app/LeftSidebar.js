@@ -38,6 +38,8 @@ constructor(){
     validateOpen:false,
     traitsOpen:false,
     length:null,
+    dataCheckOpen:false
+
 
   }
 }
@@ -45,63 +47,66 @@ constructor(){
 openFilter(){
   this.props.PublicUrl?this.refs.hide.style.display='none':null
    const newparams = queryString.parse(document.location.search);
+
+   let sGroupOpen=this.state.sGroupOpen;
+   let userGroupOpen=this.state.userGroupOpen;
+   let userOpen=this.state.userOpen;
+   let taxonOpen=this.state.taxonOpen;
+   let mediaOpen=this.state.mediaOpen;
+   let flagOpen=this.state.flagOpen;
+   let monthOpen=this.state.monthOpen;
+   let speciesOpen=this.state.speciesOpen
+   let validateOpen=this.state.validateOpen;
+   let traitsOpen=this.state.traitsOpen;
+   let dataCheckOpen=this.state.dataCheckOpen;
+
    if(newparams.sGroup){
-    this.setState({
-      sGroupOpen:true
-    })
+     sGroupOpen=true;
    }
    if(newparams.taxon){
-    this.setState({
-      taxonOpen:true
-    })
+      taxonOpen=true
    }
    if(newparams.userGroupList){
-    this.setState({
-      userGroupOpen:true
-    })
+      userGroupOpen=true
    }
    if(newparams.user){
-    this.setState({
-      userOpen:true
-    })
+      userOpen=true
    }
    if(newparams.mediaFilter){
-    this.setState({
-      mediaOpen:true
-    })
+      mediaOpen=true
+   }
+   if(newparams.isFlagged || newparams.speciesName || newparams.validate){
+       dataCheckOpen=true
    }
    if(newparams.isFlagged){
-    this.setState({
-      flagOpen:true
-    })
+      flagOpen=true
    }
-   if(newparams.months){
 
-    this.setState({
-      monthOpen:true
-    })
+   if(newparams.months){
+      monthOpen=true
    }
    if(newparams.speciesName){
-
-     this.setState({
-       speciesOpen:true
-     })
+       speciesOpen=true
    }
    if(newparams.validate){
-
-     this.setState({
-       validateOpen:true
-     })
+       validateOpen=true
    }
    if(newparams.trait_8 || newparams.trait_9 ||newparams.trait_10 || newparams.trait_11 || newparams.trait_12 || newparams.trait_13 || newparams.trait_15){
-
-     this.setState({
-       traitsOpen:true
-     })
+       traitsOpen=true
    }
-
-
-
+   this.setState({
+     sGroupOpen,
+     userGroupOpen,
+     userOpen,
+     taxonOpen,
+     mediaOpen,
+     flagOpen,
+     monthOpen,
+     speciesOpen,
+     validateOpen,
+     traitsOpen,
+     dataCheckOpen
+   })
 }
 componentDidMount(){
 this.openFilter();
@@ -125,21 +130,16 @@ render(){
 
     }
     if(urlObject.userGroupList){
-      this.length++;
-
+      this.props.PublicUrl?null:this.length++
     }
     if(urlObject.user){
       this.length++;
 
     }
-    if(urlObject.isFlagged){
+    if(urlObject.isFlagged ||urlObject.validate||urlObject.speciesName){
       this.length++;
-
     }
-    if(urlObject.speciesName){
-      this.length++;
 
-    }
     if(urlObject.mediaFilter){
       this.length++;
 
@@ -152,13 +152,8 @@ render(){
       this.length++;
 
     }
-    if(urlObject.validate){
-      this.length++;
-
-    }
     if(urlObject.trait_8 || urlObject.trait_9 || urlObject.trait_10|| urlObject.trait_11|| urlObject.trait_12|| urlObject.trait_13|| urlObject.trait_15){
       this.length++;
-
     }
 
 
@@ -182,43 +177,41 @@ render(){
             </Collapsible>
 
             <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups`}>
-                <SpeciesGroup />
+              <SpeciesGroup />
             </Collapsible>
             <div ref="hide" style={{display:'block'}}>
             <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={`User Group`}>
                 <UserGroup />
             </Collapsible>
             </div>
-            <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger={`Data Validation `}>
-                <ScientificNameFilter />
-            </Collapsible>
+            <Collapsible lazyRender={true} open={this.state.dataCheckOpen} trigger={`Data Quality `}>
+                  <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger={`Identification `}>
+                      <ScientificNameFilter />
+                  </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.flagOpen} trigger={`Flag `}>
-                <FlaggedFilter />
-            </Collapsible>
+                  <Collapsible lazyRender={true} open={this.state.flagOpen} trigger={`Flag `}>
+                      <FlaggedFilter />
+                  </Collapsible>
 
+                  <Collapsible lazyRender={true} open={this.state.validateOpen} trigger={`Validation`}>
+                      <Validate_Filter />
+                  </Collapsible>
+
+            </Collapsible>
             <Collapsible lazyRender={true} open={this.state.userOpen} trigger={`User `}>
-                <UserFilter/>
+              <UserFilter/>
             </Collapsible>
-
             <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type`}>
-            <Media_Filter />
+              <Media_Filter />
             </Collapsible>
-
             <Collapsible lazyRender={true} trigger={`Date`}>
-            <Year_Filter />
+              <Year_Filter />
             </Collapsible>
-
             <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal`}>
-            <Month_Filter />
+              <Month_Filter />
             </Collapsible>
-
-            <Collapsible lazyRender={true} open={this.state.validateOpen} trigger={`Validation`}>
-            <Validate_Filter />
-            </Collapsible>
-
             <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
-            <Traits_Filter />
+              <Traits_Filter />
             </Collapsible>
             <div style={{height:'107px'}}></div>
         </div>

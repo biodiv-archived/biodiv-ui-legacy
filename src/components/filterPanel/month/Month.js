@@ -58,7 +58,7 @@ else{
   render() {
     return (
       <div>
-        <label>
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"1"}
@@ -67,9 +67,9 @@ else{
           />
           &nbsp;
           January
-        </label>
-        <br/>
-        <label>
+        </div>
+        
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"2"}
@@ -78,9 +78,9 @@ else{
           />
           &nbsp;
           February
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"3"}
@@ -89,9 +89,9 @@ else{
           />
           &nbsp;
           March
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"4"}
@@ -100,9 +100,9 @@ else{
           />
           &nbsp;
           April
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"5"}
@@ -111,9 +111,9 @@ else{
           />
           &nbsp;
           May
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"6"}
@@ -122,9 +122,9 @@ else{
           />
           &nbsp;
           June
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"7"}
@@ -133,9 +133,9 @@ else{
           />
           &nbsp;
           July
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"8"}
@@ -144,9 +144,9 @@ else{
           />
           &nbsp;
           August
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"9"}
@@ -155,9 +155,9 @@ else{
           />
           &nbsp;
           September
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"10"}
@@ -166,9 +166,9 @@ else{
           />
           &nbsp;
           October
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"11"}
@@ -177,9 +177,9 @@ else{
           />
           &nbsp;
           November
-        </label>
-        <br/>
-        <label>
+        </div>
+
+        <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
             id={"12"}
@@ -188,7 +188,7 @@ else{
           />
           &nbsp;
           December
-        </label>
+        </div>
       </div>
     );
   }

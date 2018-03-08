@@ -74,7 +74,7 @@ class SpeciesGroup extends Component {
          {this.state.list?this.state.list.map((item,index)=>{
            return(
              <div key={index}>
-             <label><Checkbox  value={item.id.toString()} />{" "+item.name}</label>
+             <Checkbox  value={item.id.toString()} />{" "+item.name}
              </div>
            )
          }):null}

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Form, Text, Radio, Select, Checkbox } from 'react-form';
+import { Form, Text, TextArea, Checkbox} from 'react-form';
 import axios from 'axios';
 import Modal from 'react-modal';
 import {NavLink,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import {Config} from '../Config'
+
 const customStyles = {
   content : {
     top                   : '50%',
@@ -21,11 +23,13 @@ class DownloadModal extends React.Component {
     super();
 
     this.state = {
-      modalIsOpen: true
+      modalIsOpen: true,
+      notes:undefined,
+      authorize:false,
+      authorizeText:"not",
+      notesText:"not"
     };
-
     this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
 
@@ -33,40 +37,82 @@ class DownloadModal extends React.Component {
     this.setState({modalIsOpen: true});
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
 
-  }
 
-  closeModal() {
+
+  closeModal(event) {
     this.setState({modalIsOpen: false});
+    event.preventDefault();
   }
-  getDownloads(){
-    let url = Config.api.API_ROOT_URL+"/naksha/download" + this.props.Url.countUrl + "&notes="+this.refs.notes.value;
-      axios.get(url).then((response)=>{
-        alert("Your downlaod "+ response.data);
-      })
-  }
+
+
+  handleSubmit(submittedValues){
+    if(submittedValues.notes && submittedValues.authorize){
+          this.setState({
+            notes:submittedValues.notes,
+            authorize:submittedValues.authorize
+          })
+          let url = Config.api.API_ROOT_URL+"/naksha/download" + this.props.Url.countUrl + "&notes="+submittedValues.notes;
+            axios.get(url).then((response)=>{
+              alert("Your downlaod status is "+ response.data +". You will be notified by email and a download link will be available on your profile page. ");
+                this.setState({modalIsOpen: false});
+            }).catch((response)=>{
+              alert("error! Please try again.")
+            })
+      }
+      else{
+        let notesText=this.state.notesText;
+        let authorizeText=this.state.authorizeText;
+        if(!submittedValues.notes){
+            notesText="visible";
+        }
+        else{
+          notesText="not";
+        }
+        if(!submittedValues.authorize){
+          authorizeText="visible";
+        }
+        else{
+          authorizeText="not";
+        }
+        this.setState({
+          notesText,
+          authorizeText
+        })
+      }
+    }
 
   render() {
     return (
       <div>
         <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
           contentLabel="Export"
         >
-          <div className="container">
-            <h3 >Export as CSV</h3>
+        <span style={{color:'#008CBA'}} >Export as CSV</span>
 
-            <textarea ref={"notes"} style={{width:'100%',border:'1px solid grey'}} placeholder="Please let us know how you intend to use this data"></textarea>
-            <br />
-            <button onClick={this.getDownloads.bind(this)} className="btn btn-primary pull-right">Submit</button> {"        "}
-            <button onClick={this.closeModal} className="btn btn-warning pull-right">Cancel</button>
-        </div>
+          <Form onSubmit={this.handleSubmit.bind(this)} >
+           { formApi => (
+             <form onSubmit={formApi.submitForm} id="form">
+               <div className="form-group" style={{marginBottom:'10px',marginTop:'10px'}}>
+               <TextArea placeholder="Please let us know how you intend to use this data."  field="notes" id="notes"  className="form-control"  />
 
+               <span style={{color:'red',fontSize:'12px',marginTop:'5px'}}>{this.state.notesText=="not"?null:(this.state.notesText=="visible"?"* Notes is necessary":null)}</span>
+               <br />
+               <Checkbox field="authorize" id="authorize"   />
+               <strong>
+                {" "}  By submitting this form, you agree that Creative Commons - Attribution (CC-BY) terms will apply to all data provided and that you agree to provide attribution to the original data contributors and the portal where applicable.
+                </strong>
+                <br />
+                <span style={{color:'red',fontSize:'12px',marginTop:'5px'}} >{this.state.authorizeText=="not"?null:(this.state.authorizeText=="visible"?"* Please accept the terms and conditions.":null)}</span>
+               </div>
+               <button type="submit" className="mb-4 btn btn-primary pull-right"  >Submit </button>
+               <button onClick={this.closeModal} className="mb-4 btn btn-warning pull-right">Cancel</button>
+             </form>
+           )}
+         </Form>
         </Modal>
       </div>
     );
