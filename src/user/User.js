@@ -39,8 +39,8 @@ class Example extends Component {
       ? S_Callback([])
       : axios.get(url).then(function(response) {
         Ssuggest = response.data.model.instanceList
-        const new1_suggest = Ssuggest.filter(sci => sci.instance.name.toLowerCase().slice(0, inputLength) === inputValue)
-        S_Callback(new1_suggest);
+        //const new1_suggest = Ssuggest.filter(sci => sci.instance.name.toLowerCase().slice(0, inputLength) === inputValue)
+        S_Callback(Ssuggest);
       })
 
   };
@@ -59,6 +59,7 @@ class Example extends Component {
   };
 
   getSuggestionValue (suggestion) {
+
     this.setState({
       value:""
     })
@@ -74,7 +75,7 @@ class Example extends Component {
     const suggestionText = `${suggestion.instance.name}`;
     const matches = AutosuggestHighlightMatch(suggestionText, query);
     const parts = AutosuggestHighlightParse(suggestionText, matches);
-
+    console.log(suggestion);
     return (
       <div>
         <img src={suggestion.instance.icon} width="40" height="40"/>

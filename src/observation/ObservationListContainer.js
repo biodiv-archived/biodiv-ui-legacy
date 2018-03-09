@@ -47,7 +47,6 @@ class ObservationListContainer extends Component {
           minDate:undefined,
           maxDate:undefined,
           months:[],
-
           validate:[],
           hasMore:true,
           trait_8:[],
@@ -74,13 +73,10 @@ class ObservationListContainer extends Component {
 
       if(groupName){
           UserGroupName.list().then(data=>{
-
             let group=data.model.userGroupInstanceList.find((item)=>{
                 return item.webaddress==groupName
             })
-
             newparams.userGroupList=group.id;
-
             if(!newparams.sort){
               newparams.sort="lastrevised"
             }
@@ -242,6 +238,7 @@ class ObservationListContainer extends Component {
                 trait_15:trait_15
               }
           })
+
           params.taxon=params.taxon.join(",");
           params.sGroup=params.sGroup.join(",");
           params.userGroupList=params.userGroupList.join(",");

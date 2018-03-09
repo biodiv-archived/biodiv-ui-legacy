@@ -201,14 +201,14 @@ onChangeCheck(event){
         {this.state.selectValues.length>0?this.state.selectValues.map((item)=>{
           return (
             <div key={item.id}>
-            <label >
+            <div >
             <Checkbox
               defaultChecked={true}
               onChange={this.onChangeCheck}
               item={item}
             />
             &nbsp;{item.name}
-        </label>
+        </div>
         </div>
           )
 
@@ -232,14 +232,14 @@ onChangeCheck(event){
             return(
               (this.state.selectValues.length+index)<10?
               <div key={index}>
-                  <label >
+                  <div >
                 <Checkbox
                   checked={false}
                   item={item}
                   onChange={this.onChangeCheck.bind(this)}
                 />
                 &nbsp;{item.name}
-                </label>
+              </div>
               </div>
                 :null
             )

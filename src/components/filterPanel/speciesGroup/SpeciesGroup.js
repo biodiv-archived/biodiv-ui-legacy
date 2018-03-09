@@ -1,29 +1,24 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import queryString from 'query-string';
-import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 import axios from 'axios';
-import styles from './style.css';
+import Checkbox from 'rc-checkbox';
+import _ from 'lodash';
 import 'rc-checkbox/assets/index.css';
 
 import {ClearObservationPage} from '../../../actions/index';
 import {Config}  from '../../../Config';
 
-const styles1 = {
-  block: {
-    maxWidth: 250
-  },
-  checkbox: {
-    marginBottom: 16
-  }
-};
+function remove(array, element) {
+    return array.filter(e => e !== element);
+}
+
 class SpeciesGroup extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      sGroupId: [],
-      queryParams: "",
-      title:[],
+      sGroupId:[],
       list:[]
     }
   }
@@ -51,34 +46,44 @@ class SpeciesGroup extends Component {
   }
 
 
-  sChanged(sGroupId,event) {
+  sChanged(e){
+
+    let sGroupId=this.state.sGroupId;
+    if(e.target.checked){
+        sGroupId.push(e.target.id);
+        sGroupId=_.uniq(sGroupId);
+    }
+    else{
+      sGroupId=remove(sGroupId, e.target.id);
+    }
+
       this.setState({
         sGroupId
       },()=>{
         var event = new CustomEvent("sGroup-filter", {
           "detail": {
-            sGroup: this.state.sGroupId,
+            sGroup: sGroupId,
           }
         });
         document.dispatchEvent(event);
       });
 
-      event.persist();
     }
   render() {
     return (
-       <CheckboxGroup
-         name="groups"
-         value={this.state.sGroupId}
-         onChange={this.sChanged.bind(this)}>
+      <div>
          {this.state.list?this.state.list.map((item,index)=>{
            return(
              <div key={index}>
-             <Checkbox  value={item.id.toString()} />{" "+item.name}
+             <Checkbox
+               defaultChecked={this.state.sGroupId.includes(item.id.toString())}
+               id={item.id.toString()}
+               onChange={this.sChanged.bind(this)}
+             />{" "+item.name}
              </div>
-           )
+         )
          }):null}
-       </CheckboxGroup>
+       </div>
     )
   }
 }
