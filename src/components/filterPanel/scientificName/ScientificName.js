@@ -55,23 +55,20 @@ handleCheckboxes(event){
   render(){
     return(
       <div>
-
-        <label>
+        <div>
             <Checkbox
                 value={"UNIDENTIFED"}
                 checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Unidentified"}
-        </label>
-        <br />
-        <label>
+        </div>
+        <div>
             <Checkbox
                 value={"IDENTIFED"}
                 checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Identified"}
-        </label>
-
+        </div>
       </div>
     )
   }

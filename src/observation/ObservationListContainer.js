@@ -816,7 +816,7 @@ class ObservationListContainer extends Component {
 
         }
 
-      
+
 
         launchBulk(obvId){
           console.log("inside the launch  bulk action",this.state.bulkId)
@@ -862,6 +862,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
     return(
       <div>
             {this.state.login_modal==true?(<ModalPopup key={"downloadLogin"}   id={"downloads login"} func={this.setOpenModal}/>):null}
+            {this.state.openModal?<DownloadModal/>:""}
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
               <div className="panel panel-success">
@@ -874,9 +875,10 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                       <div className="panel-title">
                           <h5 className="text-primary">{this.props.Observation.count} result(s) found</h5>
                       </div>
+                      <div>
+                      <button onClick={this.setOpenModal.bind(this)} className="btn btn-default">Download</button>
+                      </div>
 
-                      <button onClick={this.setOpenModal.bind(this)} className="btn btn-default">Downloads</button>
-                      {this.state.openModal?<DownloadModal />:null}
                       <select className="btn btn-default pull-right"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
                           <option  value="Last Visited">Last Visited</option>
                           <option  value="Latest">Latest</option>
