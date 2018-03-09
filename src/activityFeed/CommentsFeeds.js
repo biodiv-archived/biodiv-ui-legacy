@@ -385,7 +385,7 @@ class CommentsFeeds extends React.Component {
                                             (item.activityType == 'Suggested species name' || item.activityType == 'obv unlocked' || item.activityType == 'obv locked' ||
                                             item.activityType == 'Agreed on species name' || item.activityType == 'Suggestion removed')?
                                             (
-                                              <div className="feed col-sm-10" style={{marginLeft:'5%'}}>
+                                              <div className="feed col-sm-10" style={{marginLeft:'0.5%'}}>
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
@@ -457,7 +457,7 @@ class CommentsFeeds extends React.Component {
                                             )
                                             :
                                             (
-                                              <div className="feed col-sm-10" style={{marginLeft:'5%'}}>
+                                              <div className="feed col-sm-10" style={{marginLeft:'0.5%'}}>
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :

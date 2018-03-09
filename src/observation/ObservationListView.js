@@ -102,7 +102,7 @@ class ListComponent extends Component{
       console.log("called from tabs")
       Object.assign(this.props.item,response.data.document)
       this.setState({
-          rerun:true
+          rerun:!this.state.rerun
       })
       console.log(this.state.rerun)
     }

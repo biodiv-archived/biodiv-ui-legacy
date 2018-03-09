@@ -286,7 +286,7 @@ class RecoName extends React.Component {
           var authArray=[]
             return(
           <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
-              <div className="col-xs-6">
+              <div className="col-sm-6">
                 {
                   item.isScientificName===true?
                     (
@@ -326,7 +326,7 @@ class RecoName extends React.Component {
                 }
                 {item.hasOwnProperty('commonNames')?<span style={{color:'black'}}>{item.commonNames}</span>:null}
                </div>
-               <div className="col-xs-3" style={{marginLeft:'0%'}}>
+               <div className="col-sm-3" style={{marginLeft:'0%'}}>
                    <div className="row pull-left">
                        {
                          item.authors.map((aut,index)=>{
@@ -365,7 +365,7 @@ class RecoName extends React.Component {
                      }
                    </div>
                </div>
-               <div className="col-xs-3 ">
+               <div className="col-sm-3 ">
                   <div className="row pull-right">
                   <div className="col-xs-4">
 

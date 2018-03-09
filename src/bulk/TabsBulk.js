@@ -15,7 +15,7 @@ class TabsBulk extends React.Component{
           <div className="tab-content">
              <div className="tab-pane fade in active" id={"_tab1"}>
                    <div>
-                   <GroupsBulk filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} ids={this.props.ids}/>
+                   <GroupsBulk selectAllHack={this.props.selectAllHack} filterUrl={this.props.filterUrl} resetBulk={this.props.resetBulk} selectAllFunc={this.props.selectAllFunc} resetSelectAllFunc={this.props.resetSelectAllFunc} ids={this.props.ids} allObvs={this.props.allObvs}/>
                    </div>
              </div>
           </div>

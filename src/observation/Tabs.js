@@ -54,7 +54,7 @@ class Tabs extends React.Component {
   }
 
   render(){
-    //console.log("tabs called gain")
+    console.log("tabs called gain",this.props.objs)
     return(
 <div>
             <ul className="nav nav-tabs">
