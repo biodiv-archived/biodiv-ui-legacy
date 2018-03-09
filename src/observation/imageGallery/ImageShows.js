@@ -56,8 +56,7 @@ export default class LightboxExample extends Component {
       if(group=="birds"){
         groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
       }
-
-
+      
       let res = thumbnail?thumbnail.split("."):groupIcon;
       if(res){
         if(thumbnail)
