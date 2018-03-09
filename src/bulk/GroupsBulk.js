@@ -268,6 +268,38 @@ class GroupsBulk extends React.Component{
           })
       }
     }
+    else if(this.props.selectAllHack === true){
+      var obvIds = []
+      this.props.allObvs.map((item,index)=>{
+        obvIds.push(item.id)
+      })
+      var optionsUnpost={
+        method: 'POST',
+        url :   Config.api.API_ROOT_URL+"/userGroup/bulkPost",
+        params:{
+          pullType:"bulk",
+          selectionType:"reset",
+          objectType:"biodiv.observation.Observation",
+          objectIds:obvIds.toString(),
+          submitType:"post",
+          userGroups:list1,
+          filterUrl:this.props.filterUrl
+        },
+        headers : AuthUtils.getAuthHeaders(),
+        json: 'true'
+      }
+      if(this.unpost.length>0 && obvIds.length>0){
+        axios(optionsUnpost)
+          .then((response)=>{
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
+            alert(obvIds.length + " observation(s) unposted successfully")
+              //console.log(response)
+          })
+      }
+    }
     else{
       var optionsPost={
         method: 'POST',
@@ -291,7 +323,7 @@ class GroupsBulk extends React.Component{
             this.setState({
               loading:false
             })
-            alert(this.props.ids.length+ " observations posted succesfully")
+            alert(this.props.ids.length+ " observation(s) posted succesfully")
               //console.log(response)
           })
       }
@@ -332,6 +364,38 @@ class GroupsBulk extends React.Component{
           })
       }
     }
+    else if(this.props.selectAllHack === true){
+      var obvIds = []
+      this.props.allObvs.map((item,index)=>{
+        obvIds.push(item.id)
+      })
+      var optionsUnpost={
+        method: 'POST',
+        url :   Config.api.API_ROOT_URL+"/userGroup/bulkPost",
+        params:{
+          pullType:"bulk",
+          selectionType:"reset",
+          objectType:"biodiv.observation.Observation",
+          objectIds:obvIds.toString(),
+          submitType:"unpost",
+          userGroups:list1,
+          filterUrl:this.props.filterUrl
+        },
+        headers : AuthUtils.getAuthHeaders(),
+        json: 'true'
+      }
+      if(this.unpost.length>0 && obvIds.length>0){
+        axios(optionsUnpost)
+          .then((response)=>{
+            document.body.style.cursor = "default";
+            this.setState({
+              loading:false
+            })
+            alert(obvIds.length + " observation(s) unposted successfully")
+              //console.log(response)
+          })
+      }
+    }
     else{
       var optionsUnpost={
         method: 'POST',
@@ -355,16 +419,31 @@ class GroupsBulk extends React.Component{
             this.setState({
               loading:false
             })
-            alert(this.props.ids.length + " observations unposted successfully")
+            alert(this.props.ids.length + " observation(s) unposted successfully")
               //console.log(response)
           })
       }
     }
   }
 
+  selectOfAll(){
+    this.props.selectAllFunc();
+  }
+
+  resetSelectOfAll(){
+    this.props.resetSelectAllFunc();
+    //this.props.resetBulk();
+
+  }
+
   render(){
     return(
       <div className="well well-sm">
+        <div className="row" style={{marginLeft:'4%'}}>
+              <button   className="btn btn-primary btn-xs nameAgree" onClick={this.selectOfAll.bind(this)} disabled={this.state.loading}>Select All</button>
+              &nbsp;
+              <button   className="btn btn-primary btn-xs nameAgree" onClick={this.resetSelectOfAll.bind(this)} disabled={this.state.loading}>Reset All</button>
+        </div>
         <div className="row" style={{marginLeft:'2.5%'}}>
             <input type="radio" name="group" id={"postRadio"} value=" Post to Groups" defaultChecked onClick={this.change.bind(this)}/> Post to Groups
             &nbsp;

@@ -182,6 +182,8 @@ class ObservationListContainer extends Component {
       this.launchBulk = this.launchBulk.bind(this);
       this.resetBulk = this.resetBulk.bind(this);
       this.setOpenModal = this.setOpenModal.bind(this);
+      this.selectAll = this.selectAll.bind(this);
+      this.resetSelectAll = this.resetSelectAll.bind(this);
     };
 
 
@@ -760,7 +762,7 @@ class ObservationListContainer extends Component {
             selectAll:true
           })
         }
-        resetAll(){
+        resetSelectAll(){
           this.setState({
             selectAll:false
           })
@@ -857,7 +859,7 @@ class ObservationListContainer extends Component {
 
 
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
-return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)} launchBulk={this.launchBulk}/>
+return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
 }):null;
     return(
       <div>
@@ -911,7 +913,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                     </div>
                 </div>
             </div>}
-            {(this.state.bulk===true || this.props.selectAll===true)?(<Navigate filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAll={this.props.selectAll} resetBulk={this.resetBulk} resetSelectAll={this.props.resetSelectAll}/>):null }
+            {(this.state.bulk===true || this.state.selectAll===true)?(<Navigate selectAllHack={this.state.selectAll} filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAllFunc={this.selectAll} resetBulk={this.resetBulk} resetSelectAllFunc={this.resetSelectAll} allObvs={this.props.Observation.all}/>):null }
       </div>
     )
   }
