@@ -237,6 +237,7 @@ class GroupsBulk extends React.Component{
   }
 
   submitPost(){
+    console.log("inside post")
     document.body.style.cursor = "wait";
     this.setState({
       loading:true
@@ -269,10 +270,12 @@ class GroupsBulk extends React.Component{
       }
     }
     else if(this.props.selectAllHack === true){
+      console.log("inside selectAll hack")
       var obvIds = []
       this.props.allObvs.map((item,index)=>{
         obvIds.push(item.id)
       })
+      console.log("all ids",obvIds)
       var optionsUnpost={
         method: 'POST',
         url :   Config.api.API_ROOT_URL+"/userGroup/bulkPost",
@@ -288,7 +291,7 @@ class GroupsBulk extends React.Component{
         headers : AuthUtils.getAuthHeaders(),
         json: 'true'
       }
-      if(this.unpost.length>0 && obvIds.length>0){
+      if(this.post.length>0 && obvIds.length>0){
         axios(optionsUnpost)
           .then((response)=>{
             document.body.style.cursor = "default";
