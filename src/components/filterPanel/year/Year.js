@@ -1,5 +1,4 @@
 import React from 'react';
-
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Moment from 'react-moment';
@@ -57,7 +56,7 @@ handleChangeEnd(date){
 }
   render() {
     return (
-      <div>
+      <div style={{position:'relative'}}>
           {"From"}
           <DatePicker
           dateFormat="DD/MM/YYYY"

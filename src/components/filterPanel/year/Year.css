@@ -1,12 +1,1 @@
-.form {
-  margin: 0 auto;
-  padding: 17px 06px 0;
 
-  @media (min-width: 200px) {
-    max-width: 60%;
-  }
-}
-
-.input-range {
-  margin-bottom: 50px;
-}

@@ -767,7 +767,7 @@ class ObservationListContainer extends Component {
 
         handleChangeCheckbox(event){
           this.setState({ sortValue: event.target.value });
-          if(event.target.value.trim()==="Last Visited".trim()){
+          if(event.target.value.trim()==="Last Updated".trim()){
             this.sortObservation("lastrevised")
         }
         else if(event.target.value.trim()==="Latest".trim()){
@@ -879,7 +879,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                       </div>
 
                       <select className="btn btn-default pull-right"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
-                          <option  value="Last Visited">Last Visited</option>
+                          <option  value="Last Updated">Last Updated</option>
                           <option  value="Latest">Latest</option>
                           <option  value="Most Viewed">Most Viewed</option>
                       </select>

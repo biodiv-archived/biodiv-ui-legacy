@@ -99,14 +99,12 @@ class DownloadModal extends React.Component {
                <div className="form-group" style={{marginBottom:'10px',marginTop:'10px'}}>
                <TextArea placeholder="Please let us know how you intend to use this data."  field="notes" id="notes"  className="form-control"  />
 
-               <span style={{color:'red',fontSize:'12px',marginTop:'5px'}}>{this.state.notesText=="not"?null:(this.state.notesText=="visible"?"* Notes is necessary":null)}</span>
+               <span style={{color:'red',fontSize:'10px',marginTop:'5px'}}>{this.state.notesText=="not"?null:(this.state.notesText=="visible"?"* Notes is necessary":null)}</span>
                <br />
                <Checkbox field="authorize" id="authorize"   />
-               <strong>
                 {" "}  By submitting this form, you agree that Creative Commons - Attribution (CC-BY) terms will apply to all data provided and that you agree to provide attribution to the original data contributors and the portal where applicable.
-                </strong>
                 <br />
-                <span style={{color:'red',fontSize:'12px',marginTop:'5px'}} >{this.state.authorizeText=="not"?null:(this.state.authorizeText=="visible"?"* Please accept the terms and conditions.":null)}</span>
+                <span style={{color:'red',fontSize:'10px',marginTop:'5px'}} >{this.state.authorizeText=="not"?null:(this.state.authorizeText=="visible"?"* Please accept the terms and conditions.":null)}</span>
                </div>
                <button type="submit" className="mb-4 btn btn-primary pull-right"  >Submit </button>
                <button onClick={this.closeModal} className="mb-4 btn btn-warning pull-right">Cancel</button>
