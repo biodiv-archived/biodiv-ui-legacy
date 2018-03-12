@@ -180,6 +180,7 @@ class ObservationListContainer extends Component {
       this.setOpenModal = this.setOpenModal.bind(this);
       this.selectAll = this.selectAll.bind(this);
       this.resetSelectAll = this.resetSelectAll.bind(this);
+      this.resetSingleCheckboxes = this.resetSingleCheckboxes.bind(this);
     };
 
 
@@ -758,11 +759,23 @@ class ObservationListContainer extends Component {
           this.setState({
             selectAll:true
           })
+          alert("")
         }
         resetSelectAll(){
           this.setState({
-            selectAll:false
+            selectAll:false,
+            bulkId:[]
           })
+          this.resetSingleCheckboxes();
+        }
+
+        resetSingleCheckboxes(){
+          if(!this.state.selectAll){
+            var i;
+            for(i=0;i<this.props.Observation.all.length;i++){
+              document.getElementById("check1SelectAll"+this.props.Observation.all[i].id).checked = false;
+            }
+          }
         }
 
         handleChangeCheckbox(event){
@@ -848,7 +861,8 @@ class ObservationListContainer extends Component {
 
         resetBulk(){
             this.setState({
-                bulk:false
+                bulk:false,
+                bulkId:[]
             })
         }
 

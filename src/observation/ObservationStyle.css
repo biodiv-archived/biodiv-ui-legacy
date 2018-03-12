@@ -18,7 +18,13 @@ tr:not(.no-hover):hover {
     margin-bottom: 5px;
     margin-left: 8px;
 }
-
+.glyphicon.glyphicon-check{
+  position: absolute;
+  font-size:20px;
+  top: 10px;
+  left: 8px;
+  color:red;
+}
 .checkbox{
   position: absolute;
  top: 0px;

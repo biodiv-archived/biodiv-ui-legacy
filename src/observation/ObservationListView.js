@@ -155,10 +155,10 @@ display(objs,selectAll){
                         {
                            (AuthUtils.isUserGroupExpert() || AuthUtils.isUserGroupFounder() || AuthUtils.isAdmin())?
                           (
-                            selectAll==true?
-                            (<input type="checkbox" style={{top:'4px',left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launch.bind(this,objs.id)} checked={selectAll} disabled/>)
+                            selectAll===true?
+                            (<span className="glyphicon glyphicon-check" id={"checkselectAll"+objs.id} ></span>)
                             :
-                            (<input type="checkbox"  style={{top:'4px', left:'7px',position:'absolute'}} className="checkbox" id={"check1"+objs.id} onChange={this.launch.bind(this,objs.id)}/>)
+                            (<input type="checkbox" name="selectAllFalse" value="selectAllFalse" style={{top:'4px', left:'7px',position:'absolute'}} className="checkbox" id={"check1SelectAll"+objs.id} onChange={this.launch.bind(this,objs.id)} defaultChecked={false} />)
                           ):null
                         }
                     </div>
