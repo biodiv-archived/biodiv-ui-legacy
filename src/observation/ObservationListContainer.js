@@ -759,7 +759,7 @@ class ObservationListContainer extends Component {
           this.setState({
             selectAll:true
           })
-          alert("")
+          alert("Any observation loaded on the list page will be selected")
         }
         resetSelectAll(){
           this.setState({
@@ -780,7 +780,7 @@ class ObservationListContainer extends Component {
 
         handleChangeCheckbox(event){
           this.setState({ sortValue: event.target.value });
-          if(event.target.value.trim()==="Last Updated".trim()){
+          if(event.target.value.trim()==="Last Visited".trim()){
             this.sortObservation("lastrevised")
         }
         else if(event.target.value.trim()==="Latest".trim()){
@@ -893,7 +893,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                       </div>
 
                       <select className="btn btn-default pull-right"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
-                          <option  value="Last Updated">Last Updated</option>
+                          <option  value="Last Visited">Last Visited</option>
                           <option  value="Latest">Latest</option>
                           <option  value="Most Viewed">Most Viewed</option>
                       </select>
