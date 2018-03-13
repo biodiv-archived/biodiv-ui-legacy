@@ -902,9 +902,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
 
 
                   </div>
-                  <div className="hidden-sm hidden-md hidden-lg">
-                    <MobileRightSidebar />
-                  </div>
+                
 
               {/* <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/> */}
               <div className="panel-body">{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
