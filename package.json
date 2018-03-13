@@ -49,7 +49,6 @@
     "material-ui-icons": "^1.0.0-alpha.19",
     "material-ui-responsive-drawer": "^1.1.31",
     "moment": "^2.21.0",
-    "moment-timezone": "^0.5.14",
     "naksha-react-ui": "strandls/naksha-react-ui#master",
     "query-string": "^5.0.0",
     "rc-checkbox": "^2.0.3",

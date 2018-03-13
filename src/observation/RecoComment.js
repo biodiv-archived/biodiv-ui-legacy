@@ -361,11 +361,14 @@ render(){
                                                                   }
                                                                   </div>
                                                                   <div className="comment-attributes">
-                                                                      <time className="timeago" >
-                                                                      {
-                                                                        <Moment date={item.lastUpdated}/>
-                                                                      }
-                                                                      </time>
+                                                                  {
+                                                                    ((new Date().getTime() - item.lastUpdated) >= 86400000)?
+                                                                    (
+                                                                      <Moment format="MMMM DD, YYYY" fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                                    ):(
+                                                                      <Moment fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                                    )
+                                                                  }
                                                                   </div>
                                                             </div>
                                                        </div>

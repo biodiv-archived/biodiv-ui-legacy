@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Moment from 'react-moment'
-import 'moment-timezone';
-import TimeAgo from 'react-time-ago'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavLink} from 'react-router-dom';
