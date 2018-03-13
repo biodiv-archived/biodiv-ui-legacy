@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Moment from 'react-moment'
+import 'moment-timezone';
 import TimeAgo from 'react-time-ago'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -410,11 +411,24 @@ class CommentsFeeds extends React.Component {
                                                         </span>
                                                     </b>
                                                     <span>
-                                                    <b>
-                                                     {" : On "}
-                                                    </b>
                                                     {
-                                                      <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?(
+                                                        <b>
+                                                         {" : On "}
+                                                        </b>
+                                                      ):(
+                                                        <b>
+                                                         {" : About "}
+                                                        </b>
+                                                      )
+                                                    }
+
+                                                    {
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?(
+                                                        <Moment format="MMMM DD, YYYY" fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                        ):(
+                                                        <Moment fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                      )
                                                     }
                                                     </span>
                                                   </div>
@@ -459,11 +473,25 @@ class CommentsFeeds extends React.Component {
 
                                                     </b>
                                                     <span>
-                                                    <b>
-                                                     {" : On "}
-                                                    </b>
                                                     {
-                                                      <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?
+                                                      (
+                                                        <b>
+                                                         {" : On "}
+                                                        </b>
+                                                      ):(
+                                                        <b>
+                                                         {" : About "}
+                                                        </b>
+                                                      )
+                                                    }
+                                                    {
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?
+                                                      (
+                                                        <Moment format="MMMM DD, YYYY" fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                      ):(
+                                                        <Moment fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                      )
                                                     }
                                                     </span>
                                                   </div>
