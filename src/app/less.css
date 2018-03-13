@@ -1,0 +1,21 @@
+.sidenav1 {
+    height: 80%; /* 100% Full-height */
+    width: 0%; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    bottom: 0;
+    left: 0;
+    right:0;
+    background-color: #F2F5F2; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.sidenav1 .closebtn1 {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 14px;
+    margin-left: 50px;
+}

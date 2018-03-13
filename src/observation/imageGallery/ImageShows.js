@@ -56,13 +56,27 @@ export default class LightboxExample extends Component {
       if(group=="birds"){
         groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
       }
-      
+
       let res = thumbnail?thumbnail.split("."):groupIcon;
       if(res){
-        if(thumbnail)
-        return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
+        if(thumbnail!="v"){
+          if(res[1]=="mp3" || res[1]=="wav"){
+            return `http://indiabiodiversity.org/biodiv/assets/all/audioicon.png`;
+          }else{
+            return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
+          }
+        }
         else{
-          return res;
+          //for youtube video thumbnail
+              if(res=="v"){
+                    let url = this.props.videos[0];
+                    let videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+                    if(videoid != null) {
+                      let imageUrl="https://img.youtube.com/vi/"+videoid[1]+"/0.jpg";
+                      return imageUrl
+                    }
+
+              }
         }
       }
       else {
@@ -73,14 +87,24 @@ export default class LightboxExample extends Component {
       let images=[];
       this.props.images?this.props.images.map((data)=>{
         if(data=='v'){
-        }else{
+        }
+        else if(data.split(".")[1]==="mp3" || data.split(".")[1]==="wav" ){
+          images.push("http://indiabiodiversity.org/biodiv/assets/all/audioicon.png")
+        }
+        else{
           data="http://indiabiodiversity.org/biodiv/observations/"+data;
            images.push(data);
         }
 
       }):null;
       this.props.videos?this.props.videos.map((data)=>{
-        images.push("https://cdn.pixabay.com/photo/2014/05/14/14/17/youtube-344107__340.png");
+          let url = data;
+          let videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+          if(videoid != null) {
+            let imageUrl="https://img.youtube.com/vi/"+videoid[1]+"/0.jpg";
+            images.push(imageUrl);
+
+          } 
       }):null;
       const {photoIndex,isOpen} = this.state;
         return (

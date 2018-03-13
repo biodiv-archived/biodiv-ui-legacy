@@ -878,6 +878,8 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
             {this.state.openModal?<DownloadModal/>:""}
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
+              <div>
+
               <div className="panel panel-success">
                   <div className="panel-heading vertical-align">
                       <ul className="nav nav-tabs" style={{display:'inline-block'}}>
@@ -900,6 +902,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
 
 
                   </div>
+                
 
               {/* <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/> */}
               <div className="panel-body">{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
@@ -913,6 +916,8 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
               </InfiniteScroll>}
 
               </div>
+            </div>
+
 
             :(this.props.Observation.count===0)?"No result found":<div style={{height:'600px',width:'660x',marginTop:'80px'}} className="container-fluid">
                 <div className="row">

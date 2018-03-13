@@ -1,57 +1,42 @@
-import React, { Component } from 'react';
-import Drawer from 'material-ui/Drawer';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-
+import React, {Component} from 'react';
+import './less.css'
 import LeftSidebar from './LeftSidebar';
 
-class SideBar extends Component {
+class Navigate extends React.Component {
+  constructor(props){
+    super(props);
 
-constructor(props) {
-  super(props);
-  this.state = {
-      left: false
-  };
-  this.toggleDrawer=this.toggleDrawer.bind(this);
-  this.handleRightOpen=this.handleRightOpen.bind(this)
-  this.handleRightClose=this.handleRightClose.bind(this)
-}
-
-  toggleDrawer ( open) {
-    this.setState({
-      left:open
-    });
-  };
-
-  handleRightOpen () {
-    this.toggleDrawer( true);
+    this.openNav = this.openNav.bind(this)
+    //console.log("navigation")
   }
-  handleRightClose (){
-     this.toggleDrawer( false);
-   }
 
-  render() {
+  openNav(){
+      document.getElementById("mySidenav").style.width = "100%";
+      document.getElementById("mySidenav").style.height = "0%";
+  }
+  closeNav(){
+    document.getElementById("mySidenav").style.width = "0%";
+      document.getElementById("mySidenav").style.height = "0%";
 
+  }
 
-    const sideList = (
-      <div >
-        <h1>hey</h1>
-      </div>
-    );
-
-    return (
+  render(){
+    return(
       <div>
-        <button  style={{position:'fixed',zIndex:'1000'}} className="btn btn-primary btn-xs pull-right"  onClick={this.handleRightOpen}>Filters</button>
-        <Drawer
-          anchor="left"
-          open={this.state.left}
-          onRequestChange={this.handleRightClose}
-          width='100%'
-          >
-          {sideList}
-        </Drawer>
+        <button className="closebtn btn btn-default"  onClick={this.openNav.bind(this)}>Click</button>
+
+      <div id="mySidenav" className="sidenav">
+        <div>
+          <button className=" btn btn-warning"  onClick={this.closeNav.bind(this)}>Close</button>
+          <LeftSidebar />
+
+        </div>
+
       </div>
-    );
+    </div>
+
+    )
   }
 }
 
-export default SideBar;
+export default Navigate;

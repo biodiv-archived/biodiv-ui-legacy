@@ -183,7 +183,7 @@ display(objs,selectAll){
                             </div>
                           <div className="props">
                             <div className="key"> <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Observed On </b> </div>
-                            <div className="values"><Moment format=" Do MMMM YYYY">{objs.fromdate }</Moment></div>
+                            <div className="values"><Moment format=" MMMM DD  YYYY">{objs.fromdate }</Moment></div>
                          </div>
                          <div className="props" style={{height:'30px'}}>
                            <div className="key" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Notes</b> </div>
