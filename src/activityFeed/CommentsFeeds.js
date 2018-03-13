@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import Moment from 'react-moment'
+import 'moment-timezone';
 import TimeAgo from 'react-time-ago'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -331,39 +332,18 @@ class CommentsFeeds extends React.Component {
       (
       <div className=" union-comment" id={this.props.id+"_comments"} >
           <div className="activityfeed activityfeedSpecific" >
-                <input type="hidden" name="newerTimeRef" value="1502258631007"/>
-                <input type="hidden" name="olderTimeRef" value="1502258631007"/>
-                <input type="hidden" name="feedType" value="Specific"/>
-                <input type="hidden" name="feedCategory" value=""/>
-                <input type="hidden" name="feedClass" value=""/>
-                <input type="hidden" name="feedOrder" value="oldestFirst"/>
-                <input type="hidden" name="feedPermission" value="editable"/>
-                <input type="hidden" name="refreshType" value="manual"/>
-                <input type="hidden" name="rootHolderId" value="1747730"/>
-                <input type="hidden" name="rootHolderType" value="species.participation.Observation"/>
-                <input type="hidden" name="activityHolderId" value=""/>
-                <input type="hidden" name="activityHolderType" value=""/>
-                <input type="hidden" name="feedUrl" value="/activityFeed/getFeeds"/>
-                <input type="hidden" name="webaddress" value=""/>
-                <input type="hidden" name="user" value=""/>
-                <input type="hidden" name="userGroupFromUserProfile" value=""/>
-                <input type="hidden" name="subRootHolderId" value=""/>
-                <input type="hidden" name="subRootHolderType" value=""/>
-                <input type="hidden" name="feedHomeObjectId" value="1747730"/>
-                <input type="hidden" name="feedHomeObjectType" value="species.participation.Observation"/>
                 <div className="row" style={{marginLeft:'2%'}}>
                     <a className="activiyfeednewermsg " style={{display:'block'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{"Show "+this.state.remainingFeedCount+ " older Feed(s)"}</a>
                     {/*<a className="activiyfeedoldermsg " style={{display:'block'}} title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>*/}
                 </div>
-                <ul className="list-unstyled row pre-scrollable" id={this.props.id+"feedlist"} style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'2%'}}>
+                <div className="pre-scrollable" id={this.props.id+"feedlist"} style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'2%'}}>
                     {
                       this.state.response?(
                         this.state.response.length>0?(
                         this.state.response.map((item,index)=>{
                           return(
-                            <li key={index} style={{display:'list-item'}}>
                                 <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
-                                    <div className="row">
+
                                           <div  className="author-icon col-sm-1">
                                           {
 
@@ -385,7 +365,7 @@ class CommentsFeeds extends React.Component {
                                             (item.activityType == 'Suggested species name' || item.activityType == 'obv unlocked' || item.activityType == 'obv locked' ||
                                             item.activityType == 'Agreed on species name' || item.activityType == 'Suggestion removed')?
                                             (
-                                              <div className="feed col-sm-10" style={{marginLeft:'0.5%'}}>
+                                              <div className="feed col-sm-11" >
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
@@ -431,11 +411,24 @@ class CommentsFeeds extends React.Component {
                                                         </span>
                                                     </b>
                                                     <span>
-                                                    <b>
-                                                     {" : On "}
-                                                    </b>
                                                     {
-                                                      <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?(
+                                                        <b>
+                                                         {" : On "}
+                                                        </b>
+                                                      ):(
+                                                        <b>
+                                                         {" : About "}
+                                                        </b>
+                                                      )
+                                                    }
+
+                                                    {
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?(
+                                                        <Moment format="MMMM DD, YYYY" fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                        ):(
+                                                        <Moment fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                      )
                                                     }
                                                     </span>
                                                   </div>
@@ -457,7 +450,7 @@ class CommentsFeeds extends React.Component {
                                             )
                                             :
                                             (
-                                              <div className="feed col-sm-10" style={{marginLeft:'0.5%'}}>
+                                              <div className="feed col-sm-11" >
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
@@ -480,11 +473,25 @@ class CommentsFeeds extends React.Component {
 
                                                     </b>
                                                     <span>
-                                                    <b>
-                                                     {" : On "}
-                                                    </b>
                                                     {
-                                                      <time className="timeago"><Moment date={item.lastUpdated}/></time>
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?
+                                                      (
+                                                        <b>
+                                                         {" : On "}
+                                                        </b>
+                                                      ):(
+                                                        <b>
+                                                         {" : About "}
+                                                        </b>
+                                                      )
+                                                    }
+                                                    {
+                                                      ((new Date().getTime() - item.lastUpdated) >= 86400000)?
+                                                      (
+                                                        <Moment format="MMMM DD, YYYY" fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                      ):(
+                                                        <Moment fromNow>{new Date(item.lastUpdated)}</Moment>
+                                                      )
                                                     }
                                                     </span>
                                                   </div>
@@ -545,15 +552,15 @@ class CommentsFeeds extends React.Component {
                                               </div>
                                             )
                                           }
-                                     </div>
+
                                 </div>
-                            </li>
+
                           )
                         })
                       ):null
                     ):null
                     }
-                </ul>
+                </div>
           </div>
           <div className="comment">
               <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
