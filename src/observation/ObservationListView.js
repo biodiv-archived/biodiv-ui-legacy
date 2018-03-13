@@ -226,7 +226,7 @@ display(objs,selectAll){
                       </div>
                  </div>
               </div>
-                {/* <Tabs rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/> */}
+                <Tabs rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
                 <br />
             </div>
             <br />
