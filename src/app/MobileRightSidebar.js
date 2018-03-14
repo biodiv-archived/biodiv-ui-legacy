@@ -1,42 +1,43 @@
-import React, {Component} from 'react';
-import './less.css'
+import React, { Component } from 'react';
+import Drawer from 'material-ui/Drawer';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+
 import LeftSidebar from './LeftSidebar';
 
-class Navigate extends React.Component {
-  constructor(props){
+
+
+export default class DrawerUndockedExample extends React.Component {
+
+  constructor(props) {
     super(props);
-
-    this.openNav = this.openNav.bind(this)
-    //console.log("navigation")
+    this.state = {open: false};
   }
 
-  openNav(){
-      document.getElementById("mySidenav").style.width = "100%";
-      document.getElementById("mySidenav").style.height = "0%";
-  }
-  closeNav(){
-    document.getElementById("mySidenav").style.width = "0%";
-      document.getElementById("mySidenav").style.height = "0%";
+  handleToggle = () => this.setState({open: !this.state.open});
 
-  }
+  handleClose = () => this.setState({open: false});
 
-  render(){
-    return(
-      <div>
-        <button className="closebtn btn btn-default"  onClick={this.openNav.bind(this)}>Click</button>
-
-      <div id="mySidenav" className="sidenav">
-        <div>
-          <button className=" btn btn-warning"  onClick={this.closeNav.bind(this)}>Close</button>
-          <LeftSidebar />
-
-        </div>
-
+  render() {
+    const sideList = (
+      <div style={{width:'100%'}} >
+      <LeftSidebar />
       </div>
-    </div>
-
-    )
+    );
+    return (
+      <div>
+        <button
+          label="Open Drawer"
+          onClick={this.handleToggle}
+        />
+        <Drawer
+          docked={false}
+          width={200}
+          open={this.state.open}
+          onRequestClose={(open) => this.setState({open})}
+        >
+          {sideList}
+        </Drawer>
+      </div>
+    );
   }
 }
-
-export default Navigate;

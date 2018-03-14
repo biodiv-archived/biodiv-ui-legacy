@@ -2,17 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
-import Button from 'material-ui/Button';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import InboxIcon from 'material-ui-icons/Inbox';
-import DraftsIcon from 'material-ui-icons/Drafts';
-import StarIcon from 'material-ui-icons/Star';
-import SendIcon from 'material-ui-icons/Send';
-import MailIcon from 'material-ui-icons/Mail';
-import DeleteIcon from 'material-ui-icons/Delete';
-import ReportIcon from 'material-ui-icons/Report';
-import BackspaceIcon from 'material-ui-icons/Backspace';
 import Chip from 'material-ui/Chip';
 import UniqueSpecies from '../observation/UniqueSpecies.js'
 
@@ -79,8 +70,5 @@ class UndockedDrawer extends React.Component {
   }
 }
 
-UndockedDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
-export default withStyles(styleSheet)(UndockedDrawer);
+export default UndockedDrawer;
