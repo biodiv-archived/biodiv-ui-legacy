@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Config } from '../Config';
+import AuthUtils from '../auth/AuthUtils.js';
 
 export const FETCH_SPECIES_CHART='FETCH_SPECIES_CHART';
 export const FETCH_GROUP_OBSERVATIONS="FETCH_GROUP_OBSERVATIONS";
@@ -133,7 +134,13 @@ export function setGroupName(data){
 }
 
 export function fetchRecommendations(obvIds){
-  const url = Config.api.API_ROOT_URL+"/observation/recommendationVotes?obvIds="+obvIds;
+  var loggedInUserId;
+  if(AuthUtils.getLoggedInUser() !== null){
+    loggedInUserId = AuthUtils.getLoggedInUser().id;
+  }else{
+    loggedInUserId = null;
+  }
+  const url = Config.api.API_ROOT_URL+"/observation/recommendationVotes?obvIds="+obvIds+"&loggedInUserId="+loggedInUserId+"&isAdmin="+AuthUtils.isAdmin()+"&isSpeciesAdmin="+AuthUtils.isSpeciesAdmin();
   const request = axios.get(url);
   return{
     type:FETCH_RECOMMENDATIONS,

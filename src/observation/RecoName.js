@@ -37,11 +37,20 @@ class RecoName extends React.Component {
     })
     var obvIds = []
     obvIds.push(id)
+    var loggedInUserId;
+    if(AuthUtils.getLoggedInUser() !== null){
+      loggedInUserId = AuthUtils.getLoggedInUser().id;
+    }else{
+      loggedInUserId = null;
+    }
     var options = {
       method: 'GET',
       url :     Config.api.API_ROOT_URL+"/observation/recommendationVotes",
       params:{
-        obvIds:obvIds.toString()
+        obvIds:obvIds.toString(),
+        loggedInUserId:loggedInUserId,
+        isAdmin:AuthUtils.isAdmin(),
+        isSpeciesAdmin:AuthUtils.isSpeciesAdmin()
       },
       json: 'true'
     }
