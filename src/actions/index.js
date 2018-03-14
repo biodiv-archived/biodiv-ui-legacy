@@ -140,7 +140,12 @@ export function fetchRecommendations(obvIds){
   }else{
     loggedInUserId = null;
   }
-  const url = Config.api.API_ROOT_URL+"/observation/recommendationVotes?obvIds="+obvIds+"&loggedInUserId="+loggedInUserId+"&isAdmin="+AuthUtils.isAdmin()+"&isSpeciesAdmin="+AuthUtils.isSpeciesAdmin();
+  if(loggedInUserId !==null){
+    var url = Config.api.API_ROOT_URL+"/observation/recommendationVotes?obvIds="+obvIds+"&loggedInUserId="+loggedInUserId+"&isAdmin="+AuthUtils.isAdmin()+"&isSpeciesAdmin="+AuthUtils.isSpeciesAdmin();
+  }else{
+    var url = Config.api.API_ROOT_URL+"/observation/recommendationVotes?obvIds="+obvIds+"&isAdmin="+AuthUtils.isAdmin()+"&isSpeciesAdmin="+AuthUtils.isSpeciesAdmin();
+  }
+
   const request = axios.get(url);
   return{
     type:FETCH_RECOMMENDATIONS,

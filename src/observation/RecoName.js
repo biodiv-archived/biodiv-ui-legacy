@@ -43,17 +43,31 @@ class RecoName extends React.Component {
     }else{
       loggedInUserId = null;
     }
-    var options = {
-      method: 'GET',
-      url :     Config.api.API_ROOT_URL+"/observation/recommendationVotes",
-      params:{
-        obvIds:obvIds.toString(),
-        loggedInUserId:loggedInUserId,
-        isAdmin:AuthUtils.isAdmin(),
-        isSpeciesAdmin:AuthUtils.isSpeciesAdmin()
-      },
-      json: 'true'
+    if(loggedInUserId !== null){
+      var options = {
+        method: 'GET',
+        url :     Config.api.API_ROOT_URL+"/observation/recommendationVotes",
+        params:{
+          obvIds:obvIds.toString(),
+          loggedInUserId:loggedInUserId,
+          isAdmin:AuthUtils.isAdmin(),
+          isSpeciesAdmin:AuthUtils.isSpeciesAdmin()
+        },
+        json: 'true'
+      }
+    }else{
+      var options = {
+        method: 'GET',
+        url :     Config.api.API_ROOT_URL+"/observation/recommendationVotes",
+        params:{
+          obvIds:obvIds.toString(),
+          isAdmin:AuthUtils.isAdmin(),
+          isSpeciesAdmin:AuthUtils.isSpeciesAdmin()
+        },
+        json: 'true'
+      }
     }
+
     axios(options)
         .then((response)=>{
           document.body.style.cursor = "default";
