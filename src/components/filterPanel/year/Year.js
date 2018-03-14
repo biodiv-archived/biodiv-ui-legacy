@@ -1,90 +1,105 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
+import DatePicker from 'material-ui/DatePicker';
 import moment from 'moment';
-import Moment from 'react-moment';
-import 'react-datepicker/dist/react-datepicker.css';
 
-class ExampleApp extends React.Component {
+const optionsStyle = {
+  maxWidth: 255,
+  marginRight: 'auto',
+};
 
-
-
+/**
+ * This example allows you to set a date range, and to toggle `autoOk`, and `disableYearSelection`.
+ */
+export default class DatePickerExampleToggle extends React.Component {
   constructor(props) {
     super(props);
 
+    const minDate = new Date();
+    const maxDate = new Date();
+    minDate.setFullYear(1970);
+    minDate.setMonth(0);
+    minDate.setDate(1);
+    minDate.setHours(0, 0, 0, 0);
+    maxDate.setFullYear(maxDate.getFullYear());
+    maxDate.setHours(0, 0, 0, 0);
+
     this.state = {
-      startDate:moment('01-01-1970',"DD/MM/YYYY"),
-      endDate: moment()
+      minDate: minDate,
+      maxDate: maxDate,
+      autoOk: true,
+      disableYearSelection: false,
     };
   }
 
-handleChangeStart(date){
-  this.setState({
-    startDate:date
-  })
+  handleChangeMinDate = (event, date) => {
 
-  let endDate=this.state.endDate;
-  let startDate=date;
+    let endDate=this.state.maxDate;
+    let startDate=date;
+    if(startDate>endDate){
+      alert("Start date should be before the End date")
+    }
+    else{
+      var event = new CustomEvent("year-filter", {
+          "detail": {
+            maxDate: encodeURIComponent(endDate),
+            minDate:encodeURIComponent(startDate)
+          }
+        });
+        document.dispatchEvent(event);
+
+        this.setState({
+          minDate: date,
+        });
+    }
+
+  };
+
+  handleChangeMaxDate = (event, date) => {
+    let endDate=date;
+    let startDate=this.state.minDate;
+
+    if(startDate>endDate){
+      alert("Start date should be before the End date")
+    }
+    else{
+      var event = new CustomEvent("year-filter", {
+          "detail": {
+            maxDate: encodeURIComponent(endDate),
+            minDate:encodeURIComponent(startDate)
+          }
+        });
+        document.dispatchEvent(event);
+      this.setState({
+        maxDate: date,
+      });
+    }
+
+  };
 
 
 
-
-  var event = new CustomEvent("year-filter", {
-      "detail": {
-        maxDate: encodeURIComponent(endDate),
-        minDate:encodeURIComponent(startDate)
-      }
-    });
-    document.dispatchEvent(event);
-}
-handleChangeEnd(date){
-
-  this.setState({
-    endDate:date
-  })
-  let endDate=date;
-  let startDate=this.state.startDate;
-
-
-  encodeURIComponent(endDate);
-  var event = new CustomEvent("year-filter", {
-      "detail": {
-        maxDate: encodeURIComponent(endDate),
-        minDate:encodeURIComponent(startDate)
-      }
-    });
-    document.dispatchEvent(event);
-}
   render() {
     return (
-      <div style={{position:'relative'}}>
-          {"From"}
+      <div>
+        <div style={optionsStyle}>
           <DatePicker
-          dateFormat="DD/MM/YYYY"
-          selected={this.state.startDate}
-          showYearDropdown
-          showMonthDropdown
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
-          onChange={this.handleChangeStart.bind(this)}
-          isClearable={true}
-          placeholderText="Select start Date"
-      />
-          {"To"}
-          <DatePicker
-              dateFormat="DD/MM/YYYY"
-              selected={this.state.endDate}
-              selectsEnd
-              showYearDropdown
-              showMonthDropdown
-              startDate={this.state.startDate}
-              endDate={this.state.endDate}
-              onChange={this.handleChangeEnd.bind(this)}
-              isClearable={true}
-              placeholderText="Select end Date"
+            onChange={this.handleChangeMinDate}
+            autoOk={this.state.autoOk}
+            floatingLabelText="Min Date"
+            defaultDate={this.state.minDate}
+            disableYearSelection={this.state.disableYearSelection}
+            formatDate={(date) => moment(date).format('DD-MM-YYYY')}
           />
-  </div>
+          <DatePicker
+            onChange={this.handleChangeMaxDate}
+            autoOk={this.state.autoOk}
+            floatingLabelText="Max Date"
+            defaultDate={this.state.maxDate}
+            disableYearSelection={this.state.disableYearSelection}
+            formatDate={(date) => moment(date).format('DD-MM-YYYY')}
+          />
+        </div>
+      </div>
     );
   }
 }
-
-export default ExampleApp

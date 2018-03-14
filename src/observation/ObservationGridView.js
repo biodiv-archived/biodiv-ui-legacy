@@ -93,7 +93,9 @@ display(objs,index){
   return (
     <li key= {index}>
                 <div style={{height:'280px',width:'200px'}} className="card ">
+                    <NavLink to={`/${this.props.PublicUrl}observation/show/${objs.id}`}>
                     <img className="card-img-top" style={{height:'220px',width:'200px'}} src={this.getUrl(objs.thumbnail,objs.speciesgroupname,objs.urlresource)} />
+                    </NavLink>
                     <div className="card-block">
                         <figure className="profile"  style={{height:'40px',width:'40px'}}>
                           <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="40"  ></UserAvatar>

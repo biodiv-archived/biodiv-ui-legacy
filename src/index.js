@@ -7,8 +7,8 @@ import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import TimeAgo from 'javascript-time-ago'
 
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
@@ -22,19 +22,6 @@ import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
 import {SET_GROUP_NAME} from './actions/index';
 import naksha from 'naksha-react-ui'
-
-// Load locale-specific relative date/time formatting rules.
-import en from 'javascript-time-ago/locales/en'
-import ru from 'javascript-time-ago/locales/ru'
-
-// require('javascript-time-ago/intl-messageformat-global')
-// require('intl-messageformat/dist/locale-data/en')
-// require('intl-messageformat/dist/locale-data/ru')
-
-TimeAgo.locale(en)
-TimeAgo.locale(ru)
-
-
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 
@@ -71,6 +58,7 @@ else{
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
 "/register/resetPassword","/map"];
 ReactDOM.render(
+  <MuiThemeProvider>
   <Provider store={store}>
     <BrowserRouter forceRefresh={true}>
       <div className="container-fluid">
@@ -101,5 +89,6 @@ ReactDOM.render(
       </div>
     </BrowserRouter>
   </Provider>
+</MuiThemeProvider>
   , document.querySelector('.outer-wrapper'));
 registerServiceWorker();
