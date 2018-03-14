@@ -191,26 +191,7 @@ class RichTextEditor extends React.Component {
     this.editor.focus();
   };
 
-  handleSpace = (e) =>{
-    //console.log("spaceeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",e)
-    console.log(e.keyCode)
-    if(e.keyCode === 32){
-      console.log("keycode 32")
-    //  e.preventDefault();
-      //this.editor.focus();
-      // var raw =convertToRaw(this.state.editorState.getCurrentContent())
-      // raw.blocks[0].text = raw.blocks[0].text + " ";
-      // // var blocks= raw.blocks;
-      // // var entityMap = raw.entityMap
-      // // var entityRanges = blocks[0].entityRanges;
-      // // var text = blocks[0].text;
-      // // text = text + " ";
-      // // this.state.editorState.getCurrentContent().blocks[0].text = text ;
-      // this.setState({
-      //   editorState: EditorState.createWithContent(ContentState.createFromBlockArray(raw.blocks,raw.entityMap ),new CompositeDecorator(this.decorator))
-      // })
-    }
-  };
+
 
   onCommentPost(e){
     document.body.style.cursor = "wait";
@@ -454,7 +435,7 @@ class RichTextEditor extends React.Component {
       <div className="row" >
         {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} id={this.props.obvId} funcRefresh={this.props.getFeeds} type={"Reply/Add Comment"}/>):null}
         <div className="col-xs-10" style={{marginLeft:'1%'}}>
-        <div className="editor" style={{marginTop:'0%'}} onClick={this.focus} onKeyDown={this.handleSpace}>
+        <div className="editor" style={{marginTop:'0%'}} onClick={this.focus} >
         <Editor
           decorators={this.decorator}
           key={this.state.key}

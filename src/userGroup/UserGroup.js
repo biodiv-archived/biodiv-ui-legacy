@@ -33,6 +33,11 @@ constructor(){
   this.onChangeCheck=this.onChangeCheck.bind(this)
   this.onChange=this.onChange.bind(this);
   this.getSuggestions=this.getSuggestions.bind(this)
+  this.getSuggestionValue =  this.getSuggestionValue.bind(this);
+  this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
+  this.renderSuggestion =  this.renderSuggestion.bind(this);
+  this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
+  this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
 }
 
   getUrlParameter(){
@@ -118,14 +123,14 @@ onChange (event, { newValue }) {
     });
   };
 
-  onSuggestionsFetchRequested = ({ value }) => {
+  onSuggestionsFetchRequested ({ value }) {
     this.setState({
       suggestions: this.getSuggestions(value)
     });
   };
 
 
-  onSuggestionsClearRequested = () => {
+  onSuggestionsClearRequested () {
     this.setState({
       suggestions: []
     });

@@ -274,35 +274,13 @@ recoCommentPost(e){
     this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
   }
 
-   handleClick(e){
 
-     e.stopPropagation();
-     console.log("stop")
-     console.log(e.stopPropagation())
-   }
-
-   handleSpace = (e) =>{
-     //console.log("spaceeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",e)
-     //console.log(e.keyCode)
-     if(e.keyCode === 32){
-       //console.log("keycode 32")
-        // e.stopPropagation();
-         console.log("inside reco comment handle spoace")
-    //  e.preventDefault();
-
-       //this.editor.focus();
-       //console.log(convertToRaw(this.state.editorState.getCurrentContent()))
-
-
-     }
-
-   };
 render(){
       return(
       <div>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoComment} id={this.props.id2} id1={this.props.id1}/>):null}
       {
-          <div className="comment-popup drop "  onKeyDown={this.handleSpace}>
+          <div className="comment-popup drop ">
 
                     <a className="btn btn-xs btn-warning"  onClick={this.getRecoComment}>
                                 <span className="glyphicon glyphicon-comment"></span>

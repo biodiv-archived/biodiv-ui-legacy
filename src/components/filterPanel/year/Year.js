@@ -29,9 +29,12 @@ export default class DatePickerExampleToggle extends React.Component {
       autoOk: true,
       disableYearSelection: false,
     };
+
+    this.handleChangeMinDate = this.handleChangeMinDate.bind(this);
+    this.handleChangeMaxDate = this.handleChangeMaxDate.bind(this);
   }
 
-  handleChangeMinDate = (event, date) => {
+  handleChangeMinDate (event, date)  {
 
     let endDate=this.state.maxDate;
     let startDate=date;
@@ -52,9 +55,9 @@ export default class DatePickerExampleToggle extends React.Component {
         });
     }
 
-  };
+  }
 
-  handleChangeMaxDate = (event, date) => {
+  handleChangeMaxDate (event, date)  {
     let endDate=date;
     let startDate=this.state.minDate;
 
@@ -74,7 +77,7 @@ export default class DatePickerExampleToggle extends React.Component {
       });
     }
 
-  };
+  }
 
 
 
