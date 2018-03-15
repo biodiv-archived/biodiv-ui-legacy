@@ -125,7 +125,7 @@ getJoinPermission(){
                         <NavLink to="/">
                             <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?"http://indiabiodiversity.org/biodiv/userGroups/"+userGroup.icon:"http://indiabiodiversity.org/logo/IBP.png"}></img>
                         </NavLink>
-                        <NavLink to="/" className="navbar-brand" style={{padding:'10px'}}>
+                        <NavLink to="/" className="navbar-brand" style={{paddingTop:'0.00001px'}}>
                             <h3>{userGroup?userGroup.name:'India Biodiversity Portal'}</h3>
                         </NavLink>
                     </div>
