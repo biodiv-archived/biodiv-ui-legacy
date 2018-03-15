@@ -8,70 +8,67 @@ class ObservationGridView extends Component{
 
   getUrl(thumbnail,speciesGroup,videos){
 
-    let group=speciesGroup.toLowerCase();
-    let groupIcon=null;
-    if(group=="bird"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
-    }
-    if(group=="fish"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/fish_th1.png';
-    }
-    if(group=="fungi"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/fungi_th1.png';
-    }
-    if(group=="mammals"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/mammals_th1.png';
-    }
-    if(group=="all"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/all_th1.png';
-    }
-    if(group=="amphibians"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/amphibians_th1.png';
-    }
-    if(group=="reptiles"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/reptiles_th1.png';
-    }
-    if(group=="molluscs"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/molluscs_th1.png';
-    }
-    if(group=="arthropods"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/arthropods_th1.png';
-    }
-    if(group=="plants"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/plants_th1.png';
-    }
-    if(group=="others"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/others_th1.png';
-    }
-    if(group=="birds"){
-      groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
-    }
 
-    let res = thumbnail?thumbnail.split("."):groupIcon;
-    if(res){
-      if(thumbnail!="v"){
-        if(res[1]=="mp3" || res[1]=="wav"){
-          return `http://indiabiodiversity.org/biodiv/assets/all/audioicon.png`;
-        }else{
-          return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
-        }
-      }
-      else{
-        //for youtube video thumbnail
-            if(res=="v"){
-                  let url = videos[0];
-                  let videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-                  if(videoid != null) {
-                    let imageUrl="https://img.youtube.com/vi/"+videoid[1]+"/0.jpg";
-                    return imageUrl
-                  }
+          let group=speciesGroup.toLowerCase();
+          let groupIcon=null;
+          if(group=="bird"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
+          }
+          if(group=="fish"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/fish_th1.png';
+          }
+          if(group=="fungi"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/fungi_th1.png';
+          }
+          if(group=="mammals"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/mammals_th1.png';
+          }
+          if(group=="all"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/all_th1.png';
+          }
+          if(group=="amphibians"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/amphibians_th1.png';
+          }
+          if(group=="reptiles"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/reptiles_th1.png';
+          }
+          if(group=="molluscs"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/molluscs_th1.png';
+          }
+          if(group=="arthropods"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/arthropods_th1.png';
+          }
+          if(group=="plants"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/plants_th1.png';
+          }
+          if(group=="others"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/others_th1.png';
+          }
+          if(group=="birds"){
+            groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
+          }
 
+          let res = thumbnail?thumbnail.split("."):null;
+
+          if(res){
+            if(res[1]=="mp3" || res[1]=="wav"){
+                return `http://indiabiodiversity.org/biodiv/assets/all/audioicon.png`;
+              }
+              else if(res[0]=="v"){
+                let url = videos[0];
+                let videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+                if(videoid != null) {
+                  let imageUrl="https://img.youtube.com/vi/"+videoid[1]+"/0.jpg";
+                  return imageUrl
+                }
+              }
+              else{
+                return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
+              }
             }
-      }
-    }
-    else {
-      return null
-    }
+          else {
+            return groupIcon
+          }
   }
 
 getUserPhotoUrl(images){

@@ -57,30 +57,26 @@ export default class LightboxExample extends Component {
         groupIcon='http://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png';
       }
 
-      let res = thumbnail?thumbnail.split("."):groupIcon;
+      let res = thumbnail?thumbnail.split("."):null;
+
       if(res){
-        if(thumbnail!="v"){
-          if(res[1]=="mp3" || res[1]=="wav"){
+        if(res[1]=="mp3" || res[1]=="wav"){
             return `http://indiabiodiversity.org/biodiv/assets/all/audioicon.png`;
-          }else{
+          }
+          else if(res[0]=="v"){
+            let url = this.props.videos[0];
+            let videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+            if(videoid != null) {
+              let imageUrl="https://img.youtube.com/vi/"+videoid[1]+"/0.jpg";
+              return imageUrl
+            }
+          }
+          else{
             return `http://indiabiodiversity.org/biodiv/observations/`+res[0]+"_th1.jpg"
           }
         }
-        else{
-          //for youtube video thumbnail
-              if(res=="v"){
-                    let url = this.props.videos[0];
-                    let videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
-                    if(videoid != null) {
-                      let imageUrl="https://img.youtube.com/vi/"+videoid[1]+"/0.jpg";
-                      return imageUrl
-                    }
-
-              }
-        }
-      }
       else {
-        return null
+        return groupIcon
       }
     }
     render() {
@@ -104,7 +100,7 @@ export default class LightboxExample extends Component {
             let imageUrl="https://img.youtube.com/vi/"+videoid[1]+"/0.jpg";
             images.push(imageUrl);
 
-          } 
+          }
       }):null;
       const {photoIndex,isOpen} = this.state;
         return (

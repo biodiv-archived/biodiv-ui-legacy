@@ -58,10 +58,9 @@ export default ({
     item: {
       padding: '5px 15px',
       borderBottom: '1px solid rgba(0,0,0,0.15)',
-
       '&focused': {
         backgroundColor: '#cee4e5',
       },
     },
-  },
+  }
 })
