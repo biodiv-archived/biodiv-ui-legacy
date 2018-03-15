@@ -296,7 +296,7 @@ class RecoName extends React.Component {
 
 
   render(){
-    console.log(this.props.islocked, "recoName called agagin")
+    //console.log(this.props.islocked, "recoName called agagin")
     return(
     <div>
       {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}

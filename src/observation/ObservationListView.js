@@ -187,7 +187,9 @@ display(objs,selectAll){
                          </div>
                          <div className="props" style={{height:'30px'}}>
                            <div className="key" > <span className="glyphicon glyphicon-time" aria-hidden="true"></span><b> Notes</b> </div>
-                           <div className="values" > <Truncate lines={1} >{(objs.notes?objs.notes:"Not available")}</Truncate>  </div>
+                           <div className="values" > <Truncate lines={1}> <span style={{wordWrap:'break-word'}}  dangerouslySetInnerHTML={{ __html: objs.notes?objs.notes:"Not available"}} /></Truncate>  </div>
+
+
                         </div>
 
                           <div className="">

@@ -213,7 +213,7 @@ render(){
             <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
               <Traits_Filter />
             </Collapsible>
-            <div style={{height:'107px'}}></div>
+            <div style={{height:'157px'}}></div>
         </div>
     </div>
     )

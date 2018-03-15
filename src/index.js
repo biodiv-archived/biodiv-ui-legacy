@@ -56,7 +56,7 @@ else{
 
 
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
-"/register/resetPassword","/map"];
+"/register/resetPassword"];
 ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>

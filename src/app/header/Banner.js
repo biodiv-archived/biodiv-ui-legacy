@@ -10,8 +10,9 @@ import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions
 import AuthUtils from '../../auth/AuthUtils';
 import {Config} from '../../Config'
 import style from './style/headerstyle.css';
-
 import UserGroupName from '../../util/UserGroup';
+import ModalPopup from '../../auth/Modal.js';
+import ModeratorPopUp from './ModeratorPopUp';
 
 
 
@@ -22,258 +23,135 @@ class Banner extends Component{
         super(props);
         this.state={
             PublicUrl:this.props.PublicUrl,
-            parents:null,
-            children:null
+            userUserGroup:[],
+            login_modal:false,
+            options:{},
+            joined:false,
+            moderatorPopup:false
         }
-        this.children = new Map();
-        this.parents = [];
+        this.getuserUserGroup=this.getuserUserGroup.bind(this);
+        this.getJoinPermission=this.getJoinPermission.bind(this)
+        this.getPop=this.getPop.bind(this);
     }
 
     componentDidMount(){
-        if(this.props.groupName!= "" && this.props.groupName!=undefined){
-            let groupName=this.props.PublicUrl.split("/")[1];
-            UserGroupName.list().then(data=>{
-
-                let group=data.model.userGroupInstanceList.find((item)=>{
-                    return item.webaddress==groupName
-                })
-                console.log(group);
-                this.getNewsLetters(group.id);
-            })
-        } else {
-            this.getNewsLetters(null);
-        }
+            let userUserGroup=AuthUtils.isLoggedIn()?this.getuserUserGroup():null;
     }
 
-
-    getNewsLetters(ugId){
-      console.log(ugId);
-        var options;
-        if(ugId == null){
-            options={
-                method: 'GET',
-                url :   Config.api.API_ROOT_URL+"/newsletters/pages",
-                json: 'true'
-            }
-        }else{
-            options={
-                method: 'GET',
-                url :   Config.api.API_ROOT_URL+"/newsletters/pages",
-                params:{
-                    userGroupId:ugId
-                },
-                json: 'true'
-            }
-        }
-
-        axios(options)
-            .then((response)=>{
-                if(response.status == 200){
-                    var grouped = _.orderBy((_.groupBy(response.data, 'parentId')),['displayOrder'],['desc'])
-                    for(var i=0;i<response.data.length;i++){
-                        if(response.data[i].parentId == 0){
-                            this.parents.push(response.data[i])
-                        }else{
-                            if(this.children.get(response.data[i].parentId) == null){
-                                this.children.set(response.data[i].parentId,[response.data[i]])
-                            }else{
-                                var array=this.children.get(response.data[i].parentId);
-                                array.push(response.data[i])
-                                this.children.set(response.data[i].paraentId,array);
-                            }
-                        }
-                    }
-                    this.setState({
-                        parents:this.parents,
-                        children:this.children
-                    })
-                }
-            })
+    getuserUserGroup(){
+      axios.get(`${Config.api.API_ROOT_URL}/user/currentUserUserGroups`).then((userGroups)=>{
+        console.log(userGroups.id);
+        this.setState({
+          userUserGroup:userGroups.data
+        })
+      })
     }
+    getPop(){
+      console.log("log");
+      this.setState({
+        moderatorPopup:!this.state.moderatorPopup
+      })
+
+    }
+    getRequestPermission(){
+      let url=`${Config.api.ROOT_URL}/${this.props.PublicUrl}userGroup/joinUs`;
+      let groupName=this.props.PublicUrl.split("/")[1];
+
+
+
+      let options={
+          method:'POST',
+          url : url,
+          headers:AuthUtils.getAuthHeaders(),
+          json: 'true'
+      }
+      axios(options).then((userGroups)=>{
+          this.setState({
+            joined:true
+          })
+      })
+      .catch((error)=>{
+          if(error.response.status === 401){
+              this.setState({
+                  login_modal:!(this.state.login_modal),
+                  options:options
+              })
+          } else {
+              console.log(error.response);
+          }
+      })
+    }
+
+getJoinPermission(){
+  let url=`${Config.api.ROOT_URL}/${this.props.PublicUrl}userGroup/joinUs`;
+  let options={
+      method:'POST',
+      url : url,
+      headers:AuthUtils.getAuthHeaders(),
+      json: 'true'
+  }
+  axios(options).then((userGroups)=>{
+      this.setState({
+        joined:true
+      })
+  })
+  .catch((error)=>{
+      if(error.response.status === 401){
+          this.setState({
+              login_modal:!(this.state.login_modal),
+              options:options
+          })
+      } else {
+          console.log(error.response);
+      }
+  })
+}
 
 
     render(){
+
         let userGroup=this.props.UserGroupList?this.props.UserGroupList.filter((item)=>{return item.webaddress==this.props.PublicUrl.split("/")[1]})[0]:null;
         //        userGroup = {name:'Assam Biodiversity Portal for invasive species', icon:'/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif'}
+
+        let userUserGroup=this.state.userUserGroup?this.state.userUserGroup.filter((item)=>{return item.webaddress==this.props.PublicUrl.split("/")[1]})[0]:null;
+          console.log(userUserGroup);
+
         if(true) {
             return(
                 <div className="navbar navbar-default row brand-bar">
-
+                  {this.state.login_modal===true?(<ModalPopup funcjoinus={this.getJoinPermission} type="joinus" key={this.state.options} options={this.state.options} />):null}
+                  {this.state.moderatorPopup?<ModeratorPopUp key={this.state.moderatorPopup} />:null}
                     <div className="navbar-header">
-                        <button type="button" className="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#header_menu2" aria-expanded="false">
-                            <span className="sr-only">Toggle navigation</span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                            <span className="icon-bar"></span>
-                        </button>
                         <NavLink to="/">
-                            <img className="logo pull-left"  src={userGroup?"http://indiabiodiversity.org/biodiv/userGroups/"+userGroup.icon:"http://indiabiodiversity.org/logo/IBP.png"}></img>
+                            <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?"http://indiabiodiversity.org/biodiv/userGroups/"+userGroup.icon:"http://indiabiodiversity.org/logo/IBP.png"}></img>
                         </NavLink>
-
-                        <NavLink to="/" className="navbar-brand" style={{padding:'0px'}}>
+                        <NavLink to="/" className="navbar-brand" style={{padding:'10px'}}>
                             <h3>{userGroup?userGroup.name:'India Biodiversity Portal'}</h3>
                         </NavLink>
                     </div>
+                    <div>
+                        {userUserGroup?(
+                          <div>
+                            {/* <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
+                            <button onClick={this.getPop} className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button> */}
+                          </div>
 
-                    <div className="navbar-collapse collapse" id="header_menu2">
+                        ):userGroup?userGroup.allowUsersToJoin?
+                          (
+                            this.state.joined?  (
+                              <div>
+                              {/* <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
+                              <button onClick={this.getPopup}  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button> */}
+                              </div>
+                            )
+                            :<button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
 
-                        <ul className="nav navbar-nav navbar-right">
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Species
-                                    <span className="caret"></span>
-                                </a>
-                                <ul className="dropdown-menu" role="menu">
-                                    <li>
-                                        <NavLink to={`/${this.props.PublicUrl}species/list`}>Species Pages</NavLink>
-                                    </li>
-                                    <li>
-                                        { <NavLink to={`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</NavLink>}
-                                    </li>
-                                    <li>
-                                        <NavLink to={`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>Species Traits</NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to={`/${this.props.PublicUrl}dataTable/list?type=species`}>Species Datatables</NavLink>
-                                    </li>
-
-                                </ul>
-                            </li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Observation
-                                    <span className="caret"></span>
-                                </a>
-                                <ul className="dropdown-menu" role="menu">
-                                    <li>
-                                        <NavLink to={`/${this.props.PublicUrl}observation/list`}>Observations
-                                        </NavLink>
-                                    </li>
-                                    <li>
-                                        <NavLink to={`/${this.props.PublicUrl}checklist/index`}>Checklists
-                                        </NavLink>
-                                    </li>
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}datasource/list`}>Datasets
-                                        </NavLink>}
-                                    </li>
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}observation/traits/`}>Observation Traits
-                                        </NavLink>}
-                                    </li>
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataTable/list?type=observations`}>Observation Datatables
-                                        </NavLink>}
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}map`}>Maps
-                                </NavLink>}
-                            </li>
-                            <li className="dropdown">
-                              <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Documents<span className="caret"></span>
-                              </a>
-                              <ul className="dropdown-menu" role="menu">
-                                <li>
-                                {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}document/list`}>Documents
-                                </NavLink>}
-                                </li>
-                                <li>
-                                {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}dataTable/list?type=documents`}>Document Datatables
-                                </NavLink>}
-                                </li>
-                              </ul>
-                            </li>
-                            <li>
-                                {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}discussion/list`}>Discussions
-                                </NavLink>}
-                            </li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Datasets<span className="caret"></span>
-                                </a>
-                                <ul className="dropdown-menu" role="menu">
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5136151&offset=&view=grid`}>Generic Biodiversity Datasets
-                                        </NavLink>}
-                                    </li>
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5168239&offset=&view=grid`}>{"People's Biodiversity Registers"}
-                                        </NavLink>}
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="dropdown">
-                                {<NavLink className="dropdown-toggle menu-item" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
-                                <ul className="dropdown-menu pre-scrollable" style={{'height':'auto','width':'200px'}} role="menu">
-
-                                    {this.props.UserGroupList.length>0?this.props.UserGroupList.map((item,index)=>{
-                                        return (
-                                            <li key={index} style={{'border':'1px'}}>
-                                                <NavLink to={`/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</NavLink >
-                                            </li>
-                                        )
-                                    }):<div className="loader"></div>}
-                                </ul>
-                            </li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Pages
-                                    <span className="caret"></span>
-                                </a>
-                                <ul className="dropdown-menu" role="menu">
-                                    {
-                                        this.state.parents != null ?
-                                            this.state.parents.map((item1,index1)=>{
-                                                return(
-                                                    <li key={index1}>
-                                                        <NavLink to={`/${this.props.PublicUrl}page/${item1.id}`}>{item1.title}</NavLink>
-                                                        <ul>
-                                                            {
-                                                                this.state.children.get(item1.id) != null ?
-                                                                    this.state.children.get(item1.id).map((item2,index2)=>{
-                                                                        return(
-                                                                            <li key={item2.id}>
-                                                                                <NavLink to={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</NavLink>
-                                                                            </li>
-                                                                        )
-                                                                    })
-                                                                    :null
-                                                            }
-
-                                                        </ul>
-                                                    </li>
-
-                                                )
-                                            }):null
-                                    }
-                                </ul>
-                            </li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">More
-                                    <span className="caret"></span>
-                                </a>
-                                <ul className="dropdown-menu" role="menu">
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}activityFeed/list`}>Activity
-                                        </NavLink>}
-                                    </li>
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}user/list`}>Participants
-                                        </NavLink>}
-                                    </li>
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}chart/show`}>Dashboard
-                                        </NavLink>}
-                                    </li>
-                                    <li>
-                                        <NavLink to={`/${this.props.PublicUrl}theportal`}>About
-                                        </NavLink>
-
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-
+                          )
+                          :(
+                            {/*  <button onClick={this.getRequestPermission} className="btn btn-xs btn-danger pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Request Permission</button>*/}
+                          ):null
+                      }
                     </div>
-
                 </div>
             )
         } else {

@@ -111,7 +111,7 @@ export function fetchLanguages(){
 }
 
 export function fetchUserGroupList(){
-  const url = Config.api.ROOT_URL+"/group/list?max=95&format=json"
+  const url = Config.api.ROOT_URL+"/group/list?max=100&offset=0&format=json"
   const request = axios.get(url);
   return{
     type:FETCH_USERGROUP_LIST,

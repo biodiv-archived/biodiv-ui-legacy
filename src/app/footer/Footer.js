@@ -26,7 +26,7 @@ import UserGroupName from '../../util/UserGroup';
        let groupName=this.props.publicUrl.url.split("/")[1];
        UserGroupName.list().then(data=>{
 
-         let group=data.model.userGroupInstanceList.find((item)=>{
+         let group=data.find((item)=>{
              return item.webaddress==groupName
          })
          this.getNewsLetters(group.id);

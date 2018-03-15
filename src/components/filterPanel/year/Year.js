@@ -54,9 +54,7 @@ export default class DatePickerExampleToggle extends React.Component {
           minDate: date,
         });
     }
-
-  }
-
+  };
   handleChangeMaxDate (event, date)  {
     let endDate=date;
     let startDate=this.state.minDate;

@@ -1,45 +1,63 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-
+import List from 'material-ui/List';
 import LeftSidebar from './LeftSidebar';
 
+import style from './mobile_right_sidebar.css';
 
+class TemporaryDrawer extends React.Component {
+  constructor(){
+    super()
+    this.state = {
+      top: false,
+      left: false,
+      bottom: false,
+      right: false,
+    }
 
-export default class DrawerUndockedExample extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {open: false};
-    this.handleToggle = this.handleToggle.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
 
-  handleToggle  () { this.setState({open: !this.state.open})}
 
-  handleClose  () {this.setState({open: false})}
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open,
+    });
+  };
+
 
   render() {
+    const { classes } = this.props;
+
     const sideList = (
-      <div style={{width:'100%'}} >
+      <div>
       <LeftSidebar />
       </div>
     );
+
+
+
     return (
       <div>
-        <button
-          label="Open Drawer"
-          onClick={this.handleToggle}
-        />
-        <Drawer
-          docked={false}
-          width={200}
-          open={this.state.open}
-          onRequestClose={(open) => this.setState({open})}
-        >
-          {sideList}
+        <button   className=" floatButton btn btn-xs btn-primary hidden-sm hidden-md hidden-lg" onClick={this.toggleDrawer('left', true)}>Filter</button>
+
+        <Drawer open={this.state.left}  onClose={this.toggleDrawer('left', false)}>
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={this.toggleDrawer('left', false)}
+            onKeyDown={this.toggleDrawer('left', false)}
+          >
+            <button className="btn btn-danger btn-block" onClick={this.toggleDrawer('left',false )}>Close</button>
+
+            {sideList}
+          </div>
         </Drawer>
       </div>
     );
   }
 }
+
+
+export default TemporaryDrawer;
