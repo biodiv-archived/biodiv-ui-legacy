@@ -71,7 +71,7 @@ class Header extends React.Component {
                 <div className="navbar-collapse collapse" id="header_menu">
 
                     <ul className="nav navbar-nav navbar-right">
-                      
+
 
 
                             {

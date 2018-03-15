@@ -25,8 +25,6 @@ class DownloadModal extends React.Component {
     this.state = {
       modalIsOpen: true,
       notes:undefined,
-      authorize:false,
-      authorizeText:"not",
       notesText:"not"
     };
     this.openModal = this.openModal.bind(this);
@@ -47,14 +45,15 @@ class DownloadModal extends React.Component {
 
 
   handleSubmit(submittedValues){
-    if(submittedValues.notes && submittedValues.authorize){
+    console.log("aaye");
+    if(submittedValues.notes ){
           this.setState({
-            notes:submittedValues.notes,
-            authorize:submittedValues.authorize
+            notes:submittedValues.notes
           })
-          let url = Config.api.API_ROOT_URL+"/naksha/download" + this.props.Url.countUrl + "&notes="+submittedValues.notes;
+
+          let url = Config.api.ROOT_URL+"/"+this.props.PublicUrl+"userGroup/requestModeratorship";
             axios.get(url).then((response)=>{
-              alert("Your downlaod status is "+ response.data +". You will be notified by email and a download link will be available on your profile page. ");
+              alert(response.msg);
                 this.setState({modalIsOpen: false});
             }).catch((response)=>{
               alert("error! Please try again.")
@@ -62,22 +61,16 @@ class DownloadModal extends React.Component {
       }
       else{
         let notesText=this.state.notesText;
-        let authorizeText=this.state.authorizeText;
+
         if(!submittedValues.notes){
             notesText="visible";
         }
         else{
           notesText="not";
         }
-        if(!submittedValues.authorize){
-          authorizeText="visible";
-        }
-        else{
-          authorizeText="not";
-        }
+
         this.setState({
-          notesText,
-          authorizeText
+          notesText
         })
       }
     }
@@ -105,7 +98,7 @@ class DownloadModal extends React.Component {
 
                </p>
                </div>
-               <button type="submit" className="mb-4 btn btn-primary pull-right"  >Submit </button>
+               <button  type="submit" className="mb-4 btn btn-primary pull-right"  >Submit </button>
                <button onClick={this.closeModal} className="mb-4 btn btn-warning pull-right">Cancel</button>
              </form>
            )}
@@ -117,7 +110,8 @@ class DownloadModal extends React.Component {
 }
 function mapStateToProps(state,ownProps) {
   return {
-    Url:state.FilterCount
+    Url:state.FilterCount,
+    PublicUrl:state.PublicUrl.url,
   }
 }
 export default withRouter(connect(mapStateToProps,null)(DownloadModal ));

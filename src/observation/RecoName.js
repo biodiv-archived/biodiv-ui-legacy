@@ -37,14 +37,37 @@ class RecoName extends React.Component {
     })
     var obvIds = []
     obvIds.push(id)
-    var options = {
-      method: 'GET',
-      url :     Config.api.API_ROOT_URL+"/observation/recommendationVotes",
-      params:{
-        obvIds:obvIds.toString()
-      },
-      json: 'true'
+    var loggedInUserId;
+    if(AuthUtils.getLoggedInUser() !== null){
+      loggedInUserId = AuthUtils.getLoggedInUser().id;
+    }else{
+      loggedInUserId = null;
     }
+    if(loggedInUserId !== null){
+      var options = {
+        method: 'GET',
+        url :     Config.api.API_ROOT_URL+"/observation/recommendationVotes",
+        params:{
+          obvIds:obvIds.toString(),
+          loggedInUserId:loggedInUserId,
+          isAdmin:AuthUtils.isAdmin(),
+          isSpeciesAdmin:AuthUtils.isSpeciesAdmin()
+        },
+        json: 'true'
+      }
+    }else{
+      var options = {
+        method: 'GET',
+        url :     Config.api.API_ROOT_URL+"/observation/recommendationVotes",
+        params:{
+          obvIds:obvIds.toString(),
+          isAdmin:AuthUtils.isAdmin(),
+          isSpeciesAdmin:AuthUtils.isSpeciesAdmin()
+        },
+        json: 'true'
+      }
+    }
+
     axios(options)
         .then((response)=>{
           document.body.style.cursor = "default";
@@ -273,7 +296,7 @@ class RecoName extends React.Component {
 
 
   render(){
-    console.log(this.props.islocked, "recoName called agagin")
+    //console.log(this.props.islocked, "recoName called agagin")
     return(
     <div>
       {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoName} id={this.props.id}/>):null}

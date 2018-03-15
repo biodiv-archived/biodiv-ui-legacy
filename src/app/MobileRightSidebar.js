@@ -4,6 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
 import LeftSidebar from './LeftSidebar';
+
 import style from './mobile_right_sidebar.css';
 
 class TemporaryDrawer extends React.Component {
@@ -19,6 +20,7 @@ class TemporaryDrawer extends React.Component {
       [side]: open,
     });
   };
+
 
   render() {
     const { classes } = this.props;

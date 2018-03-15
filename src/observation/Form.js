@@ -40,6 +40,19 @@ class Formsuggest extends React.Component {
       //   backgroundColor: '#D5D822'
       // }
     // }
+    this.getC_Suggestions = this.getC_Suggestions.bind(this);
+    this.getS_Suggestions = this.getS_Suggestions.bind(this);
+    this.getSuggestionValue_C = this.getSuggestionValue_C.bind(this);
+    this.renderSuggestion_c = this.renderSuggestion_c.bind(this);
+    this.getSuggestionValue_S = this.getSuggestionValue_S.bind(this);
+    this.renderSuggestion_s = this.renderSuggestion_s.bind(this);
+    this.onChange1 = this.onChange1.bind(this);
+    this.onChange2 = this.onChange2.bind(this);
+    this.C_Callback = this.C_Callback.bind(this);
+    this.S_Callback =  this.S_Callback.bind(this);
+    this.onSuggestionsFetchRequested_C = this.onSuggestionsFetchRequested_C.bind(this);
+    this.onSuggestionsFetchRequested_S =  this.onSuggestionsFetchRequested_S.bind(this);
+    this.onSuggestionsClearRequested =  this.onSuggestionsClearRequested.bind(this);
   }
 
   suggestIdPost(e){
@@ -112,7 +125,7 @@ class Formsuggest extends React.Component {
   }
   }
 
- getC_Suggestions =(value,C_Callback) => {
+ getC_Suggestions (value,C_Callback)  {
 
         document.body.style.cursor = "wait";
         const inputValue = value.trim().toLowerCase();
@@ -143,10 +156,10 @@ class Formsuggest extends React.Component {
                 }
                })
         }
-  };
+  }
 
 
-   getS_Suggestions =(value,S_Callback) => {
+   getS_Suggestions (value,S_Callback) {
         //console.log("got_s")
         document.body.style.cursor = "wait";
         const inputValue = value.trim().toLowerCase();
@@ -174,19 +187,19 @@ class Formsuggest extends React.Component {
                 }
               })
         }
-  };
+  }
 
 
-   getSuggestionValue_C =(suggestion) => {
+   getSuggestionValue_C (suggestion) {
      if(suggestion.acceptedName !== null){
        this.setState({
          Svalue:suggestion.acceptedName
        })
      }
      return suggestion.value
-   } ;
+   }
 
-   renderSuggestion_c =(suggestion,{ query, isHighlighted }) => {
+   renderSuggestion_c (suggestion,{ query, isHighlighted }){
      return(
     <div className="row ">
         <div className="col-sm-2" style={{marginTop:'1%'}}>
@@ -202,14 +215,14 @@ class Formsuggest extends React.Component {
         </div>
     </div>
   )
-  };
+  }
 
-   getSuggestionValue_S =(suggestion) => {
+   getSuggestionValue_S (suggestion){
      console.log("selected ^^^^^^^^^^^^^^^^^")
      return suggestion.value
-   };
+   }
 
-   renderSuggestion_s =(suggestion,{ query, isHighlighted })=> {
+   renderSuggestion_s (suggestion,{ query, isHighlighted }){
      return(
     <div className="row">
         <div className="col-sm-2" style={{marginTop:'1%'}}>
@@ -223,53 +236,53 @@ class Formsuggest extends React.Component {
   }
 
 
-  onChange1 = (event, { newValue })=>  {
+  onChange1 (event, { newValue }) {
     var x=(event.target).getAttribute('id')
     this.setState({
       Cvalue: newValue,
     });
-  };
+  }
 
-  onChange2 = (event, { newValue })=>  {
+  onChange2(event, { newValue })  {
     var x=(event.target).getAttribute('id')
     this.setState({
       Svalue: newValue,
 
     });
-  };
+  }
 
-  C_Callback = (suggestions)=> {
+  C_Callback(suggestions) {
    this.setState({
      Csuggestions: suggestions
 
    });
-  };
+  }
 
-  S_Callback = (suggestions)=>{
+  S_Callback (suggestions){
 
    this.setState({
      Ssuggestions: suggestions
 
    });
    //console.log(this.state.Ssuggestions)
-  };
+  }
 
-  onSuggestionsFetchRequested_C= ({ value }) => {
+  onSuggestionsFetchRequested_C({ value }) {
    this.getC_Suggestions(value,this.C_Callback);
-  };
+  }
 
-  onSuggestionsFetchRequested_S =({ value }) => {
+  onSuggestionsFetchRequested_S ({ value }) {
      this.getS_Suggestions(value,this.S_Callback);
-    };
+    }
 
 
-  onSuggestionsClearRequested =()  =>{
+  onSuggestionsClearRequested (){
     this.setState({
       Csuggestions: [],
       Ssuggestions: [],
       currentChangedId:''
     });
-  };
+  }
 
   render() {
 

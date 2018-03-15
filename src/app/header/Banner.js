@@ -46,8 +46,9 @@ class Banner extends Component{
       })
     }
     getPop(){
+      console.log("log");
       this.setState({
-        moderatorPopup:true
+        moderatorPopup:!this.state.moderatorPopup
       })
 
     }
@@ -90,7 +91,7 @@ getJoinPermission(){
             return(
                 <div className="navbar navbar-default row brand-bar">
                   {this.state.login_modal===true?(<ModalPopup funcjoinus={this.getJoinPermission} type="joinus" key={this.state.options} options={this.state.options} />):null}
-                  {this.state.moderatorPopup?<ModeratorPopUp />:null}
+                  {this.state.moderatorPopup?<ModeratorPopUp key={this.state.moderatorPopup} />:null}
                     <div className="navbar-header">
                         <NavLink to="/">
                             <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?"http://indiabiodiversity.org/biodiv/userGroups/"+userGroup.icon:"http://indiabiodiversity.org/logo/IBP.png"}></img>
