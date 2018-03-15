@@ -8,12 +8,17 @@ import LeftSidebar from './LeftSidebar';
 import style from './mobile_right_sidebar.css';
 
 class TemporaryDrawer extends React.Component {
-  state = {
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  };
+  constructor(){
+    super()
+    this.state = {
+      top: false,
+      left: false,
+      bottom: false,
+      right: false,
+    }
+
+  }
+
 
   toggleDrawer = (side, open) => () => {
     this.setState({
