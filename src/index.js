@@ -78,12 +78,10 @@ ReactDOM.render(
                   <Route exact path="/register/resetPassword" component={ResetPassword} />
                   <Route exact path="/map" component={naksha.Layers} />
               </div>
-                <div key={index} id="footerWrapper">
+                <div  id="footerWrapper">
               {footerRoutes.map((routes,index)=>{
                 return(
-
                   <Route exact path={routes} component={Footer} />
-
                 )
               })}
                 </div>
