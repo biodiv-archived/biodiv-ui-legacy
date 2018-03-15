@@ -1,3 +1,4 @@
-.positionS{
+.floatButton{
 	position: fixed;
+	z-index: 2000
 }

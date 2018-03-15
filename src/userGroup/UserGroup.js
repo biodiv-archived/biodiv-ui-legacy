@@ -41,7 +41,7 @@ constructor(){
       let ids=newparams.userGroupList.split(",").map(item=>  parseInt(item,10));
 
     UserGroupName.list().then(data=>{
-      let groupName=data.model.userGroupInstanceList.filter((item)=>{
+      let groupName=data.filter((item)=>{
           return ids.indexOf(item.id) >-1;
       })
       this.setState({

@@ -5,9 +5,9 @@ import Modal from 'react-modal';
 import {NavLink,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {Config} from '../Config'
+import {Config} from '../../Config'
 
-const downloadPopUpStyles = {
+const customStyles = {
   content : {
     top                   : '50%',
     left                  : '50%',
@@ -41,7 +41,7 @@ class DownloadModal extends React.Component {
 
 
   closeModal(event) {
-    this.setState({modalIsOpen: false});
+    this.setState({modalIsOpen:!this.state.modalIsOpen});
     event.preventDefault();
   }
 
@@ -88,23 +88,22 @@ class DownloadModal extends React.Component {
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          style={downloadPopUpStyles}
+          style={customStyles}
           contentLabel="Export"
         >
-        <span style={{color:'#008CBA'}} >Export as CSV</span>
+        <span style={{color:'#008CBA'}} >Become moderator</span>
 
           <Form onSubmit={this.handleSubmit.bind(this)} >
            { formApi => (
              <form onSubmit={formApi.submitForm} id="form">
                <div className="form-group" style={{marginBottom:'10px',marginTop:'10px'}}>
-               <TextArea placeholder="Please let us know how you intend to use this data."  field="notes" id="notes"  className="form-control"  />
+               <TextArea placeholder="Please mention why you will be a suitable moderator for this group."  field="notes" id="notes"  className="form-control"  />
 
                <span style={{color:'red',fontSize:'10px',marginTop:'5px'}}>{this.state.notesText=="not"?null:(this.state.notesText=="visible"?"* Notes is necessary":null)}</span>
-               <br />
-               <Checkbox field="authorize" id="authorize"   />
-                {" "}  By submitting this form, you agree that Creative Commons - Attribution (CC-BY) terms will apply to all data provided and that you agree to provide attribution to the original data contributors and the portal where applicable.
-                <br />
-                <span style={{color:'red',fontSize:'10px',marginTop:'5px'}} >{this.state.authorizeText=="not"?null:(this.state.authorizeText=="visible"?"* Please accept the terms and conditions.":null)}</span>
+               <p>
+              As moderator, you can be involved with featuring observations, documents and species pages within a group. You will have rights to add or remove resources in bulk, receive mails for all activity, and invite other moderators to the group.
+
+               </p>
                </div>
                <button type="submit" className="mb-4 btn btn-primary pull-right"  >Submit </button>
                <button onClick={this.closeModal} className="mb-4 btn btn-warning pull-right">Cancel</button>

@@ -16,7 +16,7 @@ import {logout} from '../../auth/AuthActions';
 import UserAvatar from '../../util/userIcon';
 
 import UserGroupName from '../../util/UserGroup';
-
+import NavigationHeader from './NavigationHeader';
 
 class Header extends React.Component {
     constructor(props) {
@@ -71,32 +71,7 @@ class Header extends React.Component {
                 <div className="navbar-collapse collapse" id="header_menu">
 
                     <ul className="nav navbar-nav navbar-right">
-                        <li className="dropdown">
-                            <a href="#" className="dropdown-toggle" data-toggle="dropdown">Participate<span className="caret"></span>
-                            </a>
-                            <ul className="dropdown-menu" role="menu">
-                                <li>
-                                    {<NavLink to={`/${this.props.PublicUrl}species/contribute`}>Contribute to Species page
-                                    </NavLink>}
-                                </li>
-                                <li>
-                                    {<NavLink to={`/${this.props.PublicUrl}observation/create`}>Add Observation
-                                    </NavLink>}
-                                </li>
-                                <li>
-                                    {<NavLink to={`/${this.props.PublicUrl}observation/bulkCreate`}>  Add Multiple Observations
-                                    </NavLink>}
-                                </li>
-                                <li>
-                                    {<NavLink to={`/${this.props.PublicUrl}dataTable/create`}>Add a list
-                                    </NavLink>}
-                                </li>
-                                <li>
-                                    {<NavLink to={`/${this.props.PublicUrl}document/create`}>
-                                        Add Documents</NavLink>}
-                                </li>
-                            </ul>
-                        </li>
+                      
 
 
                             {
@@ -155,17 +130,12 @@ class Header extends React.Component {
                          </form>
                        )}
                      </Form>
-                    {/* <form className="navbar-form navbar-right">
-                        <div className="form-group">
-                            <input type="text" className="form-control" onClick={this.searchTerm.bind(this)} placeholder="Search"/>
-                        </div>
-                        <button type="submit" className="btn btn-link glyphicon glyphicon-search"></button>
-                    </form> */}
-
                 </div>
 
             </nav>
-            <Banner   />
+            <Banner />
+
+            <NavigationHeader />
         </div>
         )
     }

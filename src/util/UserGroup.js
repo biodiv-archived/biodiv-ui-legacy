@@ -2,7 +2,7 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 
 
-import {ROOT_URL} from '../Config';
+import {Config} from '../Config';
 
 /**
  * Class to hold all userGroups ... singleton class
@@ -15,7 +15,7 @@ class UserGroup {
     }
 
     fetch(callback) {
-        const url=`${ROOT_URL}/group/list?max=95&format=json`;
+        const url=`${Config.api.API_ROOT_URL}/userGroup/list`;
         if(callback) {
             axios.get(url).then(response => {
               this.values=response.data;

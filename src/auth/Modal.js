@@ -50,7 +50,7 @@ class ModalPopup extends React.Component {
             //get new accessToken with existing refreshtoken
             return getNewAccessToken().then(data => {
                 this.props.dispatch(data);
-                if(data.type == AuthConstants.AUTH_USER) { 
+                if(data.type == AuthConstants.AUTH_USER) {
                     this.closeModal();
                 } else {
                     this.openModal();
@@ -81,6 +81,9 @@ class ModalPopup extends React.Component {
                     if(this.props.type){
                         if(this.props.type == "Reply/Add Comment"){
                             this.props.funcRefresh(this.props.id,true)
+                        }
+                        if(this.props.type=='joinus'){
+                          this.props.funcjoinus();
                         }
                     }else{
                         this.props.sGroup?
