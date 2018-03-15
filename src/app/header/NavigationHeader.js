@@ -222,7 +222,13 @@ class NavigationHeader extends Component{
                             <li className="dropdown">
                                 {<NavLink className="dropdown-toggle menu-item" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
                                 <ul className="dropdown-menu pre-scrollable" style={{'height':'auto','width':'200px'}} role="menu">
-
+                                    {this.props.UserGroupList.length>0?
+                                      (
+                                        <li style={{background:'#294EA7'}}>
+                                          <NavLink to={`/group/list`} ><span style={{textAlign:'center',marginLeft:'55px'}} > {"See All"}</span> </NavLink >
+                                        </li>
+                                      )
+                                      :null}
                                     {this.props.UserGroupList.length>0?this.props.UserGroupList.map((item,index)=>{
                                         return (
                                             <li key={index} style={{'border':'1px'}}>

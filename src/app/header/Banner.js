@@ -40,6 +40,7 @@ class Banner extends Component{
 
     getuserUserGroup(){
       axios.get(`${Config.api.API_ROOT_URL}/user/currentUserUserGroups`).then((userGroups)=>{
+        console.log(userGroups.id);
         this.setState({
           userUserGroup:userGroups.data
         })
@@ -51,6 +52,34 @@ class Banner extends Component{
         moderatorPopup:!this.state.moderatorPopup
       })
 
+    }
+    getRequestPermission(){
+      let url=`${Config.api.ROOT_URL}/${this.props.PublicUrl}userGroup/joinUs`;
+      let groupName=this.props.PublicUrl.split("/")[1];
+
+
+
+      let options={
+          method:'POST',
+          url : url,
+          headers:AuthUtils.getAuthHeaders(),
+          json: 'true'
+      }
+      axios(options).then((userGroups)=>{
+          this.setState({
+            joined:true
+          })
+      })
+      .catch((error)=>{
+          if(error.response.status === 401){
+              this.setState({
+                  login_modal:!(this.state.login_modal),
+                  options:options
+              })
+          } else {
+              console.log(error.response);
+          }
+      })
     }
 
 getJoinPermission(){
@@ -85,7 +114,7 @@ getJoinPermission(){
         //        userGroup = {name:'Assam Biodiversity Portal for invasive species', icon:'/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif'}
 
         let userUserGroup=this.state.userUserGroup?this.state.userUserGroup.filter((item)=>{return item.webaddress==this.props.PublicUrl.split("/")[1]})[0]:null;
-
+          console.log(userUserGroup);
 
         if(true) {
             return(
@@ -103,23 +132,23 @@ getJoinPermission(){
                     <div>
                         {userUserGroup?(
                           <div>
-                            <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
-                            <button onClick={this.getPop} className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button>
+                            {/* <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
+                            <button onClick={this.getPop} className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button> */}
                           </div>
 
                         ):userGroup?userGroup.allowUsersToJoin?
                           (
                             this.state.joined?  (
                               <div>
-                              <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
-                              <button onClick={this.getPopup}  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button>
+                              {/* <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
+                              <button onClick={this.getPopup}  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button> */}
                               </div>
                             )
                             :<button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
 
                           )
                           :(
-                            <button onClick={this.getJoinPermission} className="btn btn-xs btn-danger pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Request Permission</button>
+                            {/*  <button onClick={this.getRequestPermission} className="btn btn-xs btn-danger pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Request Permission</button>*/}
                           ):null
                       }
                     </div>

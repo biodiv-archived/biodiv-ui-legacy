@@ -51,8 +51,8 @@ class DownloadModal extends React.Component {
             notes:submittedValues.notes
           })
 
-          let url = Config.api.ROOT_URL+"/"+this.props.PublicUrl+"userGroup/requestModeratorship";
-            axios.get(url).then((response)=>{
+          let url = Config.api.ROOT_URL+"/"+this.props.PublicUrl+"userGroup/requestModeratorship?message="+submittedValues.notes;
+            axios.post(url).then((response)=>{
               alert(response.msg);
                 this.setState({modalIsOpen: false});
             }).catch((response)=>{
