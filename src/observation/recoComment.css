@@ -36,22 +36,35 @@
 }
 @media only screen and (max-width: 760px) {
     .drop-content{
-      max-width: 500px;
+      max-width: 280px;
 
     }
 }
 @media only screen and (max-width: 630px) {
     .drop-content{
-      max-width: 300px;
+      max-width: 250px;
 
     }
 }
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 570px) {
     .drop-content{
       max-width: 200px;
 
     }
 }
+@media only screen and (max-width: 420px) {
+    .drop-content{
+      max-width: 150px;
+
+    }
+}
+@media only screen and (max-width: 280px) {
+    .drop-content{
+      max-width: 100px;
+
+    }
+}
+
 /* Links inside the dropdown */
 
 

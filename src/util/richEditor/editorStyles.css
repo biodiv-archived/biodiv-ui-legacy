@@ -12,3 +12,7 @@
 .editor :global(.public-DraftEditor-content) {
   min-height: 25px;
 }
+
+.draftJsMentionPlugin__mentionSuggestions__2DWjA{
+  position:absolute;
+}
