@@ -903,7 +903,6 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
             {this.props.Observation.count?
               <div>
                 <div>
-                  <MobileRightSidebar />
                 </div>
               <div className="panel panel-success">
                   <div className="panel-heading vertical-align">
