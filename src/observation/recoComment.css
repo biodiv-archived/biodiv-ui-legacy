@@ -36,31 +36,19 @@
 }
 @media only screen and (max-width: 760px) {
     .drop-content{
-      max-width: 280px;
+      max-width: 500px;
 
     }
 }
 @media only screen and (max-width: 630px) {
     .drop-content{
-      max-width: 250px;
-
-    }
-}
-@media only screen and (max-width: 570px) {
-    .drop-content{
-      max-width: 200px;
+      max-width: 300px;
 
     }
 }
 @media only screen and (max-width: 420px) {
     .drop-content{
-      max-width: 150px;
-
-    }
-}
-@media only screen and (max-width: 280px) {
-    .drop-content{
-      max-width: 100px;
+      max-width: 200px;
 
     }
 }

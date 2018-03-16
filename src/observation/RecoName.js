@@ -388,9 +388,9 @@ class RecoName extends React.Component {
                      }
                    </div>
                </div>
-               <div className="col-sm-3 col-xs-12" >
-                  <div className="row">
-                  <div className="col-xs-2 col-sm-4">
+               <div className="col-sm-3" >
+                  <div className="row pull-right" >
+                  <div style={{marginRight:'10px'}}>
 
                   {
                     item.isLocked===false?
@@ -400,7 +400,7 @@ class RecoName extends React.Component {
 
                           (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
                             (
-                                <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.validatePost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Validate</button>
+                                <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.validatePost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Validate</button>
                             ):
                             null
 
@@ -414,10 +414,10 @@ class RecoName extends React.Component {
                             (
                                 (item.showLock === false)?
                                 (
-                                  <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
+                                  <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
                                 ):
                                 (
-                                  <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree"  disabled>Validate</button>
+                                  <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs"  disabled>Validate</button>
                                 )
 
                             ):
@@ -432,8 +432,8 @@ class RecoName extends React.Component {
                     )
                   }
 
-                  </div>
-                  <div className="col-xs-2 col-sm-4">
+
+
 
                   {
                     (AuthUtils.isLoggedIn())?
@@ -443,15 +443,15 @@ class RecoName extends React.Component {
 
                               item.isLocked===false?
                               (
-                                <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Remove</button>
+                                <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Remove</button>
                               ):
                               (
                                 (item.showLock===false)?
                                 (
-                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" disabled>Remove</button>
+                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" disabled>Remove</button>
                                 ):
                                 (
-                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>Remove</button>
+                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>Remove</button>
                                 )
 
                               )
@@ -463,10 +463,10 @@ class RecoName extends React.Component {
 
                               item.isLocked===false?
                               (
-                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
+                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
                               ):
                               (
-                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "   disabled>Agree</button>
+                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
                               )
 
                           )
@@ -477,21 +477,21 @@ class RecoName extends React.Component {
 
                             item.isLocked===false?
                             (
-                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
+                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
                             ):
                             (
-                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree "   disabled>Agree</button>
+                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
                             )
 
                         )
                     }
 
-                    </div>
-                    <div className="col-xs-2 col-sm-4" >
+
+
 
                       <RecoComment key={item.recoId} getReco={this.getRecoName} id1={item.recoId} id2={this.props.id} speciesId={item.hasOwnProperty('speciesId')?(item.speciesId!=null?item.speciesId:"no"):"no"} name={item.name} votes={item.authors.length} commentCount={item.totalCommentCount}/>
 
-                    </div >
+                      </div>
                       </div>
                 </div>
           </div>

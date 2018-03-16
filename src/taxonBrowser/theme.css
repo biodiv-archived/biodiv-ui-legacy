@@ -3,8 +3,8 @@
 }
 
 .react-autosuggest__input {
-  width: 91%;
-  padding: 1px 2px;
+  width: 100%;
+  padding: 1px -10px;
 
   border: 1px solid #aaa;
   border-radius: 4px;

@@ -122,11 +122,8 @@ onSuggestionsFetchRequested ({ value }) {
     return (
       <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
-        <span className="pull-right">
-          <button  onClick={this.handleSubmit.bind(this)} style={{height:'25px',borderRadius:'5px',marginLeft:'-10px'}} className="btn btn-xs btn-default">
-            <i className="fa fa-search"></i>
-          </button>
-        </span>
+        <div className="row">
+        <div className="col-sm-10" style={{paddingRight:'0px'}}>
           <Autosuggest
             theme={this.theme}
             suggestions={this.state.suggestions}
@@ -138,6 +135,15 @@ onSuggestionsFetchRequested ({ value }) {
             inputProps={inputProps}
             onSuggestionSelected={this.onSuggestionSelected.bind(this)}
           />
+          </div>
+          <div className="col-sm-2" style={{paddingLeft:'0px'}}>
+          <span className="pull-right">
+            <button  onClick={this.handleSubmit.bind(this)} style={{height:'25px',borderRadius:'5px',marginLeft:'-10px'}} className="btn btn-xs btn-default">
+              <i className="fa fa-search"></i>
+            </button>
+          </span>
+          </div>
+        </div>
     </form>
   </div>
     );

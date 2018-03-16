@@ -277,12 +277,12 @@ recoCommentPost(e){
 
 render(){
       return(
-      <div>
+      <span>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoComment} id={this.props.id2} id1={this.props.id1}/>):null}
       {
           <div className="comment-popup drop ">
 
-                    <a className="btn btn-xs btn-warning"  onClick={this.getRecoComment}>
+                    <a className="btn btn-xs btn-warning bigmarginxs"  onClick={this.getRecoComment}>
                                 <span className="glyphicon glyphicon-comment"></span>
                                 {" "}
                     {this.state.commentCount}
@@ -400,7 +400,7 @@ render(){
                     </div>
             </div>
       }
-      </div>
+      </span>
     )
   }
 

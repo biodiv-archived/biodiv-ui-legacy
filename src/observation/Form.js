@@ -218,7 +218,7 @@ class Formsuggest extends React.Component {
   }
 
    getSuggestionValue_S (suggestion){
-     console.log("selected ^^^^^^^^^^^^^^^^^")
+     //console.log("selected ^^^^^^^^^^^^^^^^^")
      return suggestion.value
    }
 
@@ -310,8 +310,9 @@ class Formsuggest extends React.Component {
       <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)} >
           <div className="form-group row" style={{marginBottom:'0.3%'}}>
             <label className="control-label col-sm-2" htmlFor="email">Common name:</label>
-            <div className="col-sm-8">
+            <div className="col-sm-7" >
                 <Autosuggest
+
                   id="cInput"
                   theme={this.theme}
                   ref={"cName"+this.props.id2}
@@ -323,8 +324,8 @@ class Formsuggest extends React.Component {
                   inputProps={inputPropsC}
                 />
              </div>
-             <div className="col-sm-2 ">
-                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'97%',borderRadius:'6px'}}/>
+             <div className="col-sm-2 " >
+                   <input  type="text" list="browsers" defaultValue="English" ref={"lang"+this.props.id2} style={{width:'100%',borderRadius:'6px'}}/>
                    <datalist id="browsers" dir={"rtl"} style={{wordWrap:'break-word',maxWidth:'10px',fontSize:'5px'}}>
                    {
                          this.props.Languages?(
@@ -340,11 +341,14 @@ class Formsuggest extends React.Component {
                   }
                    </datalist>
              </div>
+             <div className="col-sm-1">
+             </div>
           </div>
           <div className="form-group row" style={{marginBottom:'0.3%'}}>
             <label className="control-label col-sm-2" htmlFor="email">Scientific name:</label>
-            <div className="col-sm-8">
+            <div className="col-sm-9">
                   <Autosuggest
+
                     id="sInput"
                     theme={this.theme}
                     ref={"sName"+this.props.id2}
@@ -356,15 +360,17 @@ class Formsuggest extends React.Component {
                     inputProps={inputPropsS}
                   />
             </div>
+            <div className="col-sm-1">
+            </div>
           </div>
 
           <div className="form-group row" style={{marginBottom:'0.1%'}}>
               <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
-              <div className="col-sm-8">
-                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'91%',paddind:'1px 2px',border:'1px solid #aaa',borderRadius:'4px'}}/>
+              <div className="col-sm-9">
+                  <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%',border:'1px solid #aaa',borderRadius:'4px'}}/>
               </div>
-              <div className="col-sm-2">
-                <input  type="submit" value="Add" className="btn btn-primary btn-xs"  disabled={this.state.loading}/>
+              <div className="col-sm-1" >
+                <input  type="submit" value="Add" className="btn btn-primary btn-xs pull-left"   disabled={this.state.loading}/>
               </div>
           </div>
       </form>
