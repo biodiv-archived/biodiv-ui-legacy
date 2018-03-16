@@ -373,13 +373,13 @@ class CommentsFeeds extends React.Component {
                                                               (
                                                                 item.descriptionJson.is_scientific_name?
                                                                 (
-                                                                  <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
+                                                                  <a href={Config.api.IBP_URL+"/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
                                                                       <i>{item.descriptionJson.name}</i>
                                                                   </a>
                                                                 )
                                                                 :
                                                                 (
-                                                                  <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
+                                                                  <a href={Config.api.IBP_URL+"/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
                                                                     {item.descriptionJson.name}
                                                                   </a>
                                                                 )
@@ -461,7 +461,7 @@ class CommentsFeeds extends React.Component {
                                                             </a>
                                                           ):
                                                           (
-                                                            <a href={"http://indiabiodiversity.org/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
+                                                            <a href={Config.api.IBP_URL+"/"+item.descriptionJson.ro_type+"/show/"+item.descriptionJson.ro_id}>
                                                             {item.descriptionJson.name}
                                                             </a>
                                                           )

@@ -7,6 +7,7 @@ import { getNewAccessToken } from './auth/AuthActions';
 export let ROOT_URL;
 export let PAMBA_API_ROOT_URL;
 export let API_ROOT_URL;
+export let IBP_URL;
 
 if(process.env.NODE_ENV=="development" ){
     ROOT_URL="http://hybrid.indiabiodiversity.org"
@@ -14,18 +15,23 @@ if(process.env.NODE_ENV=="development" ){
     //ROOT_URL="https://hybrid.pamba.strandls.com"
     //API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
+    IBP_URL="https://indiabiodiversity.org"
 }
 
 if(process.env.NODE_ENV=="kk" ){
     ROOT_URL="http://indiabiodiversity.org";
     PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
     API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
+    IBP_URL="https://indiabiodiversity.org"
+
 }
 
 if(process.env.NODE_ENV=="production" ){
     ROOT_URL="https://hybrid.pamba.strandls.com";
     PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
-    API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api"
+    API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
+    IBP_URL="https://indiabiodiversity.org"
+
 }
 
 axios.defaults.baseURL = ROOT_URL;
@@ -83,6 +89,7 @@ export let Config = {
         API_ROOT_URL : API_ROOT_URL,
         PAMBA_API_ROOT_URL : PAMBA_API_ROOT_URL,
         ROOT_URL : ROOT_URL,
+        IBP_URL:IBP_URL,
         login : {
             default : {
                 method : 'post',

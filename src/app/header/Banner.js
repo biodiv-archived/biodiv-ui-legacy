@@ -27,7 +27,8 @@ class Banner extends Component{
             login_modal:false,
             options:{},
             joined:false,
-            moderatorPopup:false
+            moderatorPopup:false,
+            someGroupLogo:undefined
         }
         this.getuserUserGroup=this.getuserUserGroup.bind(this);
         this.getJoinPermission=this.getJoinPermission.bind(this)
@@ -36,6 +37,24 @@ class Banner extends Component{
 
     componentDidMount(){
             let userUserGroup=AuthUtils.isLoggedIn()?this.getuserUserGroup():null;
+            let fullUrl = window.location.host;
+            let parts=fullUrl.split(".");
+            let someGroupLogo=undefined;
+            if(parts.length>=3){
+              if(parts[0]=="assambiodiversity"){
+                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif`;
+
+              }
+              if(parts[0]=="treesindia"){
+                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ff695abd-c38a-4b8d-ac7c-a79f5df0ad84/resources/315.png`;
+              }
+              if(parts[0]=="thewesternghats"){
+                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ca7dc494-eff4-4f49-b340-f69e8d543a75/resources/map-logo.gif`;
+              }
+            }
+            this.setState({
+              someGroupLogo
+            })
     }
 
     getuserUserGroup(){
@@ -110,6 +129,7 @@ getJoinPermission(){
 
     render(){
 
+
         let userGroup=this.props.UserGroupList?this.props.UserGroupList.filter((item)=>{return item.webaddress==this.props.PublicUrl.split("/")[1]})[0]:null;
         //        userGroup = {name:'Assam Biodiversity Portal for invasive species', icon:'/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif'}
 
@@ -123,7 +143,7 @@ getJoinPermission(){
                   {this.state.moderatorPopup?<ModeratorPopUp key={this.state.moderatorPopup} />:null}
                     <div className="navbar-header">
                         <NavLink to="/">
-                            <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?"http://indiabiodiversity.org/biodiv/userGroups/"+userGroup.icon:"http://indiabiodiversity.org/logo/IBP.png"}></img>
+                            <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?Config.api.IBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.IBP_URL+"/logo/IBP.png")}></img>
                         </NavLink>
                         <NavLink to="/" className="navbar-brand" style={{paddingTop:'0.00001px'}}>
                             <h3>{userGroup?userGroup.name:'India Biodiversity Portal'}</h3>
