@@ -25,11 +25,11 @@ import UserGroupName from '../../util/UserGroup';
      let parts=fullUrl.split(".");
 
        if(this.props.groupName!= "" && this.props.groupName!=undefined){
-           let groupName=this.props.PublicUrl.split("/")[1];
+
            UserGroupName.list().then(data=>{
 
                let group=data.find((item)=>{
-                   return item.webaddress==groupName
+                   return item.webaddress==this.props.groupName
                })
                console.log(group);
                this.getNewsLetters(group.id);
@@ -203,7 +203,7 @@ import UserGroupName from '../../util/UserGroup';
 //export default Footer;
 function mapStateToProps(state){
 return {
-  publicUrl:state.PublicUrl,
+  publicUrl:state.PublicUrl.url,
   groupName:state.PublicUrl.groupName
 };
 }

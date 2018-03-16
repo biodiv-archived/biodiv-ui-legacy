@@ -16,11 +16,11 @@ class TemporaryDrawer extends React.Component {
       bottom: false,
       right: false,
     }
-    this.toggleDrawer = this.toggleDrawer.bind(this);
+
   }
 
 
-  toggleDrawer (side, open){
+  toggleDrawer= (side, open)=>()=>{
     this.setState({
       [side]: open,
     });

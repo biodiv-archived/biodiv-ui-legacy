@@ -51,13 +51,14 @@ openFilter(){
   let parts=fullUrl.split(".");
   if(parts.length>=3){
     if(parts[0]=="assambiodiversity"){
-      this.refs.hide.style.display='none'
+
+      this.refs.hide?this.refs.hide.style.display='none':null
     }
     if(parts[0]=="treesindia"){
-      this.refs.hide.style.display='none'
+        this.refs.hide?this.refs.hide.style.display='none':null
     }
     if(parts[0]=="thewesternghats"){
-      this.refs.hide.style.display='none'
+        this.refs.hide?this.refs.hide.style.display='none':null
     }
   }
    const newparams = queryString.parse(document.location.search);
