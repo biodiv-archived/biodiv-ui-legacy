@@ -11,9 +11,6 @@ import {Config} from '../../Config'
 import style from './style/headerstyle.css';
 import UserGroupName from '../../util/UserGroup';
 
-
-
-
 class NavigationHeader extends Component{
 
     constructor(props){
@@ -232,7 +229,7 @@ class NavigationHeader extends Component{
                                     {this.props.UserGroupList.length>0?this.props.UserGroupList.map((item,index)=>{
                                         return (
                                             <li key={index} style={{'border':'1px'}}>
-                                                <a href={`${Config.api.IBP_URL}/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</a>
+                                                {item.domainName?<a href={`${item.domainName}`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</a>:<a href={`${Config.api.IBP_URL}/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</a>}
                                             </li>
                                         )
                                     }):<div className="loader"></div>}

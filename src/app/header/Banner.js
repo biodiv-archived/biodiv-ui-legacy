@@ -37,7 +37,7 @@ class Banner extends Component{
     }
 
     componentDidMount(){
-            let userUserGroup=AuthUtils.isLoggedIn()?this.getuserUserGroup():null;
+
             let fullUrl = window.location.host;
             let parts=fullUrl.split(".");
             let someGroupLogo=undefined;
@@ -80,8 +80,6 @@ class Banner extends Component{
     getRequestPermission(){
       let url=`${Config.api.ROOT_URL}/${this.props.PublicUrl}userGroup/joinUs`;
       let groupName=this.props.PublicUrl.split("/")[1];
-
-
 
       let options={
           method:'POST',

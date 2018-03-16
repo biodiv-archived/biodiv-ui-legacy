@@ -13,46 +13,46 @@ class ObservationGridView extends Component{
           let group=speciesGroup.toLowerCase();
           let groupIcon=null;
           if(group=="bird"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/birds_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/birds_th1.png';
           }
           if(group=="fish"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/fish_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/fish_th1.png';
           }
           if(group=="fungi"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/fungi_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/fungi_th1.png';
           }
           if(group=="mammals"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/mammals_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/mammals_th1.png';
           }
           if(group=="all"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/all_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/all_th1.png';
           }
           if(group=="amphibians"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/amphibians_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/amphibians_th1.png';
           }
           if(group=="reptiles"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/reptiles_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/reptiles_th1.png';
           }
           if(group=="molluscs"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/molluscs_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/molluscs_th1.png';
           }
           if(group=="arthropods"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/arthropods_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/arthropods_th1.png';
           }
           if(group=="plants"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/plants_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/plants_th1.png';
           }
           if(group=="others"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/others_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/others_th1.png';
           }
           if(group=="birds"){
-            groupIcon=Config.api.ROOT_URL+'/biodiv/group_icons/speciesGroups/birds_th1.png';
+            groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/birds_th1.png';
           }
           let res = thumbnail?thumbnail.split("."):null;
 
           if(res){
             if(res[1]=="mp3" || res[1]=="wav"){
-                return `${Config.api.ROOT_URL}/biodiv/assets/all/audioicon.png`;
+                return `${Config.api.IBP_URL}/biodiv/assets/all/audioicon.png`;
               }
               else if(res[0]=="v"){
                 let url = videos[0];
@@ -63,7 +63,7 @@ class ObservationGridView extends Component{
                 }
               }
               else{
-                return `${Config.api.ROOT_URL}/biodiv/observations/`+res[0]+"_th1.jpg"
+                return `${Config.api.IBP_URL}/biodiv/observations/`+res[0]+"_th1.jpg"
               }
             }
           else {
@@ -77,7 +77,7 @@ getUserPhotoUrl(images){
         return images;
       }
       else{
-        let url=`${Config.api.ROOT_URL}/biodiv/users${images}`;
+        let url=`${Config.api.IBP_URL}/biodiv/users${images}`;
         return url;
       }
     }
