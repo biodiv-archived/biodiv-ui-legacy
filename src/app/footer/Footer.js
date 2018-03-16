@@ -192,7 +192,7 @@ import UserGroupName from '../../util/UserGroup';
 //export default Footer;
 function mapStateToProps(state){
 return {
-  publicUrl:state.PublicUrl,
+  publicUrl:state.PublicUrl.url,
   groupName:state.PublicUrl.groupName
 };
 }
