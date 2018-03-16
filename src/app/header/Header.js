@@ -40,7 +40,6 @@ class Header extends React.Component {
     logout(){
         this.props.logout();
     }
-
     searchTerm(submittedValues){
       if(submittedValues.query!=null && submittedValues.query!=undefined){
         this.props.history.push(`/search/select?query=${submittedValues.query}`);

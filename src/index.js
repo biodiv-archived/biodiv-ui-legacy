@@ -81,7 +81,7 @@ ReactDOM.render(
                 <div  id="footerWrapper">
               {footerRoutes.map((routes,index)=>{
                 return(
-                  <Route exact path={routes} component={Footer} />
+                  <Route key={index} exact path={routes} component={Footer} />
                 )
               })}
                 </div>

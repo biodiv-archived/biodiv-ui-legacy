@@ -130,27 +130,10 @@ getJoinPermission(){
                         </NavLink>
                     </div>
                     <div>
-                        {userUserGroup?(
-                          <div>
-                            {/* <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
-                            <button onClick={this.getPop} className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button> */}
-                          </div>
-
-                        ):userGroup?userGroup.allowUsersToJoin?
-                          (
-                            this.state.joined?  (
-                              <div>
-                              {/* <button  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Invite Friends</button>
-                              <button onClick={this.getPopup}  className="btn btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-envelope"></span>Become Moderator</button> */}
-                              </div>
-                            )
-                            :<button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
-
-                          )
-                          :(
-                            {/*  <button onClick={this.getRequestPermission} className="btn btn-xs btn-danger pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Request Permission</button>*/}
-                          ):null
-                      }
+                    {userGroup?userGroup.allowUsersToJoin?
+                          <button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
+                          :null:null
+                    }
                     </div>
                 </div>
             )
