@@ -21,19 +21,36 @@ import UserGroupName from '../../util/UserGroup';
    }
 
    componentDidMount(){
-     //console.log("public url",this.props.publicUrl)
-     if(this.props.publicUrl.groupName != ""){
-       let groupName=this.props.publicUrl.url.split("/")[1];
-       UserGroupName.list().then(data=>{
+     let fullUrl = window.location.host;
+     let parts=fullUrl.split(".");
 
-         let group=data.find((item)=>{
-             return item.webaddress==groupName
-         })
-         this.getNewsLetters(group.id);
-       })
-     }else{
-       this.getNewsLetters(null);
-     }
+       if(this.props.groupName!= "" && this.props.groupName!=undefined){
+           let groupName=this.props.PublicUrl.split("/")[1];
+           UserGroupName.list().then(data=>{
+
+               let group=data.find((item)=>{
+                   return item.webaddress==groupName
+               })
+               console.log(group);
+               this.getNewsLetters(group.id);
+           })
+       } else {
+         if(parts.length>=3){
+           if(parts[0]=="assambiodiversity"){
+             this.getNewsLetters(4087136);
+           }
+           if(parts[0]=="treesindia"){
+             this.getNewsLetters(18);
+           }
+           if(parts[0]=="thewesternghats"){
+           this.getNewsLetters(1);
+           }
+         }
+         else{
+           this.getNewsLetters(null);
+
+         }
+       }
    }
 
    getNewsLetters(ugId){
