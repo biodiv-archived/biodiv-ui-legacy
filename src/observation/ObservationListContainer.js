@@ -902,7 +902,9 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
               <div>
-
+                <div>
+                  <MobileRightSidebar />
+                </div>
               <div className="panel panel-success">
                   <div className="panel-heading vertical-align">
                       <ul className="nav nav-tabs" style={{display:'inline-block'}}>
