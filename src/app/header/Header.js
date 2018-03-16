@@ -62,9 +62,9 @@ class Header extends React.Component {
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <NavLink to="/" className="navbar-brand">
+                    <a href={`${Config.api.IBP_URL}`} className="navbar-brand">
                         India Biodiversity Portal
-                    </NavLink>
+                    </a>
                 </div>
 
                 <div className="navbar-collapse collapse" id="header_menu">
