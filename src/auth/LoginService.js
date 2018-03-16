@@ -23,7 +23,7 @@ class LoginService {
             roles = roles.concat(item)
         })
 
-        this.loginStore.set({'id': parseInt(decoded.id), 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in,'pic':response.pic,'name':decoded.username, 'rToken_expires_in':rToken_expires_in, 'last_login_date':new Date(decoded.iat*1000)});
+        this.loginStore.set({'id': parseInt(decoded.id), 'email': decoded.email, 'roles':roles, 'aToken':response.access_token, 'rToken':response.refresh_token, 'expires_in':expires_in,'pic':response.pic,'name':decoded.username, 'rToken_expires_in':rToken_expires_in, 'last_login_date':(new Date(decoded.iat*1000)).getTime()});
     }
 
     getCredentails() {
@@ -93,11 +93,12 @@ class LoginStore {
             var domain = Config.api.cookie.domain;
             cookies.set('BAToken', props['aToken'], { path: Config.api.cookie.path , domain: domain, expires:props['expires_in']});//expiry time in 2 days
             cookies.set('BRToken', props['rToken'], { path: Config.api.cookie.path , domain: domain, expires:props['rToken_expires_in']});//max age of 30days in sec
+            cookies.set('lld', props['last_login_date'], { path: Config.api.cookie.path , domain: domain, expires:props['rToken_expires_in']});//max age of 30days in sec
             //cookies.set('id', props['id'], { path: Config.api.cookie.path , domain: domain });//add expires_in etc, m axAge,
-            localStorage.setItem('id', props['id']);
-            localStorage.setItem('pic', props['pic']);
-            localStorage.setItem('name', props['name']);
-            localStorage.setItem('last_login_date', props['last_login_date']);
+//            localStorage.setItem('id', props['id']);
+//            localStorage.setItem('pic', props['pic']);
+//            localStorage.setItem('name', props['name']);
+//            localStorage.setItem('last_login_date', props['last_login_date']);
             _credentials = this.get();
         }
 
@@ -129,17 +130,17 @@ class LoginStore {
                     items['email'] = decoded.email
                     items['expires_in'] = expires_in
                     items['issued_at'] = new Date(decoded.iat*1000);
-                    if(localStorage.getItem('id') != "null")
-                        items['id'] = localStorage.getItem('id');
+                   // if(localStorage.getItem('id') != "null")
+                        items['id'] = decoded.id;//localStorage.getItem('id');
                     items['roles'] = roles;
-                    if(localStorage.getItem('pic') != "null")
-                        items['pic'] = localStorage.getItem('pic');
-                    items['name'] = localStorage.getItem('name');
+                    //if(localStorage.getItem('pic') != "null")
+                        items['pic'] = decoded.pic//localStorage.getItem('pic');
+                    items['name'] = decoded.username;//localStorage.getItem('name');
                 }
                 //even if batoken is expired these values are needed to getNewAccessToken
                 items['rToken'] = cookies.get('BRToken');
-                if(localStorage.getItem('last_login_date') != "null")
-                    items['last_login_date'] = localStorage.getItem('last_login_date');
+                if(cookies.get("lld") != "null")
+                    items['last_login_date'] = cookies.get("lld");//localStorage.getItem('last_login_date');
                 _credentials = items;
 
                 return _credentials;
@@ -162,11 +163,12 @@ class LoginStore {
 
             cookies.remove("BAToken", { path: Config.api.cookie.path , domain: domain});
             cookies.remove("BRToken", { path: Config.api.cookie.path , domain: domain});
+            cookies.remove("lld", { path: Config.api.cookie.path , domain: domain});
             //cookies.remove("id", { path: Config.api.cookie.path , domain: domain});
-            localStorage.removeItem('id');
-            localStorage.removeItem('pic');
-            localStorage.removeItem('name');
-            localStorage.removeItem('last_login_date');
+//            localStorage.removeItem('id');
+//            localStorage.removeItem('pic');
+//            localStorage.removeItem('name');
+//            localStorage.removeItem('last_login_date');
             _credentials = {};
         }
     }
