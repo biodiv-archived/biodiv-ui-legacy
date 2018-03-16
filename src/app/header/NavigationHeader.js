@@ -225,14 +225,14 @@ class NavigationHeader extends Component{
                                     {this.props.UserGroupList.length>0?
                                       (
                                         <li style={{background:'#294EA7'}}>
-                                          <NavLink to={`/group/list`} ><span style={{textAlign:'center',marginLeft:'55px'}} > {"See All"}</span> </NavLink >
+                                          <a href={`${Config.api.IBP_URL}/group/list`} ><span style={{textAlign:'center',marginLeft:'55px'}} > {"See All"}</span> </a >
                                         </li>
                                       )
                                       :null}
                                     {this.props.UserGroupList.length>0?this.props.UserGroupList.map((item,index)=>{
                                         return (
                                             <li key={index} style={{'border':'1px'}}>
-                                                <NavLink to={`/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</NavLink >
+                                                <a href={`${Config.api.IBP_URL}/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</a>
                                             </li>
                                         )
                                     }):<div className="loader"></div>}

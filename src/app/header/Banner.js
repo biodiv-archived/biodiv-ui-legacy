@@ -28,7 +28,8 @@ class Banner extends Component{
             options:{},
             joined:false,
             moderatorPopup:false,
-            someGroupLogo:undefined
+            someGroupLogo:undefined,
+            subPortalName:undefined
         }
         this.getuserUserGroup=this.getuserUserGroup.bind(this);
         this.getJoinPermission=this.getJoinPermission.bind(this)
@@ -40,20 +41,24 @@ class Banner extends Component{
             let fullUrl = window.location.host;
             let parts=fullUrl.split(".");
             let someGroupLogo=undefined;
+            let subPortalName=undefined;
             if(parts.length>=3){
               if(parts[0]=="assambiodiversity"){
                 someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif`;
-
+                subPortalName="Assam Biodiversity Portal";
               }
               if(parts[0]=="treesindia"){
                 someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ff695abd-c38a-4b8d-ac7c-a79f5df0ad84/resources/315.png`;
+                subPortalName="TreesIndia";
               }
               if(parts[0]=="thewesternghats"){
                 someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ca7dc494-eff4-4f49-b340-f69e8d543a75/resources/map-logo.gif`;
+                subPortalName="The Western Ghats";
               }
             }
             this.setState({
-              someGroupLogo
+              someGroupLogo,
+              subPortalName
             })
     }
 
@@ -146,7 +151,7 @@ getJoinPermission(){
                             <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?Config.api.IBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.IBP_URL+"/logo/IBP.png")}></img>
                         </NavLink>
                         <NavLink to="/" className="navbar-brand" style={{paddingTop:'0.00001px'}}>
-                            <h3>{userGroup?userGroup.name:'India Biodiversity Portal'}</h3>
+                            <h3>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:'India Biodiversity Portal')}</h3>
                         </NavLink>
                     </div>
                     <div>
