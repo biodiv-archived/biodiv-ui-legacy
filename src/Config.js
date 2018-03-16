@@ -27,9 +27,9 @@ if(process.env.NODE_ENV=="kk" ){
 }
 
 if(process.env.NODE_ENV=="production" ){
-    ROOT_URL="https://hybrid.pamba.strandls.com";
-    PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
-    API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
+    ROOT_URL="https://indiabiodiversity.org";
+    PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
+    API_ROOT_URL="https://indiabiodiversity.org/biodiv-api"
     IBP_URL="https://indiabiodiversity.org"
 
 }
@@ -144,7 +144,11 @@ if(process.env.NODE_ENV=="development" ) {
     Config.api.googleId = "317806372709-tm8qc7j41enrblvqisd11b3mqrjdijfv.apps.googleusercontent.com"
     Config.api.cookie = {domain : '.indiabiodiversity.org', path : '/'};
 } else if(process.env.NODE_ENV=="production" ){
-    Config.api.fbId = "2008434629393838"
-    Config.api.googleId = "317806372709-o80ff31oilqdcpujs8264u5ef9m5ejsd.apps.googleusercontent.com"
-    Config.api.cookie = {domain : '.pamba.strandls.com', path : '/'};
+  Config.api.fbId = "320284831369968"
+   Config.api.googleId = "317806372709-tm8qc7j41enrblvqisd11b3mqrjdijfv.apps.googleusercontent.com"
+   Config.api.cookie = {domain : '.indiabiodiversity.org', path : '/'};
+
+    // Config.api.fbId = "2008434629393838"
+    // Config.api.googleId = "317806372709-o80ff31oilqdcpujs8264u5ef9m5ejsd.apps.googleusercontent.com"
+    // Config.api.cookie = {domain : '.pamba.strandls.com', path : '/'};
 }
