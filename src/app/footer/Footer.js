@@ -166,12 +166,23 @@ import UserGroupName from '../../util/UserGroup';
                  </div>
            </div>
            <br />
+           <div className="row">
+                     <div className="text-center">
+
+                       <a title="India Biodiversity Portal Mobile App" href="https://play.google.com/store/apps/details?id=com.mobisys.android.ibp&hl=en">
+                       <img src="https://indiabiodiversity.org/assets/all/googleplayicon1-dfb7ffc7e3bfab995218fdf01dbed0ae.png" />
+                       </a>
+                       <a title="India Biodiversity Portal Mobile App" href="https://itunes.apple.com/in/app/india-biodiversity-portal/id1072650706?mt=8&ign-mpt=uo%3D4" >
+                       <img src="https://indiabiodiversity.org/assets/all/apple_store1-03ab4e6fdf9b341c1a3455956f127fca.png"/>
+                       </a>
+                     </div>
+           </div>
          <div className="row">
                    <div className="text-center">
 
-                     <a href="http://facebook.com" className="btn btn-social-icon btn-facebook"><i className="fa fa-facebook"></i></a>
-                     <a className="btn btn-social-icon btn-twitter"><i className="fa fa-twitter"></i></a>
-                     <a className="btn btn-social-icon btn-google-plus"><i className="fa fa-google-plus"></i></a>
+                     <a href="https://facebook.com/indiabiodiversity" className="btn btn-social-icon btn-facebook"><i className="fa fa-facebook"></i></a>
+                     <a href="https://twitter.com/indiabiodiversity" className="btn btn-social-icon btn-twitter"><i className="fa fa-twitter"></i></a>
+                     <a href="https://plus.google.com/110731547233656611783" className="btn btn-social-icon btn-google-plus"><i className="fa fa-google-plus"></i></a>
                    </div>
          </div>
          <div className="row">
