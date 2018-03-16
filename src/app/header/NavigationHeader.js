@@ -123,32 +123,6 @@ class NavigationHeader extends Component{
                     <div className="navbar-collapse collapse" id="header_menu3">
 
                         <ul className="nav navbar-nav navbar-center">
-                          <li className="dropdown">
-                              <a href="#" className="dropdown-toggle" data-toggle="dropdown">Participate<span className="caret"></span>
-                              </a>
-                              <ul className="dropdown-menu" role="menu">
-                                  <li>
-                                      {<NavLink to={`/${this.props.PublicUrl}species/contribute`}>Contribute to Species page
-                                      </NavLink>}
-                                  </li>
-                                  <li>
-                                      {<NavLink to={`/${this.props.PublicUrl}observation/create`}>Add Observation
-                                      </NavLink>}
-                                  </li>
-                                  <li>
-                                      {<NavLink to={`/${this.props.PublicUrl}observation/bulkCreate`}>  Add Multiple Observations
-                                      </NavLink>}
-                                  </li>
-                                  <li>
-                                      {<NavLink to={`/${this.props.PublicUrl}dataTable/create`}>Add a list
-                                      </NavLink>}
-                                  </li>
-                                  <li>
-                                      {<NavLink to={`/${this.props.PublicUrl}document/create`}>
-                                          Add Documents</NavLink>}
-                                  </li>
-                              </ul>
-                          </li>
                             <li className="dropdown">
                                 <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Species
                                     <span className="caret"></span>
@@ -213,6 +187,65 @@ class NavigationHeader extends Component{
                                 </NavLink>}
                                 </li>
                               </ul>
+                            </li>
+                            <li className="dropdown">
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">Contribute<span className="caret"></span>
+                                </a>
+                                <ul className="dropdown-menu" role="menu">
+                                    <li>
+                                        {<NavLink to={`/${this.props.PublicUrl}species/contribute`}>Contribute to Species page
+                                        </NavLink>}
+                                    </li>
+                                    <li>
+                                        {<NavLink to={`/${this.props.PublicUrl}observation/create`}>Add Observation
+                                        </NavLink>}
+                                    </li>
+                                    <li>
+                                        {<NavLink to={`/${this.props.PublicUrl}observation/bulkCreate`}>  Add Multiple Observations
+                                        </NavLink>}
+                                    </li>
+                                    <li>
+                                        {<NavLink to={`/${this.props.PublicUrl}dataTable/create`}>Add a list
+                                        </NavLink>}
+                                    </li>
+                                    <li>
+                                        {<NavLink to={`/${this.props.PublicUrl}document/create`}>
+                                            Add Documents</NavLink>}
+                                    </li>
+
+                                    <li>
+                                            {<NavLink to={`/${this.props.PublicUrl}dataset/create`}>Add Dataset
+                                            </NavLink>}
+                                    </li>
+
+                                    {
+                                      AuthUtils.isAdmin() === true?
+                                      (
+                                        <li>
+                                            {<NavLink to={`/${this.props.PublicUrl}trait/create`}> Add Trait/Value
+                                            </NavLink>}
+                                        </li>
+                                      ):null
+                                    }
+                                    {
+                                      AuthUtils.isAdmin() === true?
+                                      (
+                                        <li>
+                                            {<NavLink to={`/${this.props.PublicUrl}fact/upload`}>Add Fact
+                                            </NavLink>}
+                                        </li>
+                                      ):null
+                                    }
+                                    {
+                                      AuthUtils.isAdmin() === true?
+                                      (
+                                        <li>
+                                            {<NavLink to={`/${this.props.PublicUrl}dataPackage/create`}>
+                                                Add Data Package</NavLink>}
+                                        </li>
+                                      ):null
+                                    }
+                                </ul>
                             </li>
                             <li>
                                 {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}discussion/list`}>Discussions
