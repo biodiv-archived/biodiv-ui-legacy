@@ -11,9 +11,6 @@ import {Config} from '../../Config'
 import style from './style/headerstyle.css';
 import UserGroupName from '../../util/UserGroup';
 
-
-
-
 class NavigationHeader extends Component{
 
     constructor(props){
@@ -28,6 +25,9 @@ class NavigationHeader extends Component{
     }
 
     componentDidMount(){
+      let fullUrl = window.location.host;
+      let parts=fullUrl.split(".");
+
         if(this.props.groupName!= "" && this.props.groupName!=undefined){
             let groupName=this.props.PublicUrl.split("/")[1];
             UserGroupName.list().then(data=>{
@@ -39,13 +39,26 @@ class NavigationHeader extends Component{
                 this.getNewsLetters(group.id);
             })
         } else {
+          if(parts.length>=3){
+            if(parts[0]=="assambiodiversity"){
+              this.getNewsLetters(4087136);
+            }
+            if(parts[0]=="treesindia"){
+              this.getNewsLetters(18);
+            }
+            if(parts[0]=="thewesternghats"){
+            this.getNewsLetters(1);
+            }
+          }
+          else{
             this.getNewsLetters(null);
+
+          }
         }
     }
 
 
     getNewsLetters(ugId){
-      console.log(ugId);
         var options;
         if(ugId == null){
             options={
@@ -225,14 +238,14 @@ class NavigationHeader extends Component{
                                     {this.props.UserGroupList.length>0?
                                       (
                                         <li style={{background:'#294EA7'}}>
-                                          <NavLink to={`/group/list`} ><span style={{textAlign:'center',marginLeft:'55px'}} > {"See All"}</span> </NavLink >
+                                          <a href={`${Config.api.IBP_URL}/group/list`} ><span style={{textAlign:'center',marginLeft:'55px'}} > {"See All"}</span> </a >
                                         </li>
                                       )
                                       :null}
                                     {this.props.UserGroupList.length>0?this.props.UserGroupList.map((item,index)=>{
                                         return (
                                             <li key={index} style={{'border':'1px'}}>
-                                                <NavLink to={`/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</NavLink >
+                                                {item.domainName?<a href={`${item.domainName}`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</a>:<a href={`${Config.api.IBP_URL}/group/${item.webaddress}/show`}><img src={`/biodiv/userGroups/${item.icon}`} height="30px" width="30px"/>{item.name}</a>}
                                             </li>
                                         )
                                     }):<div className="loader"></div>}

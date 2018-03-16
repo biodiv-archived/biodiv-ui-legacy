@@ -71,12 +71,16 @@ class ObservationListContainer extends Component {
       const newparams=  queryString.parse(document.location.search);
       let {groupName}=this.props.match.params;
 
+
       if(groupName){
+
           UserGroupName.list().then(data=>{
             let group=data.find((item)=>{
                 return item.webaddress==groupName
             })
+
             newparams.userGroupList=group.id;
+
             if(!newparams.sort){
               newparams.sort="lastrevised"
             }
@@ -111,6 +115,7 @@ class ObservationListContainer extends Component {
 
               this.props.fetchObservations(this.state.params)
             }
+
             let url="/search/observation/observation?"+search2;
             let url1="/observation/observation?"+search2;
             let userGroupList=this.state.params.userGroupList;
@@ -125,6 +130,23 @@ class ObservationListContainer extends Component {
 
       }
       else{
+          let fullUrl = window.location.host;
+          let parts=fullUrl.split(".");
+            let userGroupList=this.state.params.userGroupList;
+          if(parts.length>=3){
+            if(parts[0]=="assambiodiversity"){
+                newparams.userGroupList="4087136";
+                userGroupList.push("4087136")
+            }
+            if(parts[0]=="treesindia"){
+              newparams.userGroupList="18";
+              userGroupList.push("18")
+            }
+            if(parts[0]=="thewesternghats"){
+              newparams.userGroupList="1";
+              userGroupList.push("1");
+            }
+          }
         if(!newparams.sort){
           newparams.sort="lastrevised"
         }
@@ -160,13 +182,14 @@ class ObservationListContainer extends Component {
           this.props.fetchObservations(this.state.params)
         }
 
+
         let url="/search/observation/observation?"+search2;
         let url1="/observation/observation?"+search2;
         this.props.fetchFilterCount(url1);
         this.setState({
           urlforPassing:url,
-          openModal:false
-
+          openModal:false,
+          userGroupList:userGroupList
         })
       }
 
@@ -890,15 +913,16 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                       <div className="panel-title">
                           <h5 className="text-primary">{this.props.Observation.count} result(s) found</h5>
                       </div>
-                      <div>
-                      <button onClick={this.setOpenModal.bind(this)} className="btn btn-default">Download</button>
+                      <div className="pull-right">
+                        <button style={{marginRight:'5px'}} onClick={this.setOpenModal.bind(this)} className="btn btn-default">Download</button>
+
+                        <select className="btn btn-default"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
+                            <option  value="Last Updated">Last Updated</option>
+                            <option  value="Latest">Latest</option>
+                            <option  value="Most Viewed">Most Viewed</option>
+                        </select>
                       </div>
 
-                      <select className="btn btn-default pull-right"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
-                          <option  value="Last Updated">Last Updated</option>
-                          <option  value="Latest">Latest</option>
-                          <option  value="Most Viewed">Most Viewed</option>
-                      </select>
 
 
                   </div>

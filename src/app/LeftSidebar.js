@@ -45,7 +45,21 @@ constructor(){
 }
 
 openFilter(){
+
   this.props.PublicUrl?this.refs.hide.style.display='none':null
+  let fullUrl = window.location.host;
+  let parts=fullUrl.split(".");
+  if(parts.length>=3){
+    if(parts[0]=="assambiodiversity"){
+      this.refs.hide.style.display='none'
+    }
+    if(parts[0]=="treesindia"){
+      this.refs.hide.style.display='none'
+    }
+    if(parts[0]=="thewesternghats"){
+      this.refs.hide.style.display='none'
+    }
+  }
    const newparams = queryString.parse(document.location.search);
 
    let sGroupOpen=this.state.sGroupOpen;
@@ -130,7 +144,23 @@ render(){
 
     }
     if(urlObject.userGroupList){
-      this.props.PublicUrl?null:this.length++
+
+      let fullUrl = window.location.host;
+      let parts=fullUrl.split(".");
+      if(parts.length>=3){
+        if(parts[0]=="assambiodiversity"){
+          this.refs.hide.style.display='none'
+        }
+        if(parts[0]=="treesindia"){
+          this.refs.hide.style.display='none'
+        }
+        if(parts[0]=="thewesternghats"){
+          this.refs.hide.style.display='none'
+        }
+      }
+      else{
+        this.props.PublicUrl?null:this.length++
+      }
     }
     if(urlObject.user){
       this.length++;

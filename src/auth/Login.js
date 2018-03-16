@@ -50,11 +50,11 @@ class Login extends Component {
 
               <div className="row">
                   <div className="col-sm-4"></div>
-                  <div className="col-sm-4">
+                  <div className="col-sm-8">
                     <NavLink to="/register">Register</NavLink>|
                     <NavLink to="/register/forgotPassword">Forgot Password</NavLink>
                   </div>
-                  <div className="col-sm-4"></div>
+                  <div className="col-sm-2"></div>
               </div>
               <br />
               <div className="row">

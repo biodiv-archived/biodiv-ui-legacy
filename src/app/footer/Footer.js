@@ -21,19 +21,36 @@ import UserGroupName from '../../util/UserGroup';
    }
 
    componentDidMount(){
-     //console.log("public url",this.props.publicUrl)
-     if(this.props.publicUrl.groupName != ""){
-       let groupName=this.props.publicUrl.url.split("/")[1];
-       UserGroupName.list().then(data=>{
+     let fullUrl = window.location.host;
+     let parts=fullUrl.split(".");
 
-         let group=data.find((item)=>{
-             return item.webaddress==groupName
-         })
-         this.getNewsLetters(group.id);
-       })
-     }else{
-       this.getNewsLetters(null);
-     }
+       if(this.props.groupName!= "" && this.props.groupName!=undefined){
+           let groupName=this.props.PublicUrl.split("/")[1];
+           UserGroupName.list().then(data=>{
+
+               let group=data.find((item)=>{
+                   return item.webaddress==groupName
+               })
+               console.log(group);
+               this.getNewsLetters(group.id);
+           })
+       } else {
+         if(parts.length>=3){
+           if(parts[0]=="assambiodiversity"){
+             this.getNewsLetters(4087136);
+           }
+           if(parts[0]=="treesindia"){
+             this.getNewsLetters(18);
+           }
+           if(parts[0]=="thewesternghats"){
+           this.getNewsLetters(1);
+           }
+         }
+         else{
+           this.getNewsLetters(null);
+
+         }
+       }
    }
 
    getNewsLetters(ugId){
@@ -107,14 +124,14 @@ import UserGroupName from '../../util/UserGroup';
                    this.state.parents.map((item1,index1)=>{
                      return(
                        <div key={index1} className="col-xs-6 col-sm-2">
-                         <span><a href={"http://indiabiodiversity.org/page/"+item1.id}><b>{item1.title.toUpperCase()}</b></a></span>
+                         <span><a href={Config.api.IBP_URL+"/page/"+item1.id}><b>{item1.title.toUpperCase()}</b></a></span>
                          <ul className="list list-unstyled">
                          {
                            (this.state.children.get(item1.id) != null)?
                             (
                              this.state.children.get(item1.id).map((item2,index2)=>{
                                return(
-                                  <li key={index2} className="list-item"><a href={"http://indiabiodiversity.org/page/"+item2.id}>{item2.title}</a></li>
+                                  <li key={index2} className="list-item"><a href={Config.api.IBP_URL+"/page/"+item2.id}>{item2.title}</a></li>
                                )
                              })
                            ):null
@@ -127,21 +144,21 @@ import UserGroupName from '../../util/UserGroup';
                  ):null
                }
                 <div className={this.state.parents == null?'col-xs-6 col-sm-2 footer-item col-md-offset-2':'col-xs-6 col-sm-2 footer-item'}>
-                    <span><a href={"http://indiabiodiversity.org/page/4250187"}>POLICY</a></span>
+                    <span><a href={Config.api.IBP_URL+"/page/4250187"}>POLICY</a></span>
                          <ul className="list list-unstyled">
-                           <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250189"}>Data Sharing</a></li>
-                           <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250212"}>Licenses</a></li>
-                           <li className="list-item"><a href={"http://indiabiodiversity.org/page/4250246"}>Terms & Conditions</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250189"}>Data Sharing</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250212"}>Licenses</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250246"}>Terms & Conditions</a></li>
                          </ul>
                  </div>
                 <div  className="col-xs-6 col-sm-2 footer-item">
                          <span>OTHERS</span>
                          <ul className="list list-unstyled">
-                           <li className="list-item"><a href={"http://blog.indiabiodiversity.org/"}>Blog</a></li>
-                           <li className="list-item"><a href={"http://indiabiodiversity.org/sitemap"}>Sitemap</a></li>
-                           <li className="list-item"><a href={"http://indiabiodiversity.org/biodiv/docs"}>API Docs</a></li>
-                           <li className="list-item"><a href={"http://indiabiodiversity.org/feedback_form"}>Feedback</a></li>
-                           <li className="list-item"><a href={"http://indiabiodiversity.org/contact"}>Contact Us</a></li>
+                           <li className="list-item"><a href={"https://blog.indiabiodiversity.org/"}>Blog</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/sitemap"}>Sitemap</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/biodiv/docs"}>API Docs</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/feedback_form"}>Feedback</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/contact"}>Contact Us</a></li>
                          </ul>
                  </div>
                  <div className="col-sm-2">

@@ -133,7 +133,7 @@ class ListComponent extends Component{
             return images;
           }
           else{
-            let url=`http://indiabiodiversity.org/biodiv/users${images}`;
+            let url=`${Config.api.IBP_URL}/biodiv/users${images}`;
             return url;
           }
         }
