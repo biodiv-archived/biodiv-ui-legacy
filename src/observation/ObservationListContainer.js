@@ -71,12 +71,16 @@ class ObservationListContainer extends Component {
       const newparams=  queryString.parse(document.location.search);
       let {groupName}=this.props.match.params;
 
+
       if(groupName){
+
           UserGroupName.list().then(data=>{
             let group=data.find((item)=>{
                 return item.webaddress==groupName
             })
+
             newparams.userGroupList=group.id;
+
             if(!newparams.sort){
               newparams.sort="lastrevised"
             }
@@ -111,6 +115,7 @@ class ObservationListContainer extends Component {
 
               this.props.fetchObservations(this.state.params)
             }
+
             let url="/search/observation/observation?"+search2;
             let url1="/observation/observation?"+search2;
             let userGroupList=this.state.params.userGroupList;
@@ -125,6 +130,22 @@ class ObservationListContainer extends Component {
 
       }
       else{
+          let fullUrl = window.location.host;
+          let parts=fullUrl.split(".");
+          if(parts.length>=3){
+            let userGroupList=this.state.params.userGroupList;
+            if(parts[0]=="assambiodiversity"){
+                userGroupList.push("4087136")
+            }
+            if(parts[0]=="treesindia"){
+              userGroupList.push("18")
+
+            }
+            if(parts[0]=="thewesternghats"){
+              userGroupList.push("1")
+            }
+            newparams.userGroupList=userGroupList;
+          }
         if(!newparams.sort){
           newparams.sort="lastrevised"
         }
@@ -154,7 +175,8 @@ class ObservationListContainer extends Component {
         else {
           history.push({
             pathname:this.props.location.pathname,
-            search:search2
+            search:search2,
+            userGroupList:userGroupList
           })
 
           this.props.fetchObservations(this.state.params)
