@@ -3,6 +3,7 @@ import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-for
 import {NavLink} from 'react-router-dom';
 
 import LocationSuggest from './LocationSuggest';
+import MapSelector from './MapSelector';
 
  const profession = [
    {
@@ -61,6 +62,10 @@ const institutions=[
    constructor( props ) {
      super( props );
      this.state = {};
+   }
+
+   componentDidMount(){
+     MapSelector();
    }
 
    handleSubmit(submittedValues){
@@ -165,17 +170,31 @@ const institutions=[
                    </div>
                    </div>
                     <br />
+		    <div className="row">
+		      <input id="pac-input" className="controls" type="text" placeholder="Enter a location" />
+		      <div className="col-sm-3">
+			<label htmlFor="location" className="d-block">Location</label>
+		      </div>
+		      <div className="col-sm-9">
+		      	<div id="gmap"></div>
+		      	<div id="infowindow-content">
+    		      </div>
+		      </div>
+		    </div>
+		    <br />
                    <div className="row">
-                     <div className="col-sm-3"></div>
-                     <div className="g-recaptcha col-sm-3" data-sitekey="6LcLZ0UUAAAAACnboBzcB4Jtab5DTjuFOqB_a_8m">
-                     </div>
-                   </div>
+                    <div className="col-sm-3">
+                      <label htmlFor="location" className="d-block">Location Title</label>
+                    </div>
+                    <div className="col-sm-9">
+                       <input id="location-name" className="form-control" field="location" placeholder="Enter a name or choose from map above" />
+                    </div>
+                    </div>
                     <br />
-                   <div className="row">
+		    <div className="row">
                      <div className="col-sm-3"></div>
                      <button type="submit" className="mb-4 btn btn-primary">Submit</button>
                   </div>
-                  <LocationSuggest />
 
                  </form>
                )}
