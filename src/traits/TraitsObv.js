@@ -19,7 +19,7 @@ class Traits extends React.Component {
       options:'',
       loading:false
     }
-    this.fact=[];
+    this.fact= new Map();
     this.traitIdMap = new Map();
     this.myMap= new Map();
     this.getTraits=this.getTraits.bind(this)
@@ -63,15 +63,33 @@ class Traits extends React.Component {
 pushTraitsRadio(traitId,value){
   //console.log("fired")
   if(this.traitIdMap.get(traitId) !== undefined){
-    this.traitIdMap.get(traitId).clear();
+    if(this.traitIdMap.get(traitId).get(value))
+    {
+      this.traitIdMap.get(traitId).clear()
+      var radioActive1= "radioActive"+traitId+value;
+
+      this.refs[radioActive1].classList.remove("active")
+
+    }
+    else
+    {
+      this.traitIdMap.get(traitId).clear()
+      var x = new Map()
+      x.set(value,value)
+      this.traitIdMap.set(traitId,x)
+    }
+  }else{
+    var x = new Map()
+    x.set(value,value)
+    this.traitIdMap.set(traitId,x)
   }
   //this.myMap.clear()
-  var x = new Map();
+
   //this.myMap.set(value,value)
-  x.set(value,value)
-  this.traitIdMap.set(traitId,x);
+
   //console.log(this.myMap)
   //console.log(this.traitIdMap)
+  console.log("testing uncheck",this.traitIdMap);
 }
 pushTraitsRadioDefault(traitId,value){
   if(this.traitIdMap.get(traitId) !== undefined){
@@ -86,13 +104,23 @@ pushTraitsCheckbox(traitId,value){
   //console.log("fired")
   //console.log(this.traitIdMap.get(traitId))
   if(this.traitIdMap.get(traitId) ===undefined){
-    this.traitIdMap.set(traitId,new Map());
+    var x = new Map();
+    x.set(value,value);
+    this.traitIdMap.set(traitId,x);
+  }else{
+    if(this.traitIdMap.get(traitId).get(Value)){
+      this.traitIdMap.get(traitId).delete(value)
+      var checkboxActive1 = "checkboxActive"+traitId+value
+      this.refs[checkboxActive1].classList.remove("active")
+    }else{
+      this.traitIdMap.get(traitId).set(value,value);
+    }
   }
   //console.log(this.traitIdMap.get(traitId))
   //this.myMap.get(value)?this.myMap.delete(value):this.myMap.set(value,value)
   //console.log(this.myMap)
-  this.traitIdMap.get(traitId).get(value)?this.traitIdMap.get(traitId).delete(value):this.traitIdMap.get(traitId).set(value,value);
-  //console.log(this.traitIdMap)
+  t//his.traitIdMap.get(traitId).get(value)?this.traitIdMap.get(traitId).delete(value):this.traitIdMap.get(traitId).set(value,value);
+  console.log("testing uncheck",this.traitIdMap);
 }
 
 pushTraitsCheckboxDefault(traitId,value){
@@ -109,12 +137,18 @@ submitTraits(id1,id2){
   })
   var x = this.traitIdMap.get(id1);
   var arr=[]
-  x.forEach(function(value){
-    arr=arr.concat(value)
-  })
-  var list=arr.toString()
+  if(x.size>0){
 
-  var list1=id1+":"+list+";"
+    x.forEach(function(value){
+      arr=arr.concat(value)
+    })
+    var list=arr.toString()
+
+    var list1=id1+":"+list+";"
+  }else{
+    var list1=arr.toString()
+  }
+
   var options={
     method: 'POST',
     url :   Config.api.ROOT_URL+"/fact/update",
@@ -220,7 +254,11 @@ submitTraits(id1,id2){
                                      this.state.response.factInstance.hasOwnProperty(item.id)?
                                      ( <div className="row" style={{width:'100%'}}>{
                                        this.state.response.factInstance[item.id].map((it,index)=>{
-                                         this.fact.push(it.value)
+                                         if(this.fact.get(item.id)){
+                                           this.fact.get(item.id).push(it.value)
+                                         }else{
+                                           this.fact.set(item.id,[it.value])
+                                         }
                                        return(  <button key={index} title={it.description} type="button"  className="btn  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
                                                 <div className="snippet tablet">
                                                 <div className="figure pull-left">
@@ -245,12 +283,12 @@ submitTraits(id1,id2){
 
                                              item.values.map((possible,index)=>{
 
-                                               if($.inArray(possible.value,this.fact)>=0)
+                                               if( this.fact.get(item.id) && $.inArray(possible.value,this.fact.get(item.id))>=0)
                                                {
                                                  this.pushTraitsCheckboxDefault(item.id,possible.value)
                                                  return(
 
-                                             <label key={index} title={possible.description} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)} >
+                                             <label key={index} title={possible.description} ref={"checkboxActive"+item.id+possible.value} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)} >
                                                <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
                                                <div className="snippet tablet">
                                                    <div className="figure pull-left">
@@ -287,11 +325,11 @@ submitTraits(id1,id2){
                                            {
                                                item.values.map((possible,index)=>{
 
-                                               if($.inArray(possible.value,this.fact)>=0){
+                                               if( this.fact.get(item.id) && $.inArray(possible.value,this.fact.get(item.id))>=0){
                                                  this.pushTraitsRadioDefault(item.id,possible.value);
                                                  return(
 
-                                               <label key={index} title={possible.description} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)} >
+                                               <label key={index} title={possible.description} ref={"radioActive"+item.id+possible.value} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)} >
                                                  <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
                                                  <div className="snippet tablet">
                                                      <div className="figure pull-left">
@@ -357,7 +395,11 @@ submitTraits(id1,id2){
                                                 this.state.response.factInstance.hasOwnProperty(item.id)?
                                                 ( <div className="row" style={{width:'100%'}}>{
                                                   this.state.response.factInstance[item.id].map((it,index)=>{
-                                                    this.fact.push(it.value)
+                                                    if(this.fact.get(item.id)){
+                                                      this.fact.get(item.id).push(it.value)
+                                                    }else{
+                                                      this.fact.set(item.id,[it.value])
+                                                    }
                                                   return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts"  >
                                                            <div className="snippet tablet">
                                                            <div className="figure pull-left">
@@ -382,12 +424,12 @@ submitTraits(id1,id2){
 
                                                         item.values.map((possible,index)=>{
 
-                                                          if($.inArray(possible.value,this.fact)>=0)
+                                                          if( this.fact.get(item.id) && $.inArray(possible.value,this.fact.get(item.id))>=0)
                                                           {
                                                             this.pushTraitsCheckboxDefault(item.id,possible.value)
                                                             return(
 
-                                                        <label key={index} title={possible.description} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)} >
+                                                        <label key={index} title={possible.description} ref={"checkboxActive"+item.id+possible.value} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)} >
                                                           <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
                                                           <div className="snippet tablet">
                                                               <div className="figure pull-left">
@@ -425,11 +467,11 @@ submitTraits(id1,id2){
                                                       {
                                                           item.values.map((possible,index)=>{
 
-                                                          if($.inArray(possible.value,this.fact)>=0){
+                                                          if( this.fact.get(item.id) && $.inArray(possible.value,this.fact.get(item.id))>=0){
                                                             this.pushTraitsRadioDefault(item.id,possible.value);
                                                             return(
 
-                                                          <label key={index} title={possible.description} className="btn  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)} >
+                                                          <label key={index} title={possible.description} ref={"radioActive"+item.id+possible.value} className="btn  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)} >
                                                             <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
                                                             <div className="snippet tablet">
                                                                 <div className="figure pull-left">
@@ -489,7 +531,11 @@ submitTraits(id1,id2){
                                                    this.state.response.factInstance.hasOwnProperty(item.id)?
                                                    ( <div className="row" style={{width:'100%'}}>{
                                                      this.state.response.factInstance[item.id].map((it,index)=>{
-                                                       this.fact.push(it.value)
+                                                       if(this.fact.get(item.id)){
+                                                         this.fact.get(item.id).push(it.value)
+                                                       }else{
+                                                         this.fact.set(item.id,[it.value])
+                                                       }
                                                      return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
                                                               <div className="snippet tablet">
                                                               <div className="figure pull-left">
@@ -514,12 +560,12 @@ submitTraits(id1,id2){
 
                                                            item.values.map((possible,index)=>{
 
-                                                             if($.inArray(possible.value,this.fact)>=0)
+                                                             if( this.fact.get(item.id) && $.inArray(possible.value,this.fact.get(item.id))>=0)
                                                              {
                                                                this.pushTraitsCheckboxDefault(item.id,possible.value)
                                                                return(
 
-                                                           <label key={index} title={possible.description} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)} >
+                                                           <label key={index} title={possible.description} ref={"checkboxActive"+item.id+possible.value} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="checkbox_select" onClick={this.pushTraitsCheckbox.bind(this,item.id,possible.value)} >
                                                              <input type="checkbox"  name={possible.value} autoComplete="off"  defaultChecked/ >
                                                              <div className="snippet tablet">
                                                                  <div className="figure pull-left">
@@ -557,11 +603,11 @@ submitTraits(id1,id2){
                                                          {
                                                              item.values.map((possible,index)=>{
 
-                                                             if($.inArray(possible.value,this.fact)>=0){
+                                                             if( this.fact.get(item.id) && $.inArray(possible.value,this.fact.get(item.id))>=0){
                                                                this.pushTraitsRadioDefault(item.id,possible.value);
                                                                return(
 
-                                                             <label key={index} title={possible.description} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)} >
+                                                             <label key={index} title={possible.description} ref={"radioActive"+item.id+possible.value} className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn active" id="radio_select" onClick={this.pushTraitsRadio.bind(this,item.id,possible.value)} >
                                                                <input type="radio" name="trait_edit"  id={possible.value}  defaultChecked/ >
                                                                <div className="snippet tablet">
                                                                    <div className="figure pull-left">
@@ -624,7 +670,11 @@ submitTraits(id1,id2){
                                                this.state.response.factInstance.hasOwnProperty(item.id)?
                                                ( <div className="row" style={{width:'100%'}}>{
                                                  this.state.response.factInstance[item.id].map((it,index)=>{
-                                                   this.fact.push(it.value)
+                                                   if(this.fact.get(item.id)){
+                                                     this.fact.get(item.id).push(it.value)
+                                                   }else{
+                                                     this.fact.set(item.id,[it.value])
+                                                   }
                                                  return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
                                                           <div className="snippet tablet">
                                                           <div className="figure pull-left">

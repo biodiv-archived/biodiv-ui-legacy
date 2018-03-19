@@ -10,12 +10,14 @@ export let API_ROOT_URL;
 export let IBP_URL;
 
 if(process.env.NODE_ENV=="development" ){
-    ROOT_URL="http://hybrid.indiabiodiversity.org"
-    API_ROOT_URL="http://hybrid.indiabiodiversity.org/biodiv-api"
+    ROOT_URL="https://hybrid.indiabiodiversity.org"
+    API_ROOT_URL="https://hybrid.indiabiodiversity.org/biodiv-api"
 
     //ROOT_URL="https://hybrid.pamab.strandls.com"
     //API_ROOT_URL="https://hybrid.pamab.strandls.com/biodiv-api"
-    PAMBA_API_ROOT_URL="https://hybrid.pamab.strandls.com/biodiv-api";
+    PAMBA_API_ROOT_URL="https://hybrid.pamba.strandls.com/biodiv-api";
+
+    //PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
 }
 
 if(process.env.NODE_ENV=="kk" ){
