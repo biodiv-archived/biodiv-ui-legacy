@@ -2,5 +2,5 @@
     margin:-40px;
 }
 .ReactModal__Overlay.ReactModal__Overlay--after-open{
-  top:27%;
+  top:27% !important;
 }
