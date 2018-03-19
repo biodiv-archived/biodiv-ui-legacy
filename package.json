@@ -32,6 +32,7 @@
     "eslint-plugin-react": "^7.4.0",
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "0.0.5-beta.2",
+    "google-maps": "^3.2.1",
     "history": "^4.6.3",
     "html-react-parser": "^0.4.2",
     "initials": "^2.1.5",
