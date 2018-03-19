@@ -122,6 +122,8 @@ export default class LightboxExample extends Component {
                     </div>
                     {isOpen &&
                         <Lightbox
+                            style={{marginTop:'50%'}}
+                            clickOutsideToClose={true}
                             mainSrc={images[photoIndex]}
                             nextSrc={images[(photoIndex + 1) % images.length]}
                             prevSrc={images[(photoIndex + images.length - 1) % images.length]}
@@ -133,6 +135,7 @@ export default class LightboxExample extends Component {
                             onMoveNextRequest={() => this.setState({
                                 photoIndex: (photoIndex + 1) % images.length,
                             })}
+
                         />
                     }
                   </div>
