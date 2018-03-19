@@ -108,7 +108,7 @@ pushTraitsCheckbox(traitId,value){
     x.set(value,value);
     this.traitIdMap.set(traitId,x);
   }else{
-    if(this.traitIdMap.get(traitId).get(Value)){
+    if(this.traitIdMap.get(traitId).get(value)){
       this.traitIdMap.get(traitId).delete(value)
       var checkboxActive1 = "checkboxActive"+traitId+value
       this.refs[checkboxActive1].classList.remove("active")
@@ -119,7 +119,7 @@ pushTraitsCheckbox(traitId,value){
   //console.log(this.traitIdMap.get(traitId))
   //this.myMap.get(value)?this.myMap.delete(value):this.myMap.set(value,value)
   //console.log(this.myMap)
-  t//his.traitIdMap.get(traitId).get(value)?this.traitIdMap.get(traitId).delete(value):this.traitIdMap.get(traitId).set(value,value);
+  //his.traitIdMap.get(traitId).get(value)?this.traitIdMap.get(traitId).delete(value):this.traitIdMap.get(traitId).set(value,value);
   console.log("testing uncheck",this.traitIdMap);
 }
 
