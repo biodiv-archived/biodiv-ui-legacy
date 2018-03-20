@@ -10,12 +10,13 @@ const optionsStyle = {
 /**
  * This example allows you to set a date range, and to toggle `autoOk`, and `disableYearSelection`.
  */
+ const minDate = new Date();
+ const maxDate = new Date();
 export default class DatePickerExampleToggle extends React.Component {
   constructor(props) {
     super(props);
 
-    const minDate = new Date();
-    const maxDate = new Date();
+
     minDate.setFullYear(1800);
     minDate.setMonth(0);
     minDate.setDate(1);
@@ -88,8 +89,8 @@ export default class DatePickerExampleToggle extends React.Component {
             autoOk={this.state.autoOk}
             floatingLabelText="Min Date"
             defaultDate={this.state.minDate}
-            minDate={this.state.minDate}
-            maxDate={this.state.maxDate}
+            minDate={minDate}
+            maxDate={maxDate}
             disableYearSelection={this.state.disableYearSelection}
             formatDate={(date) => moment(date).format('DD-MM-YYYY')}
           />
@@ -98,8 +99,8 @@ export default class DatePickerExampleToggle extends React.Component {
             autoOk={this.state.autoOk}
             floatingLabelText="Max Date"
             defaultDate={this.state.maxDate}
-            minDate={this.state.minDate}
-            maxDate={this.state.maxDate}
+            minDate={minDate}
+            maxDate={maxDate}
             disableYearSelection={this.state.disableYearSelection}
             formatDate={(date) => moment(date).format('DD-MM-YYYY')}
           />
