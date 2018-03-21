@@ -99,7 +99,7 @@
     "start": "react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "build": "sh -ac '. .env.${REACT_APP_ENV}; react-scripts build'",
+    "build": "sh -ac '. ./.env.${REACT_APP_ENV}; react-scripts build'",
     "build:pamba": "REACT_APP_ENV=pamba npm run build",
     "build:kk": "REACT_APP_ENV=kk npm run build"
   }
