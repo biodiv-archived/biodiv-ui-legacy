@@ -1,6 +1,6 @@
 REACT_APP_ROOT_URL=https://indiabiodiversity.org
 REACT_APP_API_ROOT_URL=https://indiabiodiversity.org/biodiv-api
-REACT_APP_PAMBA_API_ROOT_URL=https://indiabiodiversity.org/biodiv-api;
+REACT_APP_PAMBA_API_ROOT_URL=https://indiabiodiversity.org/biodiv-api
 REACT_APP_IBP_URL=https://indiabiodiversity.org
 
 REACT_APP_FB_ID=320284831369968

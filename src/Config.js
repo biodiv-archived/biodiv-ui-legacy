@@ -1,9 +1,11 @@
+
+
 import axios from 'axios';
 
 import AuthUtils from './auth/AuthUtils.js';
 import loginService from './auth/LoginService';
 import { getNewAccessToken } from './auth/AuthActions';
-
+require('dotenv').config()
 export let ROOT_URL;
 export let PAMBA_API_ROOT_URL;
 export let API_ROOT_URL;
