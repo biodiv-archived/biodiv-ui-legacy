@@ -27,6 +27,14 @@ import ModalPopup from '../auth/Modal.js';
 
 const history = createHistory();
 
+function clean(obj) {
+  for (var propName in obj) {
+    if (obj[propName] === null || obj[propName] === undefined || obj[propName]==="") {
+      delete obj[propName];
+    }
+  }
+  return obj
+}
 class ObservationListContainer extends Component {
     constructor(props){
       super(props);
@@ -68,7 +76,7 @@ class ObservationListContainer extends Component {
         login_modal:false,
       }
       this.url;
-      const newparams=  queryString.parse(document.location.search);
+      let newparams=  queryString.parse(document.location.search);
       let {groupName}=this.props.match.params;
 
 
@@ -96,8 +104,8 @@ class ObservationListContainer extends Component {
             if(!newparams.hasMore){
               newparams.hasMore=true;
             }
+            newparams=clean(newparams);
             let search1=queryString.stringify(newparams);
-
              let search2 = decodeURIComponent( search1 );
 
                 if(!deepEqual(this.state.params,newparams) ){
@@ -162,8 +170,9 @@ class ObservationListContainer extends Component {
         if(!newparams.hasMore){
           newparams.hasMore=true;
         }
-
+        newparams=clean(newparams);
         let search1=queryString.stringify(newparams);
+
          let search2 = decodeURIComponent( search1 );
 
             if(!deepEqual(this.state.params,newparams) ){
@@ -174,6 +183,7 @@ class ObservationListContainer extends Component {
         this.props.fetchObservations(newparams);
         }
         else {
+          console.log(search1);
           history.push({
             pathname:this.props.location.pathname,
             search:search2
@@ -281,6 +291,7 @@ class ObservationListContainer extends Component {
           params.trait_15=params.trait_15.join(",");
           params.count=0;
           params.offset=0;
+          params=clean(params);
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           history.push({
