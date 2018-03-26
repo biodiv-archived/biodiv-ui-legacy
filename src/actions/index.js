@@ -64,14 +64,7 @@ const request = axios.get(url);
   }
 }
 
-export function FetchGroupObservations(text) {
-  const url=`${Config.api.ROOT_URL}/group/${text}/observation/list?sort=lastRevised&view=list`;
-  const request = axios.get(url);
-  return {
-    type:FETCH_GROUP_OBSERVATIONS,
-    payload:request
-  }
-}
+
 
 export function fetchMessage() {
   return function(dispatch) {

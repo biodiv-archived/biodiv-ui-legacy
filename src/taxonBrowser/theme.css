@@ -1,3 +1,4 @@
+
 .react-autosuggest__container {
   position: inherit;
 }
@@ -5,6 +6,7 @@
 .react-autosuggest__input {
   width: 100%;
   padding: 1px 2px;
+
   border: 1px solid #aaa;
   border-radius: 4px;
 }
@@ -25,7 +27,7 @@
 .react-autosuggest__container--open .react-autosuggest__suggestions-container {
   display: block;
   position: absolute;
-  width: 100%;
+  width: 90%;
   height: 100px;
   border: 1px solid #aaa;
   background-color: #fff;
