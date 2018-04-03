@@ -2,14 +2,18 @@ import React from 'react';
 import { CompactPicker } from 'react-color';
 
 class ColorTrait extends React.Component {
-  state = {
-    background: '#fff',
-  };
+  constructor(){
+    this.state = {
+      background: '#fff',
+    };
+    this.handleChangeComplete=this.handleChangeComplete.bind(this)
+  }
 
-  handleChangeComplete = (color) => {
+
+  handleChangeComplete(color){
     this.setState({ background: color.hex });
     console.log(color.hex);
-  };
+  }
 
   render() {
     return (
