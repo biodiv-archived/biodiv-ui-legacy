@@ -260,7 +260,6 @@ class ObservationListContainer extends Component {
               }
               if(parts[0]=="thewesternghats"){
                 newparams.userGroupList="1";
-                userGroupList="1";
               }
             }
           if(!newparams.sort){
@@ -280,7 +279,7 @@ class ObservationListContainer extends Component {
           }
           let search1=queryString.stringify(newparams);
           let search2 = decodeURIComponent( search1 );
-          url="/search/observation/observation?"+search2;
+          let url="/search/observation/observation?"+search2;
           let url1="/observation/observation?"+search2;
 
           history.push({
