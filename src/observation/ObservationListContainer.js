@@ -29,42 +29,27 @@ const history = createHistory();
 
 function clean(obj) {
   for (var propName in obj) {
-    if (obj[propName] === null || obj[propName] === undefined || obj[propName]==="") {
+    if (obj[propName] === null || obj[propName] === undefined || obj[propName]=="") {
       delete obj[propName];
     }
   }
   return obj
 }
+
 class ObservationListContainer extends Component {
+
     constructor(props){
       super(props);
+
       this.state={
         params:{
           max:10,
           offset:0,
           count:0,
-          taxon:[],
-          sGroup:[],
-          user:[],
-          classification:undefined,
-          userGroupList:[],
-          isFlagged:[],
-          speciesName:[],
-          mediaFilter:[],
           sort:"lastrevised",
           minDate:undefined,
           maxDate:undefined,
-          months:[],
-          validate:[],
-          hasMore:true,
-          trait_8:[],
-          trait_9:[],
-          trait_10:[],
-          trait_11:[],
-          trait_12:[],
-          trait_13:[],
-          trait_15:[],
-
+          hasMore:true
         },
         view:1,
         showMap:false,
@@ -75,139 +60,11 @@ class ObservationListContainer extends Component {
         bulk:false,
         login_modal:false,
       }
-      this.url;
-      let newparams=  queryString.parse(document.location.search);
-      let {groupName}=this.props.match.params;
-
-
-      if(groupName){
-
-          UserGroupName.list().then(data=>{
-            let group=data.find((item)=>{
-                return item.webaddress==groupName
-            })
-
-            newparams.userGroupList=group.id;
-
-            if(!newparams.sort){
-              newparams.sort="lastrevised"
-            }
-            if(!newparams.max){
-              newparams.max=10;
-            }
-            if(!newparams.offset){
-              newparams.offset=0
-            }
-            if(!newparams.count){
-              newparams.count=0;
-            }
-            if(!newparams.hasMore){
-              newparams.hasMore=true;
-            }
-            newparams=clean(newparams);
-            let search1=queryString.stringify(newparams);
-             let search2 = decodeURIComponent( search1 );
-
-                if(!deepEqual(this.state.params,newparams) ){
-                  history.push({
-                pathname:this.props.location.pathname,
-                search:search2
-              })
-            this.props.fetchObservations(newparams);
-            }
-            else {
-              history.push({
-                pathname:this.props.location.pathname,
-                search:search2
-              })
-
-              this.props.fetchObservations(this.state.params)
-            }
-
-            let url="/search/observation/observation?"+search2;
-            let url1="/observation/observation?"+search2;
-            let userGroupList=this.state.params.userGroupList;
-            userGroupList.push(group.id);
-            this.props.fetchFilterCount(url1);
-            this.setState({
-              userGroupList:userGroupList,
-              urlforPassing:url,
-              openModal:false
-            })
-          });
-
-      }
-      else{
-          let fullUrl = window.location.host;
-          let parts=fullUrl.split(".");
-            let userGroupList=this.state.params.userGroupList;
-          if(parts.length>=3){
-            if(parts[0]=="assambiodiversity"){
-                newparams.userGroupList="4087136";
-                userGroupList.push("4087136")
-            }
-            if(parts[0]=="treesindia"){
-              newparams.userGroupList="18";
-              userGroupList.push("18")
-            }
-            if(parts[0]=="thewesternghats"){
-              newparams.userGroupList="1";
-              userGroupList.push("1");
-            }
-          }
-        if(!newparams.sort){
-          newparams.sort="lastrevised"
-        }
-        if(!newparams.max){
-          newparams.max=10;
-        }
-        if(!newparams.offset){
-          newparams.offset=0
-        }
-        if(!newparams.count){
-          newparams.count=0;
-        }
-        if(!newparams.hasMore){
-          newparams.hasMore=true;
-        }
-        newparams=clean(newparams);
-        let search1=queryString.stringify(newparams);
-
-         let search2 = decodeURIComponent( search1 );
-
-            if(!deepEqual(this.state.params,newparams) ){
-              history.push({
-            pathname:this.props.location.pathname,
-            search:search2
-          })
-        this.props.fetchObservations(newparams);
-        }
-        else {
-          console.log(search1);
-          history.push({
-            pathname:this.props.location.pathname,
-            search:search2
-          })
-
-          this.props.fetchObservations(this.state.params)
-        }
-
-
-        let url="/search/observation/observation?"+search2;
-        let url1="/observation/observation?"+search2;
-        this.props.fetchFilterCount(url1);
-        this.setState({
-          urlforPassing:url,
-          openModal:false,
-          userGroupList:userGroupList
-        })
-      }
 
       this.loadMore=this.loadMore.bind(this);
       this.fetchReco = true;
       this.obvResponse = this.obvResponse.bind(this);
       this.fetchRecos = this.fetchRecos.bind(this);
-
       this.launchBulk = this.launchBulk.bind(this);
       this.resetBulk = this.resetBulk.bind(this);
       this.setOpenModal = this.setOpenModal.bind(this);
@@ -216,79 +73,10 @@ class ObservationListContainer extends Component {
       this.resetSingleCheckboxes = this.resetSingleCheckboxes.bind(this);
     };
 
-
     GlobalCall(params){
-          let sGroup=params.sGroup;
-          let isFlagged=params.isFlagged;
-          let speciesName=params.speciesName;
-          let mediaFilter=params.mediaFilter;
-          let userGroupList=params.userGroupList;
-          let taxon=params.taxon;
-          let classification=params.classification;
-          let user=params.user;
-          let offset=params.offset;
-          let count=params.count;
-
-          let minDate=params.minDate;
-          let maxDate=params.maxDate;
-
-          let months=params.months;
-          let hasMore=params.hasMore;
-          let validate=params.validate;
-          let trait_8=params.trait_8;
-          let trait_9=params.trait_9;
-          let trait_10=params.trait_10;
-          let trait_11=params.trait_11;
-          let trait_12=params.trait_12;
-          let trait_13=params.trait_13;
-          let trait_15=params.trait_15;
-
           this.setState({
-              params:{
-                taxon:taxon,
-                count:count,
-                classification:classification,
-                offset:offset,
-                sGroup:sGroup,
-                userGroupList:userGroupList,
-                isFlagged:isFlagged,
-                speciesName:speciesName,
-                mediaFilter:mediaFilter,
-                sort:params.sort,
-                user:user,
-
-                minDate:minDate,
-                maxDate:maxDate,
-
-                months:months,
-                hasMore:hasMore,
-                validate:validate,
-                trait_8:trait_8,
-                trait_9:trait_9,
-                trait_10:trait_10,
-                trait_11:trait_11,
-                trait_12:trait_12,
-                trait_13:trait_13,
-                trait_15:trait_15
-              }
+              params
           })
-
-          params.taxon=params.taxon.join(",");
-          params.sGroup=params.sGroup.join(",");
-          params.userGroupList=params.userGroupList.join(",");
-          params.user=params.user.join(",");
-          params.months=params.months.join(",");
-          params.speciesName=params.speciesName.join(",");
-          params.mediaFilter=params.mediaFilter.join(",");
-          params.isFlagged=params.isFlagged.join(",");
-          params.validate=params.validate.join(",");
-          params.trait_8=params.trait_8.join(",");
-          params.trait_9=params.trait_9.join(",");
-          params.trait_10=params.trait_10.join(",");
-          params.trait_11=params.trait_11.join(",");
-          params.trait_12=params.trait_12.join(",");
-          params.trait_13=params.trait_13.join(",");
-          params.trait_15=params.trait_15.join(",");
           params.count=0;
           params.offset=0;
           params=clean(params);
@@ -305,7 +93,6 @@ class ObservationListContainer extends Component {
             urlforPassing:url,
             openModal:false
           })
-
           this.props.fetchObservations(params);
           this.props.clearRecommendations();
           this.fetchReco = true;
@@ -313,32 +100,25 @@ class ObservationListContainer extends Component {
 
       taxonFilterEventListner(e){
             this.props.ClearObservationPage();
-
             const params=this.state.params;
-            if(!params.taxon){
-              params.taxon=[];
-            }
+
             params.classification=e.detail.classification;
-            params.taxon=e.detail.taxon
+            params.taxon=e.detail.taxon.join(",");
             this.GlobalCall(params);
       }
       sGroupFilterEventListner(e){
         this.props.ClearObservationPage();
         const params=this.state.params;
-        if(!params.sGroup){
-          params.sGroup=[];
-        }
-        params.sGroup=e.detail.sGroup;
+
+        params.sGroup=e.detail.sGroup.join(",");
           this.GlobalCall(params);
       }
 
     userGroupFilterEventListner(e){
       this.props.ClearObservationPage();
       let params=this.state.params;
-      if(!params.userGroupList){
-        params.userGroupList=[];
-      }
-        params.userGroupList= e.detail.id;
+
+        params.userGroupList= e.detail.id.join(",");
         this.GlobalCall(params);
 
     }
@@ -347,22 +127,16 @@ class ObservationListContainer extends Component {
       this.props.ClearObservationPage();
 
       const params=this.state.params;
-      if(!params.mediaFilter){
-        params.mediaFilter=[];
-      }
-      params.mediaFilter=e.detail.MediaFilter;
+
+      params.mediaFilter=e.detail.MediaFilter.join(",");
       this.GlobalCall(params);
     }
 
     allFilterEventListner(e){
-
       this.props.ClearObservationPage();
-
       const params=this.state.params;
-      if(!params.speciesName){
-        params.speciesName=[];
-      }
-      params.speciesName=e.detail.SpeciesName;
+
+      params.speciesName=e.detail.SpeciesName.join(",");
           this.GlobalCall(params);
 
     }
@@ -370,10 +144,8 @@ class ObservationListContainer extends Component {
     userFilterEventListner(e){
       this.props.ClearObservationPage();
       const params=this.state.params;
-      if(!params.user){
-        params.user=[];
-      }
-      params.user=e.detail.userIds;
+
+      params.user=e.detail.userIds.join(",");
       this.GlobalCall(params);
 
     }
@@ -388,111 +160,35 @@ class ObservationListContainer extends Component {
       this.props.ClearObservationPage();
       const params=this.state.params;
 
-      if(!params.months){
-        params.months=[];
-      }
-      params.months=e.detail.months;
+
+      params.months=e.detail.months.join(",");
       this.GlobalCall(params);
-
-
     }
     validateFilterEventListner(e){
       this.props.ClearObservationPage();
 
       const params=this.state.params;
-      if(!params.validate){
-        params.validate=[];
-      }
-      params.validate=e.detail.ValidateFilter;
+
+      params.validate=e.detail.ValidateFilter.join(",");
       this.GlobalCall(params);
     }
     flagFilterEventListner(e){
       this.props.ClearObservationPage();
       const params=this.state.params;
 
-      if(!params.isFlagged){
-        params.isFlagged=[];
-      }
-      params.isFlagged=e.detail.isFlagged;
+      params.isFlagged=e.detail.isFlagged.join(",");
       this.GlobalCall(params);
-
     }
-    trait_8FilterEventListner(e){
+
+
+    traitsEventListner(e){
+      let params=this.state.params;
       this.props.ClearObservationPage();
-      const params=this.state.params;
+      e.detail.traitsMap.forEach((value, key, map)=>{
+        params["trait_"+key]=value.join(",");
+      });
 
-      if(!params.trait_8){
-        params.trait_8=[];
-      }
-      params.trait_8=e.detail.trait_8;
       this.GlobalCall(params);
-
-    }
-    trait_9FilterEventListner(e){
-      this.props.ClearObservationPage();
-      const params=this.state.params;
-
-      if(!params.trait_9){
-        params.trait_9=[];
-      }
-      params.trait_9=e.detail.trait_9;
-      this.GlobalCall(params);
-
-    }
-    trait_10FilterEventListner(e){
-      this.props.ClearObservationPage();
-      const params=this.state.params;
-
-      if(!params.trait_10){
-        params.trait_10=[];
-      }
-      params.trait_10=e.detail.trait_10;
-      this.GlobalCall(params);
-
-    }
-    trait_11FilterEventListner(e){
-      this.props.ClearObservationPage();
-      const params=this.state.params;
-
-      if(!params.trait_11){
-        params.trait_11=[];
-      }
-      params.trait_11=e.detail.trait_11;
-      this.GlobalCall(params);
-
-    }
-    trait_12FilterEventListner(e){
-      this.props.ClearObservationPage();
-      const params=this.state.params;
-
-      if(!params.trait_12){
-        params.trait_12=[];
-      }
-      params.trait_12=e.detail.trait_12;
-      this.GlobalCall(params);
-
-    }
-    trait_13FilterEventListner(e){
-      this.props.ClearObservationPage();
-      const params=this.state.params;
-
-      if(!params.trait_13){
-        params.trait_13=[];
-      }
-      params.trait_13=e.detail.trait_13;
-      this.GlobalCall(params);
-
-    }
-    trait_15FilterEventListner(e){
-      this.props.ClearObservationPage();
-      const params=this.state.params;
-
-      if(!params.trait_15){
-        params.trait_15=[];
-      }
-      params.trait_15=e.detail.trait_15;
-      this.GlobalCall(params);
-
     }
 
     sortObservation(sortby){
@@ -503,221 +199,124 @@ class ObservationListContainer extends Component {
     }
 
       setParameter(){
+
         const {groupName}=this.props.match.params;
+        let newparams=  queryString.parse(document.location.search);
+        if(groupName){
+            UserGroupName.list().then(data=>{
+              let group=data.find((item)=>{
+                  return item.webaddress==groupName
+              })
+              newparams.userGroupList=group.id;
+              if(!newparams.sort){
+                newparams.sort="lastrevised"
+              }
+              if(!newparams.max){
+                newparams.max=10;
+              }
+              if(!newparams.offset){
+                newparams.offset=0
+              }
+              if(!newparams.count){
+                newparams.count=0;
+              }
+              if(!newparams.hasMore){
+                newparams.hasMore=true;
+              }
 
-        const newparams=  queryString.parse(document.location.search);
-        if(newparams.sGroup){
-          newparams.sGroup=newparams.sGroup.split(",");
-        }
-        else{
-          newparams.sGroup=[];
-        }
-        if(newparams.taxon){
-          newparams.taxon=newparams.taxon.split(",");
-        }
-        else{
-          newparams.taxon=[];
-        }
-        if(newparams.userGroupList){
-          newparams.userGroupList=newparams.userGroupList.split(",");
-        }
-        else{
-          newparams.userGroupList=[]
-        }
+              let search1=queryString.stringify(newparams);
+              let search2 = decodeURIComponent( search1 );
+              let url="/search/observation/observation?"+search2;
+              let url1="/observation/observation?"+search2;
 
-        if(newparams.user){
-          newparams.user=newparams.user.split(",");
-        }
-        else{
-          newparams.user=[];
-        }
-        if(newparams.months){
-          newparams.months=newparams.months.split(",");
-        }
-        else{
-          newparams.months=[];
-        }
-        if(newparams.speciesName){
-          newparams.speciesName=newparams.speciesName.split(",");
-        }
-        else{
-          newparams.speciesName=[];
-        }
-        if(newparams.mediaFilter){
-          newparams.mediaFilter=newparams.mediaFilter.split(",");
-        }
-        else{
-          newparams.mediaFilter=[];
-        }
+              history.push({
+            pathname:this.props.location.pathname,
+            search:search2
+          })
+          console.log(newparams);
+          this.setState({
+            params:newparams,
+            urlforPassing:url,
+            openModal:false
+          })
+          this.props.fetchObservations(newparams);
+          this.props.fetchFilterCount(url1);
 
-        if(!newparams.max){
-          newparams.max=10;
-        }
-        if(!newparams.count){
-          newparams.count=0;
-        }
-        if(!newparams.hasMore){
-          newparams.hasMore=true;
-        }
-        if(!newparams.offset){
-          newparams.offset=0;
-        }
-        if(newparams.isFlagged){
-          newparams.isFlagged=newparams.isFlagged.split(",");
+            });
+
         }
         else{
-          newparams.isFlagged=[];
+            let fullUrl = window.location.host;
+            let parts=fullUrl.split(".");
+
+            if(parts.length>=3){
+              if(parts[0]=="assambiodiversity"){
+                  newparams.userGroupList="4087136";
+
+              }
+              if(parts[0]=="treesindia"){
+                newparams.userGroupList="18";
+
+              }
+              if(parts[0]=="thewesternghats"){
+                newparams.userGroupList="1";
+              }
+            }
+          if(!newparams.sort){
+            newparams.sort="lastrevised"
+          }
+          if(!newparams.max){
+            newparams.max=10;
+          }
+          if(!newparams.offset){
+            newparams.offset=0
+          }
+          if(!newparams.count){
+            newparams.count=0;
+          }
+          if(!newparams.hasMore){
+            newparams.hasMore=true;
+          }
+          let search1=queryString.stringify(newparams);
+          let search2 = decodeURIComponent( search1 );
+          let url="/search/observation/observation?"+search2;
+          let url1="/observation/observation?"+search2;
+
+          history.push({
+            pathname:this.props.location.pathname,
+            search:search2
+          })
+          this.props.fetchObservations(newparams);
+          this.props.fetchFilterCount(url1);
+          this.setState({
+            params:newparams,
+            urlforPassing:url,
+            openModal:false
+          })
         }
-        if(newparams.validate){
-          newparams.validate=newparams.validate.split(",");
-        }
-        else{
-          newparams.validate=[];
-        }
-        if(newparams.trait_8){
-          newparams.trait_8=newparams.trait_8.split(",");
-        }
-        else{
-          newparams.trait_8=[];
-        }
-        if(newparams.trait_9){
-          newparams.trait_9=newparams.trait_9.split(",");
-        }
-        else{
-          newparams.trait_9=[];
-        }
-        if(newparams.trait_10){
-          newparams.trait_10=newparams.trait_10.split(",");
-        }
-        else{
-          newparams.trait_10=[];
-        }
-        if(newparams.trait_11){
-          newparams.trait_11=newparams.trait_11.split(",");
-        }
-        else{
-          newparams.trait_11=[];
-        }
-        if(newparams.trait_12){
-          newparams.trait_12=newparams.trait_12.split(",");
-        }
-        else{
-          newparams.trait_12=[];
-        }
-        if(newparams.trait_13){
-          newparams.trait_13=newparams.trait_13.split(",");
-        }
-        else{
-          newparams.trait_13=[];
-        }
-        if(newparams.trait_15){
-          newparams.trait_15=newparams.trait_15.split(",");
-        }
-        else{
-          newparams.trait_15=[];
-        }
-        const seacrh=queryString.stringify(newparams)
-        const search1=decodeURIComponent(seacrh);
-        let url="/search/observation/observation?"+search1;
-        let url1="/observation/observation?"+search1;
-        this.props.fetchFilterCount(url1);
-        this.setState({
-          params:newparams,
-          urlforPassing:url,
-          openModal:false
-        })
 
       }
+
       loadMore(){
         let params=this.state.params;
-       let count= parseInt(params.count);
-       count=count+1;
+        console.log(params);
+        let count= parseInt(params.count);
+        count=count+1;
        let offset=count*10;
         params.count=count;
         params.offset=offset;
-        let sGroup=params.sGroup;
-        let isFlagged=params.isFlagged;
-        let speciesName=params.speciesName;
-        let mediaFilter=params.mediaFilter;
-        let userGroupList=params.userGroupList;
-        let taxon=params.taxon;
-        let classification=params.classification;
-
-        let user=params.user;
-
-
-        let minDate=params.minDate;
-        let maxDate=params.maxDate;
-
-        let months=params.months;
         let hasMore=params.hasMore;
-        let validate=params.validate;
-
-        let trait_8=params.trait_8;
-        let trait_9=params.trait_9;
-        let trait_10=params.trait_10;
-        let trait_11=params.trait_11;
-        let trait_12=params.trait_12;
-        let trait_13=params.trait_13;
-        let trait_15=params.trait_15;
-
-
-        hasMore=this.props.Observation?this.props.Observation.count>offset+10?true:false:true;
-
+        params.hasMore=this.props.Observation?this.props.Observation.count>offset+10?true:false:true;
         this.setState({
-            params:{
-              taxon:taxon,
-              count:count,
-              classification:classification,
-              offset:offset,
-              sGroup:sGroup,
-              userGroupList:userGroupList,
-              isFlagged:isFlagged,
-              speciesName:speciesName,
-              mediaFilter:mediaFilter,
-              sort:params.sort,
-              user:user,
-              minDate:minDate,
-              maxDate:maxDate,
-
-              months:months,
-              hasMore:hasMore,
-              validate:validate,
-              trait_8:trait_8,
-              trait_9:trait_9,
-              trait_10:trait_10,
-              trait_11:trait_11,
-              trait_12:trait_12,
-              trait_13:trait_13,
-              trait_15:trait_15
-            }
+            params
         })
-        params.taxon=params.taxon.join(",");
-        params.sGroup=params.sGroup.join(",");
-        params.userGroupList=params.userGroupList.join(",");
-        params.user=params.user.join(",");
-        params.months=params.months.join(",");
-        params.speciesName=params.speciesName.join(",");
-        params.mediaFilter=params.mediaFilter.join(",");
-        params.isFlagged=params.isFlagged.join(",");
-        params.validate=params.validate.join(",");
-        params.trait_8=params.trait_8.join(",");
-        params.trait_9=params.trait_9.join(",");
-        params.trait_10=params.trait_10.join(",");
-        params.trait_11=params.trait_11.join(",");
-        params.trait_12=params.trait_12.join(",");
-        params.trait_13=params.trait_13.join(",");
-        params.trait_15=params.trait_15.join(",");
         const seacrh=queryString.stringify(params)
         const search1=decodeURIComponent(seacrh);
-
         let url="/search/observation/observation?"+search1;
-
         this.setState({
           urlforPassing:url,
           openModal:false
         })
-
         this.props.fetchObservations(params);
         this.fetchReco = true;
         }
@@ -732,20 +331,9 @@ class ObservationListContainer extends Component {
         document.addEventListener("user-filter", this.userFilterEventListner.bind(this));
         document.addEventListener("year-filter", this.yearFilterEventListner.bind(this));
         document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
-
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
-
-        document.addEventListener("trait_8-filter", this.trait_8FilterEventListner.bind(this));
-        document.addEventListener("trait_9-filter", this.trait_9FilterEventListner.bind(this));
-        document.addEventListener("trait_10-filter", this.trait_10FilterEventListner.bind(this));
-        document.addEventListener("trait_11-filter", this.trait_11FilterEventListner.bind(this));
-        document.addEventListener("trait_12-filter", this.trait_12FilterEventListner.bind(this));
-        document.addEventListener("trait_13-filter", this.trait_13FilterEventListner.bind(this));
-        document.addEventListener("trait_15-filter", this.trait_15FilterEventListner.bind(this));
-
-
-
+        document.addEventListener("traits",this.traitsEventListner.bind(this));
 
       }
       componentWillUnmount(){
@@ -759,15 +347,7 @@ class ObservationListContainer extends Component {
         document.addEventListener("months-filter", this.monthsFilterEventListner.bind(this));
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
-
-        document.addEventListener("trait_8-filter", this.trait_8FilterEventListner.bind(this));
-        document.addEventListener("trait_9-filter", this.trait_9FilterEventListner.bind(this));
-        document.addEventListener("trait_10-filter", this.trait_10FilterEventListner.bind(this));
-        document.addEventListener("trait_11-filter", this.trait_11FilterEventListner.bind(this));
-        document.addEventListener("trait_12-filter", this.trait_12FilterEventListner.bind(this));
-        document.addEventListener("trait_13-filter", this.trait_13FilterEventListner.bind(this));
-        document.addEventListener("trait_15-filter", this.trait_15FilterEventListner.bind(this));
-
+        document.addEventListener("traits",this.traitsEventListner.bind(this));
         this.props.ClearObservationPage();
       }
 
