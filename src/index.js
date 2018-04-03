@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
+import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
 import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
@@ -54,6 +54,10 @@ else{
   store.dispatch({type:SET_GROUP_NAME,payload:""})
 }
 
+const map_props = {
+	//softBounds: TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
+	hardBounds:Config.map.RESTRICTED_EXTENT // bounds to restrict the map
+}
 
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
 "/register/resetPassword"];
@@ -76,7 +80,9 @@ ReactDOM.render(
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/register/forgotPassword" component={ForgotPassword} />
                   <Route exact path="/register/resetPassword" component={ResetPassword} />
-                  <Route exact path="/map" component={naksha.Layers} />
+                  <Route exact path="/map" render={(routeProps) => (
+						      							<naksha.Layers {...routeProps} {...map_props} />
+							    				  )}/>
               </div>
                 <div  id="footerWrapper">
               {footerRoutes.map((routes,index)=>{
