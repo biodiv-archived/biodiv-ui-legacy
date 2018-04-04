@@ -25,7 +25,7 @@ class ObservationMapView extends Component{
       <Naksha.MapHolder url={window.popupUrl}
            location_field="location"
            map_container="map2"
-           restrict_to_bounds={[[68, 5.75], [98, 37.5]]}
+           restrict_to_bounds={Config.map.RESTRICTED_EXTENT}
            url_response_geohash_field="geohashAggregation"
            url_response_filtered_geohash_field="viewFilteredGeohashAggregation"
            color_scheme="YlOrRd"
