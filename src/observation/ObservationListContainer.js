@@ -25,6 +25,8 @@ import DownloadModal from './DownloadModal';
 import Navigate from '../bulk/Navigation.js'
 import ModalPopup from '../auth/Modal.js';
 
+import ReactGA from 'react-ga';
+
 const history = createHistory();
 
 class ObservationListContainer extends Component {
@@ -287,6 +289,9 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search1
           })
+
+          ReactGA.pageview(this.props.location.pathname + search1);
+
           let url="/search/observation/observation?"+search1;
           let url1="/observation/observation?"+search1;
           this.props.fetchFilterCount(url1);
