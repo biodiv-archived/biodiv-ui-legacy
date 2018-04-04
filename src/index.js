@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
+import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
 import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
@@ -22,6 +22,8 @@ import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
 import {SET_GROUP_NAME} from './actions/index';
 import naksha from 'naksha-react-ui'
+import ReactGA from 'react-ga';
+import createHistory from 'history/createBrowserHistory';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 
@@ -54,29 +56,55 @@ else{
   store.dispatch({type:SET_GROUP_NAME,payload:""})
 }
 
+const map_props = {
+	//softBounds: TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
+	hardBounds:Config.map.RESTRICTED_EXTENT // bounds to restrict the map
+}
 
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
 "/register/resetPassword"];
+
+
+const history = createHistory();
+ReactGA.initialize('UA-3185202-1');
+
+function fireTracking() {
+  //console.log("fileTracking",window.location.pathname,window.location.search)
+ 	//const { pathname } = nextState.location // this gives you the next URL
+  ReactGA.pageview(window.location.pathname + window.location.search);
+
+}
+// console.log(history)
+//   history.listen((location,action) =>{
+//     console.log("agadadad",location.pathname)
+//     //ReactGA.pageview(window.location.pathname + window.location.search);
+//   }
+//
+// );
+
 ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>
-    <BrowserRouter forceRefresh={true}>
+    <BrowserRouter forceRefresh={true} onUpdate={fireTracking()}>
       <div className="container-fluid">
           <div id="headerWrapper">
               <Header title={"IBP"}/>
           </div>
           <div id="contentWrapper">
               <div id="content">
-                  <Route exact path="/" component={HomePageContainer} />
-                  <Route exact path="/observation/list" component={App} props={search2} />
-                  <Route  path="/group/:groupName/observation" component={App} />
-                  <Route  path="/group/:groupName/login" component={Login} />
-                  <Route path="/login" component={Login}/>
-                  <Route exact path="/logout" component={Logout} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/register/forgotPassword" component={ForgotPassword} />
-                  <Route exact path="/register/resetPassword" component={ResetPassword} />
-                  <Route exact path="/map" component={naksha.Layers} />
+                  <Route exact path="/" component={HomePageContainer} history={history}/>
+                  <Route exact path="/observation/list" component={App} props={search2} history={history}/>
+                  <Route  path="/group/:groupName/observation" component={App} history={history}/>
+                  <Route  path="/group/:groupName/login" component={Login} history={history}/>
+                  <Route path="/login" component={Login} history={history}/>
+                  <Route exact path="/logout" component={Logout} history={history}/>
+                  <Route exact path="/register" component={Register} history={history}/>
+                  <Route exact path="/register/forgotPassword" component={ForgotPassword} history={history}/>
+                  <Route exact path="/register/resetPassword" component={ResetPassword} history={history}/>
+                  <Route exact path="/map" render={(routeProps) => (
+						      							<naksha.Layers {...routeProps} {...map_props} />
+							    				  )}/>
+
               </div>
                 <div  id="footerWrapper">
               {footerRoutes.map((routes,index)=>{

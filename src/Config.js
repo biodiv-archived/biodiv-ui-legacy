@@ -1,22 +1,25 @@
-
-
 import axios from 'axios';
 
 import AuthUtils from './auth/AuthUtils.js';
 import loginService from './auth/LoginService';
 import { getNewAccessToken } from './auth/AuthActions';
-require('dotenv').config()
+
 export let ROOT_URL;
 export let PAMBA_API_ROOT_URL;
 export let API_ROOT_URL;
 export let IBP_URL;
-//if(process.env.NODE_ENV=="development" ){
-ROOT_URL=process.env.REACT_APP_ROOT_URL
-API_ROOT_URL=process.env.REACT_APP_API_ROOT_URL
-PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
-IBP_URL=process.env.REACT_APP_IBP_URL
-//}
-    /*
+
+if(process.env.NODE_ENV=="development" ){
+    //ROOT_URL="https://hybrid.indiabiodiversity.org"
+    //API_ROOT_URL="https://hybrid.indiabiodiversity.org/biodiv-api"
+
+    ROOT_URL="https://pamba.strandls.com"
+    API_ROOT_URL="https://pamba.strandls.com/biodiv-api"
+    PAMBA_API_ROOT_URL="https://pamba.strandls.com/biodiv-api";
+
+    //PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
+}
+
 if(process.env.NODE_ENV=="kk" ){
     ROOT_URL="http://indiabiodiversity.org";
     PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
@@ -31,7 +34,7 @@ if(process.env.NODE_ENV=="production" ){
     API_ROOT_URL="https://indiabiodiversity.org/biodiv-api"
     IBP_URL="https://indiabiodiversity.org"
 
-}*/
+}
 
 axios.defaults.baseURL = ROOT_URL;
 
@@ -48,7 +51,6 @@ axios.interceptors.request.use(function (config) {
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
 //    console.log('---------------------BEFORE REQUEST END------------------------');
-    config.withCredentials = true;
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -131,13 +133,13 @@ export let Config = {
                 url:'/'
             }
         }
-    }
+    },
+	map : {
+		RESTRICTED_EXTENT : [[68, 5.75], [98, 37.5]]
+	}
 }
 
-Config.api.fbId = process.env.REACT_APP_FB_ID;
-Config.api.googleId = process.env.REACT_APP_GOOGLE_ID
-Config.api.cookie = {domain : process.env.REACT_APP_COOKIE_DOMAIN, path : '/'};
-/*
+
 if(process.env.NODE_ENV=="development" ) {
     Config.api.fbId = "115305755799166"
     Config.api.googleId = "317806372709-roromqiujiji1po5jh8adpcr5um895mb.apps.googleusercontent.com"
@@ -154,4 +156,4 @@ if(process.env.NODE_ENV=="development" ) {
     // Config.api.fbId = "2008434629393838"
     // Config.api.googleId = "317806372709-o80ff31oilqdcpujs8264u5ef9m5ejsd.apps.googleusercontent.com"
     // Config.api.cookie = {domain : '.pamba.strandls.com', path : '/'};
-}*/
+}
