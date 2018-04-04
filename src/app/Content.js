@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
+
+
+
+
 import LeftSidebar from './LeftSidebar';
+import MobileRightSideBar from './MobileRightSidebar';
+
 import  RightSidebar from './RightSidebar';
 import ObservationListContainer from '../observation/ObservationListContainer';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../actions/index';
@@ -30,6 +36,9 @@ class Content extends Component {
                 <div>
                     <div className={`col-sm-3 hidden-xs`} id="leftSidebarWrapper">
                         <LeftSidebar />
+                    </div>
+                    <div className={`col-sm-3 hidden-sm hidden-md hidden-lg`}>
+                        <MobileRightSideBar />
                     </div>
                     <div className="col-xs-12 col-sm-9 pull-right" id="contentColumnWrapper">
                         <div id="contentColumn">

@@ -20,43 +20,7 @@ export default class LightboxExample extends Component {
 
       let group=speciesGroup.toLowerCase();
       let groupIcon=null;
-      console.log(Config.api.IBP_URL);
-      if(group=="bird"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/birds_th1.png';
-      }
-      if(group=="fish"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/fish_th1.png';
-      }
-      if(group=="fungi"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/fungi_th1.png';
-      }
-      if(group=="mammals"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/mammals_th1.png';
-      }
-      if(group=="all"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/all_th1.png';
-      }
-      if(group=="amphibians"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/amphibians_th1.png';
-      }
-      if(group=="reptiles"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/reptiles_th1.png';
-      }
-      if(group=="molluscs"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/molluscs_th1.png';
-      }
-      if(group=="arthropods"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/arthropods_th1.png';
-      }
-      if(group=="plants"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/plants_th1.png';
-      }
-      if(group=="others"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/others_th1.png';
-      }
-      if(group=="birds"){
-        groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/birds_th1.png';
-      }
+      groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/'+group+'_th1.png';
 
       let res = thumbnail?thumbnail.split("."):null;
 

@@ -44,6 +44,7 @@ gettaxonData(){
     let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
 
     let newkey=newparams.taxon?newparams.taxon.split(","):[];
+
     let expand_taxon=undefined;
     let parent=undefined;
       if(checkedKey.length==1){

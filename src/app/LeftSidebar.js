@@ -5,7 +5,6 @@ import {withRouter,NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import style from './right_sidebar.css';
-
 import TaxonBrowser from '../taxonBrowser/TaxonBrowser';
 import SpeciesGroup from '../components/filterPanel/speciesGroup/SpeciesGroup';
 import UserGroup from '../userGroup/UserGroup';
@@ -18,7 +17,6 @@ import Validate_Filter from  '../components/filterPanel/validate/Validate';
 import Month_Filter from '../components/filterPanel/month/Month';
 import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
-import MapHolder from 'naksha-react-ui';
 
 
 
@@ -39,7 +37,6 @@ constructor(){
     traitsOpen:false,
     length:null,
     dataCheckOpen:false
-
 
   }
 }
@@ -244,7 +241,7 @@ render(){
             <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
               <Traits_Filter />
             </Collapsible>
-            <div style={{height:'157px'}}></div>
+            <div style={{height:'250px'}}></div>
         </div>
     </div>
     )
