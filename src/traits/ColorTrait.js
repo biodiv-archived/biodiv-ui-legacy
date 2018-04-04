@@ -3,6 +3,7 @@ import { CompactPicker } from 'react-color';
 
 class ColorTrait extends React.Component {
   constructor(){
+    super();
     this.state = {
       background: '#fff',
     };
