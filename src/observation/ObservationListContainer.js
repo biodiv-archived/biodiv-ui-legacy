@@ -185,7 +185,10 @@ class ObservationListContainer extends Component {
       let params=this.state.params;
       this.props.ClearObservationPage();
       e.detail.traitsMap.forEach((value, key, map)=>{
-        params["trait_"+key]=value.join(",");
+        if(value.constructor === Array){
+          params["trait_"+key]=value.join(",");
+
+        }
       });
 
       this.GlobalCall(params);

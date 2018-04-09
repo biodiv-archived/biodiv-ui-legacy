@@ -1,8 +1,9 @@
 import React from 'react';
-import { CompactPicker } from 'react-color';
+import { SketchPicker } from 'react-color';
 
 class ColorTrait extends React.Component {
   constructor(){
+    super();
     this.state = {
       background: '#fff',
     };
@@ -11,13 +12,18 @@ class ColorTrait extends React.Component {
 
 
   handleChangeComplete(color){
-    this.setState({ background: color.hex });
-    console.log(color.hex);
+    console.log(color.hsl);
+    this.setState({ background: color.hsl });
+          let colorArray=[];
+          colorArray.push(Math.trunc(color.hsl.h));
+          colorArray.push(Math.trunc(color.hsl.s*100));
+          colorArray.push(Math.trunc(color.hsl.l*100));
+          this.props.passToTraitValues("color_hsl",this.props.traitId,colorArray);
   }
 
   render() {
     return (
-      <CompactPicker
+      <SketchPicker
         color={ this.state.background }
         onChangeComplete={ this.handleChangeComplete }
       />

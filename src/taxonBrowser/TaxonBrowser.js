@@ -40,11 +40,10 @@ constructor(){
 }
 
 gettaxonData(){
+
     const newparams=  queryString.parse(document.location.search);
     let checkedKey=newparams.taxon?newparams.taxon.split(","):[];
-
     let newkey=newparams.taxon?newparams.taxon.split(","):[];
-
     let expand_taxon=undefined;
     let parent=undefined;
       if(checkedKey.length==1){
@@ -84,6 +83,7 @@ gettaxonData(){
       });
       }
       else{
+
         this.props.fetchTaxonList(this.state.classification);
       }
 
@@ -169,7 +169,6 @@ setScrollClass(){
 }
 
   componentDidMount() {
-
   this.gettaxonData();
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }

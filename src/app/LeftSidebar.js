@@ -39,6 +39,7 @@ constructor(){
     dataCheckOpen:false
 
   }
+  this.openFilter=this.openFilter.bind(this);
 }
 
 openFilter(){
@@ -72,6 +73,13 @@ openFilter(){
    let traitsOpen=this.state.traitsOpen;
    let dataCheckOpen=this.state.dataCheckOpen;
 
+   if(newparams.taxon ){
+     taxonOpen=true;
+   }
+   else{
+     taxonOpen=true;
+   }
+
    if(newparams.sGroup){
      sGroupOpen=true;
    }
@@ -103,9 +111,14 @@ openFilter(){
    if(newparams.validate){
        validateOpen=true
    }
-   if(newparams.trait_8 || newparams.trait_9 ||newparams.trait_10 || newparams.trait_11 || newparams.trait_12 || newparams.trait_13 || newparams.trait_15){
+
+   Object.keys(newparams).forEach((key) =>{
+     if(key.includes("trait")){
        traitsOpen=true
-   }
+     }
+   });
+
+
    this.setState({
      sGroupOpen,
      userGroupOpen,
@@ -180,10 +193,15 @@ render(){
       this.length++;
 
     }
-    if(urlObject.trait_8 || urlObject.trait_9 || urlObject.trait_10|| urlObject.trait_11|| urlObject.trait_12|| urlObject.trait_13|| urlObject.trait_15){
-      this.length++;
-    }
-
+      let increase=true;
+    Object.keys(urlObject).forEach((key)=> {
+      if(key.includes("trait")){
+        if(increase){
+          this.length++;
+          increase=false;
+        }
+      }
+    });
 
   }
 
@@ -197,7 +215,7 @@ render(){
        </div>
 
         <div  className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
-            <Collapsible open={true} trigger={`Taxon Browser`}>
+            <Collapsible lazyRender={true} open={this.state.taxonOpen} trigger={`Taxon Browser`}>
             <div>
                 <TaxonBrowser />
                 <SearchBar />

@@ -46,26 +46,31 @@ class Traits extends React.Component {
        document.dispatchEvent(events);
   }
 
-  passToTraitValues(id,values){
+  passToTraitValues(type,id,values){
     let traitIdwithValues=this.state.traitIdwithValues;
-  traitIdwithValues.set(id,values);
+    let newid=id+"."+type;
+  traitIdwithValues.set(newid,values);
+
   this.setState({
   traitIdwithValues
   })
   this.callFilter(traitIdwithValues)
   }
   render() {
-
     let observationTraitList=this.state.observationTraitList;
     let traitIdwithValues=this.state.traitIdwithValues;
-    let keys = Array.from( traitIdwithValues.keys());
+    let Comkeys = Array.from( traitIdwithValues.keys());
+    let keys=[];
+      Comkeys?Comkeys.map((item)=>{
+        keys.push(item.split(".")[0])
+      }):null;
     return (
       <div>
           {observationTraitList.data?observationTraitList.data.map((item,index)=>{
             return(
               <div key={index}>
                 <Collapsible  open={keys.includes(item.id.toString())} trigger={item.name}>
-                    <TraitValues  passToTraitValues={this.passToTraitValues} traitId={item.id}  traitName={item.name} traitType={item.traitTypes} traitDataType={item.dataTypes}/>
+                    <TraitValues alues  passToTraitValues={this.passToTraitValues} traitId={item.id}  traitName={item.name} traitType={item.traitTypes} traitDataType={item.dataTypes}/>
                 </Collapsible>
               </div>
 

@@ -17,7 +17,7 @@ class Single extends Component{
   }
 
   callFilter(id,traitSelectedValues){
-      this.props.passToTraitValues(id,traitSelectedValues);
+      this.props.passToTraitValues("string",id,traitSelectedValues);
   }
 
   onChange(e){
@@ -39,7 +39,7 @@ class Single extends Component{
   setParameter(traitId){
     let newparams = queryString.parse(document.location.search);
     Object.keys(newparams).forEach((key)=> {
-      if(key.includes("trait_"+traitId)){
+      if(key.includes("trait_"+traitId+".string")){
       this.setState({
         traitSelectedValues:newparams[key].split(",")
       })
