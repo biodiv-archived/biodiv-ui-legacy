@@ -131,7 +131,10 @@ export let Config = {
                 url:'/'
             }
         }
-    }
+    },
+	map : {
+		RESTRICTED_EXTENT : [[68, 5.75], [98, 37.5]]
+	}
 }
 
 Config.api.fbId = process.env.REACT_APP_FB_ID;
