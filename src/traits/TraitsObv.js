@@ -3201,8 +3201,8 @@ class Traits extends React.Component {
           //   })
 
             this.setState({
-              //response:response.data.model
-              response:testTraitData.model,
+              response:response.data.model
+              //response:testTraitData.model,
               //numericTraitMinMax:numericTrait
             })
 
