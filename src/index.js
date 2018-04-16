@@ -15,8 +15,10 @@ import App from './app/App';
 import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
 
 import reducers from './reducers';
-import Footer from './app/footer/Footer';
-import Header from './app/header/Header';
+
+
+
+
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
@@ -24,6 +26,21 @@ import {SET_GROUP_NAME} from './actions/index';
 import naksha from 'naksha-react-ui'
 import ReactGA from 'react-ga';
 import createHistory from 'history/createBrowserHistory';
+
+let Header;
+if(Config.api.DEPLOY==="ibp"){
+    Header = require('./app/header/Header.js').default;
+}else{
+    Header = require('./app/header/BbpHeader.js').default;
+}
+
+let Footer;
+if(Config.api.DEPLOY==="ibp"){
+    Footer = require('./app/footer/Footer').default;
+}else{
+    Footer = require('./app/footer/BbpFooter.js').default;
+}
+
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 

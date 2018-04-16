@@ -11,7 +11,14 @@ import ObservationListContainer from '../observation/ObservationListContainer';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../actions/index';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Footer from './footer/Footer';
+
+import {Config} from '../Config'
+let Footer;
+if(Config.api.DEPLOY==="ibp"){
+    Footer = require('./footer/Footer').default;
+}else{
+    Footer = require('./footer/BbpFooter.js').default;
+}
 
 class Content extends Component {
 
