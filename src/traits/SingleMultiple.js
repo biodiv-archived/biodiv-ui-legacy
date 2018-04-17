@@ -62,7 +62,7 @@ class Single extends Component{
       return(
         <div>
           {traitValueList.data?traitValueList.data.map((item,index)=>{
-            return  <div key={index}><Checkbox defaultChecked={traitSelectedValues.includes(item.id.toString())?true:false} onChange={this.onChange.bind(this)} traitValue={item.id} traitId={item.traitId} />{" "+ item.value}</div>
+            return  <div key={index}><Checkbox defaultChecked={traitSelectedValues.includes(item.value)?true:false} onChange={this.onChange.bind(this)} traitValue={item.value} traitId={item.traitId} />{" "+ item.value}</div>
           }):null}
         </div>
       )

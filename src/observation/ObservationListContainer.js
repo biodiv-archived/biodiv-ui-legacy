@@ -45,9 +45,9 @@ class ObservationListContainer extends Component {
 
       this.state={
         params:{
-          max:10,
-          offset:0,
           count:0,
+          offset:0,
+          max:10,
           sort:"lastrevised",
           minDate:undefined,
           maxDate:undefined,
@@ -79,8 +79,6 @@ class ObservationListContainer extends Component {
           this.setState({
               params
           })
-          params.count=0;
-          params.offset=0;
           params=clean(params);
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
@@ -104,16 +102,15 @@ class ObservationListContainer extends Component {
     }
 
       taxonFilterEventListner(e){
-            this.props.ClearObservationPage();
-            const params=this.state.params;
-
+            let params=this.state.params;
             params.classification=e.detail.classification;
             params.taxon=e.detail.taxon.join(",");
             this.GlobalCall(params);
+            this.props.ClearObservationPage();
       }
       sGroupFilterEventListner(e){
         this.props.ClearObservationPage();
-        const params=this.state.params;
+        let params=this.state.params;
 
         params.sGroup=e.detail.sGroup.join(",");
           this.GlobalCall(params);
@@ -131,7 +128,7 @@ class ObservationListContainer extends Component {
     mediaFilterEventListner(e){
       this.props.ClearObservationPage();
 
-      const params=this.state.params;
+      let params=this.state.params;
 
       params.mediaFilter=e.detail.MediaFilter.join(",");
       this.GlobalCall(params);
@@ -139,7 +136,7 @@ class ObservationListContainer extends Component {
 
     allFilterEventListner(e){
       this.props.ClearObservationPage();
-      const params=this.state.params;
+      let params=this.state.params;
 
       params.speciesName=e.detail.SpeciesName.join(",");
           this.GlobalCall(params);
@@ -148,7 +145,7 @@ class ObservationListContainer extends Component {
 
     userFilterEventListner(e){
       this.props.ClearObservationPage();
-      const params=this.state.params;
+      let params=this.state.params;
 
       params.user=e.detail.userIds.join(",");
       this.GlobalCall(params);
@@ -156,14 +153,14 @@ class ObservationListContainer extends Component {
     }
     yearFilterEventListner(e){
       this.props.ClearObservationPage();
-      const params=this.state.params;
+      let params=this.state.params;
       params.maxDate=e.detail.maxDate;
       params.minDate=e.detail.minDate;
       this.GlobalCall(params);
     }
     monthsFilterEventListner(e){
       this.props.ClearObservationPage();
-      const params=this.state.params;
+      let params=this.state.params;
 
 
       params.months=e.detail.months.join(",");
@@ -172,14 +169,14 @@ class ObservationListContainer extends Component {
     validateFilterEventListner(e){
       this.props.ClearObservationPage();
 
-      const params=this.state.params;
+      let params=this.state.params;
 
       params.validate=e.detail.ValidateFilter.join(",");
       this.GlobalCall(params);
     }
     flagFilterEventListner(e){
       this.props.ClearObservationPage();
-      const params=this.state.params;
+      let params=this.state.params;
 
       params.isFlagged=e.detail.isFlagged.join(",");
       this.GlobalCall(params);
@@ -188,6 +185,7 @@ class ObservationListContainer extends Component {
 
     traitsEventListner(e){
       let params=this.state.params;
+      console.log("params from taxon",params);
       this.props.ClearObservationPage();
       e.detail.traitsMap.forEach((value, key, map)=>{
         if(value.constructor === Array){
@@ -201,14 +199,14 @@ class ObservationListContainer extends Component {
 
     sortObservation(sortby){
       this.props.ClearObservationPage();
-      const params=this.state.params;
+      let params=this.state.params;
       params.sort=sortby;
       this.GlobalCall(params);
     }
 
       setParameter(){
 
-        const {groupName}=this.props.match.params;
+        let {groupName}=this.props.match.params;
         let newparams=  queryString.parse(document.location.search);
         if(groupName){
             UserGroupName.list().then(data=>{
@@ -241,7 +239,9 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search2
           })
+
           console.log(newparams);
+
           this.setState({
             params:newparams,
             urlforPassing:url,
@@ -294,6 +294,8 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search2
           })
+          console.log(newparams);
+
           this.props.fetchObservations(newparams);
           this.props.fetchFilterCount(url1);
           this.setState({
