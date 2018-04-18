@@ -17,7 +17,7 @@ showFilter(traitId,traitType,traitDataType){
 
   if(traitType=='SINGLE_CATEGORICAL' || traitType=='MULTIPLE_CATEGORICAL'){
     if(traitType=='MULTIPLE_CATEGORICAL' && traitDataType=='COLOR'){
-      return <ColorTrait />
+      return <ColorTrait passToTraitValues={this.props.passToTraitValues} traitId={traitId} />
     }
     else{
       return <SingleMultiple  passToTraitValues={this.props.passToTraitValues} traitId={traitId} />

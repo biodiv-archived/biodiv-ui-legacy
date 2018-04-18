@@ -8,11 +8,12 @@ import logger from 'redux-logger';
 import queryString from 'query-string';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
 import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
+import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from './actions/index';
+
 
 import reducers from './reducers';
 
