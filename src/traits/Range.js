@@ -15,16 +15,15 @@ class Range extends Component{
   }
   setParameter(traitId){
     let newparams = queryString.parse(document.location.search);
-    let traitName="trait_"+traitId;
+    let traitName="trait_"+traitId+".range";
     Object.keys(newparams).forEach((key)=> {
-      if(key=="traitName"){
+      if(key===traitName){
         let min=parseInt(newparams[key].split(",")[0]);
         let max=parseInt(newparams[key].split(",")[1]);
         let value={
           min:min,
           max:max
         };
-      
         this.setState({
           value:value
         })
@@ -43,13 +42,13 @@ onChangeValue(){
   let minMax=[];
   minMax.push(this.state.value.min);
   minMax.push(this.state.value.max);
-  this.props.passToTraitValues(this.props.traitId,minMax);
+  this.props.passToTraitValues("range",this.props.traitId,minMax);
 }
   render() {
     return (
       <InputRange
-        maxValue={this.state.value.max}
-        minValue={this.state.value.min}
+        maxValue={100}
+        minValue={0}
         value={this.state.value}
         onChange={value => this.setState({ value })}
         onChangeComplete={this.onChangeValue}
