@@ -18,6 +18,7 @@ import Month_Filter from '../components/filterPanel/month/Month';
 import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
 
+import CustomFields from '../customFields/CustomFields';
 
 
 class Right extends Component {
@@ -35,8 +36,9 @@ constructor(){
     speciesOpen:false,
     validateOpen:false,
     traitsOpen:false,
+    customFieldsOpen:false,
     length:null,
-    dataCheckOpen:false
+    dataCheckOpen:false,
 
   }
   this.openFilter=this.openFilter.bind(this);
@@ -72,6 +74,7 @@ openFilter(){
    let validateOpen=this.state.validateOpen;
    let traitsOpen=this.state.traitsOpen;
    let dataCheckOpen=this.state.dataCheckOpen;
+   let customFieldsOpen=this.state.customFieldsOpen;
 
    if(newparams.taxon ){
      taxonOpen=true;
@@ -111,6 +114,9 @@ openFilter(){
    if(newparams.validate){
        validateOpen=true
    }
+   if(newparams.customFieldsOpen){
+     customFieldsOpen=true
+   }
 
    Object.keys(newparams).forEach((key) =>{
      if(key.includes("trait")){
@@ -130,7 +136,8 @@ openFilter(){
      speciesOpen,
      validateOpen,
      traitsOpen,
-     dataCheckOpen
+     dataCheckOpen,
+     customFieldsOpen
    })
 }
 componentDidMount(){
@@ -193,6 +200,7 @@ render(){
       this.length++;
 
     }
+
       let increase=true;
     Object.keys(urlObject).forEach((key)=> {
       if(key.includes("trait")){
@@ -255,6 +263,9 @@ render(){
             </Collapsible>
             <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal`}>
               <Month_Filter />
+            </Collapsible>
+            <Collapsible lazyRender={true} open={this.state.customFieldsOpen} trigger={`customFields`}>
+              <CustomFields />
             </Collapsible>
             <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
               <Traits_Filter />

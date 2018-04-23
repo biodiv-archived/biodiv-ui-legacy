@@ -206,6 +206,7 @@ class ObservationListContainer extends Component {
 
         let {groupName}=this.props.match.params;
         let newparams=  queryString.parse(document.location.search);
+        
         if(groupName){
             UserGroupName.list().then(data=>{
               let group=data.find((item)=>{
@@ -243,6 +244,7 @@ class ObservationListContainer extends Component {
             urlforPassing:url,
             openModal:false
           })
+          console.log("andar aayeaaye................");
           this.props.fetchObservations(newparams);
           this.props.fetchFilterCount(url1);
 
