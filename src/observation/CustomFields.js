@@ -441,11 +441,19 @@ class CustomFields extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-2">
+                          {
+                            (item.allowedParticipation===true)?
+                            (
+                              <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id,item.options,item.dataType)} style={{display:'none',width:'100px'}} disabled={this.state.loading}>Submit</div>
+                            ):null
+                          }
+                          {
 
-                            <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id,item.options,item.dataType)} style={{display:'none',width:'100px'}} disabled={this.state.loading}>Submit</div>
-
+                            (item.allowedParticipation===true)?
+                            (
                             <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id)} style={{display:'block',width:'100px'}} disabled={this.state.loading}>Edit</div>
-
+                          ):null
+                          }
                     </div>
                 </div>
               )
