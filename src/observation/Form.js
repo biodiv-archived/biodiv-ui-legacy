@@ -22,7 +22,10 @@ class Formsuggest extends React.Component {
       Ssuggestions: [],
       login_modal:false,
       options:'',
-      loading:false
+      loading:false,
+      recoId:null,
+      lastSelectedScientific:null,
+      lastSelectedCommon:null
     };
     // this.theme={
     //   input:{
@@ -62,6 +65,11 @@ class Formsuggest extends React.Component {
     this.setState({
       loading:true
     })
+
+    // console.log("recoId",this.state.recoId)
+    // console.log("lastSelectedCommon",this.state.lastSelectedCommon)
+    // console.log("lastSelectedScientific",this.state.lastSelectedScientific)
+
     var token=localStorage.getItem('token')
     var cName1="cName"+this.props.id2
     var cNameValue=this.refs[cName1].autowhatever.input.defaultValue
@@ -69,11 +77,40 @@ class Formsuggest extends React.Component {
     var langValue=this.refs[lang1].value
     var sName1="sName"+this.props.id2
     var sNameValue=this.refs[sName1].autowhatever.input.defaultValue
-    var recId
     var suggestIdComment1="suggestIdComment"+this.props.id2
     var value1=this.refs[suggestIdComment1].value
     var obvId=this.props.id2
 
+    var recoId=null
+
+    if(sNameValue !== null && sNameValue !== ""){
+      if(sNameValue === this.state.lastSelectedScientific){
+        recoId=this.state.recoId
+      }
+    }else{
+      if(cNameValue !== null && cNameValue !=null){
+        if(cNameValue === this.state.lastSelectedCommon){
+          recoId=this.state.recoId
+        }
+      }
+    }
+
+  if(recoId !==null){
+    var options={
+      method:'POST',
+      url :   Config.api.ROOT_URL+"/observation/addRecommendationVote",
+      params:{
+        commonName:cNameValue,
+        languageName:langValue,
+        recoName:sNameValue,
+        recoId:recoId,
+        recoComment:value1,
+        obvId:obvId
+      },
+      headers : AuthUtils.getAuthHeaders(),
+      json: 'true'
+    }
+  }else{
     var options={
       method:'POST',
       url :   Config.api.ROOT_URL+"/observation/addRecommendationVote",
@@ -88,41 +125,47 @@ class Formsuggest extends React.Component {
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
     }
+  }
+
     if(cNameValue!=="" || sNameValue!=="")
     {
-    axios(options)
-        .then((response)=>{
-          this.setState({
-            loading:false
-          })
-          document.body.style.cursor = "default";
-          if(response.status === 200){
-              this.props.getObvAgain(this.props.id2)
-              this.props.getReco(this.props.id2)
-          }
-        })
-        .catch((error)=>{
-          this.setState({
-            loading:false
-          })
-          document.body.style.cursor = "default";
-          if(error.response.status === 401){
-            this.setState({
-            login_modal:!(this.state.login_modal),
-            options:options
-          })
-        }else{
-          console.log(error)
-        }
-        })
 
-    this.setState({
-      Cvalue:'',
-      Svalue:''
-    })
-    this.refs[lang1].defaultValue="English";
-    this.refs[suggestIdComment1].value="";
-  }
+      axios(options)
+          .then((response)=>{
+            this.setState({
+              loading:false
+            })
+            document.body.style.cursor = "default";
+            if(response.status === 200){
+                this.props.getObvAgain(this.props.id2)
+                this.props.getReco(this.props.id2)
+            }
+          })
+          .catch((error)=>{
+            this.setState({
+              loading:false
+            })
+            document.body.style.cursor = "default";
+            if(error.response.status === 401){
+              this.setState({
+              login_modal:!(this.state.login_modal),
+              options:options
+            })
+          }else{
+            console.log(error)
+          }
+          })
+
+      this.setState({
+        Cvalue:'',
+        Svalue:'',
+        lastSelectedCommon:null,
+        lastSelectedScientific:null,
+        recoId:null
+      })
+      this.refs[lang1].defaultValue="English";
+      this.refs[suggestIdComment1].value="";
+    }
   }
 
  getC_Suggestions (value,C_Callback)  {
@@ -191,11 +234,17 @@ class Formsuggest extends React.Component {
 
 
    getSuggestionValue_C (suggestion) {
+     console.log("testting",suggestion)
      if(suggestion.acceptedName !== null){
        this.setState({
-         Svalue:suggestion.acceptedName
+         Svalue:suggestion.acceptedName,
+         lastSelectedScientific:suggestion.acceptedName,
        })
      }
+     this.setState({
+       recoId:suggestion.recoId,
+       lastSelectedCommon:suggestion.value
+     })
      return suggestion.value
    }
 
@@ -219,6 +268,10 @@ class Formsuggest extends React.Component {
 
    getSuggestionValue_S (suggestion){
      //console.log("selected ^^^^^^^^^^^^^^^^^")
+     this.setState({
+       recoId:suggestion.recoId,
+       lastSelectedScientific:suggestion.value
+     })
      return suggestion.value
    }
 

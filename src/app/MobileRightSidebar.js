@@ -37,6 +37,7 @@ export default class Main extends React.Component {
     this.setState({open: false});
   }
   render() {
+    console.log("i called too");
     return (
       <div>
         <div>
