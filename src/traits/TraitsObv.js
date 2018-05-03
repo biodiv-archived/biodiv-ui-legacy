@@ -3,6 +3,7 @@ import axios from 'axios';
 import $ from 'jquery'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import moment from 'moment';
 
 import './TraitsObvStyle.css'
 
@@ -31,6 +32,10 @@ class Traits extends React.Component {
     this.pushTraitsRadioDefault = this.pushTraitsRadioDefault.bind(this);
     this.pushTraitsDateRange = this.pushTraitsDateRange.bind(this);
     this.updateMultipleColorSelection =  this.updateMultipleColorSelection.bind(this);
+    this.getFormattedValue = this.getFormattedValue.bind(this);
+    this.clearData = this.clearData.bind(this);
+
+    this.child =  React.createRef()
 }
 
    getTraits(id,sGroup){
@@ -146,84 +151,128 @@ pushTraitsCheckboxDefault(traitId,value){
 
 submitTraits(id1,id2,traitType,dataType){
   var proceed = true;
-  document.body.style.cursor = "wait";
-  this.setState({
-    loading:true
-  })
+
+  console.log("traitType",traitType,"dataType",dataType)
   var x = this.traitIdMap.get(id1);
-  var arr=[]
-  if(x.size>0){
 
-    x.forEach(function(value){
-      arr=arr.concat(value)
+  if(dataType==='DATE'){
+    if(!this.traitIdMap.has(id1)){
+      proceed = false;
+      alert("Please select date");
+    }
+  }
+
+  if(dataType==='COLOR'){
+    if(!this.traitIdMap.has(id1)){
+      proceed = false;
+      alert("Please select a color");
+    }
+  }
+
+
+
+  if(proceed===true){
+
+    document.body.style.cursor = "wait";
+    this.setState({
+      loading:true
     })
-    var list=arr.toString()
+    //console.log("hdhhfdhf",x)
+    //console.log("size ",x.size,x.length,x)
+    var arr=[]
+    if(x.size>0 || x.length>0){
 
-    var list1=id1+":"+list+";"
-  }else{
-    var list1=arr.toString()
-  }
+      switch(dataType){
 
-  var options={
-    method: 'POST',
-    url :   Config.api.ROOT_URL+"/fact/update",
-    params:{
-      traits:list1,
-      traitId:id1,
-      objectId:id2,
-      objectType:"species.participation.Observation"
-    },
-    headers : AuthUtils.getAuthHeaders(),
-    json: 'true'
-  }
-
-  // if(traitType === 'RANGE' && dataType === 'NUMERIC'){
-  //   if(this.state.numericTraitMinMax.get(id1)){
-  //     let min = this.state.numericTraitMinMax.get(id1).get("min")
-  //     let max = this.state.numericTraitMinMax.get(id1).get("max")
-  //
-  //     if(arr[0] < min || arr[0] > max){
-  //       proceed = false;
-  //       alert("Input value must lie between "+min+" and "+max)
-  //       document.body.style.cursor = "default";
-  //       this.setState({
-  //         loading:false
-  //       })
-  //     }
-  //   }
-  // }
-  if(proceed === true){
-
-    //this.myMap.clear()
-    this.traitIdMap.delete(id1);
-    //console.log(this.traitIdMap)
-    //console.log(options)
-    this.hide(id2,id1);
-    axios(options)
-          .then((response)=>{
-            //console.log("traitpost",response)
-            document.body.style.cursor = "default";
-            this.setState({
-              loading:false
+        case 'DATE':
+            x.forEach(function(value){
+              arr=arr.concat(value)
             })
-            if(response.status === 200){
-              this.getTraits(this.props.id,this.props.sGroup)
+           var list = arr[0]+":"+arr[1];
+           break;
+
+        case 'COLOR':
+            for (var key in x){
+              //console.log(key,x[key])
+              arr=arr.concat(x[key].id)
             }
-          })
-          .catch((error)=>{
-            document.body.style.cursor = "default";
-            this.setState({
-              loading:false
+            var list=arr.toString()
+            break;
+
+        default:
+            x.forEach(function(value){
+              arr=arr.concat(value)
             })
-            if(error.response.status === 401){
+            var list=arr.toString()
+      }
+
+      var list1=id1+":"+list+";"
+    }else{
+      var list1=arr.toString()
+    }
+
+    var options={
+      method: 'POST',
+      url :   Config.api.ROOT_URL+"/fact/update",
+      params:{
+        traits:list1,
+        traitId:id1,
+        objectId:id2,
+        objectType:"species.participation.Observation"
+      },
+      headers : AuthUtils.getAuthHeaders(),
+      json: 'true'
+    }
+
+    // if(traitType === 'RANGE' && dataType === 'NUMERIC'){
+    //   if(this.state.numericTraitMinMax.get(id1)){
+    //     let min = this.state.numericTraitMinMax.get(id1).get("min")
+    //     let max = this.state.numericTraitMinMax.get(id1).get("max")
+    //
+    //     if(arr[0] < min || arr[0] > max){
+    //       proceed = false;
+    //       alert("Input value must lie between "+min+" and "+max)
+    //       document.body.style.cursor = "default";
+    //       this.setState({
+    //         loading:false
+    //       })
+    //     }
+    //   }
+    // }
+
+
+      //this.myMap.clear()
+      //this.traitIdMap.delete(id1);
+      this.clearData(dataType,id1)
+      //console.log(this.traitIdMap)
+      //console.log(options)
+      this.hide(id2,id1);
+      axios(options)
+            .then((response)=>{
+              //console.log("traitpost",response)
+              document.body.style.cursor = "default";
               this.setState({
-              login_modal:!(this.state.login_modal),
-              options:options
+                loading:false
+              })
+              if(response.status === 200){
+                this.getTraits(this.props.id,this.props.sGroup)
+              }
             })
-          }else{
-            console.log(error)
-          }
-          })
+            .catch((error)=>{
+              document.body.style.cursor = "default";
+              this.setState({
+                loading:false
+              })
+              if(error.response.status === 401){
+                this.setState({
+                login_modal:!(this.state.login_modal),
+                options:options
+              })
+            }else{
+              console.log(error)
+            }
+            })
+
   }
 
   }
@@ -312,7 +361,71 @@ submitTraits(id1,id2,traitType,dataType){
     this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
   }
 
+ getFormattedValue(value,dataType,traitType,units){
+    if(value.length ===0) return;
+    var ret;
+    switch(dataType){
+      case 'DATE':
+        var a = value[0].split(";")
+        //console.log("splitted",a)
+        //console.log("tretst",a[0],a[1])
+        if(units === 'MONTH'){
+          var fromDate = moment(a[0],"DD-MM-YYYY").format('MMM')
 
+          var toDate =  moment(a[1],"DD-MM-YYYY").format('MMM')
+        }else{
+          var fromDate = moment(a[0],"DD-MM-YYYY").format('MMM DD')
+
+          var toDate =  moment(a[1],"DD-MM-YYYY").format('MMM DD')
+        }
+
+        //console.log(fromDate,toDate)
+        ret = fromDate + " - "+toDate
+        break;
+
+      case 'COLOR':
+          ret =
+
+            value.map((item,index)=>{
+              return(
+                <div className="color_chip_value" title={item} key={index} style={{backgroundColor:item}} >
+                </div>
+              )
+            })
+
+        break;
+
+      case 'NUMERIC':
+        var a = value[0].split(":")
+        if(a[0] === a[1]){
+          ret = a[0];
+        }else{
+          ret = value[0];
+        }
+        break;
+    }
+    return ret;
+ }
+
+ clearData(dataType,traitId){
+
+   if(this.traitIdMap.has(traitId)){
+     this.traitIdMap.delete(traitId)
+   }
+
+   switch(dataType){
+
+     case 'NUMERIC':
+        var rangeNumeric1 = "rangeNumeric"+traitId+this.props.id;
+        this.refs[rangeNumeric1].value='';
+        break;
+
+     case 'COLOR':
+        this.child.current.clearData();
+        //console.log(this.child)
+        break;
+   }
+ }
 
 
   render(){
@@ -342,22 +455,30 @@ submitTraits(id1,id2,traitType,dataType){
                                   {
                                      this.state.response.factInstance.hasOwnProperty(item.id)?
                                      ( <div className="row" style={{width:'100%'}}>{
-                                       this.state.response.factInstance[item.id].map((it,index)=>{
-                                         if(this.fact.get(item.id)){
-                                           this.fact.get(item.id).push(it.value)
-                                         }else{
-                                           this.fact.set(item.id,[it.value])
-                                         }
-                                       return(  <button key={index} title={it.description} type="button"  className="btn  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
-                                                <div className="snippet tablet">
-                                                <div className="figure pull-left">
-                                                <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
-                                                </div>
-                                                <span>{it.value}</span>
-                                                </div>
-                                                </button>
-                                              )
-                                       })}
+                                       ( item.dataTypes.name === 'DATE' || item.dataTypes.name === 'COLOR' || item.dataTypes.name === 'NUMERIC')?
+                                       (
+                                         <span style={{marginLeft:'0.5%'}}>{this.getFormattedValue(this.state.response.factInstance[item.id],item.dataTypes.name,item.traitTypes.name,item.units)}</span>
+                                       ):
+                                       (
+                                         this.state.response.factInstance[item.id].map((it,index)=>{
+                                           if(this.fact.get(item.id)){
+                                             this.fact.get(item.id).push(it.value)
+                                           }else{
+                                             this.fact.set(item.id,[it.value])
+                                           }
+                                         return(  <button key={index} title={it.description} type="button"  className="btn  btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
+                                                  <div className="snippet tablet">
+                                                  <div className="figure pull-left">
+                                                  <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
+                                                  </div>
+                                                  <span>{it.value}</span>
+                                                  </div>
+                                                  </button>
+                                                )
+                                         })
+                                       )
+
+                                     }
                                        </div>
                                      )
                                      :null
@@ -368,7 +489,7 @@ submitTraits(id1,id2,traitType,dataType){
                                         (
                                            item.dataTypes.name==='COLOR'?
                                            (
-                                             <ColorTrait traitId={item.id} traitCategory={item.traitTypes.name} updateMultipleColorSelection={this.updateMultipleColorSelection}/>
+                                             <ColorTrait ref={this.child} traitId={item.id} traitCategory={item.traitTypes.name} updateMultipleColorSelection={this.updateMultipleColorSelection}/>
                                            ):
                                            (
                                              <div className="btn-group row" data-toggle="buttons" style={{width:'100%'}}>
@@ -509,22 +630,30 @@ submitTraits(id1,id2,traitType,dataType){
                                              {
                                                 this.state.response.factInstance.hasOwnProperty(item.id)?
                                                 ( <div className="row" style={{width:'100%'}}>{
-                                                  this.state.response.factInstance[item.id].map((it,index)=>{
-                                                    if(this.fact.get(item.id)){
-                                                      this.fact.get(item.id).push(it.value)
-                                                    }else{
-                                                      this.fact.set(item.id,[it.value])
-                                                    }
-                                                  return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts"  >
-                                                           <div className="snippet tablet">
-                                                           <div className="figure pull-left">
-                                                           <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
-                                                           </div>
-                                                           <span>{it.value}</span>
-                                                           </div>
-                                                           </button>
-                                                         )
-                                                  })}
+                                                  ( item.dataTypes.name === 'DATE' || item.dataTypes.name === 'COLOR' || item.dataTypes.name === 'NUMERIC')?
+                                                  (
+                                                    <span style={{marginLeft:'0.5%'}}>{this.getFormattedValue(this.state.response.factInstance[item.id],item.dataTypes.name,item.traitTypes.name,item.units)}</span>
+                                                  ):
+                                                  (
+                                                    this.state.response.factInstance[item.id].map((it,index)=>{
+                                                      if(this.fact.get(item.id)){
+                                                        this.fact.get(item.id).push(it.value)
+                                                      }else{
+                                                        this.fact.set(item.id,[it.value])
+                                                      }
+                                                    return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts"  >
+                                                             <div className="snippet tablet">
+                                                             <div className="figure pull-left">
+                                                             <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
+                                                             </div>
+                                                             <span>{it.value}</span>
+                                                             </div>
+                                                             </button>
+                                                           )
+                                                    })
+                                                  )
+
+                                                }
                                                   </div>
                                                 )
                                                 :null
@@ -535,7 +664,7 @@ submitTraits(id1,id2,traitType,dataType){
                                                   (
                                                     item.dataTypes.name==='COLOR'?
                                                     (
-                                                      <ColorTrait traitId={item.id} traitCategory={item.traitTypes.name} updateMultipleColorSelection={this.updateMultipleColorSelection}/>
+                                                      <ColorTrait ref={this.child} traitId={item.id} traitCategory={item.traitTypes.name} updateMultipleColorSelection={this.updateMultipleColorSelection}/>
                                                     ):
                                                     (
                                                       <div className="btn-group row" data-toggle="buttons" style={{width:'100%'}}>
@@ -669,22 +798,29 @@ submitTraits(id1,id2,traitType,dataType){
                                                 {
                                                    this.state.response.factInstance.hasOwnProperty(item.id)?
                                                    ( <div className="row" style={{width:'100%'}}>{
-                                                     this.state.response.factInstance[item.id].map((it,index)=>{
-                                                       if(this.fact.get(item.id)){
-                                                         this.fact.get(item.id).push(it.value)
-                                                       }else{
-                                                         this.fact.set(item.id,[it.value])
-                                                       }
-                                                     return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
-                                                              <div className="snippet tablet">
-                                                              <div className="figure pull-left">
-                                                              <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
-                                                              </div>
-                                                              <span>{it.value}</span>
-                                                              </div>
-                                                              </button>
-                                                            )
-                                                     })}
+                                                     ( item.dataTypes.name === 'DATE' || item.dataTypes.name === 'COLOR' || item.dataTypes.name === 'NUMERIC')?
+                                                     (
+                                                       <span style={{marginLeft:'0.5%'}}>{this.getFormattedValue(this.state.response.factInstance[item.id],item.dataTypes.name,item.traitTypes.name,item.units)}</span>
+                                                     ):
+                                                     (
+                                                       this.state.response.factInstance[item.id].map((it,index)=>{
+                                                         if(this.fact.get(item.id)){
+                                                           this.fact.get(item.id).push(it.value)
+                                                         }else{
+                                                           this.fact.set(item.id,[it.value])
+                                                         }
+                                                       return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
+                                                                <div className="snippet tablet">
+                                                                <div className="figure pull-left">
+                                                                <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
+                                                                </div>
+                                                                <span>{it.value}</span>
+                                                                </div>
+                                                                </button>
+                                                              )
+                                                       })
+                                                     )
+                                                   }
                                                      </div>
                                                    )
                                                    :null
@@ -695,7 +831,7 @@ submitTraits(id1,id2,traitType,dataType){
                                                      (
                                                        item.dataTypes.name==='COLOR'?
                                                        (
-                                                         <ColorTrait traitId={item.id} traitCategory={item.traitTypes.name} updateMultipleColorSelection={this.updateMultipleColorSelection}/>
+                                                         <ColorTrait ref={this.child} traitId={item.id} traitCategory={item.traitTypes.name} updateMultipleColorSelection={this.updateMultipleColorSelection}/>
                                                        ):
                                                        (
                                                          <div className="btn-group row" data-toggle="buttons" style={{width:'100%'}}>
@@ -835,22 +971,29 @@ submitTraits(id1,id2,traitType,dataType){
                                             {
                                                this.state.response.factInstance.hasOwnProperty(item.id)?
                                                ( <div className="row" style={{width:'100%'}}>{
-                                                 this.state.response.factInstance[item.id].map((it,index)=>{
-                                                   if(this.fact.get(item.id)){
-                                                     this.fact.get(item.id).push(it.value)
-                                                   }else{
-                                                     this.fact.set(item.id,[it.value])
-                                                   }
-                                                 return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
-                                                          <div className="snippet tablet">
-                                                          <div className="figure pull-left">
-                                                          <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
-                                                          </div>
-                                                          <span>{it.value}</span>
-                                                          </div>
-                                                          </button>
-                                                        )
-                                                 })}
+                                                 ( item.dataTypes.name === 'DATE' || item.dataTypes.name === 'COLOR' || item.dataTypes.name === 'NUMERIC')?
+                                                 (
+                                                   <span style={{marginLeft:'0.5%'}}>{this.getFormattedValue(this.state.response.factInstance[item.id],item.dataTypes.name,item.traitTypes.name,item.units)}</span>
+                                                 ):
+                                                 (
+                                                   this.state.response.factInstance[item.id].map((it,index)=>{
+                                                     if(this.fact.get(item.id)){
+                                                       this.fact.get(item.id).push(it.value)
+                                                     }else{
+                                                       this.fact.set(item.id,[it.value])
+                                                     }
+                                                   return(  <button key={index} title={it.description} type="button" className="btn   btn-round-xs btn-xs col-sm-4 col-xs-12 col-md-2 traitBtn Values" data-toggle="button" aria-pressed="false" id="trait_facts" >
+                                                            <div className="snippet tablet">
+                                                            <div className="figure pull-left">
+                                                            <img src={Config.api.ROOT_URL+"/biodiv/traits/"+it.icon} width='20px' height='20px'/>
+                                                            </div>
+                                                            <span>{it.value}</span>
+                                                            </div>
+                                                            </button>
+                                                          )
+                                                   })
+                                                 )
+                                               }
                                                  </div>
                                                )
                                                :null

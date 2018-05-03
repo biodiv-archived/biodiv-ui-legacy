@@ -81,7 +81,7 @@ resetDate(){
       this.setState({
         date: date,
       });
-      this.props.pushCustomFieldDateInput(this.props.cfId,this.state.date)
+      this.props.pushCustomFieldDateInput(this.props.cfId,moment(this.state.date).format('YYYY-MM-DD hh.mm.ss.s'))
     // }
   }
 

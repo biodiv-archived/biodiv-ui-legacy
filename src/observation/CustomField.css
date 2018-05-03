@@ -4,3 +4,22 @@
   overflow-x: scroll;
   overflow-y: scroll;
 }
+
+.colla{
+  height:auto;
+  display:block!important;
+  max-height:50px!important;
+  overflow: hidden!important;
+}
+
+.min_colla{
+  min-height: 50px!important;
+}
+
+.fa.fa-angle-double-down{
+  font-size: 30px;
+}
+
+.fa.fa-angle-double-up{
+  font-size: 30px;
+}

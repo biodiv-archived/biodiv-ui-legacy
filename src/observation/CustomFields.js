@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import Moment from 'react-moment'
 
 import { Config } from '../Config';
 import ModalPopup from '../auth/Modal.js';
@@ -28,6 +29,7 @@ class CustomFields extends React.Component {
     this.pushCustomFieldDateInput=this.pushCustomFieldDateInput.bind(this)
     this.convertToDecimal=this.convertToDecimal.bind(this)
     this.clearData=this.clearData.bind(this)
+    this.getFormattedValue=this.getFormattedValue.bind(this)
     this.getCustomFields(this.props.id)
 
   }
@@ -90,6 +92,13 @@ class CustomFields extends React.Component {
       }
     }
 
+    if(dataType==='DATE'){
+      if(!this.customFieldMap.has(cfId)){
+        proceed = false;
+        alert("Please select a date")
+      }
+    }
+
     if(proceed === true){
 
       document.body.style.cursor = "wait";
@@ -132,17 +141,40 @@ class CustomFields extends React.Component {
               value=this.customFieldMap.get(cfId).toString()
       }
 
-      var options={
-        method:'POST',
-        url :    Config.api.API_ROOT_URL+"/observation/updateCustomField",
-        params:{
-          fieldValue:value,
-          cfId:cfId,
-          obvId:this.props.id
-        },
-        headers : AuthUtils.getAuthHeaders(),
-        json: 'true'
+
+      var loggedInUserId=null;
+      if(AuthUtils.getLoggedInUser() !== null){
+        loggedInUserId = AuthUtils.getLoggedInUser().id;
       }
+      if(loggedInUserId !== null){
+        var options={
+          method:'POST',
+          url :    Config.api.API_ROOT_URL+"/observation/updateCustomField",
+          params:{
+            fieldValue:value,
+            cfId:cfId,
+            obvId:this.props.id,
+            loggedInUserId:loggedInUserId,
+            isAdmin:AuthUtils.isAdmin(),
+          },
+          headers : AuthUtils.getAuthHeaders(),
+          json: 'true'
+        }
+      }else{
+        var options={
+          method:'POST',
+          url :    Config.api.API_ROOT_URL+"/observation/updateCustomField",
+          params:{
+            fieldValue:value,
+            cfId:cfId,
+            obvId:this.props.id,
+            isAdmin:AuthUtils.isAdmin(),
+          },
+          headers : AuthUtils.getAuthHeaders(),
+          json: 'true'
+        }
+      }
+
 
       if(value!=="" && value !==null && value!==undefined)
       {
@@ -325,11 +357,49 @@ class CustomFields extends React.Component {
     //console.log("customFieldMapDatepush",this.customFieldMap)
   }
 
+  getFormattedValue(value,dataType){
+
+    switch(dataType){
+
+      case 'DATE':
+        value = <Moment format="DD-MM-YYYY" fromNow>{new Date(value)}</Moment>
+        break;
+
+      case 'DECIMAL':
+        value = this.convertToDecimal(value)
+        break;
+    }
+
+    return value;
+  }
+
+  expandHeight(){
+    if(  document.getElementById('demo'+this.props.id).classList.contains('colla')){
+      document.getElementById('demo'+this.props.id).classList.remove('colla')
+      //document.getElementById('demo'+this.props.id).classList.add('in')
+    }else{
+      //document.getElementById('demo'+this.props.id).classList.remove('in')
+      document.getElementById('demo'+this.props.id).classList.add('colla')
+      if( !document.getElementById('demo'+this.props.id).classList.contains('min_colla')){
+        document.getElementById('demo'+this.props.id).classList.add('min_colla')
+      }
+    }
+    if(  document.getElementById('downBtn'+this.props.id).classList.contains('fa-angle-double-up')){
+      document.getElementById('downBtn'+this.props.id).classList.remove('fa-angle-double-up')
+      document.getElementById('downBtn'+this.props.id).classList.add('fa-angle-double-down')
+    }else{
+      document.getElementById('downBtn'+this.props.id).classList.remove('fa-angle-double-down')
+      document.getElementById('downBtn'+this.props.id).classList.add('fa-angle-double-up')
+    }
+
+  }
+
   render(){
 
       return(
-        <div className="pre-scrollable">
+        <div >
         {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getCustomFields} id={this.props.id} />):null}
+          <div id={"demo"+this.props.id} className="collapse colla" style={{marginBottom:'0px'}}>
         {  this.state.response?(
           this.state.response.length>0?
           (
@@ -340,7 +410,7 @@ class CustomFields extends React.Component {
                     <div className="col-sm-7">
                         <div className="cfValue" ref={"cfvalue"+item.key + this.props.id} style={{display:'block'}}>
 
-                                <span style={{color:'#4322D8'}}>{item.value?item.value:item.defaultValue}</span>
+                                <span >{item.value?this.getFormattedValue(item.value,item.dataType):this.getFormattedValue(item.defaultValue,item.dataType)}</span>
 
                         </div>
                         <div className="cfInlineEdit" ref={"box"+item.key + this.props.id} style={{display:'none'}}>
@@ -442,14 +512,14 @@ class CustomFields extends React.Component {
                     </div>
                     <div className="col-sm-2">
                           {
-                            (item.allowedParticipation===true)?
+                            (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
                             (
                               <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id,item.options,item.dataType)} style={{display:'none',width:'100px'}} disabled={this.state.loading}>Submit</div>
                             ):null
                           }
                           {
 
-                            (item.allowedParticipation===true)?
+                            (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
                             (
                             <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id)} style={{display:'block',width:'100px'}} disabled={this.state.loading}>Edit</div>
                           ):null
@@ -463,6 +533,12 @@ class CustomFields extends React.Component {
             <h5 style={{color:'red',marginLeft:'5%',marginBottom:'0.2%'}}>No custom fields for this observation</h5>
           )
         ):null
+        }
+        </div>
+        {
+          this.state.response && this.state.response.length>0?(
+            <center style={{marginBottom:'-20px'}}><span id={"downBtn"+this.props.id} className="fa fa-angle-double-down" onClick={this.expandHeight.bind(this)} data-toggle="collapse" data-target={"#demo"+this.props.id}></span></center>
+          ):null
         }
         </div>
       )

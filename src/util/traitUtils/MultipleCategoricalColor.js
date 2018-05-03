@@ -7,10 +7,11 @@ class ColorTrait extends React.Component {
     super();
     this.state = {
       background: '#fff',
-      color:null,
+      color:'#fff',
       selectedColor:[],
     };
     this.handleChangeComplete=this.handleChangeComplete.bind(this)
+    this.clearData=this.clearData.bind(this)
   }
 
 
@@ -66,6 +67,14 @@ class ColorTrait extends React.Component {
     })
     this.props.updateMultipleColorSelection(this.props.traitId,a)
     //console.log(index)
+  }
+
+  clearData(){
+    this.setState({
+      selectedColor:[],
+      color:"#fff",
+      background:"#fff"
+    })
   }
 
   render() {
