@@ -45,9 +45,6 @@ class ObservationListContainer extends Component {
 
       this.state={
         params:{
-          count:0,
-          offset:0,
-          max:10,
           sort:"lastrevised",
           minDate:undefined,
           maxDate:undefined,
@@ -76,10 +73,10 @@ class ObservationListContainer extends Component {
     };
 
     GlobalCall(params){
-          this.setState({
-              params
-          })
+
           params=clean(params);
+          params["offset"]=0;
+          params["count"]=0;
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           history.push({
@@ -93,6 +90,7 @@ class ObservationListContainer extends Component {
           let url1="/observation/observation?"+search1;
           this.props.fetchFilterCount(url1);
           this.setState({
+            params:params,
             urlforPassing:url,
             openModal:false
           })
@@ -105,6 +103,7 @@ class ObservationListContainer extends Component {
             let params=this.state.params;
             params.classification=e.detail.classification;
             params.taxon=e.detail.taxon.join(",");
+            console.log(params);
             this.GlobalCall(params);
             this.props.ClearObservationPage();
       }
@@ -193,7 +192,17 @@ class ObservationListContainer extends Component {
 
         }
       });
-
+      this.GlobalCall(params);
+    }
+    customFieldsEventListner(e){
+      let params=this.state.params;
+      console.log("params from custom",params);
+      this.props.ClearObservationPage();
+      e.detail.customFieldMap.forEach((value, key, map)=>{
+        if(value.constructor === Array){
+          params["custom_"+key]=value.join(",");
+        }
+      });
       this.GlobalCall(params);
     }
 
@@ -208,6 +217,7 @@ class ObservationListContainer extends Component {
 
         let {groupName}=this.props.match.params;
         let newparams=  queryString.parse(document.location.search);
+
         if(groupName){
             UserGroupName.list().then(data=>{
               let group=data.find((item)=>{
@@ -217,9 +227,7 @@ class ObservationListContainer extends Component {
               if(!newparams.sort){
                 newparams.sort="lastrevised"
               }
-              if(!newparams.max){
-                newparams.max=10;
-              }
+
               if(!newparams.offset){
                 newparams.offset=0
               }
@@ -247,6 +255,7 @@ class ObservationListContainer extends Component {
             urlforPassing:url,
             openModal:false
           })
+          console.log("andar aayeaaye................");
           this.props.fetchObservations(newparams);
           this.props.fetchFilterCount(url1);
 
@@ -273,9 +282,7 @@ class ObservationListContainer extends Component {
           if(!newparams.sort){
             newparams.sort="lastrevised"
           }
-          if(!newparams.max){
-            newparams.max=10;
-          }
+
           if(!newparams.offset){
             newparams.offset=0
           }
@@ -294,8 +301,8 @@ class ObservationListContainer extends Component {
             pathname:this.props.location.pathname,
             search:search2
           })
-          console.log(newparams);
 
+          console.log(newparams);
           this.props.fetchObservations(newparams);
           this.props.fetchFilterCount(url1);
           this.setState({
@@ -344,6 +351,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
+        document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+
 
       }
       componentWillUnmount(){
@@ -358,6 +367,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
+        document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+
         this.props.ClearObservationPage();
       }
 
@@ -418,7 +429,8 @@ class ObservationListContainer extends Component {
 
         fetchRecos(){
             var allObvs = this.props.Observation.all
-            var lastTenObvs = allObvs.slice(allObvs.length-10)
+
+            var lastTenObvs = allObvs.slice(allObvs.length<11?0:allObvs.length-10)
 
               var obvIds = []
               lastTenObvs.map((item,index)=>{

@@ -13,11 +13,20 @@ class Range extends Component{
     };
   this.onChangeValue=this.onChangeValue.bind(this)
   }
-  setParameter(traitId){
+
+
+  onChangeValue(value){
+    let minMax=[];
+    minMax[0]=this.state.value.min;
+    minMax[1]=this.state.value.max;
+     this.props.passToCustomFieldValues("range",this.props.customFieldId,minMax);
+
+  }
+  setParameter(customFieldId){
     let newparams = queryString.parse(document.location.search);
-    let traitName="trait_"+traitId+".range";
+    let customName="custom_"+customFieldId+".range";
     Object.keys(newparams).forEach((key)=> {
-      if(key===traitName){
+  if(key.includes("custom_"+customFieldId+".range")){
         let min=parseInt(newparams[key].split(",")[0]);
         let max=parseInt(newparams[key].split(",")[1]);
         let value={
@@ -32,18 +41,12 @@ class Range extends Component{
     });
   }
 
-componentDidMount(){
-  let traitId=this.props.traitId;
-  this.setParameter(traitId);
-}
+  componentDidMount(){
+  let customFieldId=this.props.customFieldId;
+  this.setParameter(customFieldId);
+  }
 
 
-onChangeValue(){
-  let minMax=[];
-  minMax[0]=this.state.value.min;
-  minMax[1]=this.state.value.max;
-  this.props.passToTraitValues("range",this.props.traitId,minMax);
-}
   render() {
     return (
       <InputRange
