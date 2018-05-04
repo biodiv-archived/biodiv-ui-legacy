@@ -413,7 +413,7 @@ class CustomFields extends React.Component {
                     <div className="col-sm-7">
                         <div className="cfValue" ref={"cfvalue"+item.key + this.props.id} style={{display:'block'}}>
 
-                                <span >{item.value?this.getFormattedValue(item.value,item.dataType):this.getFormattedValue(item.defaultValue,item.dataType)}</span>
+                                <span >{item.value?this.getFormattedValue(item.value,item.dataType):null}</span>
 
                         </div>
                         <div className="cfInlineEdit" ref={"box"+item.key + this.props.id} style={{display:'none'}}>
