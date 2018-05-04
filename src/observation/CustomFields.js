@@ -61,13 +61,16 @@ class CustomFields extends React.Component {
 
   convertToDecimal(value){
     var val = Number(value);
-    //console.log("decimal value",value)
-    var valueString = value.toString();
-    var res = valueString.split(".");
+    if(value !== null){
 
-    if(res.length == 1 || res[1].length < 3) {
+      //console.log("decimal value",value)
+      var valueString = value.toString();
+      var res = valueString.split(".");
 
-        val = val.toFixed(2);
+      if(res.length == 1 || res[1].length < 3) {
+
+          val = val.toFixed(2);
+      }
     }
   return val;
   }
