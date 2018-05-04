@@ -1,0 +1,18 @@
+.color_chip{
+  display: inline-block;
+  height: 25px;
+  width:25px;
+  font-size: 12px;
+  background-color:#d3dcd0;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-top:10px;
+  box-shadow: 1px 1px grey;
+}
+.glyphicon.glyphicon-arrow-right{
+  font-size:35px;
+}
+
+.fa.fa-angle-double-right{
+    font-size:35px;
+}

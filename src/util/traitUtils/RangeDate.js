@@ -3,8 +3,6 @@ import DatePicker from 'material-ui/DatePicker';
 import moment from 'moment';
 
 const optionsStyle = {
-  maxWidth: 255,
-  marginRight: 'auto',
 };
 
 /**
@@ -17,18 +15,21 @@ export default class DatePickerExampleToggle extends React.Component {
     super(props);
 
 
-    minDate.setFullYear(1800);
+    minDate.setFullYear(1900);
     minDate.setMonth(0);
     minDate.setDate(1);
     minDate.setHours(0, 0, 0, 0);
-    maxDate.setFullYear(maxDate.getFullYear());
-    maxDate.setHours(0, 0, 0, 0);
+    maxDate.setFullYear(1900);
+    maxDate.setMonth(11);
+    maxDate.setDate(31);
+
 
     this.state = {
       minDate: minDate,
       maxDate: maxDate,
       autoOk: true,
-      disableYearSelection: false,
+      disableYearSelection: this.props.units==="month"?true:false,
+      hideCalendarDate:true
     };
 
     this.handleChangeMinDate = this.handleChangeMinDate.bind(this);
@@ -39,69 +40,68 @@ export default class DatePickerExampleToggle extends React.Component {
 
     let endDate=this.state.maxDate;
     let startDate=date;
-    if(startDate>endDate){
-      alert("Start date should be before the End date")
-    }
-    else{
-      var event = new CustomEvent("year-filter", {
-          "detail": {
-            maxDate: encodeURIComponent(endDate),
-            minDate:encodeURIComponent(startDate)
-          }
-        });
-        document.dispatchEvent(event);
+    // if(startDate>endDate){
+    //   alert("Start date should be before the End date")
+    // }
+    // else{
         this.setState({
           minDate: date,
         })
-    }
+        this.props.pushTraitsDateRange(this.props.traitId,moment(this.state.minDate).format('YYYY-MM-DD'),moment(this.state.maxDate).format('YYYY-MM-DD'))
+    // }
   };
   handleChangeMaxDate (event, date)  {
     let endDate=date;
     let startDate=this.state.minDate;
 
-    if(startDate>endDate){
-      alert("Start date should be before the End date")
-    }
-    else{
-      var event = new CustomEvent("year-filter", {
-          "detail": {
-            maxDate: encodeURIComponent(endDate),
-            minDate:encodeURIComponent(startDate)
-          }
-        });
-        document.dispatchEvent(event);
+    // if(startDate>endDate){
+    //   alert("Start date should be before the End date")
+    // }
+    // else{
       this.setState({
         maxDate: date,
       });
-    }
+      this.props.pushTraitsDateRange(this.props.traitId,moment(this.state.minDate).format('YYYY-MM-DD'),moment(this.state.maxDate).format('YYYY-MM-DD'))
+    // }
   }
 
-
+  shouldDisableDate(date){
+    return date.getFullYear()>minDate.getFullYear() || date.getFullYear()<minDate.getFullYear()
+  }
 
   render() {
     return (
       <div>
-        <div style={optionsStyle}>
+        <div className="row" style={optionsStyle}>
+          <div className="col-sm-6">
           <DatePicker
             onChange={this.handleChangeMinDate}
             autoOk={this.state.autoOk}
-            floatingLabelText="Min Date"
+            floatingLabelText="From Date"
             defaultDate={this.state.minDate}
             minDate={minDate}
             maxDate={maxDate}
             disableYearSelection={this.state.disableYearSelection}
-            formatDate={(date) => moment(date).format('DD-MM-YYYY')}
+            formatDate={(date) => moment(date).format('MMM DD')}
+            hideCalendarDate={this.state.hideCalendarDate}
+
           />
+          </div>
+          <div className="col-sm-6">
+
           <DatePicker
             onChange={this.handleChangeMaxDate}
             autoOk={this.state.autoOk}
-            floatingLabelText="Max Date"
+            floatingLabelText="To Date"
             defaultDate={this.state.maxDate}
             minDate={minDate}
             maxDate={maxDate}
             disableYearSelection={this.state.disableYearSelection}
-            formatDate={(date) => moment(date).format('DD-MM-YYYY')}
+            formatDate={(date) => moment(date).format('MMM DD')}
+            hideCalendarDate={this.state.hideCalendarDate}
           />
+
+          </div>
         </div>
       </div>
     );
