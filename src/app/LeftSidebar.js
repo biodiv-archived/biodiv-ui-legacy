@@ -114,9 +114,12 @@ openFilter(){
    if(newparams.validate){
        validateOpen=true
    }
-   if(newparams.customFieldsOpen){
-     customFieldsOpen=true
-   }
+   Object.keys(newparams).forEach((key) =>{
+     if(key.includes("custom")){
+       customFieldsOpen=true
+     }
+   });
+
 
    Object.keys(newparams).forEach((key) =>{
      if(key.includes("trait")){
@@ -201,15 +204,24 @@ render(){
 
     }
 
-      let increase=true;
+      let increaseTraits=true;
     Object.keys(urlObject).forEach((key)=> {
       if(key.includes("trait")){
-        if(increase){
+        if(increaseTraits){
           this.length++;
-          increase=false;
+          increaseTraits=false;
         }
       }
     });
+    let increaseCustom=true;
+  Object.keys(urlObject).forEach((key)=> {
+    if(key.includes("custom")){
+      if(increaseCustom){
+        this.length++;
+        increaseCustom=false;
+      }
+    }
+  });
 
   }
 

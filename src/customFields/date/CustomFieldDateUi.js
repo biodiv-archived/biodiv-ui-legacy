@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'material-ui/DatePicker';
 import moment from 'moment';
+import queryString from 'query-string';
 
 const optionsStyle = {
   maxWidth: 255,
@@ -27,6 +28,7 @@ export default class CustomFieldDateUi extends React.Component {
       maxDate: maxDate,
       autoOk: true,
       disableYearSelection: false,
+      CustomFieldsValues:[]
     };
 
     this.handleChangeMinDate = this.handleChangeMinDate.bind(this);
@@ -34,28 +36,61 @@ export default class CustomFieldDateUi extends React.Component {
   }
 
   handleChangeMinDate (event, date)  {
+    let CustomFieldsValues=this.state.CustomFieldsValues;
+    let customFieldId=this.props.customFieldId;
 
-    let endDate=this.state.maxDate;
-    let startDate=date;
+    let endDate=this.state.maxDate.toISOString();;
+    let startDate=date.toISOString();;
     if(startDate>endDate){
       alert("Start date should be before the End date")
     }
     else{
-      //Calll the filter from here
+      CustomFieldsValues[0]=startDate;
+      CustomFieldsValues[1]=endDate;
+      this.props.passToCustomFieldValues("date",customFieldId,CustomFieldsValues);
     }
   };
   handleChangeMaxDate (event, date)  {
-    let endDate=date;
-    let startDate=this.state.minDate;
+    let customFieldId=this.props.customFieldId;
+      let CustomFieldsValues=this.state.CustomFieldsValues;
+    let endDate=date.toISOString();;
+    let startDate=this.state.minDate.toISOString();;
 
     if(startDate>endDate){
       alert("Start date should be before the End date")
     }
     else{
-      //Call the filter from here
+      CustomFieldsValues[0]=startDate;
+      CustomFieldsValues[1]=endDate;
+      this.props.passToCustomFieldValues("date",customFieldId,CustomFieldsValues);
     }
 
   }
+  setParameter(customFieldId){
+    let newparams = queryString.parse(document.location.search);
+    let customName="custom_"+customFieldId+".range";
+    Object.keys(newparams).forEach((key)=> {
+  if(key.includes("custom_"+customFieldId+".range")){
+        let min=parseInt(newparams[key].split(",")[0]);
+        let max=parseInt(newparams[key].split(",")[1]);
+        let value={
+          min:min,
+          max:max
+        };
+        this.setState({
+          value:value
+        })
+      }
+
+    });
+  }
+
+  componentDidMount(){
+  let customFieldId=this.props.customFieldId;
+  this.setParameter(customFieldId);
+  }
+
+
 
 
 

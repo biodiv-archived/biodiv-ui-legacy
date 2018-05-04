@@ -16,10 +16,10 @@ constructor(){
 }
 callRespectiveUiForText(optionValues,groupId,customFieldId){
   if(optionValues.length>0){
-    return <CustomFieldDecSingleMultipleUi optionValues={optionValues} customFieldId={customFieldId} groupId={groupId} />
+    return <CustomFieldDecSingleMultipleUi passToCustomFieldValues={this.props.passToCustomFieldValues} optionValues={optionValues} customFieldId={customFieldId} groupId={groupId} />
   }
   else{
-    return <CustomFieldDecRangeUi  customFieldId={customFieldId} groupId={groupId} />
+    return <CustomFieldDecRangeUi passToCustomFieldValues={this.props.passToCustomFieldValues}  customFieldId={customFieldId} groupId={groupId} />
   }
 
 }

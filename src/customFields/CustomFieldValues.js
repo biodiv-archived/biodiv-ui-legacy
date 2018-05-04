@@ -14,21 +14,20 @@ constructor(){
   }
 }
 showCustomFieldOptions(groupId,customFieldId,dataType,allowedMultiple,options){
-  console.log(groupId,customFieldId,dataType,allowedMultiple,options);
   if(dataType=="DATE"){
-  return  <CustomFieldDateUi groupId={groupId} customFieldId={customFieldId} options={options} />
+  return  <CustomFieldDateUi passToCustomFieldValues={this.props.passToCustomFieldValues} groupId={groupId} customFieldId={customFieldId} options={options} />
   }
   if(dataType=='PARAGRAPH_TEXT'){
-    return <CustomFieldParaUi groupId={groupId} customFieldId={customFieldId} options={options} />
+    return <CustomFieldParaUi passToCustomFieldValues={this.props.passToCustomFieldValues} groupId={groupId} customFieldId={customFieldId} options={options} />
   }
   if(dataType=="TEXT"){
-  return  <CustomFieldTextUi groupId={groupId} customFieldId={customFieldId} options={options} />
+  return  <CustomFieldTextUi  passToCustomFieldValues={this.props.passToCustomFieldValues} groupId={groupId} customFieldId={customFieldId} options={options} />
   }
   if(dataType=="INTEGER"){
-  return  <CustomFieldIntUi groupId={groupId} customFieldId={customFieldId} options={options} />
+  return  <CustomFieldIntUi passToCustomFieldValues={this.props.passToCustomFieldValues} groupId={groupId} customFieldId={customFieldId} options={options} />
   }
   if(dataType=="DECIMAL"){
-    return  <CustomFieldDecUi groupId={groupId} customFieldId={customFieldId} options={options} />
+    return  <CustomFieldDecUi passToCustomFieldValues={this.props.passToCustomFieldValues} groupId={groupId} customFieldId={customFieldId} options={options} />
   }
 
 }

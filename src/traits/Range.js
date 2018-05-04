@@ -40,8 +40,8 @@ componentDidMount(){
 
 onChangeValue(){
   let minMax=[];
-  minMax.push(this.state.value.min);
-  minMax.push(this.state.value.max);
+  minMax[0]=this.state.value.min;
+  minMax[1]=this.state.value.max;
   this.props.passToTraitValues("range",this.props.traitId,minMax);
 }
   render() {

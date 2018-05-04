@@ -194,6 +194,17 @@ class ObservationListContainer extends Component {
       });
       this.GlobalCall(params);
     }
+    customFieldsEventListner(e){
+      let params=this.state.params;
+      console.log("params from custom",params);
+      this.props.ClearObservationPage();
+      e.detail.customFieldMap.forEach((value, key, map)=>{
+        if(value.constructor === Array){
+          params["custom_"+key]=value.join(",");
+        }
+      });
+      this.GlobalCall(params);
+    }
 
     sortObservation(sortby){
       this.props.ClearObservationPage();
@@ -206,7 +217,7 @@ class ObservationListContainer extends Component {
 
         let {groupName}=this.props.match.params;
         let newparams=  queryString.parse(document.location.search);
-        
+
         if(groupName){
             UserGroupName.list().then(data=>{
               let group=data.find((item)=>{
@@ -340,6 +351,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
+        document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+
 
       }
       componentWillUnmount(){
@@ -354,6 +367,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
+        document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+
         this.props.ClearObservationPage();
       }
 
@@ -414,7 +429,8 @@ class ObservationListContainer extends Component {
 
         fetchRecos(){
             var allObvs = this.props.Observation.all
-            var lastTenObvs = allObvs.slice(allObvs.length-10)
+
+            var lastTenObvs = allObvs.slice(allObvs.length<11?0:allObvs.length-10)
 
               var obvIds = []
               lastTenObvs.map((item,index)=>{
