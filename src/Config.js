@@ -18,7 +18,7 @@ API_ROOT_URL=process.env.REACT_APP_API_ROOT_URL
 PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
 IBP_URL=process.env.REACT_APP_IBP_URL
 BBP_URL=process.env.REACT_APP_BBP_URL
-DEPLOY="ibp";
+DEPLOY="bbp";
 //}
     /*
 if(process.env.NODE_ENV=="kk" ){
@@ -52,7 +52,7 @@ axios.interceptors.request.use(function (config) {
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
 //    console.log('---------------------BEFORE REQUEST END------------------------');
-    config.withCredentials = true;
+   config.withCredentials = true;
     return config;
 }, function (error) {
     return Promise.reject(error);
