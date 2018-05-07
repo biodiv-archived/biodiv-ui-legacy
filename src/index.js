@@ -59,7 +59,8 @@ else{
 
 const map_props = {
 	//softBounds: TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
-	hardBounds:Config.map.RESTRICTED_EXTENT // bounds to restrict the map
+	hardBounds:Config.map.RESTRICTED_EXTENT, // bounds to restrict the map
+  contextUrl:window.location.host
 }
 
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
