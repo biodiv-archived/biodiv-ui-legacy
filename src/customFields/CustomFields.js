@@ -92,7 +92,7 @@ setUserGroup(UserGroupList){
     let group=UserGroupList.find((item)=>{
         return item.webaddress==groupName
     })
-    this.props.fetchCustomFields(group.id);
+  group?this.props.fetchCustomFields(group.id):null;
   }
   else{
     this.props.fetchCustomFields();
@@ -114,7 +114,7 @@ setUserGroup(UserGroupList){
     if(parts[0]=="thewesternghats"){
       groupid=1;
     }
-    this.props.fetchCustomFields(groupid)
+    groupid?this.props.fetchCustomFields(groupid):null
   }
 }
   componentWillReceiveProps(nextProps){
@@ -124,7 +124,7 @@ setUserGroup(UserGroupList){
       })
       if(!deepEqual(this.props.UserGroupList,nextProps.UserGroupList)){
         this.setUserGroup(nextProps.UserGroupList)
-        this.setParameter()
+         this.setParameter()
       }
   }
 
@@ -137,6 +137,7 @@ setUserGroup(UserGroupList){
       Comkeys?Comkeys.map((item)=>{
         keys.push(item.split(".")[0])
       }):null;
+
     return (
       <div>
         {customFields.length>0?customFields.map((item,index)=>{
