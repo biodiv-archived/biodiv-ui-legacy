@@ -53,10 +53,12 @@ class CustomFields extends React.Component {
     var edit1="edit"+key+obvId
     var submit1="submit"+key+obvId
     var Cfvalue="cfvalue"+key+obvId
+    var cancel1="cancel"+key+obvId
     this.refs.hasOwnProperty(text)?(this.refs[text].style.display="block"):null
     this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="none"):null
     this.refs.hasOwnProperty(Cfvalue)?(this.refs[Cfvalue].style.display="none"):null
     this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="block"):null
+    this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="block"):null
   }
 
   convertToDecimal(value){
@@ -397,6 +399,19 @@ class CustomFields extends React.Component {
 
   }
 
+  cancelEdit(key){
+      var edit1="edit"+key+this.props.id;
+      var submit1="submit"+key+this.props.id;
+      var cancel1="cancel"+key+this.props.id;
+      var box1="box"+key+this.props.id;
+      var cfvalue1="cfvalue"+key+this.props.id;
+      this.refs.hasOwnProperty(box1)?(this.refs[box1].style.display="none"):null
+      this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="block"):null
+      this.refs.hasOwnProperty(cfvalue1)?(this.refs[cfvalue1].style.display="block"):null
+      this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="none"):null
+      this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
+  }
+
   render(){
 
       return(
@@ -514,17 +529,26 @@ class CustomFields extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-2">
+                        {
+                          (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
+                          (
+                              <a className="editCustomField btn btn-xs btn-primary pull-right" ref={"cancel"+item.key +this.props.id} onClick={this.cancelEdit.bind(this,item.key)}  style={{display:'none',width:'50px'}} disabled={this.state.loading}>Cancel</a>
+                            ):null
+                        }
+
                           {
                             (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
                             (
-                              <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id,item.options,item.dataType)} style={{display:'none',width:'100px'}} disabled={this.state.loading}>Submit</div>
+                              <a className="editCustomField btn btn-xs btn-primary pull-right" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id,item.options,item.dataType)} style={{display:'none',width:'50px'}} disabled={this.state.loading}>Submit</a>
+
                             ):null
                           }
+
                           {
 
                             (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
                             (
-                            <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id)} style={{display:'block',width:'100px'}} disabled={this.state.loading}>Edit</div>
+                            <a className="editCustomField btn btn-xs btn-primary pull-right" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id)} style={{display:'block',width:'100px'}} disabled={this.state.loading}>Edit</a>
                           ):null
                           }
                     </div>
