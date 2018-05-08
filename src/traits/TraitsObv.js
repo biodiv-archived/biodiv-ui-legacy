@@ -35,7 +35,7 @@ class Traits extends React.Component {
     this.getFormattedValue = this.getFormattedValue.bind(this);
     this.clearData = this.clearData.bind(this);
 
-    this.child =  React.createRef()
+     this.child =  React.createRef()
 }
 
    getTraits(id,sGroup){

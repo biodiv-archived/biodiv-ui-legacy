@@ -276,7 +276,7 @@ render(){
             <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal`}>
               <Month_Filter />
             </Collapsible>
-            <Collapsible lazyRender={true} open={this.state.customFieldsOpen} trigger={`customFields`}>
+            <Collapsible lazyRender={true} open={this.state.customFieldsOpen} trigger={`Custom Fields`}>
               <CustomFields />
             </Collapsible>
             <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
