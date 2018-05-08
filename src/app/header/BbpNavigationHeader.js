@@ -8,7 +8,7 @@ import axios from 'axios';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import {Config} from '../../Config'
-import style from './style/bbpHeaderStyle.css';
+//import style from './style/bbpHeaderStyle.css';
 import UserGroupName from '../../util/UserGroup';
 
 class NavigationHeader extends Component{

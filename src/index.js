@@ -28,6 +28,20 @@ import naksha from 'naksha-react-ui'
 import ReactGA from 'react-ga';
 import createHistory from 'history/createBrowserHistory';
 
+var fileref=document.createElement("link")
+       fileref.setAttribute("rel", "stylesheet")
+       fileref.setAttribute("type", "text/css")
+       if(Config.api.DEPLOY==="ibp"){
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
+       }else{
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
+       }
+
+       console.log("typeOf",typeof fileref)
+       if (typeof fileref!="undefined")
+               document.getElementsByTagName("head")[0].appendChild(fileref)
+
+
 let Header;
 if(Config.api.DEPLOY==="ibp"){
     Header = require('./app/header/Header.js').default;

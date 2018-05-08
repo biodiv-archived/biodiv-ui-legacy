@@ -80,11 +80,12 @@
 
 .logoimageinside{
   height:4vh;
-  width:34vw;
+  width:24vw;
   align:middle;
   text-align:center;
-  margin-top: 1vh;
+  margin-top: 0.5vh;
   margin-bottom: auto;
+  margin-left: 6vw;
 }
 .logofont{
   font-size:2vw!important;

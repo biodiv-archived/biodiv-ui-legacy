@@ -10,7 +10,7 @@ import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions
 import AuthUtils from '../../auth/AuthUtils';
 import $ from 'jquery';
 import {Config} from '../../Config'
-import style from './style/headerstyle.css';
+//import style from './style/headerstyle.css';
 import Banner from './Banner';
 import {logout} from '../../auth/AuthActions';
 import UserAvatar from '../../util/userIcon';
