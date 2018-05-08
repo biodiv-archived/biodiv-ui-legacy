@@ -35,7 +35,7 @@ class Traits extends React.Component {
     this.getFormattedValue = this.getFormattedValue.bind(this);
     this.clearData = this.clearData.bind(this);
 
-    // this.child =  React.createRef()
+     this.child =  React.createRef()
 }
 
    getTraits(id,sGroup){
@@ -421,7 +421,7 @@ submitTraits(id1,id2,traitType,dataType){
         break;
 
      case 'COLOR':
-        //this.child.current.clearData();
+        this.child.current.clearData();
         //console.log(this.child)
         break;
    }
