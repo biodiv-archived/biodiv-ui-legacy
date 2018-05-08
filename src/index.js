@@ -31,10 +31,11 @@ import createHistory from 'history/createBrowserHistory';
 var fileref=document.createElement("link")
        fileref.setAttribute("rel", "stylesheet")
        fileref.setAttribute("type", "text/css")
+
        if(Config.api.DEPLOY==="ibp"){
-         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
+         fileref.setAttribute("href", "http://localhost:3000/headerStyles/headerstyle.css")
        }else{
-         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
+         fileref.setAttribute("href", "http://localhost:3000/headerStyles/bbpHeaderStyle.css")
        }
 
        console.log("typeOf",typeof fileref)
