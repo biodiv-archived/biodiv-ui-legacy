@@ -259,7 +259,6 @@ class ObservationListContainer extends Component {
             urlforPassing:url,
             openModal:false
           })
-          console.log("andar aayeaaye................");
           this.props.fetchObservations(newparams);
           this.props.fetchFilterCount(url1);
 
@@ -323,10 +322,9 @@ class ObservationListContainer extends Component {
 
       loadMore(){
         let params=this.state.params;
-        console.log(params);
         let count= parseInt(params.count);
         count=count+1;
-       let offset=count*10;
+       let offset=count*this.state.params.max;
         params.count=count;
         params.offset=offset;
         let hasMore=params.hasMore;
@@ -437,7 +435,18 @@ class ObservationListContainer extends Component {
         fetchRecos(){
             var allObvs = this.props.Observation.all
 
-            var lastTenObvs = allObvs.slice(allObvs.length<11?0:allObvs.length-10)
+            let lastTenObvs;
+            console.log("fetch");
+            // var lastTenObvs = allObvs.slice(allObvs.length<11?0:allObvs.length-10)
+
+            if(this.props.Observation.count<this.state.params.max){
+              lastTenObvs=allObvs;
+            }
+            else{
+                lastTenObvs=allObvs.slice(this.state.params.offset);
+            }
+
+
             // console.log("allObvs",allObvs)
             // console.log("lastTen",lastTenObvs)
               var obvIds = []
