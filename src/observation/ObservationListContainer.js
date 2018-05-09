@@ -431,7 +431,8 @@ class ObservationListContainer extends Component {
             var allObvs = this.props.Observation.all
 
             var lastTenObvs = allObvs.slice(allObvs.length<11?0:allObvs.length-10)
-
+            // console.log("allObvs",allObvs)
+            // console.log("lastTen",lastTenObvs)
               var obvIds = []
               lastTenObvs.map((item,index)=>{
                 obvIds.push(item.id)
