@@ -48,7 +48,8 @@ class ObservationListContainer extends Component {
           sort:"lastrevised",
           minDate:undefined,
           maxDate:undefined,
-          hasMore:true
+          hasMore:true,
+          max:10
         },
         view:1,
         showMap:false,
@@ -73,10 +74,10 @@ class ObservationListContainer extends Component {
     };
 
     GlobalCall(params){
-
           params=clean(params);
           params["offset"]=0;
           params["count"]=0;
+          params["max"]=10;
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           history.push({
@@ -237,6 +238,9 @@ class ObservationListContainer extends Component {
               if(!newparams.hasMore){
                 newparams.hasMore=true;
               }
+              if(!newparams.max){
+                newparams.max=10;
+              }
 
               let search1=queryString.stringify(newparams);
               let search2 = decodeURIComponent( search1 );
@@ -291,6 +295,9 @@ class ObservationListContainer extends Component {
           }
           if(!newparams.hasMore){
             newparams.hasMore=true;
+          }
+          if(!newparams.max){
+            newparams.max=10;
           }
           let search1=queryString.stringify(newparams);
           let search2 = decodeURIComponent( search1 );
