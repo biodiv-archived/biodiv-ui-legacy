@@ -30,6 +30,7 @@ class CustomFields extends React.Component {
     this.convertToDecimal=this.convertToDecimal.bind(this)
     this.clearData=this.clearData.bind(this)
     this.getFormattedValue=this.getFormattedValue.bind(this)
+    this.expandHeight =  this.expandHeight.bind(this)
     this.getCustomFields(this.props.id)
 
   }
@@ -115,6 +116,7 @@ class CustomFields extends React.Component {
       var Cfvalue="cfvalue"+key+this.props.id
       var edit1="edit"+key+this.props.id
       var submit1="submit"+key+this.props.id
+      var cancel1="cancel"+key+this.props.id
       var value;
 
       if(hasOptions===null){
@@ -190,7 +192,7 @@ class CustomFields extends React.Component {
         this.refs.hasOwnProperty(text)?(this.refs[text].style.display="none"):null
         this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="none"):null
         this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="block"):null
-
+        this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
         axios(options)
             .then((response)=>{
               //console.log("comment",response)
@@ -564,7 +566,13 @@ class CustomFields extends React.Component {
         </div>
         {
           this.state.response && this.state.response.length>0?(
-            <center style={{marginBottom:'-20px'}}><span id={"downBtn"+this.props.id} className="fa fa-angle-double-down" onClick={this.expandHeight.bind(this)} data-toggle="collapse" data-target={"#demo"+this.props.id}></span></center>
+
+            <div className="row">
+              <a onClick={this.expandHeight} className="col-sm-12"  data-toggle="collapse" data-target={"#demo"+this.props.id}>
+              <center style={{marginBottom:'-20px'}}><span id={"downBtn"+this.props.id} className="fa fa-angle-double-down" ></span></center>
+              </a>
+            </div>
+
           ):null
         }
         </div>

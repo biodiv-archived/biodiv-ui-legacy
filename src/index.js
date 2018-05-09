@@ -31,10 +31,11 @@ import createHistory from 'history/createBrowserHistory';
 var fileref=document.createElement("link")
        fileref.setAttribute("rel", "stylesheet")
        fileref.setAttribute("type", "text/css")
+
        if(Config.api.DEPLOY==="ibp"){
-         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
-       }else{
          fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
+       }else{
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
        }
 
        console.log("typeOf",typeof fileref)
@@ -88,9 +89,20 @@ else{
   store.dispatch({type:SET_GROUP_NAME,payload:""})
 }
 
+var softBounds = undefined;
+let fullUrl = window.location.host;
+let parts=fullUrl.split(".");
+
+if(parts.length>=3){
+  if(parts[0]=="assambiodiversity"){
+    softBounds = [[89.4561, 24.1449], [96.125, 28.3855]];
+  }
+}
+
 const map_props = {
-	//softBounds: TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
-	hardBounds:Config.map.RESTRICTED_EXTENT // bounds to restrict the map
+	softBounds: softBounds, // TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
+	hardBounds:Config.map.RESTRICTED_EXTENT, // bounds to restrict the map
+    contextUrl:window.location.host
 }
 
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",

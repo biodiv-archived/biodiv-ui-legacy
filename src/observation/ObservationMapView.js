@@ -40,7 +40,7 @@ class ObservationMapView extends Component{
     return(
       <div style={{position:'relative'}}>
         {this.state.flag ? this.map() : null}
-        <div id="map2" style={{height:'-webkit-fill-available'}}>
+        <div id="map2" style={{height:'672px'}}>
         </div>
       </div>
     )

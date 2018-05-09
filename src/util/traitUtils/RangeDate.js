@@ -47,7 +47,11 @@ export default class DatePickerExampleToggle extends React.Component {
         this.setState({
           minDate: date,
         })
-        this.props.pushTraitsDateRange(this.props.traitId,moment(this.state.minDate).format('YYYY-MM-DD'),moment(this.state.maxDate).format('YYYY-MM-DD'))
+        var toPushMin = new Date(this.state.minDate);
+        toPushMin.setFullYear(2017);
+        var toPushMax =  new Date(this.state.maxDate);
+        toPushMax.setFullYear(2017)
+        this.props.pushTraitsDateRange(this.props.traitId,moment(toPushMin).format('YYYY-MM-DD'),moment(toPushMax).format('YYYY-MM-DD'))
     // }
   };
   handleChangeMaxDate (event, date)  {
@@ -61,7 +65,11 @@ export default class DatePickerExampleToggle extends React.Component {
       this.setState({
         maxDate: date,
       });
-      this.props.pushTraitsDateRange(this.props.traitId,moment(this.state.minDate).format('YYYY-MM-DD'),moment(this.state.maxDate).format('YYYY-MM-DD'))
+      var toPushMin = new Date(this.state.minDate);
+      toPushMin.setFullYear(2017);
+      var toPushMax =  new Date(this.state.maxDate);
+      toPushMax.setFullYear(2017)
+      this.props.pushTraitsDateRange(this.props.traitId,moment(toPushMin).format('YYYY-MM-DD'),moment(toPushMax).format('YYYY-MM-DD'))
     // }
   }
 
