@@ -10,13 +10,14 @@ import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions
 import AuthUtils from '../../auth/AuthUtils';
 import $ from 'jquery';
 import {Config} from '../../Config'
-//import style from './style/headerstyle.css';
-import Banner from './Banner';
+//import './style/headerstyle.css';
+//import style from './style/bbpHeaderStyle.css';
+import Banner from './BbpBanner';
 import {logout} from '../../auth/AuthActions';
 import UserAvatar from '../../util/userIcon';
 
 import UserGroupName from '../../util/UserGroup';
-import NavigationHeader from './NavigationHeader';
+import NavigationHeader from './BbpNavigationHeader';
 
 class Header extends React.Component {
     constructor(props) {
@@ -62,8 +63,8 @@ class Header extends React.Component {
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <a href={`${Config.api.IBP_URL}`} className="navbar-brand">
-                        India Biodiversity Portal
+                    <a href="http://biodiversity.bt" className="navbar-brand">
+                        Bhutan Biodiversity Portal
                     </a>
                 </div>
 

@@ -8,7 +8,7 @@ import axios from 'axios';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import {Config} from '../../Config'
-//import style from './style/headerstyle.css';
+//import style from './style/bbpHeaderStyle.css';
 import UserGroupName from '../../util/UserGroup';
 
 class NavigationHeader extends Component{
@@ -108,7 +108,7 @@ class NavigationHeader extends Component{
         //        userGroup = {name:'Assam Biodiversity Portal for invasive species', icon:'/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif'}
         if(true) {
             return(
-                <div style={{background:'white'}} className="navbar navbar-default row brand-bar">
+                <div style={{background:'#8ca643'}} className="navbar navbar-default row brand-bar" >
 
                     <div className="navbar-header" >
                         <button type="button" className="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#header_menu3" aria-expanded="false">
@@ -120,14 +120,14 @@ class NavigationHeader extends Component{
 
                     </div>
 
-                    <div className="navbar-collapse collapse" id="header_menu3">
+                    <div className="navbar-collapse collapse" id="header_menu3" >
 
-                        <ul className="nav navbar-nav navbar-center">
+                        <ul className="nav navbar-nav navbar-center" >
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Species
+                                <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">Species
                                     <span className="caret"></span>
                                 </a>
-                                <ul className="dropdown-menu" role="menu">
+                                <ul className="dropdown-menu" role="menu" >
                                     <li>
                                         <NavLink to={`/${this.props.PublicUrl}species/list`}>Species Pages</NavLink>
                                     </li>
@@ -144,7 +144,7 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Observation
+                                <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">Observation
                                     <span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
@@ -171,11 +171,11 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li>
-                                {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}map`}>Maps
+                                {<NavLink className="menu-item bbpLink"  to={`/${this.props.PublicUrl}map`}>Maps
                                 </NavLink>}
                             </li>
                             <li className="dropdown">
-                              <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Documents<span className="caret"></span>
+                              <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">Documents<span className="caret"></span>
                               </a>
                               <ul className="dropdown-menu" role="menu">
                                 <li>
@@ -189,7 +189,7 @@ class NavigationHeader extends Component{
                               </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">Contribute<span className="caret"></span>
+                                <a href="#" className="dropdown-toggle bbpLink" data-toggle="dropdown">Contribute<span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
@@ -248,11 +248,11 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li>
-                                {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}discussion/list`}>Discussions
+                                {<NavLink className="menu-item bbpLink"  to={`/${this.props.PublicUrl}discussion/list`}>Discussions
                                 </NavLink>}
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Datasets<span className="caret"></span>
+                                <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">Datasets<span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
@@ -266,7 +266,7 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                {<NavLink className="dropdown-toggle menu-item" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
+                                {<NavLink className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
                                 <ul className="dropdown-menu pre-scrollable" style={{'height':'auto','width':'200px'}} role="menu">
                                     {this.props.UserGroupList.length>0?
                                       (
@@ -285,7 +285,7 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Pages
+                                <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">Pages
                                     <span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
@@ -317,7 +317,7 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">More
+                                <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">More
                                     <span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">

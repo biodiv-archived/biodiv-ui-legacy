@@ -48,7 +48,8 @@ class ObservationListContainer extends Component {
           sort:"lastrevised",
           minDate:undefined,
           maxDate:undefined,
-          hasMore:true
+          hasMore:true,
+          max:10
         },
         view:1,
         showMap:false,
@@ -73,10 +74,10 @@ class ObservationListContainer extends Component {
     };
 
     GlobalCall(params){
-
           params=clean(params);
           params["offset"]=0;
           params["count"]=0;
+          params["max"]=10;
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           history.push({
@@ -194,6 +195,17 @@ class ObservationListContainer extends Component {
       });
       this.GlobalCall(params);
     }
+    customFieldsEventListner(e){
+      let params=this.state.params;
+      console.log("params from custom",params);
+      this.props.ClearObservationPage();
+      e.detail.customFieldMap.forEach((value, key, map)=>{
+        if(value.constructor === Array){
+          params["custom_"+key]=value.join(",");
+        }
+      });
+      this.GlobalCall(params);
+    }
 
     sortObservation(sortby){
       this.props.ClearObservationPage();
@@ -206,6 +218,7 @@ class ObservationListContainer extends Component {
 
         let {groupName}=this.props.match.params;
         let newparams=  queryString.parse(document.location.search);
+
         if(groupName){
             UserGroupName.list().then(data=>{
               let group=data.find((item)=>{
@@ -224,6 +237,9 @@ class ObservationListContainer extends Component {
               }
               if(!newparams.hasMore){
                 newparams.hasMore=true;
+              }
+              if(!newparams.max){
+                newparams.max=10;
               }
 
               let search1=queryString.stringify(newparams);
@@ -279,6 +295,9 @@ class ObservationListContainer extends Component {
           if(!newparams.hasMore){
             newparams.hasMore=true;
           }
+          if(!newparams.max){
+            newparams.max=10;
+          }
           let search1=queryString.stringify(newparams);
           let search2 = decodeURIComponent( search1 );
           let url="/search/observation/observation?"+search2;
@@ -303,10 +322,9 @@ class ObservationListContainer extends Component {
 
       loadMore(){
         let params=this.state.params;
-        console.log(params);
         let count= parseInt(params.count);
         count=count+1;
-       let offset=count*10;
+       let offset=count*this.state.params.max;
         params.count=count;
         params.offset=offset;
         let hasMore=params.hasMore;
@@ -338,6 +356,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
+        document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+
 
       }
       componentWillUnmount(){
@@ -352,6 +372,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("Validate-filter", this.validateFilterEventListner.bind(this));
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
+        document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+
         this.props.ClearObservationPage();
       }
 
@@ -412,8 +434,21 @@ class ObservationListContainer extends Component {
 
         fetchRecos(){
             var allObvs = this.props.Observation.all
-            var lastTenObvs = allObvs.slice(allObvs.length-10)
 
+            let lastTenObvs;
+            console.log("fetch");
+            // var lastTenObvs = allObvs.slice(allObvs.length<11?0:allObvs.length-10)
+
+            if(this.props.Observation.count<this.state.params.max){
+              lastTenObvs=allObvs;
+            }
+            else{
+                lastTenObvs=allObvs.slice(this.state.params.offset);
+            }
+
+
+            // console.log("allObvs",allObvs)
+            // console.log("lastTen",lastTenObvs)
               var obvIds = []
               lastTenObvs.map((item,index)=>{
                 obvIds.push(item.id)

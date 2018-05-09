@@ -44,6 +44,7 @@ constructor(){
     const newparams = queryString.parse(document.location.search);
     if(newparams.userGroupList){
       let ids=newparams.userGroupList.split(",").map(item=>  parseInt(item,10));
+      console.log(this.props.UserGroupList);
 
     UserGroupName.list().then(data=>{
       let groupName=data.filter((item)=>{

@@ -10,11 +10,15 @@ export let ROOT_URL;
 export let PAMBA_API_ROOT_URL;
 export let API_ROOT_URL;
 export let IBP_URL;
+export let BBP_URL;
+export let DEPLOY;
 //if(process.env.NODE_ENV=="development" ){
 ROOT_URL=process.env.REACT_APP_ROOT_URL
 API_ROOT_URL=process.env.REACT_APP_API_ROOT_URL
 PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
 IBP_URL=process.env.REACT_APP_IBP_URL
+BBP_URL=process.env.REACT_APP_BBP_URL
+DEPLOY="bbp";
 //}
     /*
 if(process.env.NODE_ENV=="kk" ){
@@ -48,7 +52,7 @@ axios.interceptors.request.use(function (config) {
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
 //    console.log('---------------------BEFORE REQUEST END------------------------');
-    config.withCredentials = true;
+   config.withCredentials = true;
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -90,6 +94,8 @@ export let Config = {
         PAMBA_API_ROOT_URL : PAMBA_API_ROOT_URL,
         ROOT_URL : ROOT_URL,
         IBP_URL:IBP_URL,
+        BBP_URL:BBP_URL,
+        DEPLOY:DEPLOY,
         login : {
             default : {
                 method : 'post',

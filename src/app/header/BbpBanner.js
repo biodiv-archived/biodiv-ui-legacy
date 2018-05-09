@@ -9,7 +9,7 @@ import axios from 'axios';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import {Config} from '../../Config'
-//import style from './style/headerstyle.css';
+//import style from './style/bbpHeaderStyle.css';
 import UserGroupName from '../../util/UserGroup';
 import ModalPopup from '../../auth/Modal.js';
 import ModeratorPopUp from './ModeratorPopUp';
@@ -44,15 +44,15 @@ class Banner extends Component{
             let subPortalName=undefined;
             if(parts.length>=3){
               if(parts[0]=="assambiodiversity"){
-                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif`;
+                someGroupLogo=`${Config.api.BBP_URL}/biodiv/userGroups/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif`;
                 subPortalName="Assam Biodiversity Portal";
               }
               if(parts[0]=="treesindia"){
-                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ff695abd-c38a-4b8d-ac7c-a79f5df0ad84/resources/315.png`;
+                someGroupLogo=`${Config.api.BBP_URL}/biodiv/userGroups/ff695abd-c38a-4b8d-ac7c-a79f5df0ad84/resources/315.png`;
                 subPortalName="TreesIndia";
               }
               if(parts[0]=="thewesternghats"){
-                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ca7dc494-eff4-4f49-b340-f69e8d543a75/resources/map-logo.gif`;
+                someGroupLogo=`${Config.api.BBP_URL}/biodiv/userGroups/ca7dc494-eff4-4f49-b340-f69e8d543a75/resources/map-logo.gif`;
                 subPortalName="The Western Ghats";
               }
             }
@@ -144,20 +144,59 @@ getJoinPermission(){
                 <div className="navbar navbar-default row brand-bar">
                   {this.state.login_modal===true?(<ModalPopup funcjoinus={this.getJoinPermission} type="joinus" key={this.state.options} options={this.state.options} />):null}
                   {this.state.moderatorPopup?<ModeratorPopUp key={this.state.moderatorPopup} />:null}
-                    <div className="navbar-header">
-                        <NavLink to="/">
-                            <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?Config.api.IBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.IBP_URL+"/logo/IBP.png")}></img>
-                        </NavLink>
-                        <NavLink to="/" className="navbar-brand" style={{paddingTop:'0.00001px'}}>
-                            <h3>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:'India Biodiversity Portal')}</h3>
-                        </NavLink>
-                    </div>
+                  {
+                    userGroup?
+                    (
                     <div>
-                    {userGroup?userGroup.allowUsersToJoin?
-                          <button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
-                          :null:null
-                    }
+                    <div className="navbar-header col-sm-12 logobar">
+                      <div className="row">
+                          <div className="col-xs-3">
+                          <NavLink to="/" className="logobar" style={{marginLeft:'50%'}}>
+                              <img className=" logoimage" src={userGroup?Config.api.BBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.BBP_URL+"/assets/all/bbp-logo.png")}/>
+                          </NavLink>
+                          </div>
+                          <div className="col-xs-6">
+                          <NavLink to="/" className="logoimage" style={{textDecoration:'none'}}>
+                              <h3 className="logoimageinside logofont" style={{fontWeight:'bold',color:'black',textAlign:'center'}}>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:'Bhutan Biodiversity Portal')}</h3>
+                          </NavLink>
+                          </div>
+                          <div className="col-xs-3 logobar">
+                              {userGroup?userGroup.allowUsersToJoin?
+                                    <button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
+                                    :null:null
+                              }
+                          </div>
+                      </div>
                     </div>
+                    </div>
+                  )
+                    :
+                    (
+                    <div className="navbar-header col-sm-12 logobar">
+                        <div className="row">
+
+                        <div className="col-xs-3">
+                        <NavLink to="/" className="logobar" style={{marginLeft:'50%'}}>
+                            <img className=" logoimage" src={userGroup?Config.api.BBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.BBP_URL+"/assets/all/bbp-logo.png")}/>
+                        </NavLink>
+                        </div>
+
+
+                        <div className="col-xs-6">
+                        <NavLink to="/" className="logoimage" style={{textDecoration:'none'}}>
+                            <img className="logoimageinside" src="http://biodiversity.bt//assets/all/accordion/dzongkha.png" />
+                            <h3 className="logoimageinside logofont" style={{fontWeight:'bold',color:'black',textAlign:'center'}}>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:'Bhutan Biodiversity Portal')}</h3>
+                        </NavLink>
+                        </div>
+
+                        <div className="col-xs-3 logobar">
+                        <img  className="logoimage pull-right"  style={{marginRight:'50%'}} src="http://biodiversity.bt//assets/all/gov-logo.png" title="Royal Government of Bhutan" />
+                        </div>
+                      </div>
+                    </div>
+                  )
+                  }
+
                 </div>
             )
         } else {

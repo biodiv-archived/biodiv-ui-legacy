@@ -76,7 +76,7 @@ class Tabs extends React.Component {
                   </div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab2"}>{this.state.Groupsflag===1?<Groups id={this.props.objs.id}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.speciesgroupid} owner={this.props.objs.authorid}/>:null}</div>
-                  <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id}/>:null}</div>
+                  <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.Activityflag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
                </div>
              </div>

@@ -43,3 +43,13 @@ padding-right: 10px;
   color: black;
   font-size: 12px;
 }
+
+.color_chip_value{
+  display: inline-block;
+  height: 25px;
+  width:25px;
+  font-size: 12px;
+  background-color:#d3dcd0;
+  margin-left: 5px;
+  box-shadow: 1px 1px grey;
+}

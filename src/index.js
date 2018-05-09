@@ -16,8 +16,10 @@ import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from './actions/ind
 
 
 import reducers from './reducers';
-import Footer from './app/footer/Footer';
-import Header from './app/header/Header';
+
+
+
+
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
@@ -25,6 +27,36 @@ import {SET_GROUP_NAME} from './actions/index';
 import naksha from 'naksha-react-ui'
 import ReactGA from 'react-ga';
 import createHistory from 'history/createBrowserHistory';
+
+var fileref=document.createElement("link")
+       fileref.setAttribute("rel", "stylesheet")
+       fileref.setAttribute("type", "text/css")
+
+       if(Config.api.DEPLOY==="ibp"){
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
+       }else{
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
+       }
+
+       console.log("typeOf",typeof fileref)
+       if (typeof fileref!="undefined")
+               document.getElementsByTagName("head")[0].appendChild(fileref)
+
+
+let Header;
+if(Config.api.DEPLOY==="ibp"){
+    Header = require('./app/header/Header.js').default;
+}else{
+    Header = require('./app/header/BbpHeader.js').default;
+}
+
+let Footer;
+if(Config.api.DEPLOY==="ibp"){
+    Footer = require('./app/footer/Footer').default;
+}else{
+    Footer = require('./app/footer/BbpFooter.js').default;
+}
+
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 
