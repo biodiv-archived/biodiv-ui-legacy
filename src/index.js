@@ -90,18 +90,19 @@ else{
 }
 
 var softBounds = undefined;
+var hardBounds = Config.map.RESTRICTED_EXTENT
+
 let fullUrl = window.location.host;
 let parts=fullUrl.split(".");
-
 if(parts.length>=3){
   if(parts[0]=="assambiodiversity"){
-    softBounds = [[89.4561, 24.1449], [96.125, 28.3855]];
+    hardBounds = [[89.4561, 24.1449], [96.125, 28.3855]];
   }
 }
 
 const map_props = {
 	softBounds: softBounds, // TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
-	hardBounds:Config.map.RESTRICTED_EXTENT, // bounds to restrict the map
+	hardBounds: hardBounds, // bounds to restrict the map
     contextUrl:window.location.host
 }
 
