@@ -106,7 +106,7 @@ const map_props = {
 	softBounds: softBounds, // TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
 	hardBounds: hardBounds, // bounds to restrict the map
 	contextUrl:window.location.host,
-	groupName: groupName
+	groupName: groupContext
 }
 
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
