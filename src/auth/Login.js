@@ -22,8 +22,13 @@ class Login extends Component {
 
     isAuthenticated(){
         const loggedIn = this.props.authenticated;
+        //console.log(this.props.location.state.from.pathname)
         if(loggedIn) {
-            this.props.closeModal ? this.props.closeModal() : this.props.history.push('/');
+            if(this.props.location.state.from.pathname === "/map/upload"){
+              this.props.history.push('/map/upload')
+            }else{
+                this.props.closeModal ? this.props.closeModal() : this.props.history.push('/');
+            }
         }
     }
 
