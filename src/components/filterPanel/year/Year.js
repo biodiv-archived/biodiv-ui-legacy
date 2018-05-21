@@ -23,7 +23,8 @@ export default class DatePickerExampleToggle extends React.Component {
     minDate.setHours(0, 0, 0, 0);
     maxDate.setFullYear(maxDate.getFullYear());
     maxDate.setHours(0, 0, 0, 0);
-
+    console.log(minDate);
+    console.log(maxDate);
     this.state = {
       minDate: minDate,
       maxDate: maxDate,
@@ -45,8 +46,8 @@ export default class DatePickerExampleToggle extends React.Component {
     else{
       var event = new CustomEvent("year-filter", {
           "detail": {
-            maxDate: encodeURIComponent(endDate),
-            minDate:encodeURIComponent(startDate)
+            maxDate: endDate.toISOString().substring(0,endDate.toISOString().length-1),
+            minDate:startDate.toISOString().substring(0,startDate.toISOString().length-1)
           }
         });
         document.dispatchEvent(event);
@@ -65,8 +66,8 @@ export default class DatePickerExampleToggle extends React.Component {
     else{
       var event = new CustomEvent("year-filter", {
           "detail": {
-            maxDate: encodeURIComponent(endDate),
-            minDate:encodeURIComponent(startDate)
+            maxDate: endDate.toISOString().substring(0,endDate.toISOString().length-1),
+            minDate:startDate.toISOString().substring(0,startDate.toISOString().length-1)
           }
         });
         document.dispatchEvent(event);
