@@ -109,6 +109,8 @@ const map_props = {
 	groupName: groupContext
 }
 
+window.map_hardbounds = hardBounds;
+
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
 "/register/resetPassword"];
 
