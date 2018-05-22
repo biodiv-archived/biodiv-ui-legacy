@@ -144,7 +144,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         (
           <Redirect
             to={{
-              pathname: "/observation/list",
+              pathname: "/map",
               state: { from: props.location }
             }}
           />

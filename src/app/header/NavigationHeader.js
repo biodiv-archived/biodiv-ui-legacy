@@ -335,7 +335,7 @@ class NavigationHeader extends Component{
                                         </NavLink>}
                                     </li>
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}theportal`}>About
+                                        <NavLink to={`/${this.props.PublicUrl}about`}>About Us
                                         </NavLink>
 
                                     </li>
