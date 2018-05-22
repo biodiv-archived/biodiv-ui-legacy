@@ -19,6 +19,8 @@ import Recommendation_reducer from './reducer_Recommendation';
 import SpeciesGroup from './reducer_speciesGroup';
 import FilterCount from './reducer_filter_count';
 import CustomFields from '../customFields/CustomFieldsReducer';
+import DataSetList from './reducer_dataSetList';
+
 
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
@@ -36,7 +38,8 @@ const rootReducer = combineReducers({
   Recommendations:Recommendation_reducer,
   SpeciesGroup:SpeciesGroup,
   FilterCount:FilterCount,
-  CustomFields:CustomFields
+  CustomFields:CustomFields,
+  DataSetList:DataSetList
 });
 
 export default rootReducer;
