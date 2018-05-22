@@ -6,7 +6,7 @@ import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch,Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
@@ -130,6 +130,38 @@ function fireTracking() {
 //
 // );
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+
+  <Route
+    {...rest}
+    render={props =>
+      AuthUtils.isLoggedIn() ? (
+        AuthUtils.isAdmin()?
+        (
+          <Component {...props} {...map_props}/>
+        )
+        :
+        (
+          <Redirect
+            to={{
+              pathname: "/observation/list",
+              state: { from: props.location }
+            }}
+          />
+        )
+
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
+
 ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>
@@ -152,6 +184,8 @@ ReactDOM.render(
                   <Route exact path="/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />
 							    				  )}/>
+
+                  <PrivateRoute exact path="/map/upload" component={naksha.NewLayerComponent}/>
 
               </div>
                 <div  id="footerWrapper">
