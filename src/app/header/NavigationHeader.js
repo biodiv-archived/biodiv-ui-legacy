@@ -255,14 +255,15 @@ class NavigationHeader extends Component{
                                 <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Datasets<span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5136151&offset=&view=grid`}>Generic Biodiversity Datasets
+                                  {this.props.DataSetList.length>0?this.props.DataSetList.map((item)=>{
+                                    return (
+                                    <li key={item.id}>
+                                        {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=${item.id}&offset=&view=grid`}>{item.title}
                                         </NavLink>}
                                     </li>
-                                    <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5168239&offset=&view=grid`}>{"People's Biodiversity Registers"}
-                                        </NavLink>}
-                                    </li>
+                                  )
+                                  }):<div className="loader"></div>}
+
                                 </ul>
                             </li>
                             <li className="dropdown">
@@ -334,7 +335,7 @@ class NavigationHeader extends Component{
                                         </NavLink>}
                                     </li>
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}theportal`}>About
+                                        <NavLink to={`/${this.props.PublicUrl}about`}>About Us
                                         </NavLink>
 
                                     </li>
@@ -352,13 +353,15 @@ class NavigationHeader extends Component{
     }
 }
 function mapStateToProps(state) {
+  console.log(state.DataSetList);
     return {
         authenticated: state.auth.authenticated,
         userData: state.auth.userData,
         UserProfile: state.UserProfile,
         UserGroupList:state.UserGroupList,
         PublicUrl:state.PublicUrl.url,
-        groupName:state.PublicUrl.groupName
+        groupName:state.PublicUrl.groupName,
+        DataSetList:state.DataSetList
     };
 }
 
