@@ -38,7 +38,7 @@ var fileref=document.createElement("link")
          fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
        }
 
-       console.log("typeOf",typeof fileref)
+       //console.log("typeOf",typeof fileref)
        if (typeof fileref!="undefined")
                document.getElementsByTagName("head")[0].appendChild(fileref)
 
@@ -109,6 +109,8 @@ const map_props = {
 	groupName: groupContext
 }
 
+window.map_hardbounds = hardBounds;
+
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
 "/register/resetPassword"];
 
@@ -144,7 +146,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         (
           <Redirect
             to={{
-              pathname: "/observation/list",
+              pathname: "/map",
               state: { from: props.location }
             }}
           />

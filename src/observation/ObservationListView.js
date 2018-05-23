@@ -45,6 +45,7 @@ class ListComponent extends Component{
             rerun:false
         }
         this.ObvRenderAgain = this.ObvRenderAgain.bind(this);
+        this.getObsAgain = this.getObsAgain.bind(this);
     }
 
     componentDidMount(){
@@ -65,10 +66,10 @@ class ListComponent extends Component{
         })
     }
 
-    handleEditUserGroupButton(previous_id){
+    handleEditUserGroupButton(){
         let obj = this.props.SpeciesGroup.find(x => x.name === this.state.updateUserGroup);
         if(obj) {
-            let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&oldGroupId=${previous_id}&objectid=${this.state.ObservationId}`;
+            let url= `${Config.api.API_ROOT_URL}/observation/updategroup?newGroupId=${obj.id}&objectIds=${this.state.ObservationId.toString()}`;
             let options={
                 method:'POST',
                 url : url,
@@ -78,7 +79,8 @@ class ListComponent extends Component{
 
             axios(options)
                 .then((response)=>{
-                    this.ObvRenderAgain(response)
+                  this.getObsAgain(this.state.ObservationId)
+
                     let sid2=this.props.item.id+"2";
                     let sid1=this.props.item.id+"1";
 
@@ -99,7 +101,7 @@ class ListComponent extends Component{
     }
 
     ObvRenderAgain(response){
-      console.log("called from tabs")
+      //console.log("called from tabs")
       Object.assign(this.props.item,response.data.document)
       this.setState({
           rerun:!this.state.rerun
@@ -140,6 +142,21 @@ class ListComponent extends Component{
         else{
           return null;
         }
+    }
+
+    getObsAgain(obvId){
+      document.body.style.cursor = "wait";
+      var options={
+        method:"GET",
+        url:Config.api.PAMBA_API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
+        headers :AuthUtils.getAuthHeaders(),
+        json: 'true'
+      }
+      axios(options)
+          .then((response)=>{
+            document.body.style.cursor = "default";
+            this.ObvRenderAgain(response);
+          })
     }
 
 display(objs,selectAll){
@@ -213,7 +230,7 @@ display(objs,selectAll){
                                     }):null}
                                   </select> {" "}
                                     <button className={"btn btn-warning btn-xs"}  onClick={this.changeStyle2.bind(this,objs.id)}> <span className="glyphicon glyphicon-remove-sign"></span></button> {"  "}
-                                    <button className={"btn btn-success btn-xs"}  onClick={this.handleEditUserGroupButton.bind(this,objs.speciesgroupid)} type="submit"><span className="glyphicon glyphicon-saved"></span></button>
+                                    <button className={"btn btn-success btn-xs"}  onClick={this.handleEditUserGroupButton.bind(this)} type="submit"><span className="glyphicon glyphicon-saved"></span></button>
                                 </div>
                             </div>
                             </div>
