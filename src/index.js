@@ -95,7 +95,9 @@ var groupContext = null;
 
 let fullUrl = window.location.host;
 let parts=fullUrl.split(".");
-if(parts.length>=3){
+if(groupsyntax === "group" && groupName !== null){
+  groupContext = groupName;
+}else if(parts.length>=3){
   if(parts[0]=="assambiodiversity"){
     groupContext = parts[0];
     hardBounds = [[88, 23], [97, 29]];
@@ -183,9 +185,13 @@ ReactDOM.render(
                   <Route exact path="/register" component={Register} history={history}/>
                   <Route exact path="/register/forgotPassword" component={ForgotPassword} history={history}/>
                   <Route exact path="/register/resetPassword" component={ResetPassword} history={history}/>
-                  <Route exact path="/map" render={(routeProps) => (
+
+                  <Route path="/group/:groupName/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />
 							    				  )}/>
+                  <Route  path="/map" render={(routeProps) => (
+          						      		<naksha.Layers {...routeProps} {...map_props} />
+          							    )}/>
 
                   <PrivateRoute exact path="/map/upload" component={naksha.NewLayerComponent}/>
 
