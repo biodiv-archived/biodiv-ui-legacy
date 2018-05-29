@@ -42,7 +42,8 @@ constructor(){
     length:null,
     dataCheckOpen:false,
     creadtedOnOpen:false,
-    fromDateOpen:false
+    fromDateOpen:false,
+    dateTabOpen:false
 
   }
   this.openFilter=this.openFilter.bind(this);
@@ -81,6 +82,7 @@ openFilter(){
    let customFieldsOpen=this.state.customFieldsOpen;
    let creadtedOnOpen=this.state.creadtedOnOpen;
    let fromDateOpen=this.state.fromDateOpen;
+   let dateTabOpen=this.state.dateTabOpen;
 
    if(newparams.taxon ){
      taxonOpen=true;
@@ -138,6 +140,9 @@ openFilter(){
    if(newparams.maxDate || newparams.minDate){
      fromDateOpen=true;
    }
+   if(newparams.createdOnMaxDate || newparams.createdOnMinDate || newparams.maxDate || newparams.minDate ){
+     dateTabOpen=true;
+   }
 
    this.setState({
      sGroupOpen,
@@ -152,7 +157,8 @@ openFilter(){
      traitsOpen,
      dataCheckOpen,
      customFieldsOpen,
-     creadtedOnOpen
+     creadtedOnOpen,
+     dateTabOpen,
    })
 }
 componentDidMount(){
@@ -207,11 +213,7 @@ render(){
       this.length++;
 
     }
-    if(urlObject.minDate || urlObject.maxDate){
-      this.length++;
-
-    }
-    if(urlObject.createdOnMaxDate || urlObject.createdOnMinDate){
+    if(urlObject.createdOnMaxDate || urlObject.createdOnMinDate || urlObject.minDate || urlObject.maxDate){
       this.length++;
     }
     if(urlObject.months){
@@ -285,13 +287,15 @@ render(){
             <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type`}>
               <Media_Filter />
             </Collapsible>
-            <Collapsible lazyRender={true} open={this.state.fromDateOpen} trigger={`Date`}>
-              <Year_Filter />
+            <Collapsible lazyRender={true} open={this.state.dateTabOpen} trigger={`Date`}>
+                <Collapsible lazyRender={true} open={this.state.fromDateOpen} trigger={`Observed On`}>
+                  <Year_Filter />
+                </Collapsible>
+                <Collapsible lazyRender={true} open={this.state.creadtedOnOpen} trigger={`Created On`}>
+                  <CreatedOn_Filter />
+                </Collapsible>
             </Collapsible>
 
-            <Collapsible lazyRender={true} open={this.state.creadtedOnOpen} trigger={`Creadted On`}>
-              <CreatedOn_Filter />
-            </Collapsible>
 
             <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal`}>
               <Month_Filter />
