@@ -346,9 +346,7 @@ class ObservationListContainer extends Component {
 
       componentDidMount(){
        this.setParameter();
-       this.props.history.listen((location,action)=>{
-         this.setParameter()
-       })
+      
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
         document.addEventListener("media-filter", this.mediaFilterEventListner.bind(this));
         document.addEventListener("getTaxon-filter", this.taxonFilterEventListner.bind(this));
