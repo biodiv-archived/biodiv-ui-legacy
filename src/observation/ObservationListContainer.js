@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Button} from 'react-bootstrap';
-import createHistory from 'history/createBrowserHistory';
 import EllipsisText  from 'react-ellipsis-text';
 import  queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
@@ -27,7 +26,6 @@ import ModalPopup from '../auth/Modal.js';
 
 import ReactGA from 'react-ga';
 
-const history = createHistory();
 
 function clean(obj) {
   for (var propName in obj) {
@@ -80,10 +78,10 @@ class ObservationListContainer extends Component {
           params["max"]=10;
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
-          history.push({
-            pathname:this.props.location.pathname,
-            search:search1
-          })
+          let newSearchParams="?"+search1;
+          if(this.props.location.search!=newSearchParams){
+            this.props.history.push(this.props.location.pathname+"?"+search1);
+          }
 
           ReactGA.pageview(this.props.location.pathname + search1);
 
@@ -104,7 +102,6 @@ class ObservationListContainer extends Component {
             let params=this.state.params;
             params.classification=e.detail.classification;
             params.taxon=e.detail.taxon.join(",");
-            console.log(params);
             this.GlobalCall(params);
             this.props.ClearObservationPage();
       }
@@ -158,6 +155,13 @@ class ObservationListContainer extends Component {
       params.minDate=e.detail.minDate;
       this.GlobalCall(params);
     }
+    createdOnEventListner(e){
+      this.props.ClearObservationPage();
+      let params=this.state.params;
+      params.createdOnMaxDate=e.detail.createdOnMaxDate;
+      params.createdOnMinDate=e.detail.createdOnMinDate;
+      this.GlobalCall(params);
+    }
     monthsFilterEventListner(e){
       this.props.ClearObservationPage();
       let params=this.state.params;
@@ -185,7 +189,6 @@ class ObservationListContainer extends Component {
 
     traitsEventListner(e){
       let params=this.state.params;
-      console.log("params from taxon",params);
       this.props.ClearObservationPage();
       e.detail.traitsMap.forEach((value, key, map)=>{
         if(value.constructor === Array){
@@ -197,7 +200,6 @@ class ObservationListContainer extends Component {
     }
     customFieldsEventListner(e){
       let params=this.state.params;
-      console.log("params from custom",params);
       this.props.ClearObservationPage();
       e.detail.customFieldMap.forEach((value, key, map)=>{
         if(value.constructor === Array){
@@ -247,12 +249,12 @@ class ObservationListContainer extends Component {
               let url="/search/observation/observation?"+search2;
               let url1="/observation/observation?"+search2;
 
-              history.push({
-            pathname:this.props.location.pathname,
-            search:search2
-          })
+              let newSearchParams="?"+search2;
+              if(this.props.location.search!=newSearchParams){
+                this.props.history.push(this.props.location.pathname+"?"+search2);
+              }
 
-          console.log(newparams);
+
 
           this.setState({
             params:newparams,
@@ -303,12 +305,11 @@ class ObservationListContainer extends Component {
           let url="/search/observation/observation?"+search2;
           let url1="/observation/observation?"+search2;
 
-          history.push({
-            pathname:this.props.location.pathname,
-            search:search2
-          })
+            let newSearchParams="?"+search2;
+            if(this.props.location.search!=newSearchParams){
+              this.props.history.push(this.props.location.pathname+"?"+search2);
+            }
 
-          console.log(newparams);
           this.props.fetchObservations(newparams);
           this.props.fetchFilterCount(url1);
           this.setState({
@@ -344,7 +345,10 @@ class ObservationListContainer extends Component {
         }
 
       componentDidMount(){
-        this.setParameter();
+       this.setParameter();
+       this.props.history.listen((location,action)=>{
+         this.setParameter()
+       })
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
         document.addEventListener("media-filter", this.mediaFilterEventListner.bind(this));
         document.addEventListener("getTaxon-filter", this.taxonFilterEventListner.bind(this));
@@ -357,6 +361,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
         document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+        document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
+
 
 
       }
@@ -373,6 +379,7 @@ class ObservationListContainer extends Component {
         document.addEventListener("flag-filter", this.flagFilterEventListner.bind(this));
         document.addEventListener("traits",this.traitsEventListner.bind(this));
         document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
+        document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
 
         this.props.ClearObservationPage();
       }
@@ -436,7 +443,6 @@ class ObservationListContainer extends Component {
             var allObvs = this.props.Observation.all
 
             let lastTenObvs;
-            console.log("fetch");
             // var lastTenObvs = allObvs.slice(allObvs.length<11?0:allObvs.length-10)
 
             if(this.props.Observation.count<this.state.params.max){
@@ -447,8 +453,7 @@ class ObservationListContainer extends Component {
             }
 
 
-            // console.log("allObvs",allObvs)
-            // console.log("lastTen",lastTenObvs)
+
               var obvIds = []
               lastTenObvs.map((item,index)=>{
                 obvIds.push(item.id)
@@ -484,7 +489,6 @@ class ObservationListContainer extends Component {
 
 
         launchBulk(obvId){
-          console.log("inside the launch  bulk action",this.state.bulkId)
             let _bulkId=this.state.bulkId
             // function checkIndex(id){
             //     return id==obvId
@@ -508,7 +512,6 @@ class ObservationListContainer extends Component {
                 bulk:true,
             })
 
-            console.log("all the Ids",this.state.bulkId)
 
         }
 
@@ -520,8 +523,6 @@ class ObservationListContainer extends Component {
         }
 
   render(){
-
-
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
 return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
 }):null;
