@@ -1,6 +1,8 @@
 import React from 'react';
 import DatePicker from 'material-ui/DatePicker';
 import moment from 'moment';
+import {withRouter} from 'react-router-dom';
+import queryString from 'query-string';
 
 const optionsStyle = {
   maxWidth: 255,
@@ -12,7 +14,7 @@ const optionsStyle = {
  */
  const minDate = new Date();
  const maxDate = new Date();
-export default class DatePickerExampleToggle extends React.Component {
+ class DatePickerExampleToggle extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,8 +25,6 @@ export default class DatePickerExampleToggle extends React.Component {
     minDate.setHours(0, 0, 0, 0);
     maxDate.setFullYear(maxDate.getFullYear());
     maxDate.setHours(0, 0, 0, 0);
-    console.log(minDate);
-    console.log(maxDate);
     this.state = {
       minDate: minDate,
       maxDate: maxDate,
@@ -46,14 +46,15 @@ export default class DatePickerExampleToggle extends React.Component {
     else{
       var event = new CustomEvent("year-filter", {
           "detail": {
-            maxDate: endDate.toISOString().substring(0,endDate.toISOString().length-1),
-            minDate:startDate.toISOString().substring(0,startDate.toISOString().length-1)
+            minDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
+            maxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
           }
         });
         document.dispatchEvent(event);
         this.setState({
-          minDate: date,
-        })
+          minDate:new Date(startDate),
+          maxDate:new Date(endDate)
+        });
     }
   };
   handleChangeMaxDate (event, date)  {
@@ -66,18 +67,34 @@ export default class DatePickerExampleToggle extends React.Component {
     else{
       var event = new CustomEvent("year-filter", {
           "detail": {
-            maxDate: endDate.toISOString().substring(0,endDate.toISOString().length-1),
-            minDate:startDate.toISOString().substring(0,startDate.toISOString().length-1)
+            minDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
+            maxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
           }
         });
         document.dispatchEvent(event);
       this.setState({
-        maxDate: date,
+        minDate:new Date(startDate),
+        maxDate:new Date(endDate)
       });
     }
   }
+  setParameter(){
+    const newparams = queryString.parse(document.location.search);
+    let minDate;
+    let maxDate;
+    if (newparams.maxDate && newparams.minDate) {
+      maxDate = new Date(newparams.maxDate);
+      minDate=new Date(newparams.minDate);
+      this.setState({
+          minDate: new Date(minDate),
+          maxDate:new Date( maxDate),
+      })
+    }
 
-
+  }
+  componentDidMount(){
+    this.setParameter();
+  }
 
   render() {
     return (
@@ -87,6 +104,7 @@ export default class DatePickerExampleToggle extends React.Component {
             onChange={this.handleChangeMinDate}
             autoOk={this.state.autoOk}
             floatingLabelText="Min Date"
+            value={this.state.minDate}
             defaultDate={this.state.minDate}
             minDate={minDate}
             maxDate={maxDate}
@@ -97,6 +115,7 @@ export default class DatePickerExampleToggle extends React.Component {
             onChange={this.handleChangeMaxDate}
             autoOk={this.state.autoOk}
             floatingLabelText="Max Date"
+            value={this.state.maxDate}
             defaultDate={this.state.maxDate}
             minDate={minDate}
             maxDate={maxDate}
@@ -108,3 +127,4 @@ export default class DatePickerExampleToggle extends React.Component {
     );
   }
 }
+export default withRouter(DatePickerExampleToggle);

@@ -2,6 +2,7 @@ import React from 'react';
 import DatePicker from 'material-ui/DatePicker';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
+import queryString from 'query-string';
 
 const optionsStyle = {
   maxWidth: 255,
@@ -16,18 +17,15 @@ const optionsStyle = {
  class DatePickerExampleToggle extends React.Component {
   constructor(props) {
     super(props);
-
-
     minDate.setFullYear(1800);
     minDate.setMonth(0);
     minDate.setDate(1);
     minDate.setHours(0, 0, 0, 0);
     maxDate.setFullYear(maxDate.getFullYear());
     maxDate.setHours(0, 0, 0, 0);
-    console.log(minDate);
-    console.log(maxDate);
+
     this.state = {
-      minDate: minDate,
+      minDate:minDate,
       maxDate: maxDate,
       autoOk: true,
       disableYearSelection: false,
@@ -47,15 +45,17 @@ const optionsStyle = {
     else{
       var event = new CustomEvent("created-on-filter", {
           "detail": {
-            createdOnMaxDate: endDate.toISOString().substring(0,endDate.toISOString().length-1),
-            createdOnMinDate:startDate.toISOString().substring(0,startDate.toISOString().length-1)
+            createdOnMinDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
+            createdOnMaxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
           }
         });
         document.dispatchEvent(event);
         this.setState({
-          minDate: date,
+          minDate:new Date(startDate),
+          maxDate:new Date(endDate)
         })
     }
+
   };
   handleChangeMaxDate (event, date)  {
     let endDate=date;
@@ -67,19 +67,34 @@ const optionsStyle = {
     else{
       var event = new CustomEvent("created-on-filter", {
           "detail": {
-            createdOnMaxDate: endDate.toISOString().substring(0,endDate.toISOString().length-1),
-            createdOnMinDate:startDate.toISOString().substring(0,startDate.toISOString().length-1)
+            createdOnMinDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
+            createdOnMaxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
           }
         });
         document.dispatchEvent(event);
-      this.setState({
-        maxDate: date,
-      });
+        this.setState({
+          minDate:new Date(startDate),
+          maxDate:new Date(endDate)
+        });
+    }
+
+  }
+  setParameter(){
+    const newparams = queryString.parse(document.location.search);
+    let minDate;
+    let maxDate;
+    if (newparams.createdOnMaxDate && newparams.createdOnMinDate) {
+    maxDate = new Date(newparams.createdOnMaxDate);
+    minDate=new Date(newparams.createdOnMinDate);
+    this.setState({
+      minDate,
+      maxDate
+    })
     }
   }
-
-
-
+  componentDidMount(){
+    this.setParameter();
+  }
   render() {
     return (
       <div>
@@ -88,6 +103,7 @@ const optionsStyle = {
             onChange={this.handleChangeMinDate}
             autoOk={this.state.autoOk}
             floatingLabelText="Min Date"
+            value={this.state.minDate}
             defaultDate={this.state.minDate}
             minDate={minDate}
             maxDate={maxDate}
@@ -98,6 +114,7 @@ const optionsStyle = {
             onChange={this.handleChangeMaxDate}
             autoOk={this.state.autoOk}
             floatingLabelText="Max Date"
+            value={this.state.maxDate}
             defaultDate={this.state.maxDate}
             minDate={minDate}
             maxDate={maxDate}

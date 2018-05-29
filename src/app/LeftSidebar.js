@@ -10,10 +10,10 @@ import SpeciesGroup from '../components/filterPanel/speciesGroup/SpeciesGroup';
 import UserGroup from '../userGroup/UserGroup';
 import ScientificNameFilter from  '../components/filterPanel/scientificName/ScientificName';
 import FlaggedFilter from  '../components/filterPanel/flag/Flag';
-import Media_Filter from  '../components/filterPanel/media/Media';
+import Media from  '../components/filterPanel/media/Media';
 import SearchBar from '../taxonBrowser/SearchBar';
-import Year_Filter from  '../components/filterPanel/year/Year';
-import CreatedOn_Filter from  '../components/filterPanel/createdOn/CreatedOn';
+import ObservedOn from  '../components/filterPanel/observedOn/ObservedOn';
+import CreatedOn from  '../components/filterPanel/createdOn/CreatedOn';
 
 import Validate_Filter from  '../components/filterPanel/validate/Validate';
 import Month_Filter from '../components/filterPanel/month/Month';
@@ -159,6 +159,7 @@ openFilter(){
      customFieldsOpen,
      creadtedOnOpen,
      dateTabOpen,
+     fromDateOpen
    })
 }
 componentDidMount(){
@@ -285,14 +286,14 @@ render(){
               <UserFilter/>
             </Collapsible>
             <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type`}>
-              <Media_Filter />
+              <Media />
             </Collapsible>
             <Collapsible lazyRender={true} open={this.state.dateTabOpen} trigger={`Date`}>
                 <Collapsible lazyRender={true} open={this.state.fromDateOpen} trigger={`Observed On`}>
-                  <Year_Filter />
+                  <ObservedOn />
                 </Collapsible>
                 <Collapsible lazyRender={true} open={this.state.creadtedOnOpen} trigger={`Created On`}>
-                  <CreatedOn_Filter />
+                  <CreatedOn />
                 </Collapsible>
             </Collapsible>
 
