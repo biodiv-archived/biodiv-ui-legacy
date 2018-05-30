@@ -19,6 +19,8 @@ import Validate_Filter from  '../components/filterPanel/validate/Validate';
 import Month_Filter from '../components/filterPanel/month/Month';
 import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
+import TaxonName from '../components/filterPanel/taxonName/TaxonName';
+
 
 import CustomFields from '../customFields/CustomFields';
 
@@ -43,7 +45,8 @@ constructor(){
     dataCheckOpen:false,
     creadtedOnOpen:false,
     fromDateOpen:false,
-    dateTabOpen:false
+    dateTabOpen:false,
+    taxonNameOpen:false
 
   }
   this.openFilter=this.openFilter.bind(this);
@@ -83,7 +86,7 @@ openFilter(){
    let creadtedOnOpen=this.state.creadtedOnOpen;
    let fromDateOpen=this.state.fromDateOpen;
    let dateTabOpen=this.state.dateTabOpen;
-
+   let taxonNameOpen= this.state.taxonNameOpen;
    if(newparams.taxon ){
      taxonOpen=true;
    }
@@ -122,6 +125,18 @@ openFilter(){
    if(newparams.validate){
        validateOpen=true
    }
+   if(newparams.taxonName){
+     taxonNameOpen=true;
+   }
+   if(newparams.createdOnMaxDate || newparams.createdOnMinDate){
+     creadtedOnOpen=true;
+   }
+   if(newparams.maxDate || newparams.minDate){
+     fromDateOpen=true;
+   }
+   if(newparams.createdOnMaxDate || newparams.createdOnMinDate || newparams.maxDate || newparams.minDate ){
+     dateTabOpen=true;
+   }
    Object.keys(newparams).forEach((key) =>{
      if(key.includes("custom")){
        customFieldsOpen=true
@@ -134,15 +149,7 @@ openFilter(){
        traitsOpen=true
      }
    });
-   if(newparams.createdOnMaxDate || newparams.createdOnMinDate){
-     creadtedOnOpen=true;
-   }
-   if(newparams.maxDate || newparams.minDate){
-     fromDateOpen=true;
-   }
-   if(newparams.createdOnMaxDate || newparams.createdOnMinDate || newparams.maxDate || newparams.minDate ){
-     dateTabOpen=true;
-   }
+
 
    this.setState({
      sGroupOpen,
@@ -159,7 +166,8 @@ openFilter(){
      customFieldsOpen,
      creadtedOnOpen,
      dateTabOpen,
-     fromDateOpen
+     fromDateOpen,
+     taxonNameOpen
    })
 }
 componentDidMount(){
@@ -219,8 +227,11 @@ render(){
     }
     if(urlObject.months){
       this.length++;
-
     }
+    if(urlObject.taxonName){
+      this.length++;
+    }
+
 
       let increaseTraits=true;
     Object.keys(urlObject).forEach((key)=> {
@@ -258,6 +269,10 @@ render(){
                 <TaxonBrowser />
                 <SearchBar />
             </div>
+            </Collapsible>
+
+            <Collapsible  lazyRender={true} open={this.state.taxonNameOpen} trigger={`Taxon Name`}>
+              <TaxonName />
             </Collapsible>
 
             <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups`}>

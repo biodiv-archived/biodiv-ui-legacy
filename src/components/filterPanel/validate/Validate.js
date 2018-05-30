@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import queryString from 'query-string';
 import Checkbox from 'rc-checkbox';
+import {withRouter} from 'react-router-dom';
 
 import 'rc-checkbox/assets/index.css';
 
@@ -13,17 +14,21 @@ class ValidateFilter extends Component{
     }
   }
   setParameter(){
+    let data=[];
     const newparams = queryString.parse(document.location.search);
     if (newparams.validate) {
-      const data = newparams.validate.split(",");
-      this.setState({
-        ValidateFilter:data
-      })
-
+      data = newparams.validate.split(",");
     }
+    else{
+      data=[];
+    }
+    this.setState({
+      ValidateFilter:data
+    })
   }
   componentDidMount(){
     this.setParameter();
+    
   }
 
 handleCheckboxes(event){
@@ -75,4 +80,4 @@ handleCheckboxes(event){
     )
   }
 }
-export default ValidateFilter;
+export default  withRouter(ValidateFilter);

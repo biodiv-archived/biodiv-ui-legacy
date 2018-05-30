@@ -36,7 +36,11 @@ class Header extends React.Component {
         this.props.fetchDataSetList()
         this.props.fetchSpeciesGroup()
         this.props.fetchLanguages()
-
+        this.props.history.listen((location,action)=>{
+        if(action=="POP"){
+          window.location.reload()
+        }
+        })
     }
 
     logout(){

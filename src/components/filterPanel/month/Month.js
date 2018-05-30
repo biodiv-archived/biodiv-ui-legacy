@@ -4,6 +4,9 @@ import Checkbox from 'rc-checkbox';
 import 'rc-checkbox/assets/index.css';
 import queryString from 'query-string';
 
+import {withRouter} from 'react-router-dom';
+
+
 import _ from 'lodash';
 
 function remove(array, element) {
@@ -19,17 +22,21 @@ class MonthApp extends React.Component {
   }
   componentDidMount(){
       this.setParameter();
+    
   }
 
   setParameter(){
     const newparams = queryString.parse(document.location.search);
+    let data=[];
     if (newparams.months) {
-      const data = newparams.months.split(",");
-      this.setState({
-        monthSelected:data
-      })
-
+      data = newparams.months.split(",");
     }
+    else{
+      data=[];
+    }
+    this.setState({
+      monthSelected:data
+    })
   }
 
 onChange(e){
@@ -68,7 +75,7 @@ else{
           &nbsp;
           January
         </div>
-        
+
         <div>
           <Checkbox
             onChange={this.onChange.bind(this)}
@@ -194,4 +201,4 @@ else{
   }
 }
 
-export default MonthApp
+export default withRouter(MonthApp);

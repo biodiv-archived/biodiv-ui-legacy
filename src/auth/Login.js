@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, Form } from 'redux-form';
-import {NavLink} from 'react-router-dom';
+import {NavLink,withRouter} from 'react-router-dom';
 import * as AuthActions from './AuthActions';
 import { Config } from '../Config';
 
@@ -130,4 +130,4 @@ function mapStateToProps(state) {
 Login = reduxForm({
  form: 'login'
 })(Login);
-export default  connect(mapStateToProps, AuthActions)(Login);
+export default   withRouter(connect(mapStateToProps, AuthActions)(Login));

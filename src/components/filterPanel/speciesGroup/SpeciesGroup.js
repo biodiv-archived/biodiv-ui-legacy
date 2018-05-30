@@ -5,6 +5,8 @@ import axios from 'axios';
 import Checkbox from 'rc-checkbox';
 import _ from 'lodash';
 import 'rc-checkbox/assets/index.css';
+import {withRouter} from 'react-router-dom';
+
 
 import {ClearObservationPage} from '../../../actions/index';
 import {Config}  from '../../../Config';
@@ -24,14 +26,19 @@ class SpeciesGroup extends Component {
   }
 
   setParameter() {
+    console.log("this thing called");
     const newparams = queryString.parse(document.location.search);
+    let data =[];
     if (newparams.sGroup) {
-      const data = newparams.sGroup.split(",");
-      this.setState({
-        sGroupId:data
-      })
-
+       data = newparams.sGroup.split(",");
     }
+    else{
+      data=[];
+    }
+    console.log(data);
+    this.setState({
+      sGroupId:data
+    })
   }
   getData(){
     axios.get(`${Config.api.API_ROOT_URL}/species/list`).then((response)=>{
@@ -43,11 +50,11 @@ class SpeciesGroup extends Component {
   componentDidMount() {
     this.setParameter();
     this.getData();
+  
   }
 
 
   sChanged(e){
-
     let sGroupId=this.state.sGroupId;
     if(e.target.checked){
         sGroupId.push(e.target.id);
@@ -76,7 +83,7 @@ class SpeciesGroup extends Component {
            return(
              <div key={index}>
              <Checkbox
-               defaultChecked={this.state.sGroupId.includes(item.id.toString())}
+               checked={this.state.sGroupId.includes(item.id.toString())}
                id={item.id.toString()}
                onChange={this.sChanged.bind(this)}
              />{" "+item.name}
@@ -87,4 +94,4 @@ class SpeciesGroup extends Component {
     )
   }
 }
-export default SpeciesGroup;
+export default  withRouter(SpeciesGroup);

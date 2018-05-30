@@ -148,6 +148,12 @@ class ObservationListContainer extends Component {
       this.GlobalCall(params);
 
     }
+    taxonNameEventListner(e){
+      this.props.ClearObservationPage();
+      let params=this.state.params;
+      params.taxonName=e.detail.taxonName.join(",");
+      this.GlobalCall(params);
+    }
     yearFilterEventListner(e){
       this.props.ClearObservationPage();
       let params=this.state.params;
@@ -346,7 +352,7 @@ class ObservationListContainer extends Component {
 
       componentDidMount(){
        this.setParameter();
-      
+
         document.addEventListener("speciesName-filter", this.allFilterEventListner.bind(this));
         document.addEventListener("media-filter", this.mediaFilterEventListner.bind(this));
         document.addEventListener("getTaxon-filter", this.taxonFilterEventListner.bind(this));
@@ -360,6 +366,7 @@ class ObservationListContainer extends Component {
         document.addEventListener("traits",this.traitsEventListner.bind(this));
         document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
         document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
+        document.addEventListener("taxon-name-filter",this.taxonNameEventListner.bind(this));
 
 
 
@@ -378,6 +385,7 @@ class ObservationListContainer extends Component {
         document.addEventListener("traits",this.traitsEventListner.bind(this));
         document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
         document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
+        document.addEventListener("taxon-name-filter",this.taxonNameEventListner.bind(this));
 
         this.props.ClearObservationPage();
       }
@@ -521,6 +529,7 @@ class ObservationListContainer extends Component {
         }
 
   render(){
+    
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
 return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
 }):null;

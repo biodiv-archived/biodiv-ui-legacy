@@ -2,6 +2,9 @@ import React from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
 
+import {withRouter} from 'react-router-dom';
+
+
 
 
 import 'rc-checkbox/assets/index.css';
@@ -16,16 +19,19 @@ class MediaFilter extends React.Component {
   }
   setParameter(){
     const newparams = queryString.parse(document.location.search);
+    let data=[];
     if (newparams.mediaFilter) {
-      const data = newparams.mediaFilter.split(",");
-      this.setState({
-        mediaFilter:data
-      })
-
+       data= newparams.mediaFilter.split(",");
+    }else{
+      data=[];
     }
+    this.setState({
+      mediaFilter:data
+    })
   }
   componentDidMount(){
     this.setParameter();
+  
   }
   handleCheckboxes(event){
     let mediaFilter=this.state.mediaFilter;
@@ -89,4 +95,4 @@ class MediaFilter extends React.Component {
   }
 }
 
-export default MediaFilter;
+export default  withRouter(MediaFilter);
