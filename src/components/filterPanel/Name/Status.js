@@ -6,49 +6,49 @@ import {withRouter} from 'react-router-dom';
 
 import 'rc-checkbox/assets/index.css';
 
-class TaxonNames extends React.Component {
+class TaxonStatus extends React.Component {
   constructor(){
     super();
     this.state={
-      TaxonName:[]
+      Status:[]
     }
 
   }
   setParameter(){
     const newparams = queryString.parse(document.location.search);
     let data=[];
-    if (newparams.taxonName) {
-       data= newparams.taxonName.split(",");
+    if (newparams.status) {
+       data= newparams.status.split(",");
     }else{
       data=[];
     }
     this.setState({
-      TaxonName:data
+      Status:data
     })
   }
   componentDidMount(){
     this.setParameter();
   }
   handleCheckboxes(event){
-    let TaxonName=this.state.TaxonName;
+    let Status=this.state.Status;
     if(event.target.checked){
-      TaxonName.push(event.target.value);
-      let set=new Set(TaxonName);
-      TaxonName=Array.from(set);
+      Status.push(event.target.value);
+      let set=new Set(Status);
+      Status=Array.from(set);
       set.clear();
     }
     else{
-      let set =new Set(TaxonName);
+      let set =new Set(Status);
       set.delete(event.target.value);
-      TaxonName=Array.from(set);
+      Status=Array.from(set);
       set.clear();
     }
     this.setState({
-      TaxonName
+      Status
     })
 
-       let events = new CustomEvent("taxon-name-filter",{ "detail":{
-           taxonName:TaxonName
+       let events = new CustomEvent("status-filter",{ "detail":{
+           status:Status
        }
        });
        document.dispatchEvent(events);
@@ -61,28 +61,22 @@ class TaxonNames extends React.Component {
 
         <div>
             <Checkbox
-                checked={ this.state.TaxonName.includes("accepted")?true:false }
+                checked={ this.state.Status.includes("accepted")?true:false }
                 value={"accepted"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Accepted"}
         </div>
         <div>
             <Checkbox
-                checked={ this.state.TaxonName.includes("synonym")?true:false }
+                checked={ this.state.Status.includes("synonym")?true:false }
                 value={"synonym"}
                 onChange={this.handleCheckboxes.bind(this)}
             />{" Synonyms"}
         </div>
-        <div>
-            <Checkbox
-                checked={ this.state.TaxonName.includes("none")?true:false }
-                value={"none"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{" None"}
-        </div>
+
       </div>
     )
   }
 }
 
-export default  withRouter(TaxonNames);
+export default  withRouter(TaxonStatus);

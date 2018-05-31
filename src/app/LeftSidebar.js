@@ -19,8 +19,8 @@ import Validate_Filter from  '../components/filterPanel/validate/Validate';
 import Month_Filter from '../components/filterPanel/month/Month';
 import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
-import TaxonName from '../components/filterPanel/taxonName/TaxonName';
-
+import Status from '../components/filterPanel/Name/Status';
+import TaxonId from '../components/filterPanel/Name/TaxonId';
 
 import CustomFields from '../customFields/CustomFields';
 
@@ -46,7 +46,9 @@ constructor(){
     creadtedOnOpen:false,
     fromDateOpen:false,
     dateTabOpen:false,
-    taxonNameOpen:false
+    nameOpen:false,
+    statusOpen:false,
+    taxonIdOpen:false
 
   }
   this.openFilter=this.openFilter.bind(this);
@@ -86,7 +88,9 @@ openFilter(){
    let creadtedOnOpen=this.state.creadtedOnOpen;
    let fromDateOpen=this.state.fromDateOpen;
    let dateTabOpen=this.state.dateTabOpen;
-   let taxonNameOpen= this.state.taxonNameOpen;
+   let nameOpen= this.state.nameOpen;
+   let statusOpen=this.state.statusOpen;
+   let taxonIdOpen=this.state.taxonIdOpen;
    if(newparams.taxon ){
      taxonOpen=true;
    }
@@ -125,9 +129,7 @@ openFilter(){
    if(newparams.validate){
        validateOpen=true
    }
-   if(newparams.taxonName){
-     taxonNameOpen=true;
-   }
+
    if(newparams.createdOnMaxDate || newparams.createdOnMinDate){
      creadtedOnOpen=true;
    }
@@ -137,6 +139,16 @@ openFilter(){
    if(newparams.createdOnMaxDate || newparams.createdOnMinDate || newparams.maxDate || newparams.minDate ){
      dateTabOpen=true;
    }
+   if(newparams.status || newparams.taxonId){
+     nameOpen=true;
+     if(newparams.status){
+       statusOpen=true;
+     }
+     if(newparams.taxonId){
+       taxonIdOpen=true;
+     }
+   }
+
    Object.keys(newparams).forEach((key) =>{
      if(key.includes("custom")){
        customFieldsOpen=true
@@ -167,7 +179,9 @@ openFilter(){
      creadtedOnOpen,
      dateTabOpen,
      fromDateOpen,
-     taxonNameOpen
+     nameOpen,
+     statusOpen,
+     taxonIdOpen
    })
 }
 componentDidMount(){
@@ -228,7 +242,7 @@ render(){
     if(urlObject.months){
       this.length++;
     }
-    if(urlObject.taxonName){
+    if(urlObject.status || urlObject.taxonId){
       this.length++;
     }
 
@@ -271,8 +285,13 @@ render(){
             </div>
             </Collapsible>
 
-            <Collapsible  lazyRender={true} open={this.state.taxonNameOpen} trigger={`Taxon Name`}>
-              <TaxonName />
+            <Collapsible  lazyRender={true} open={this.state.nameOpen} trigger={`Name`}>
+              <Collapsible  lazyRender={true} open={this.state.statusOpen} trigger={`Status`}>
+                 <Status />
+              </Collapsible>
+              <Collapsible  lazyRender={true} open={this.state.taxonIdOpen} trigger={'Taxon Id'}>
+                 <TaxonId />
+              </Collapsible>
             </Collapsible>
 
             <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups`}>

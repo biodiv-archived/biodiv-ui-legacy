@@ -148,10 +148,10 @@ class ObservationListContainer extends Component {
       this.GlobalCall(params);
 
     }
-    taxonNameEventListner(e){
+    statusEventListner(e){
       this.props.ClearObservationPage();
       let params=this.state.params;
-      params.taxonName=e.detail.taxonName.join(",");
+      params.status=e.detail.status.join(",");
       this.GlobalCall(params);
     }
     yearFilterEventListner(e){
@@ -160,6 +160,12 @@ class ObservationListContainer extends Component {
       params.maxDate=e.detail.maxDate;
       params.minDate=e.detail.minDate;
       this.GlobalCall(params);
+    }
+    taxonIdEventListner(e){
+        this.props.ClearObservationPage();
+        let params=this.state.params;
+        params.taxonId=e.detail.taxonId.join(",");
+        this.GlobalCall(params);
     }
     createdOnEventListner(e){
       this.props.ClearObservationPage();
@@ -366,9 +372,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("traits",this.traitsEventListner.bind(this));
         document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
         document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
-        document.addEventListener("taxon-name-filter",this.taxonNameEventListner.bind(this));
-
-
+        document.addEventListener("status-filter",this.statusEventListner.bind(this));
+        document.addEventListener("taxonId-filter",this.taxonIdEventListner.bind(this));
 
       }
       componentWillUnmount(){
@@ -385,8 +390,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("traits",this.traitsEventListner.bind(this));
         document.addEventListener("customFields",this.customFieldsEventListner.bind(this));
         document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
-        document.addEventListener("taxon-name-filter",this.taxonNameEventListner.bind(this));
-
+        document.addEventListener("status-filter",this.statusEventListner.bind(this));
+        document.addEventListener("taxonId-filter",this.taxonIdEventListner.bind(this));
         this.props.ClearObservationPage();
       }
 
@@ -529,7 +534,7 @@ class ObservationListContainer extends Component {
         }
 
   render(){
-    
+
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
 return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
 }):null;
