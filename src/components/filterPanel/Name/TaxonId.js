@@ -62,14 +62,14 @@ class TaxonIdsFilter extends React.Component {
                 checked={ this.state.TaxonId.includes("1")?true:false }
                 value={"1"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Has Id"}
+            />{" Has Taxon Id"}
         </div>
         <div>
             <Checkbox
                 checked={ this.state.TaxonId.includes("0")?true:false }
                 value={"0"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Has No Id"}
+            />{" No Taxon Id"}
         </div>
       </div>
     )
