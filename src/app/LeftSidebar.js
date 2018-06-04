@@ -23,7 +23,7 @@ import Status from '../components/filterPanel/Name/Status';
 import TaxonId from '../components/filterPanel/Name/TaxonId';
 import RecoName from '../components/filterPanel/Name/RecoName';
 import CustomFields from '../customFields/CustomFields';
-
+import Location from '../components/filterPanel/location/Location';
 
 class Right extends Component {
 
@@ -49,7 +49,8 @@ constructor(){
     nameOpen:false,
     statusOpen:false,
     taxonIdOpen:false,
-    recoNameOpen:false
+    recoNameOpen:false,
+    locationOpen:false
 
   }
   this.openFilter=this.openFilter.bind(this);
@@ -93,6 +94,7 @@ openFilter(){
    let statusOpen=this.state.statusOpen;
    let taxonIdOpen=this.state.taxonIdOpen;
    let recoNameOpen=this.state.recoNameOpen;
+   let locationOpen=this.state.locationOpen;
    if(newparams.taxon ){
      taxonOpen=true;
    }
@@ -153,6 +155,9 @@ openFilter(){
        recoNameOpen=true;
      }
    }
+   if(newparams.points){
+     locationOpen=true;
+   }
 
    Object.keys(newparams).forEach((key) =>{
      if(key.includes("custom")){
@@ -187,7 +192,8 @@ openFilter(){
      nameOpen,
      statusOpen,
      taxonIdOpen,
-     recoNameOpen
+     recoNameOpen,
+     locationOpen
    })
 }
 componentDidMount(){
@@ -251,6 +257,9 @@ render(){
     if(urlObject.status || urlObject.taxonId || urlObject.recoName){
       this.length++;
     }
+    if(urlObject.points){
+      this.length++;
+    }
 
 
       let increaseTraits=true;
@@ -278,9 +287,9 @@ render(){
       <div id="leftSidebar" className="panel panel-success">
         <div  className="panel-heading vertical-align">
             <span  className="glyphicon glyphicon-filter" title="Filters">Filters </span>
-            <NavLink  to={`${this.props.location.pathname}`} className="glyphicon glyphicon-trash">
+            <a href={`${this.props.location.pathname}`} className="glyphicon glyphicon-trash">
                 <span style={{marginTop:'-9px'}} className="badge badge-danger">{this.length}</span>
-            </NavLink>
+            </a>
        </div>
 
         <div  className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
@@ -292,15 +301,18 @@ render(){
             </Collapsible>
 
             <Collapsible  lazyRender={true} open={this.state.nameOpen} trigger={`Name`}>
-              <Collapsible  lazyRender={true} open={this.state.statusOpen} trigger={`Status`}>
-                 <Status />
-              </Collapsible>
-              <Collapsible  lazyRender={true} open={this.state.taxonIdOpen} trigger={'Taxon Id'}>
-                 <TaxonId />
-              </Collapsible>
-              <Collapsible  lazyRender={true} open={this.state.recoNameOpen} trigger={'RecoName'}>
-                 <RecoName />
-              </Collapsible>
+                  <Collapsible  lazyRender={true} open={this.state.recoNameOpen} trigger={'RecoName'}>
+                     <RecoName />
+                  </Collapsible>
+                  <Collapsible  lazyRender={true} open={this.state.statusOpen} trigger={`Status`}>
+                     <Status />
+                  </Collapsible>
+                  <Collapsible  lazyRender={true} open={this.state.taxonIdOpen} trigger={'Taxon Id'}>
+                     <TaxonId />
+                  </Collapsible>
+            </Collapsible>
+            <Collapsible   open={this.state.locationOpen} trigger={'Location'}>
+                <Location />
             </Collapsible>
 
             <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups`}>
