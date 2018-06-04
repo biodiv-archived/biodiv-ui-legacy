@@ -129,16 +129,16 @@ class NavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu" >
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}species/list`}>Species Pages</NavLink>
+                                        <a href=={`/${this.props.PublicUrl}species/list`}>Species Pages</a>
                                     </li>
                                     <li>
-                                        { <NavLink to={`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</NavLink>}
+                                        { <a href=={`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</a>}
                                     </li>
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>Species Traits</NavLink>
+                                        <a href=={`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>Species Traits</a>
                                     </li>
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}dataTable/list?type=species`}>Species Datatables</NavLink>
+                                        <a href=={`/${this.props.PublicUrl}dataTable/list?type=species`}>Species Datatables</a>
                                     </li>
 
                                 </ul>
@@ -149,30 +149,30 @@ class NavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}observation/list`}>Observations
-                                        </NavLink>
+                                        <a href=={`/${this.props.PublicUrl}observation/list`}>Observations
+                                        </a>
                                     </li>
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}checklist/index`}>Checklists
-                                        </NavLink>
+                                        <a href=={`/${this.props.PublicUrl}checklist/index`}>Checklists
+                                        </a>
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}datasource/list`}>Datasets
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}datasource/list`}>Datasets
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}observation/traits/`}>Observation Traits
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}observation/traits/`}>Observation Traits
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataTable/list?type=observations`}>Observation Datatables
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}dataTable/list?type=observations`}>Observation Datatables
+                                        </a>}
                                     </li>
                                 </ul>
                             </li>
                             <li>
                                 {<NavLink className="menu-item bbpLink"  to={`/${this.props.PublicUrl}map`}>Maps
-                                </NavLink>}
+                                </a>}
                             </li>
                             <li className="dropdown">
                               <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">Documents<span className="caret"></span>
@@ -180,11 +180,11 @@ class NavigationHeader extends Component{
                               <ul className="dropdown-menu" role="menu">
                                 <li>
                                 {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}document/list`}>Documents
-                                </NavLink>}
+                                </a>}
                                 </li>
                                 <li>
                                 {<NavLink className="menu-item"  to={`/${this.props.PublicUrl}dataTable/list?type=documents`}>Document Datatables
-                                </NavLink>}
+                                </a>}
                                 </li>
                               </ul>
                             </li>
@@ -193,37 +193,37 @@ class NavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}species/contribute`}>Contribute to Species page
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}species/contribute`}>Contribute to Species page
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}observation/create`}>Add Observation
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}observation/create`}>Add Observation
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}observation/bulkCreate`}>  Add Multiple Observations
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}observation/bulkCreate`}>  Add Multiple Observations
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataTable/create`}>Add a list
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}dataTable/create`}>Add a list
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}document/create`}>
-                                            Add Documents</NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}document/create`}>
+                                            Add Documents</a>}
                                     </li>
 
                                     <li>
-                                            {<NavLink to={`/${this.props.PublicUrl}dataset/create`}>Add Dataset
-                                            </NavLink>}
+                                            {<a href=={`/${this.props.PublicUrl}dataset/create`}>Add Dataset
+                                            </a>}
                                     </li>
 
                                     {
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<NavLink to={`/${this.props.PublicUrl}trait/create`}> Add Trait/Value
-                                            </NavLink>}
+                                            {<a href=={`/${this.props.PublicUrl}trait/create`}> Add Trait/Value
+                                            </a>}
                                         </li>
                                       ):null
                                     }
@@ -231,8 +231,8 @@ class NavigationHeader extends Component{
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<NavLink to={`/${this.props.PublicUrl}fact/upload`}>Add Fact
-                                            </NavLink>}
+                                            {<a href=={`/${this.props.PublicUrl}fact/upload`}>Add Fact
+                                            </a>}
                                         </li>
                                       ):null
                                     }
@@ -240,8 +240,8 @@ class NavigationHeader extends Component{
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<NavLink to={`/${this.props.PublicUrl}dataPackage/create`}>
-                                                Add Data Package</NavLink>}
+                                            {<a href=={`/${this.props.PublicUrl}dataPackage/create`}>
+                                                Add Data Package</a>}
                                         </li>
                                       ):null
                                     }
@@ -249,24 +249,24 @@ class NavigationHeader extends Component{
                             </li>
                             <li>
                                 {<NavLink className="menu-item bbpLink"  to={`/${this.props.PublicUrl}discussion/list`}>Discussions
-                                </NavLink>}
+                                </a>}
                             </li>
                             <li className="dropdown">
                                 <a href="#" className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown">Datasets<span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5136151&offset=&view=grid`}>Generic Biodiversity Datasets
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}dataset/list?dataPackage=5136151&offset=&view=grid`}>Generic Biodiversity Datasets
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}dataset/list?dataPackage=5168239&offset=&view=grid`}>{"People's Biodiversity Registers"}
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}dataset/list?dataPackage=5168239&offset=&view=grid`}>{"People's Biodiversity Registers"}
+                                        </a>}
                                     </li>
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                {<NavLink className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></NavLink>}
+                                {<NavLink className="dropdown-toggle menu-item bbpLink" data-toggle="dropdown" to={`/${this.props.PublicUrl}group/list`}>Groups<span className="caret"></span></a>}
                                 <ul className="dropdown-menu pre-scrollable" style={{'height':'auto','width':'200px'}} role="menu">
                                     {this.props.UserGroupList.length>0?
                                       (
@@ -294,14 +294,14 @@ class NavigationHeader extends Component{
                                             this.state.parents.map((item1,index1)=>{
                                                 return(
                                                     <li key={index1}>
-                                                        <NavLink to={`/${this.props.PublicUrl}page/${item1.id}`}>{item1.title}</NavLink>
+                                                        <a href=={`/${this.props.PublicUrl}page/${item1.id}`}>{item1.title}</a>
                                                         <ul>
                                                             {
                                                                 this.state.children.get(item1.id) != null ?
                                                                     this.state.children.get(item1.id).map((item2,index2)=>{
                                                                         return(
                                                                             <li key={item2.id}>
-                                                                                <NavLink to={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</NavLink>
+                                                                                <a href=={`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</a>
                                                                             </li>
                                                                         )
                                                                     })
@@ -322,20 +322,20 @@ class NavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}activityFeed/list`}>Activity
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}activityFeed/list`}>Activity
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}user/list`}>Participants
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}user/list`}>Participants
+                                        </a>}
                                     </li>
                                     <li>
-                                        {<NavLink to={`/${this.props.PublicUrl}chart/show`}>Dashboard
-                                        </NavLink>}
+                                        {<a href=={`/${this.props.PublicUrl}chart/show`}>Dashboard
+                                        </a>}
                                     </li>
                                     <li>
-                                        <NavLink to={`/${this.props.PublicUrl}theportal`}>About
-                                        </NavLink>
+                                        <a href=={`/${this.props.PublicUrl}theportal`}>About
+                                        </a>
 
                                     </li>
                                 </ul>

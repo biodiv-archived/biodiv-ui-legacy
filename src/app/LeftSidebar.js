@@ -21,7 +21,7 @@ import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
 import Status from '../components/filterPanel/Name/Status';
 import TaxonId from '../components/filterPanel/Name/TaxonId';
-
+import RecoName from '../components/filterPanel/Name/RecoName';
 import CustomFields from '../customFields/CustomFields';
 
 
@@ -48,7 +48,8 @@ constructor(){
     dateTabOpen:false,
     nameOpen:false,
     statusOpen:false,
-    taxonIdOpen:false
+    taxonIdOpen:false,
+    recoNameOpen:false
 
   }
   this.openFilter=this.openFilter.bind(this);
@@ -91,6 +92,7 @@ openFilter(){
    let nameOpen= this.state.nameOpen;
    let statusOpen=this.state.statusOpen;
    let taxonIdOpen=this.state.taxonIdOpen;
+   let recoNameOpen=this.state.recoNameOpen;
    if(newparams.taxon ){
      taxonOpen=true;
    }
@@ -139,13 +141,16 @@ openFilter(){
    if(newparams.createdOnMaxDate || newparams.createdOnMinDate || newparams.maxDate || newparams.minDate ){
      dateTabOpen=true;
    }
-   if(newparams.status || newparams.taxonId){
+   if(newparams.status || newparams.taxonId || newparams.recoName){
      nameOpen=true;
      if(newparams.status){
        statusOpen=true;
      }
      if(newparams.taxonId){
        taxonIdOpen=true;
+     }
+     if(newparams.recoName){
+       recoNameOpen=true;
      }
    }
 
@@ -181,7 +186,8 @@ openFilter(){
      fromDateOpen,
      nameOpen,
      statusOpen,
-     taxonIdOpen
+     taxonIdOpen,
+     recoNameOpen
    })
 }
 componentDidMount(){
@@ -242,7 +248,7 @@ render(){
     if(urlObject.months){
       this.length++;
     }
-    if(urlObject.status || urlObject.taxonId){
+    if(urlObject.status || urlObject.taxonId || urlObject.recoName){
       this.length++;
     }
 
@@ -291,6 +297,9 @@ render(){
               </Collapsible>
               <Collapsible  lazyRender={true} open={this.state.taxonIdOpen} trigger={'Taxon Id'}>
                  <TaxonId />
+              </Collapsible>
+              <Collapsible  lazyRender={true} open={this.state.recoNameOpen} trigger={'RecoName'}>
+                 <RecoName />
               </Collapsible>
             </Collapsible>
 

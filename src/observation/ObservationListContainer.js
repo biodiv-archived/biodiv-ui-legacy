@@ -121,6 +121,12 @@ class ObservationListContainer extends Component {
         this.GlobalCall(params);
 
     }
+    recoNameFilterEventListner(e){
+      this.props.ClearObservationPage();
+      let params=this.state.params;
+        params.recoName= e.detail.recoName;
+        this.GlobalCall(params);
+    }
 
     mediaFilterEventListner(e){
       this.props.ClearObservationPage();
@@ -374,6 +380,7 @@ class ObservationListContainer extends Component {
         document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
         document.addEventListener("status-filter",this.statusEventListner.bind(this));
         document.addEventListener("taxonId-filter",this.taxonIdEventListner.bind(this));
+        document.addEventListener("recoName-filter",this.recoNameFilterEventListner.bind(this));
 
       }
       componentWillUnmount(){
@@ -392,6 +399,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("created-on-filter",this.createdOnEventListner.bind(this));
         document.addEventListener("status-filter",this.statusEventListner.bind(this));
         document.addEventListener("taxonId-filter",this.taxonIdEventListner.bind(this));
+        document.addEventListener("recoName-filter",this.recoNameFilterEventListner.bind(this));
+
         this.props.ClearObservationPage();
       }
 
