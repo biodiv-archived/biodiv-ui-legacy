@@ -75,8 +75,8 @@ export default class LightboxExample extends Component {
                 <div className="carousel-inner">
                   <div className="item active">
                         <a href={`show/${this.props.objs.id}`} >
-                    <img src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)} style={{height:'200px',width:'200px',borderRadius: '5px'}} className="media-object img-responsive img-rounded" />
-                  </a>
+                          <img src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)} style={{height:'200px',width:'200px',borderRadius: '5px'}} className="media-object img-responsive img-rounded" />
+                        </a>
                     <div className="carousel-caption" >
                          <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
                          {"           "}

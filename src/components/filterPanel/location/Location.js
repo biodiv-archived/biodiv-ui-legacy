@@ -1,18 +1,19 @@
 import React from 'react';
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
-var mapboxgl = require('mapbox-gl');
-var MapboxDraw = require('@mapbox/mapbox-gl-draw');
 import {Config} from '../../../Config';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+var mapboxgl = require('mapbox-gl');
+var MapboxDraw = require('@mapbox/mapbox-gl-draw');
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg';
 var Draw = new MapboxDraw({
- // displayControlsDefault: false,
- // controls: {
- //     polygon: true,
- //     trash: true
- // }
+ displayControlsDefault: false,
+ controls: {
+     polygon: true,
+     trash: true
+ }
 });
 class LocationFilter extends React.Component {
 
@@ -34,7 +35,9 @@ class LocationFilter extends React.Component {
     })
   }
   getMapPointsParameters(draw){
+
   var data = Draw.getAll();
+
   console.log(data.features["0"].geometry.coordinates);
   }
   componentDidMount(){
