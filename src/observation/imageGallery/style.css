@@ -4,3 +4,33 @@
 .ReactModal__Overlay.ReactModal__Overlay--after-open{
   top:27% !important;
 }
+
+.snip1336 {
+    position: relative;
+    margin: 10px 1%;
+    width:350px;
+    height: 350px;
+}
+.snip1336 img {
+  max-width: 100%;
+  vertical-align: top;
+  opacity: 0.85;
+  width:300px;
+  height: 300px;
+
+}
+.snip1336 figcaptionpic {
+  margin-left: -34px;
+  margin-top: 50px;
+}
+.snip1336 .profilepic {
+    position: absolute;
+    z-index: 1;
+    max-width: 100px;
+}
+.snip1336 * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}

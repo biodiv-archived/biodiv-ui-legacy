@@ -6,8 +6,7 @@ import ReactDrawer from 'react-drawer';
 import 'react-drawer/lib/react-drawer.css';
 
 import LeftSidebar from './LeftSidebar';
-
-export default class Main extends React.Component {
+export default class LeftSideFIlterPanel extends React.Component {
   constructor() {
     super();
     this.state = {

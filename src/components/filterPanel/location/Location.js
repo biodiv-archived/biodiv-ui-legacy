@@ -3,12 +3,12 @@ import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import {Config} from '../../../Config';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-var mapboxgl = require('mapbox-gl');
-var MapboxDraw = require('@mapbox/mapbox-gl-draw');
+let mapboxgl = require('mapbox-gl');
+let MapboxDraw = require('@mapbox/mapbox-gl-draw');
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg';
-var Draw = new MapboxDraw({
+let Draw = new MapboxDraw({
  displayControlsDefault: false,
  controls: {
      polygon: true,
@@ -35,10 +35,23 @@ class LocationFilter extends React.Component {
     })
   }
   getMapPointsParameters(draw){
-
+    let locationParams="";
   var data = Draw.getAll();
+  data.features.map(parents=>{
+    parents.geometry.coordinates.map((item,index)=>{
+      item.map(item1=>{
+        locationParams=locationParams+item1+",";
+      })
+      locationParams=locationParams.substring(0,locationParams.length-2);
 
-  console.log(data.features["0"].geometry.coordinates);
+    });
+
+  })
+  let events = new CustomEvent("location-filter",{ "detail":{
+      location:locationParams
+  }
+  });
+  document.dispatchEvent(events);
   }
   componentDidMount(){
     this.setParameter();
@@ -61,7 +74,7 @@ class LocationFilter extends React.Component {
 
   render() {
     return (
-      <div  style={{width:'350px',height:'300px'}} ref={el => this.mapContainer = el} >
+      <div  style={{'height':'300px','width':'250px'}} ref={el => this.mapContainer = el} >
       </div>
     )
   }

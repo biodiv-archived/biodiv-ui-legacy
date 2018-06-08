@@ -12,12 +12,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {fetchObservations} from './ObservationActions';
 import {fetchRecommendations,ClearObservationPage,clearRecommendations,fetchFilterCount} from '../actions'
-
-
 import ObservationListWrapper from './ObservationListWrapper';
-
-import Right_stats from '../app/RightMaterial';
-import MobileRightSidebar from '../app/MobileRightSidebar';
+import AnalyticsDrawer from '../app/AnalyticsDrawer';
 import AuthUtils from '../auth/AuthUtils.js';
 import UserGroupName from '../util/UserGroup';
 import DownloadModal from './DownloadModal';
@@ -47,9 +43,9 @@ class ObservationListContainer extends Component {
           minDate:undefined,
           maxDate:undefined,
           hasMore:true,
-          max:10
+          max:10,
+          view:'list'
         },
-        view:1,
         showMap:false,
         selectAll:false,
         urlforPassing:undefined,
@@ -57,6 +53,7 @@ class ObservationListContainer extends Component {
         bulkId:[],
         bulk:false,
         login_modal:false,
+        openRightSideBar:true
       }
 
       this.loadMore=this.loadMore.bind(this);
@@ -233,6 +230,12 @@ class ObservationListContainer extends Component {
       params.sort=sortby;
       this.GlobalCall(params);
     }
+    locationFilterEventListner(e){
+      this.props.ClearObservationPage();
+      let params=this.state.params;
+      params.location=e.detail.location;
+      this.GlobalCall(params);
+    }
 
       setParameter(){
 
@@ -251,6 +254,9 @@ class ObservationListContainer extends Component {
 
               if(!newparams.offset){
                 newparams.offset=0
+              }
+              if(!newparams.view){
+                newparams.view="list"
               }
               if(!newparams.count){
                 newparams.count=0;
@@ -314,6 +320,9 @@ class ObservationListContainer extends Component {
           }
           if(!newparams.hasMore){
             newparams.hasMore=true;
+          }
+          if(!newparams.view){
+            newparams.view="list"
           }
           if(!newparams.max){
             newparams.max=10;
@@ -381,6 +390,8 @@ class ObservationListContainer extends Component {
         document.addEventListener("status-filter",this.statusEventListner.bind(this));
         document.addEventListener("taxonId-filter",this.taxonIdEventListner.bind(this));
         document.addEventListener("recoName-filter",this.recoNameFilterEventListner.bind(this));
+        document.addEventListener("location-filter",this.locationFilterEventListner.bind(this));
+
 
       }
       componentWillUnmount(){
@@ -400,28 +411,23 @@ class ObservationListContainer extends Component {
         document.addEventListener("status-filter",this.statusEventListner.bind(this));
         document.addEventListener("taxonId-filter",this.taxonIdEventListner.bind(this));
         document.addEventListener("recoName-filter",this.recoNameFilterEventListner.bind(this));
+        document.addEventListener("location-filter",this.locationFilterEventListner.bind(this));
 
         this.props.ClearObservationPage();
       }
-
-
-        showGridView(){
+        setView(view){
+          let params=this.state.params;
+          params['view']=view;
           this.setState({
-            view:0
+              params:params
           })
+          const seacrh=queryString.stringify(params)
+          const search1=decodeURIComponent(seacrh);
+          let newSearchParams="?"+search1;
+          if(this.props.location.search!=newSearchParams){
+            this.props.history.push(this.props.location.pathname+"?"+search1);
+          }
         }
-         showListView(){
-          this.setState({
-            view:1
-          })
-        }
-        showMapView(){
-          this.setState({
-            view:2,
-            showMap:true
-          })
-        }
-
         selectAll(){
           this.setState({
             selectAll:true
@@ -458,7 +464,6 @@ class ObservationListContainer extends Component {
         }
 
         }
-
         fetchRecos(){
             var allObvs = this.props.Observation.all
 
@@ -543,9 +548,8 @@ class ObservationListContainer extends Component {
         }
 
   render(){
-
     let list = this.props.Observation.all?this.props.Observation.all.map(item => {
-return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
+return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.params.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
 }):null;
     return(
       <div>
@@ -559,9 +563,9 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
               <div className="panel panel-success">
                   <div className="panel-heading vertical-align">
                       <ul className="nav nav-tabs" style={{display:'inline-block'}}>
-                          <li role="presentation" className={`${this.state.view===1?"active":""}`}><a href="#"  onClick={this.showListView.bind(this,1)} ><span className="glyphicon glyphicon-th-list">List</span></a></li>
-                          <li role="presentation" className={`${this.state.view===0?"active":""}`}><a href="#" onClick={this.showGridView.bind(this,0)} ><span className="glyphicon glyphicon-th">Grid</span></a></li>
-                          <li role="presentation" className={`${this.state.view===2?"active":""}`}><a href="#" onClick={this.showMapView.bind(this,2)} ><span className="glyphicon glyphicon-map-marker"> Map</span></a></li>
+                          <li role="presentation" ><button  className={`btn  ${this.state.params.view==="list"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list">List</span></button></li>
+                          <li role="presentation" ><button  className={`btn  ${this.state.params.view==="grid"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th">Grid</span></button></li>
+                          <li role="presentation" ><button  className={`btn  ${this.state.params.view==="map"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker">Map</span></button></li>
                       </ul>
                       <div className="panel-title">
                           <h5 className="text-primary">{this.props.Observation.count} result(s) found</h5>
@@ -575,17 +579,17 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                             <option  value="Most Viewed">Most Viewed</option>
                         </select>
                       </div>
-
-
-
                   </div>
-
-
-              {/* <ObservationListWrapper filterUrl={this.state.urlforPassing} objs={this.props.Observation.all} view={this.state.view} count={this.props.Observation.count} selectAll={this.state.selectAll} resetSelectAll={this.resetAll.bind(this)}/> */}
-              <div className="panel-body">{this.state.view==2?<ObservationListWrapper view={this.state.view} filterUrl={this.state.urlforPassing} />:this.state.view==0?<ObservationListWrapper view={this.state.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />:list}</div>
-
-
-              {this.state.view===2?null:<InfiniteScroll
+              <div className="panel-body">
+                {this.state.params.view=="map"?
+                <ObservationListWrapper view={this.state.params.view} filterUrl={this.state.urlforPassing} />
+                :
+                this.state.params.view=="grid"?
+                <ObservationListWrapper view={this.state.params.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />
+                :
+                list}
+              </div>
+              {this.state.params.view==="map"?null:<InfiniteScroll
                 next={this.loadMore.bind(this)}
                 hasMore={this.state.params.hasMore}
                 loader={ <Button bsStyle="success" bsSize="small" block>Loading ............</Button>}

@@ -10,14 +10,14 @@ import {fetchObservations} from './ObservationActions';
 class ObservationListWrapper extends Component{
     constructor(props){
         super(props);
-        //console.log(this.props.launchBulk,"launchBulk in  wrapper")
+      
     }
     render(){
         return(
                 <div>
-                      {this.props.view===1?<ObservationListView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll} uniqueKey={this.props.uniqueKey}  key={this.props.key} launchBulk={this.props.launchBulk}/> :
-                      this.props.view===2?<ObservationMapView filterUrl={this.props.filterUrl}  /> :
-                      this.props.view===0?<ObservationGridView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll} objsa={this.props.objs} /> : null}
+                      {this.props.view==="list"?<ObservationListView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll} uniqueKey={this.props.uniqueKey}  key={this.props.key} launchBulk={this.props.launchBulk}/> :
+                      this.props.view==="map"?<ObservationMapView filterUrl={this.props.filterUrl}  /> :
+                      this.props.view==="grid"?<ObservationGridView filterUrl={this.props.filterUrl} selectAll={this.props.selectAll} resetSelectAll={this.props.resetSelectAll} objsa={this.props.objs} /> : null}
                 </div>
                 )
     }

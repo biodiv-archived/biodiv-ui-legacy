@@ -8,18 +8,15 @@ import logger from 'redux-logger';
 import queryString from 'query-string';
 import { BrowserRouter, Route, Switch,Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
+
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
 import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from './actions/index';
-
-
 import reducers from './reducers';
-
-
-
-
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
@@ -176,15 +173,15 @@ ReactDOM.render(
           </div>
           <div id="contentWrapper">
               <div id="content">
-                  <Route exact path="/" component={HomePageContainer} history={history}/>
-                  <Route exact path="/observation/list" component={App} props={search2} history={history}/>
-                  <Route  path="/group/:groupName/observation" component={App} history={history}/>
-                  <Route  path="/group/:groupName/login" component={Login} history={history}/>
-                  <Route path="/login" component={Login} history={history}/>
-                  <Route exact path="/logout" component={Logout} history={history}/>
-                  <Route exact path="/register" component={Register} history={history}/>
-                  <Route exact path="/register/forgotPassword" component={ForgotPassword} history={history}/>
-                  <Route exact path="/register/resetPassword" component={ResetPassword} history={history}/>
+                  <Route exact path="/" component={HomePageContainer} />
+                  <Route exact path="/observation/list" component={App} props={search2} />
+                  <Route  path="/group/:groupName/observation" component={App} />
+                  <Route  path="/group/:groupName/login" component={Login} />
+                  <Route path="/login" component={Login} />
+                  <Route exact path="/logout" component={Logout} />
+                  <Route exact path="/register" component={Register} />
+                  <Route exact path="/register/forgotPassword" component={ForgotPassword} />
+                  <Route exact path="/register/resetPassword" component={ResetPassword}/>
 
                   <Route path="/group/:groupName/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />

@@ -48,12 +48,7 @@ tr:not(.no-hover):hover {
     border-radius: 50%;
 
 }
-body {
-    font-family:"Roboto";
-    font-size: 14px;
-    line-height: 2.1s28571;
-    background-color: #161f1c;
-}
+
 .media{
   margin-top:5px
 }

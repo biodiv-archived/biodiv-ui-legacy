@@ -30,7 +30,7 @@ class Right extends Component {
 constructor(){
   super();
   this.state={
-    sGroupOpen:false,
+    sGroupOpen:true,
     userGroupOpen:false,
     userOpen:false,
     taxonOpen:false,
@@ -98,15 +98,8 @@ openFilter(){
    if(newparams.taxon ){
      taxonOpen=true;
    }
-   else{
-     taxonOpen=true;
-   }
-
    if(newparams.sGroup){
      sGroupOpen=true;
-   }
-   if(newparams.taxon){
-      taxonOpen=true
    }
    if(newparams.userGroupList){
       userGroupOpen=true
@@ -293,7 +286,11 @@ render(){
        </div>
 
         <div  className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
-            <Collapsible lazyRender={true} open={this.state.taxonOpen} trigger={`Taxon Browser`}>
+          <Collapsible  open={this.state.sGroupOpen} trigger={`Species Groups`}>
+            <SpeciesGroup />
+          </Collapsible>
+
+            <Collapsible  open={this.state.taxonOpen} trigger={`Taxon Browser`}>
             <div>
                 <TaxonBrowser />
                 <SearchBar />
@@ -311,13 +308,11 @@ render(){
                      <TaxonId />
                   </Collapsible>
             </Collapsible>
-            <Collapsible   open={this.state.locationOpen} trigger={'Location'}>
+            <Collapsible lazyRender={true}  open={this.state.locationOpen} trigger={'Location'}>
                 <Location />
             </Collapsible>
 
-            <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups`}>
-              <SpeciesGroup />
-            </Collapsible>
+
             <div ref="hide" style={{display:'block'}}>
             <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={`User Group`}>
                 <UserGroup />
