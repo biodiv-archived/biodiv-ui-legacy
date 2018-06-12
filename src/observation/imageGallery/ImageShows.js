@@ -96,17 +96,18 @@ export default class LightboxExample extends Component {
                             <img id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
                             <figcaptionpic className="profilepic">
                              <UserAvatar  title={this.props.authorname} src={this.getUserPhotoUrl(this.props.authorprofilepic)} name={this.props.authorname} size="70"  ></UserAvatar>
-
                            </figcaptionpic>
                           </figure>
+
                         </a>
-                    <div className="carousel-caption" >
-                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
-                         {"           "}
-                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofaudio}  <i className="fa fa-file-audio-o" aria-hidden="true"></i></strong>
-                         {"        "}
-                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofvideos}  <i className="fa fa-video-camera" aria-hidden="true"></i></strong>
-                    </div>
+                        <div className="carousel-caption" >
+                             <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
+                             {"           "}
+                             <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofaudio}  <i className="fa fa-file-audio-o" aria-hidden="true"></i></strong>
+                             {"        "}
+                             <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofvideos}  <i className="fa fa-video-camera" aria-hidden="true"></i></strong>
+                        </div>
+
                     {isOpen &&
                         <Lightbox
                             style={{marginTop:'50%'}}
