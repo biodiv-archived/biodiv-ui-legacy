@@ -30,9 +30,15 @@ class LocationFilter extends React.Component {
     if(newparams.location){
       location=newparams.location;
       let points=location.split(",");
-      for(let i=0;i<points.length;i++){
-
+      let coordinate=[];
+      for(let i=0;i<points.length;i=i+2){
+          let point=[];
+          point.push(points[i]);
+          point.push(points[i+1]);
+          coordinate.push(point);
       }
+      let coordinates=[];
+      coordinates.push(coordinate)
       this.map.on('load', function () {
 
        this.addLayer({
@@ -44,9 +50,7 @@ class LocationFilter extends React.Component {
                    'type': 'Feature',
                    'geometry': {
                        'type': 'Polygon',
-                       'coordinates': [[[76.88000000001534,23.961818441121636],
-                       [81.80000000001462,19.50449191133316],[77.60000000001463,16.537954499784675],
-                       [75.20000000002511,19.50449191133316],[76.88000000001534,23.96181844112163]]]
+                       'coordinates': coordinates
                    }
                }
            }

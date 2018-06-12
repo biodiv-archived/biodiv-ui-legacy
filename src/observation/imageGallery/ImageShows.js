@@ -95,7 +95,7 @@ export default class LightboxExample extends Component {
                           <figure className="snip1336">
                             <img id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
                             <figcaptionpic className="profilepic">
-                             <UserAvatar  title={this.props.authorname} src={this.getUserPhotoUrl(this.props.authorprofilepic)} name={this.props.authorname} size="70"  ></UserAvatar>
+                             <UserAvatar   title={this.props.authorname} src={this.getUserPhotoUrl(this.props.authorprofilepic)} name={this.props.authorname} size="70"  ></UserAvatar>
                            </figcaptionpic>
                           </figure>
 
