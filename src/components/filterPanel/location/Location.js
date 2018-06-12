@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import {Config} from '../../../Config';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 let mapboxgl = require('mapbox-gl');
-let MapboxDraw = require('@mapbox/mapbox-gl-draw');
+let MapboxDraw = require('@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw');
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg';
