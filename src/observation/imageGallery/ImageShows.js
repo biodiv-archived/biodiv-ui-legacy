@@ -88,13 +88,12 @@ export default class LightboxExample extends Component {
       const {photoIndex,isOpen} = this.state;
         return (
             <div>
-
               <div id="mycarousel" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                   <div className="item active">
                         <a href={`show/${this.props.objs.id}`} >
                           <figure className="snip1336">
-                            <img src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
+                            <img id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
                             <figcaptionpic className="profilepic">
                              <UserAvatar  title={this.props.authorname} src={this.getUserPhotoUrl(this.props.authorprofilepic)} name={this.props.authorname} size="70"  ></UserAvatar>
 

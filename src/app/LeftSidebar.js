@@ -148,7 +148,7 @@ openFilter(){
        recoNameOpen=true;
      }
    }
-   if(newparams.points){
+   if(newparams.location){
      locationOpen=true;
    }
 
@@ -250,7 +250,7 @@ render(){
     if(urlObject.status || urlObject.taxonId || urlObject.recoName){
       this.length++;
     }
-    if(urlObject.points){
+    if(urlObject.location){
       this.length++;
     }
 

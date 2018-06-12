@@ -26,13 +26,35 @@ class LocationFilter extends React.Component {
   }
   setParameter(){
     const newparams = queryString.parse(document.location.search);
-    let points;
-    if(newparams.points){
-      points=newparams.points;
+    let location;
+    if(newparams.location){
+      location=newparams.location;
+      let points=location.split(",");
+      for(let i=0;i<points.length;i++){
+
+      }
+      this.map.on('load', function () {
+
+       this.addLayer({
+           'id': 'maine',
+           'type': 'line',
+           'source': {
+               'type': 'geojson',
+               'data': {
+                   'type': 'Feature',
+                   'geometry': {
+                       'type': 'Polygon',
+                       'coordinates': [[[76.88000000001534,23.961818441121636],
+                       [81.80000000001462,19.50449191133316],[77.60000000001463,16.537954499784675],
+                       [75.20000000002511,19.50449191133316],[76.88000000001534,23.96181844112163]]]
+                   }
+               }
+           }
+
+       });
+    });
     }
-    this.setState({
-      Points:points
-    })
+
   }
   getMapPointsParameters(draw){
     let locationParams="";
@@ -54,21 +76,18 @@ class LocationFilter extends React.Component {
   document.dispatchEvent(events);
   }
   componentDidMount(){
-    this.setParameter();
     this.map = new mapboxgl.Map({
      container: this.mapContainer,
      style: 'mapbox://styles/mapbox/streets-v9'
 
    });
-
-
    this.map.fitBounds(Config.map.RESTRICTED_EXTENT, {linear: true, duration: 0});
    this.map.setMaxBounds(this.map.getBounds());
    this.map.addControl(Draw, 'top-left');
    this.map.on('draw.create', this.getMapPointsParameters);
    this.map.on('draw.delete', this.getMapPointsParameters);
    this.map.on('draw.update', this.getMapPointsParameters);
-
+   this.setParameter();
   }
 
 

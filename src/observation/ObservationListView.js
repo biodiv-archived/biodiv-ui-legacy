@@ -106,7 +106,6 @@ class ListComponent extends Component{
       this.setState({
           rerun:!this.state.rerun
       })
-      console.log(this.state.rerun)
     }
 
     changeStyle(id){
@@ -148,7 +147,7 @@ class ListComponent extends Component{
       document.body.style.cursor = "wait";
       var options={
         method:"GET",
-        url:Config.api.PAMBA_API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
+        url:Config.api.API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
         headers :AuthUtils.getAuthHeaders(),
         json: 'true'
       }
@@ -160,6 +159,8 @@ class ListComponent extends Component{
     }
 
 display(objs,selectAll){
+  let imageUrl="https://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png"
+
   return (
     <div   className="container-fluid">
 
@@ -181,19 +182,20 @@ display(objs,selectAll){
                               </div>
                             </div>
                               <div className="media-body" >
+
                                 <div className="props">
                                   <div className="pull-right groupEdit" >
                                     <div style={{display:"block"}} ref={objs.id+"1"} >
-                                      <strong>{objs.speciesgroupname}</strong> {"  "}
+                                      <button title={objs.speciesgroupname} className={`btn species_groups_sprites ${objs.speciesgroupname.toLowerCase()}_gall_th `}>  </button> {"  "}
                                       <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">
                                        <span className="glyphicon glyphicon-edit"></span>
                                       </button>
                                     </div>
                                     <div  style={{display:"none"}} ref={objs.id+"2"}>
                                       <div className="form-group form-inline">
-                                        <select onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="bg-primary form-control-sm" >
+                                        <select  onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="form-control" >
                                           {this.props.SpeciesGroup?this.props.SpeciesGroup.map((item)=>{
-                                          return   <option key={item.name}   value={item.name}>{item.name}</option>
+                                          return   <option key={item.name}  style={{backgroundImage: 'url('+ imageUrl + ') noRepeat center center fixed',backgroundSize: '15px 150px'}} value={item.name}> {item.name}</option>
                                           }):null}
                                         </select> {" "}
                                           <button className={"btn btn-warning btn-xs"}  onClick={this.changeStyle2.bind(this,objs.id)}> <span className="glyphicon glyphicon-remove-sign"></span></button> {"  "}
@@ -202,6 +204,8 @@ display(objs,selectAll){
                                   </div>
                                   </div>
                                 </div>
+
+
                                   <div className="props"><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
                                     <span style={{borderRadius:'5px'}} className={`${objs.position==="WORKING"?"showWorking":
                                      objs.position==="CLEAN"?"showClean":
