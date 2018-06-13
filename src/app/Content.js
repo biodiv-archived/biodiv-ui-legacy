@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-
-
-
-
 import LeftSidebar from './LeftSidebar';
 
 import ObservationListContainer from '../observation/ObservationListContainer';

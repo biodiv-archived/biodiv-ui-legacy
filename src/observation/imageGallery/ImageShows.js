@@ -6,6 +6,9 @@ import axios from 'axios';
 import {Config} from '../../Config';
 import createHistory from 'history/createBrowserHistory';
 import style from './style.css';
+import UserAvatar from '../../util/userIcon';
+import isAbsoluteUrl  from 'is-absolute-url';
+
 
 export default class LightboxExample extends Component {
     constructor(props) {
@@ -15,6 +18,21 @@ export default class LightboxExample extends Component {
             isOpen: false,
             resource:[]
         };
+    }
+
+    getUserPhotoUrl(images){
+        if(images){
+          if(isAbsoluteUrl(images)){
+            return images;
+          }
+          else{
+            let url=`${Config.api.IBP_URL}/biodiv/users${images}`;
+            return url;
+          }
+        }
+        else{
+          return null;
+        }
     }
     getUrl(thumbnail,speciesGroup){
 
@@ -70,20 +88,26 @@ export default class LightboxExample extends Component {
       const {photoIndex,isOpen} = this.state;
         return (
             <div>
-
               <div id="mycarousel" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                   <div className="item active">
                         <a href={`show/${this.props.objs.id}`} >
-                    <img src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)} style={{height:'200px',width:'200px',borderRadius: '5px'}} className="media-object img-responsive img-rounded" />
-                  </a>
-                    <div className="carousel-caption" >
-                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
-                         {"           "}
-                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofaudio}  <i className="fa fa-file-audio-o" aria-hidden="true"></i></strong>
-                         {"        "}
-                         <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofvideos}  <i className="fa fa-video-camera" aria-hidden="true"></i></strong>
-                    </div>
+                          <figure className="snip1336">
+                            <img id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
+                            <figcaptionpic className="profilepic">
+                             <UserAvatar   title={this.props.authorname} src={this.getUserPhotoUrl(this.props.authorprofilepic)} name={this.props.authorname} size="70"  ></UserAvatar>
+                           </figcaptionpic>
+                          </figure>
+
+                        </a>
+                        <div className="carousel-caption" >
+                             <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofimages}  <i className="fa fa-picture-o" aria-hidden="true"></i></strong>
+                             {"           "}
+                             <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofaudio}  <i className="fa fa-file-audio-o" aria-hidden="true"></i></strong>
+                             {"        "}
+                             <strong onClick={() => this.setState({ isOpen: true })}>{this.props.objs.noofvideos}  <i className="fa fa-video-camera" aria-hidden="true"></i></strong>
+                        </div>
+
                     {isOpen &&
                         <Lightbox
                             style={{marginTop:'50%'}}

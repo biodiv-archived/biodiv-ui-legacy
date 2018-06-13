@@ -2,7 +2,6 @@ import React from 'react';
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import {Config} from '../../../Config';
-import Naksha from 'naksha-react-ui';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 let mapboxgl = require('mapbox-gl');
 let MapboxDraw = require('@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw');
@@ -80,11 +79,6 @@ class LocationFilter extends React.Component {
   });
   document.dispatchEvent(events);
   }
-
-  applyIndiaBoundaries() {
-      Naksha.IndiaBoundaries(this.map);
-  }
-
   componentDidMount(){
     this.map = new mapboxgl.Map({
      container: this.mapContainer,
@@ -97,11 +91,9 @@ class LocationFilter extends React.Component {
    this.map.on('draw.create', this.getMapPointsParameters);
    this.map.on('draw.delete', this.getMapPointsParameters);
    this.map.on('draw.update', this.getMapPointsParameters);
-   this.map.on('load', this.applyIndiaBoundaries.bind(this));
    this.setParameter();
   }
-
-
+  
   render() {
     return (
       <div  style={{'height':'300px','width':'250px'}} ref={el => this.mapContainer = el} >
