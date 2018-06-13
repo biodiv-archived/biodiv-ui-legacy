@@ -577,12 +577,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                         <option  value="Latest">Latest</option>
                         <option  value="Most Viewed">Most Viewed</option>
                     </select>
-
-
-
                     </div>
-
-
                   </div>
               <div className="row">
                 {this.state.params.view=="map"?
