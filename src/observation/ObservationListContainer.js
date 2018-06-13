@@ -552,16 +552,15 @@ class ObservationListContainer extends Component {
 return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.params.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
 }):null;
     return(
-            <div>
+            <div className="container-fluid" style={{paddingRight:'15px',paddingLeft:'32px',paddingTop:'auto',paddingBottom:'auto'}}>
             {this.state.login_modal==true?(<ModalPopup key={"downloadLogin"}   id={"downloads login"} func={this.setOpenModal}/>):null}
             {this.state.openModal?<DownloadModal/>:""}
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
               <div>
-              <div>
                   <div className="row">
                     <div className="col-sm-4">
-                      <ul className="nav nav-tabs" style={{display:'inline-block'}}>
+                      <ul className="nav nav-tabs">
                           <li role="presentation" ><button  className={`btn  ${this.state.params.view==="list"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list">List</span></button></li>
                           <li role="presentation" ><button  className={`btn  ${this.state.params.view==="grid"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th">Grid</span></button></li>
                           <li role="presentation" ><button  className={`btn  ${this.state.params.view==="map"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker">Map</span></button></li>
@@ -579,26 +578,25 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                     </select>
                     </div>
                   </div>
-              <div className="row">
-                {this.state.params.view=="map"?
-                <ObservationListWrapper view={this.state.params.view} filterUrl={this.state.urlforPassing} />
-                :
-                this.state.params.view=="grid"?
-                <ObservationListWrapper view={this.state.params.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />
-                :
-                list}
-              </div>
-              {this.state.params.view==="map"?null:<InfiniteScroll
-                next={this.loadMore.bind(this)}
-                hasMore={this.state.params.hasMore}
-                loader={ <Button bsStyle="success" bsSize="small" block>Loading ............</Button>}
-                >
-              </InfiniteScroll>}
+                  <div className="row">
+                    <div className="col-sm-12">
+                    {this.state.params.view=="map"?
+                    <ObservationListWrapper view={this.state.params.view} filterUrl={this.state.urlforPassing} />
+                    :
+                    this.state.params.view=="grid"?
+                    <ObservationListWrapper view={this.state.params.view} objs={this.props.Observation.all} filterUrl={this.state.urlforPassing} />
+                    :
+                    list}
+                  </div>
+                  </div>
+                  {this.state.params.view==="map"?null:<InfiniteScroll
+                    next={this.loadMore.bind(this)}
+                    hasMore={this.state.params.hasMore}
+                    loader={ <Button bsStyle="success" bsSize="small" block>Loading ............</Button>}
+                    >
+                  </InfiniteScroll>}
 
               </div>
-            </div>
-
-
             :(this.props.Observation.count===0)?"No result found":<div style={{height:'600px',width:'660x',marginTop:'80px'}} className="container-fluid">
                 <div className="row">
                     <div className="col-sm-5">

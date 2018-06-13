@@ -162,7 +162,7 @@ display(objs,selectAll){
   let imageUrl="https://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png"
 
   return (
-    <div   className="container-fluid">
+    <div>
 
                   <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white'}}>
 
