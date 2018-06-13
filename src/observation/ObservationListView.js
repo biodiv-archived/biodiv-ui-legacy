@@ -224,6 +224,10 @@ display(objs,selectAll){
                              <div className="props">
                                <div className="" > <b> Notes</b> <Truncate lines={1}> <span style={{wordWrap:'break-word'}}  dangerouslySetInnerHTML={{ __html: objs.notes?objs.notes:"Not available"}} /></Truncate>  </div>
                             </div>
+                            <div className="props">
+                              <a href={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar  title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="35"  ></UserAvatar>
+                            </a>
+                           </div>
                       </div>
                   </div>
                 <Tabs rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
