@@ -5,7 +5,6 @@ import _ from 'lodash';
 import {Config}  from '../../../Config';
 import queryString from 'query-string';
 import styles from './style.css';
-import _ from 'lodash';
 
 function remove(array, element) {
     return array.filter(e => e !== element);

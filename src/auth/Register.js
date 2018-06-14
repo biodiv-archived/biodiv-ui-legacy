@@ -16,7 +16,7 @@ import {
         StyledCheckbox
       } from 'react-form';
 
-import './register.css'
+// import './register.css'
 
  const profession = [
    {
@@ -131,7 +131,7 @@ const institutions=[
      }
 
      successValidator ( values, errors ) {
-         
+
          console.log(errors);
          const validateName = ( ) => {
              return !errors.name ? null : errors.name;
@@ -225,7 +225,7 @@ const institutions=[
 
              </div>
              <br />
-             <Form 
+             <Form
                  validateError={this.errorValidator}
                  validateWarning={this.warningValidator}
                  validateSuccess={this.successValidator}
@@ -325,7 +325,7 @@ const institutions=[
 			<label htmlFor="location" className="d-block">Location</label>
 		      </div>
 		      <div className="col-sm-9">
-                  <div id="gmap">                
+                  <div id="gmap">
                   </div>
 		      	<div id="infowindow-content">
     		      </div>
