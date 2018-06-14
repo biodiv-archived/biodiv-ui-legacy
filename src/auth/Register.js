@@ -4,6 +4,19 @@ import {NavLink} from 'react-router-dom';
 
 import LocationSuggest from './LocationSuggest';
 import MapSelector from './MapSelector';
+import axios from 'axios';
+import { Config } from '../Config';
+import queryString from 'query-string';
+import {
+        StyledText,
+        StyledTextArea,
+        StyledRadio,
+        StyledRadioGroup,
+        StyledSelect,
+        StyledCheckbox
+      } from 'react-form';
+
+import './register.css'
 
  const profession = [
    {
@@ -59,24 +72,137 @@ const institutions=[
 ];
  class BasicForm extends Component {
 
-   constructor( props ) {
-     super( props );
-     this.state = {};
-   }
+     constructor( props ) {
+         super( props );
+         var submittedValues = {};
+         this.state = {submittedValues:submittedValues};
+     }
 
-   componentDidMount(){
-     MapSelector();
-   }
+     componentDidMount(){
+         MapSelector();
+     }
 
-   handleSubmit(submittedValues){
-     console.log(submittedValues);
-     this.setState({
-       submittedValues
-     })
 
-   }
+     errorValidator ( values )  {
+         const validateName = ( name ) => {
+             return !name ? 'Name is required.' : null;
+         };
+         const validateEmail = ( email ) => {
+             return !email ? 'Email is required.' : null;
+         };
+         const validatePassword = ( password ) => {
+             return !password ? 'Password is required.' : null;
+         };
+         const validatePassword2 = ( password2 ) => {
+             return !password2 ? 'Password2 is required.' : null;
+         };
+         const validateLocation = ( location ) => {
+             return !location ? 'Location is required.' : null;
+         };
+         return {
+             name: validateName(values.name),
+             email: validateEmail( values.email ),
+             password: validatePassword( values.password ),
+             password2: validatePassword2( values.password2 ),
+             location: validateLocation( values.location )
+         };
+     }
+
+     warningValidator( values ) {
+         const validateName = ( name ) => {
+             return name && name.length < 2 ? 'Name must be longer than 2 characters.' : null;
+         };
+         /*         const validateEmail = ( email ) => {
+             return email && email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ? 'Email is invalid.' : null;
+         };*/
+         const validatePassword = ( password ) => {
+             return password && password.length < 6 ? 'Password must be longer than 6 characters.' : null;
+         };
+         const validatePassword2 = ( password2 ) => {
+             return values.password && password2 && (values.password === password2) ? 'Passwords should match.' : null;
+         };
+        return {
+            name: validateName(values.name),
+            email: null,//validateEmail( values.email ),
+            password: validatePassword( values.password ),
+            password2: validatePassword2( values.password2 ),
+            location: null,//validateLocation( values.location )
+         };
+     }
+
+     successValidator ( values, errors ) {
+         
+         console.log(errors);
+         const validateName = ( ) => {
+             return !errors.name ? null : errors.name;
+         };
+         const validateEmail = ( ) => {
+             return !errors.email ? errors.email : errors.email;
+         };
+         const validatePassword = ( ) => {
+             return !errors.password ? null : errors.password;
+         };
+         const validatePassword2 = ( ) => {
+             return !errors.password2 ? null : errors.password2;
+         };
+         const validateLocation = ( ) => {
+             return !errors.location ? null : errors.location;
+         };
+         return {
+             name: validateName( values.name ),
+             email: validateEmail( values.email ),
+             password: validatePassword( values.password ),
+             password2: validatePassword( values.password2 ),
+             location: validateLocation( values.location )
+         };
+     }
+
+     handleSubmit(submittedValues){
+         var mapDiv = document.getElementById('gmap');
+         submittedValues.latitude = mapDiv.value.lat();
+         submittedValues.longitude = mapDiv.value.lng();
+
+         this.setState({
+             submittedValues: submittedValues,
+             errors:{}
+         })
+         var options={
+             method: 'POST',
+             url :   Config.api.API_ROOT_URL+"/register",
+             headers : {'Content-Type' : 'application/x-www-form-urlencoded'},
+             data:queryString.stringify(submittedValues),
+             json: 'true'
+         }
+
+         var me = this;
+         axios(options).then((response)=>{
+             console.log(response);
+             alert(response.data.msg);
+             this.props.history.push('/login');
+             //this.setState({modalIsOpen: false});
+         }).catch((response)=>{
+             console.log(response.response.data);
+             var errors = {};
+             if(response.response.status == 400) {
+                 var error;
+                 for(error in response.response.data) {
+                     errors[error.path] = error.message;
+                 }
+             }
+
+             me.successValidator(submittedValues, errors);
+
+             this.setState({
+                 submittedValues: submittedValues,
+                 errors:errors
+             })
+         })
+     }
 
    render() {
+       let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
+       let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
+
      return (
        <div>
          <div className="container" style={{'backGroundColor':'white'}}>
@@ -86,18 +212,41 @@ const institutions=[
              <div className="row">
              <div className="col-sm-4"></div>
              <div className="col-sm-4 col-xs-12">Already Have Account {' '}<NavLink to="/login">Login</NavLink> </div>
+             <div className="col-sm-6">
+                 <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
+                     <span className="fa fa-facebook"></span> Sign in with Facebook
+                 </a>
+             </div>
+             <div className="col-sm-6">
+                 <a className="btn btn-block btn-social btn-google" href={googleLink}>
+                     <span className="fa fa-google"></span> Sign in with Google
+                 </a>
+             </div>
 
              </div>
              <br />
-             <Form onSubmit={this.handleSubmit.bind(this)}>
-               { formApi => (
-                 <form onSubmit={formApi.submitForm} id="form2">
+             <Form 
+                 validateError={this.errorValidator}
+                 validateWarning={this.warningValidator}
+                 validateSuccess={this.successValidator}
+                 onSubmit={this.handleSubmit.bind(this)}>
+                 { formApi => {
+                     var urlParams = queryString.parse(this.props.location.search);
+                     var p = {};
+                     if(urlParams.username)
+                        p["name"] = urlParams.username;
+                     if(urlParams.email)
+                         p["email"] = urlParams.email;
+                     formApi.setAllValues(p);
+
+                     return (
+                 <form onSubmit={formApi.submitForm} id="registerForm">
                    <div className="row">
                    <div className="col-sm-3">
                      <label htmlFor="name">Name</label>
                    </div>
                    <div className="col-sm-9">
-                     <Text className="form-control" field="name" id="name" />
+                     <StyledText className="form-control" field="name" id="name"/>
                    </div>
                    </div>
                    <br />
@@ -107,7 +256,7 @@ const institutions=[
                      <label htmlFor="name">Email</label>
                    </div>
                    <div className="col-sm-9">
-                     <Text className="form-control" type="email" field="email" id="name" />
+                     <StyledText className="form-control" type="email" field="email" id="email" />
                    </div>
                    </div>
                    <br />
@@ -116,7 +265,7 @@ const institutions=[
                      <label htmlFor="name">Password</label>
                    </div>
                    <div className="col-sm-9">
-                     <Text type="password" className="form-control" field="password" id="name" />
+                     <StyledText type="password" className="form-control" field="password" id="password" />
                    </div>
                    </div>
                    <br />
@@ -125,7 +274,7 @@ const institutions=[
                      <label htmlFor="name">Password Again</label>
                    </div>
                    <div className="col-sm-9">
-                     <Text className="form-control" type="password" field="password2" id="name" />
+                     <StyledText className="form-control" type="password" field="password2" id="password2" />
                    </div>
                    </div>
                    <br />
@@ -135,7 +284,7 @@ const institutions=[
                    </div>
                    <div className="col-sm-9">
 
-                     <RadioGroup field="gender">
+                     <StyledRadioGroup field="sexType">
                        { group => (
                          <div>
                            <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
@@ -146,7 +295,7 @@ const institutions=[
 
                          </div>
                        )}
-                     </RadioGroup>
+                     </StyledRadioGroup>
 
                    </div>
                    </div>
@@ -157,7 +306,7 @@ const institutions=[
                      <label htmlFor="profession" className="d-block">Profession</label>
                    </div>
                    <div className="col-sm-9">
-                      <Select className="form-control" field="profession" id="profession" options={profession} />
+                      <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} />
                    </div>
                    </div>
                    <br />
@@ -166,7 +315,7 @@ const institutions=[
                      <label htmlFor="institution" className="d-block">Institution</label>
                    </div>
                    <div className="col-sm-9">
-                      <Select className="form-control" field="institution" id="institution" options={institutions} />
+                      <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} />
                    </div>
                    </div>
                     <br />
@@ -176,7 +325,8 @@ const institutions=[
 			<label htmlFor="location" className="d-block">Location</label>
 		      </div>
 		      <div className="col-sm-9">
-		      	<div id="gmap"></div>
+                  <div id="gmap">                
+                  </div>
 		      	<div id="infowindow-content">
     		      </div>
 		      </div>
@@ -187,7 +337,7 @@ const institutions=[
                       <label htmlFor="location" className="d-block">Location Title</label>
                     </div>
                     <div className="col-sm-9">
-                       <input id="location-name" className="form-control" field="location" placeholder="Enter a name or choose from map above" />
+                       <StyledText type="text" className="form-control" field="location" id="location-name" placeholder="Enter a name or choose from map above" />
                     </div>
                     </div>
                     <br />
@@ -197,7 +347,7 @@ const institutions=[
                   </div>
 
                  </form>
-               )}
+                     )}}
              </Form>
              <br />
            </div>
