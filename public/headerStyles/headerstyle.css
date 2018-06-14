@@ -96,7 +96,7 @@
 }
 #contentColumnWrapper {
     height: 100%;
-    padding:0px;
+    padding:14px;
     overflow-y: auto;
 }
 #contentColumn {

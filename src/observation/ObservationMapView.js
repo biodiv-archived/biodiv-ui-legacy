@@ -11,7 +11,7 @@ class ObservationMapView extends Component{
     this.state={
       flag:false
     }
-    window.popupUrl = Config.api.PAMBA_API_ROOT_URL + "/naksha" +this.props.filterUrl;
+    window.popupUrl = Config.api.API_ROOT_URL + "/naksha" +this.props.filterUrl;
   }
 
   componentDidMount() {

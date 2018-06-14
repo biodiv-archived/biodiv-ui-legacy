@@ -2,9 +2,10 @@ import React from 'react';
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import {Config} from '../../../Config';
+import Naksha from 'naksha-react-ui';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 let mapboxgl = require('mapbox-gl');
-let MapboxDraw = require('@mapbox/mapbox-gl-draw');
+let MapboxDraw = require('@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw');
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg';
@@ -26,13 +27,39 @@ class LocationFilter extends React.Component {
   }
   setParameter(){
     const newparams = queryString.parse(document.location.search);
-    let points;
-    if(newparams.points){
-      points=newparams.points;
+    let location;
+    if(newparams.location){
+      location=newparams.location;
+      let points=location.split(",");
+      let coordinate=[];
+      for(let i=0;i<points.length;i=i+2){
+          let point=[];
+          point.push(points[i]);
+          point.push(points[i+1]);
+          coordinate.push(point);
+      }
+      let coordinates=[];
+      coordinates.push(coordinate)
+      this.map.on('load', function () {
+
+       this.addLayer({
+           'id': 'maine',
+           'type': 'line',
+           'source': {
+               'type': 'geojson',
+               'data': {
+                   'type': 'Feature',
+                   'geometry': {
+                       'type': 'Polygon',
+                       'coordinates': coordinates
+                   }
+               }
+           }
+
+       });
+    });
     }
-    this.setState({
-      Points:points
-    })
+
   }
   getMapPointsParameters(draw){
     let locationParams="";
@@ -53,22 +80,25 @@ class LocationFilter extends React.Component {
   });
   document.dispatchEvent(events);
   }
+
+  applyIndiaBoundaries() {
+      Naksha.IndiaBoundaries(this.map);
+  }
+
   componentDidMount(){
-    this.setParameter();
     this.map = new mapboxgl.Map({
      container: this.mapContainer,
      style: 'mapbox://styles/mapbox/streets-v9'
 
    });
-
-
    this.map.fitBounds(Config.map.RESTRICTED_EXTENT, {linear: true, duration: 0});
    this.map.setMaxBounds(this.map.getBounds());
    this.map.addControl(Draw, 'top-left');
    this.map.on('draw.create', this.getMapPointsParameters);
    this.map.on('draw.delete', this.getMapPointsParameters);
    this.map.on('draw.update', this.getMapPointsParameters);
-
+   this.map.on('load', this.applyIndiaBoundaries.bind(this));
+   this.setParameter();
   }
 
 
