@@ -204,9 +204,14 @@ display(objs,selectAll){
                                   </div>
                                   </div>
                                 </div>
-
-
-                                  <div className="props"><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
+                                  <div className="props">
+                                    <span style={{fontSize:'15px'}}>
+                                    <strong>
+                                      <i>
+                                       {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}
+                                     </i>
+                                   </strong>
+                                 </span>
                                     <span style={{borderRadius:'5px'}} className={`${objs.position==="WORKING"?"showWorking":
                                      objs.position==="CLEAN"?"showClean":
                                      objs.position==="RAW"?"showRaw":null}`} >
@@ -219,10 +224,10 @@ display(objs,selectAll){
                                  </div>
 
                                 <div className="props">
-                                  <div className=""><strong>Observed On </strong>  <Moment format=" MMMM DD  YYYY">{objs.fromdate }</Moment> </div>
+                                  <div className=""> <span className="glyphicon glyphicon-time" aria-hidden="true"></span>  <Moment format=" MMMM DD  YYYY">{objs.fromdate }</Moment>  </div>
                                 </div>
                              <div className="props">
-                               <div className="" > <b> Notes</b> <Truncate lines={1}> <span style={{wordWrap:'break-word'}}  dangerouslySetInnerHTML={{ __html: objs.notes?objs.notes:"Not available"}} /></Truncate>  </div>
+                               <div className="" > {objs.notes?<span><span className="glyphicon glyphicon-book" aria-hidden="true"></span> <Truncate lines={1}> <span style={{wordWrap:'break-word'}}  dangerouslySetInnerHTML={{ __html: objs.notes?objs.notes:"Not available"}} /></Truncate></span>:<br />}  </div>
                             </div>
                       </div>
                   </div>

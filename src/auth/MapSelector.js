@@ -6,7 +6,8 @@ GoogleMapsLoader.KEY = 'AIzaSyCFan9y3E6XCb_3HE6kbbghfmRTmIgVJ9M';
 GoogleMapsLoader.LIBRARIES = ['places'];
 export default function () {
     GoogleMapsLoader.load(function(google) {
-    map = new google.maps.Map(document.getElementById('gmap'), {
+	var mapDiv = document.getElementById('gmap')
+    map = new google.maps.Map(mapDiv, {
         center: {lat: 12.972442, lng: 77.580643}, // Bangalore
         zoom: 13
       });
@@ -48,14 +49,18 @@ export default function () {
 	    position: results[0].geometry.location,
             draggable:true,
       	});
-      	marker.setVisible(true);
-	geocodePosition(infowindowContent, infowindow, marker, geocoder, place, latLng);
-	google.maps.event.addListener(marker, 'dragend', function() {
-	    var latLng = marker.getPosition();
-	    geocodePosition(infowindowContent, infowindow, marker, geocoder, null, latLng);
-    	});
-	google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map, marker);
+          marker.setVisible(true);
+          //mapDiv.val({'lat':latLng.lat(), 'lng':latLng.lng()});
+          mapDiv.value = latLng;
+          geocodePosition(infowindowContent, infowindow, marker, geocoder, place, latLng);
+          google.maps.event.addListener(marker, 'dragend', function() {
+              var latLng = marker.getPosition();
+              //mapDiv.val({'lat':latLng.lat(), 'lng':latLng.lng()});
+              mapDiv.value=latLng;
+              geocodePosition(infowindowContent, infowindow, marker, geocoder, null, latLng);
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+              infowindow.open(map, marker);
 	});
       });
     });
