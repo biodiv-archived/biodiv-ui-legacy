@@ -111,8 +111,6 @@ class BasicForm extends Component {
          MapSelector();
 
      }
-     com
-
 
      errorValidator ( values )  {
          const validateName = ( name ) => {
@@ -252,7 +250,6 @@ class BasicForm extends Component {
        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
        let defaultValues=this.state.defaultValues
-       console.log(defaultValues);
      return (
        <div>
          <div className="container" style={{'backGroundColor':'white'}}>
