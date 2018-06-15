@@ -93,10 +93,10 @@ class LocationFilter extends React.Component {
    this.map.on('draw.update', this.getMapPointsParameters);
    this.setParameter();
   }
-  
+
   render() {
     return (
-      <div  style={{'height':'300px','width':'250px'}} ref={el => this.mapContainer = el} >
+      <div  style={{'height':'300px','width':'auto'}} ref={el => this.mapContainer = el} >
       </div>
     )
   }
