@@ -144,7 +144,7 @@ class BasicForm extends Component {
              return password && password.length < 6 ? 'Password must be longer than 6 characters.' : null;
          };
          const validatePassword2 = ( password2 ) => {
-             return values.password && password2 && (values.password === password2) ? 'Passwords should match.' : null;
+             return values.password && password2 && (values.password === password2) ? null : 'Passwords should match.';
          };
         return {
             name: validateName(values.name),
@@ -186,6 +186,7 @@ class BasicForm extends Component {
          var mapDiv = document.getElementById('gmap');
          submittedValues.latitude = mapDiv.value.lat();
          submittedValues.longitude = mapDiv.value.lng();
+         submittedValues['g-recaptcha-response'] = this.state.gRecaptchaResponse;
 
          this.setState({
              submittedValues: submittedValues,
@@ -233,8 +234,12 @@ class BasicForm extends Component {
     };
 
     recaptchaVerifyCallback(response) {
-        this.setState({'g-recaptcha-response':response});
+        this.setState({'gRecaptchaResponse':response});
     };
+    recaptchaExpiredCallback(response) {
+        this.setState({'gRecaptchaResponse':''});
+    };
+
 
 
    render() {
@@ -383,6 +388,7 @@ class BasicForm extends Component {
                                          type="image"
                                          render="explicit"
                                          verifyCallback={this.recaptchaVerifyCallback.bind(this)}
+                                         expiredCallback={this.recaptchaExpiredCallback.bind(this)}
                                          onloadCallback={this.recaptchaCallback.bind(this)}
                                      />
                                  </div>
