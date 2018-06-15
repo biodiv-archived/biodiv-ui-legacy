@@ -78,20 +78,19 @@ class BasicForm extends Component {
      constructor( props ) {
          super( props );
          var submittedValues = {};
-         let defaultValues = {};
          this.state = {
            submittedValues:submittedValues,
-           defaultValue:defaultValues
+           defaultValues:{}
          };
      }
 
     getUrlParams(){
-       let pathname= document.location.pathname.split("/")[2];
+       let pathname= document.location.pathname;
          let newparams = queryString.parse(document.location.search);
-         if(pathname=="register"){
+         if(pathname=="/register"){
             let defaultValues={};
            if(newparams.name){
-             defaultValues["name"]=newparams.username;
+             defaultValues["name"]=newparams.name;
            }
            if(newparams.email){
              defaultValues["email"]=newparams.email;
@@ -99,13 +98,20 @@ class BasicForm extends Component {
            this.setState({
               defaultValues
            })
+
          }
 
      }
-     componentDidMount(){
-         MapSelector();
-         this.getUrlParams();
+     componentWillMount(){
+       this.getUrlParams();
+
      }
+     componentDidMount(){
+
+         MapSelector();
+
+     }
+     com
 
 
      errorValidator ( values )  {
@@ -223,9 +229,9 @@ class BasicForm extends Component {
              })
          })
      }
-    
+
     resetRecaptcha() {
-        this.recaptchaInstance.reset();  
+        this.recaptchaInstance.reset();
     };
 
 
@@ -240,7 +246,8 @@ class BasicForm extends Component {
    render() {
        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
-
+       let defaultValues=this.state.defaultValues
+       console.log(defaultValues);
      return (
        <div>
          <div className="container" style={{'backGroundColor':'white'}}>
@@ -264,10 +271,10 @@ class BasicForm extends Component {
              </div>
              <br />
              <Form
+                 defaultValues={defaultValues}
                  validateError={this.errorValidator}
                  validateWarning={this.warningValidator}
                  validateSuccess={this.successValidator}
-                 defaultValues={this.state.defaultValues}
                  onSubmit={this.handleSubmit.bind(this)}>
                  { formApi => {
                      return (
