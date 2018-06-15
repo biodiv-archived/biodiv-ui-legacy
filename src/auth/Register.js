@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-form';
 import {NavLink} from 'react-router-dom';
-import {Recaptcha} from 'react-recaptcha';
+//import {Recaptcha} from 'react-recaptcha';
 
 import LocationSuggest from './LocationSuggest';
 import MapSelector from './MapSelector';
@@ -19,6 +19,7 @@ import {
 
 import './register.css'
 
+var Recaptcha = require('react-recaptcha');
  const profession = [
    {
      label: 'Agriculture',
@@ -72,8 +73,6 @@ const institutions=[
     }
 ];
 
-
-
 class BasicForm extends Component {
 
      constructor( props ) {
@@ -92,7 +91,7 @@ class BasicForm extends Component {
          if(pathname=="register"){
             let defaultValues={};
            if(newparams.name){
-             defaultValues["name"]=newparams.name;
+             defaultValues["name"]=newparams.username;
            }
            if(newparams.email){
              defaultValues["email"]=newparams.email;
@@ -231,13 +230,10 @@ class BasicForm extends Component {
 
 
     recaptchaCallback(response) {
-        console.log('Done!!!!');
-        console.log(response);
-        this.setState({'g-recaptcha-response':response});
     };
 
     recaptchaVerifyCallback(response) {
-        console.log(response);
+        this.setState({'g-recaptcha-response':response});
     };
 
 
