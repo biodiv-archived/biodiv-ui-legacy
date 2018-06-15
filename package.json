@@ -80,6 +80,7 @@
     "react-mentions": "^1.2.1",
     "react-modal": "^3.0.4",
     "react-moment": "^0.6.8",
+    "react-recaptcha": "^2.3.8",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.2",
     "react-select": "^1.0.0-rc.5",

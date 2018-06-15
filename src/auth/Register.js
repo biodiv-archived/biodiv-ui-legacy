@@ -70,11 +70,38 @@ const institutions=[
       value:"Other"
     }
 ];
- class BasicForm extends Component {
+
+
+
+var Recaptcha = require('react-recaptcha');
+
+// create a variable to store the component instance
+let recaptchaInstance;
+const resetRecaptcha = () => {
+    recaptchaInstance.reset();  
+};
+
+
+var recaptchaCallback = function () {
+    console.log('Done!!!!');
+};
+
+var recaptchaVerifyCallback = function (response) {
+    console.log(response);
+};
+
+class BasicForm extends Component {
 
      constructor( props ) {
          super( props );
          var submittedValues = {};
+         var urlParams = queryString.parse(this.props.location.search);
+         var p = {};
+         if(urlParams.username)
+             submittedValues["name"] = urlParams.username;
+         if(urlParams.email)
+             submittedValues["email"] = urlParams.email;
+
          this.state = {submittedValues:submittedValues};
      }
 
@@ -231,13 +258,7 @@ const institutions=[
                  validateSuccess={this.successValidator}
                  onSubmit={this.handleSubmit.bind(this)}>
                  { formApi => {
-                     var urlParams = queryString.parse(this.props.location.search);
-                     var p = {};
-                     if(urlParams.username)
-                        p["name"] = urlParams.username;
-                     if(urlParams.email)
-                         p["email"] = urlParams.email;
-                     formApi.setAllValues(p);
+                     //                     formApi.setAllValues(this.state.submittedValues);
 
                      return (
                  <form onSubmit={formApi.submitForm} id="registerForm">
@@ -341,6 +362,27 @@ const institutions=[
                     </div>
                     </div>
                     <br />
+
+                   <div className="row">
+                    <div className="col-sm-3">
+                      <label htmlFor="Captcha" className="d-block">Captcha</label>
+                    </div>
+                    <div className="col-sm-9">
+                    <Recaptcha
+                        sitekey="6LelEl8UAAAAAOMwCw3RD7C41Bdbs9fwDf5OTMmj"
+                        type="image"
+                         render="explicit"
+                         verifyCallback={recaptchaVerifyCallback}
+                             onloadCallback={recaptchaCallback}
+                         />
+                    </div>
+                    </div>
+                    <br />
+
+
+
+
+
 		    <div className="row">
                      <div className="col-sm-3"></div>
                      <button type="submit" className="mb-4 btn btn-primary">Submit</button>
