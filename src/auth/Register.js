@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-form';
 import {NavLink} from 'react-router-dom';
+//import {Recaptcha} from 'react-recaptcha';
 
 import LocationSuggest from './LocationSuggest';
 import MapSelector from './MapSelector';
@@ -16,8 +17,9 @@ import {
         StyledCheckbox
       } from 'react-form';
 
-// import './register.css'
+import './register.css'
 
+var Recaptcha = require('react-recaptcha');
  const profession = [
    {
      label: 'Agriculture',
@@ -70,17 +72,46 @@ const institutions=[
       value:"Other"
     }
 ];
- class BasicForm extends Component {
+
+class BasicForm extends Component {
 
      constructor( props ) {
          super( props );
          var submittedValues = {};
-         this.state = {submittedValues:submittedValues};
+         this.state = {
+           submittedValues:submittedValues,
+           defaultValues:{}
+         };
      }
 
-     componentDidMount(){
-         MapSelector();
+    getUrlParams(){
+       let pathname= document.location.pathname;
+         let newparams = queryString.parse(document.location.search);
+         if(pathname=="/register"){
+            let defaultValues={};
+           if(newparams.name){
+             defaultValues["name"]=newparams.name;
+           }
+           if(newparams.email){
+             defaultValues["email"]=newparams.email;
+           }
+           this.setState({
+              defaultValues
+           })
+
+         }
+
      }
+     componentWillMount(){
+       this.getUrlParams();
+
+     }
+     componentDidMount(){
+
+         MapSelector();
+
+     }
+     com
 
 
      errorValidator ( values )  {
@@ -199,10 +230,24 @@ const institutions=[
          })
      }
 
+    resetRecaptcha() {
+        this.recaptchaInstance.reset();
+    };
+
+
+    recaptchaCallback(response) {
+    };
+
+    recaptchaVerifyCallback(response) {
+        this.setState({'g-recaptcha-response':response});
+    };
+
+
    render() {
        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
-
+       let defaultValues=this.state.defaultValues
+       console.log(defaultValues);
      return (
        <div>
          <div className="container" style={{'backGroundColor':'white'}}>
@@ -226,135 +271,145 @@ const institutions=[
              </div>
              <br />
              <Form
+                 defaultValues={defaultValues}
                  validateError={this.errorValidator}
                  validateWarning={this.warningValidator}
                  validateSuccess={this.successValidator}
                  onSubmit={this.handleSubmit.bind(this)}>
                  { formApi => {
-                     var urlParams = queryString.parse(this.props.location.search);
-                     var p = {};
-                     if(urlParams.username)
-                        p["name"] = urlParams.username;
-                     if(urlParams.email)
-                         p["email"] = urlParams.email;
-                     formApi.setAllValues(p);
-
                      return (
-                 <form onSubmit={formApi.submitForm} id="registerForm">
-                   <div className="row">
-                   <div className="col-sm-3">
-                     <label htmlFor="name">Name</label>
-                   </div>
-                   <div className="col-sm-9">
-                     <StyledText className="form-control" field="name" id="name"/>
-                   </div>
-                   </div>
-                   <br />
+                         <form onSubmit={formApi.submitForm} id="registerForm">
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="name">Name</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <StyledText className="form-control" field="name" id="name"/>
+                                 </div>
+                             </div>
+                             <br />
 
-                   <div className="row">
-                   <div className="col-sm-3">
-                     <label htmlFor="name">Email</label>
-                   </div>
-                   <div className="col-sm-9">
-                     <StyledText className="form-control" type="email" field="email" id="email" />
-                   </div>
-                   </div>
-                   <br />
-                   <div className="row">
-                   <div className="col-sm-3">
-                     <label htmlFor="name">Password</label>
-                   </div>
-                   <div className="col-sm-9">
-                     <StyledText type="password" className="form-control" field="password" id="password" />
-                   </div>
-                   </div>
-                   <br />
-                   <div className="row">
-                   <div className="col-sm-3">
-                     <label htmlFor="name">Password Again</label>
-                   </div>
-                   <div className="col-sm-9">
-                     <StyledText className="form-control" type="password" field="password2" id="password2" />
-                   </div>
-                   </div>
-                   <br />
-                   <div className="row">
-                   <div className="col-sm-3">
-                     <label htmlFor="name">Gender</label>
-                   </div>
-                   <div className="col-sm-9">
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="name">Email</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <StyledText className="form-control" type="email" field="email" id="email" />
+                                 </div>
+                             </div>
+                             <br />
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="name">Password</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <StyledText type="password" className="form-control" field="password" id="password" />
+                                 </div>
+                             </div>
+                             <br />
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="name">Password Again</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <StyledText className="form-control" type="password" field="password2" id="password2" />
+                                 </div>
+                             </div>
+                             <br />
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="name">Gender</label>
+                                 </div>
+                                 <div className="col-sm-9">
 
-                     <StyledRadioGroup field="sexType">
-                       { group => (
-                         <div>
-                           <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
-                           <label htmlFor="male" className="mr-2">Male</label>
-                           {'                 '}
-                           <Radio group={group} value="female" id="female" className="d-inline-block" />
-                           <label htmlFor="female" className="mr-2">Female</label>
+                                     <StyledRadioGroup field="sexType">
+                                         { group => (
+                                             <div>
+                                                 <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
+                                                 <label htmlFor="male" className="mr-2">Male</label>
+                                                 {'                 '}
+                                                 <Radio group={group} value="female" id="female" className="d-inline-block" />
+                                                 <label htmlFor="female" className="mr-2">Female</label>
 
-                         </div>
-                       )}
-                     </StyledRadioGroup>
+                                             </div>
+                                         )}
+                                     </StyledRadioGroup>
 
-                   </div>
-                   </div>
-                   <br />
+                                 </div>
+                             </div>
+                             <br />
 
-                   <div className="row">
-                   <div className="col-sm-3">
-                     <label htmlFor="profession" className="d-block">Profession</label>
-                   </div>
-                   <div className="col-sm-9">
-                      <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} />
-                   </div>
-                   </div>
-                   <br />
-                   <div className="row">
-                   <div className="col-sm-3">
-                     <label htmlFor="institution" className="d-block">Institution</label>
-                   </div>
-                   <div className="col-sm-9">
-                      <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} />
-                   </div>
-                   </div>
-                    <br />
-		    <div className="row">
-		      <input id="pac-input" className="controls" type="text" placeholder="Enter a location" />
-		      <div className="col-sm-3">
-			<label htmlFor="location" className="d-block">Location</label>
-		      </div>
-		      <div className="col-sm-9">
-                  <div id="gmap">
-                  </div>
-		      	<div id="infowindow-content">
-    		      </div>
-		      </div>
-		    </div>
-		    <br />
-                   <div className="row">
-                    <div className="col-sm-3">
-                      <label htmlFor="location" className="d-block">Location Title</label>
-                    </div>
-                    <div className="col-sm-9">
-                       <StyledText type="text" className="form-control" field="location" id="location-name" placeholder="Enter a name or choose from map above" />
-                    </div>
-                    </div>
-                    <br />
-		    <div className="row">
-                     <div className="col-sm-3"></div>
-                     <button type="submit" className="mb-4 btn btn-primary">Submit</button>
-                  </div>
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="profession" className="d-block">Profession</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} />
+                                 </div>
+                             </div>
+                             <br />
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="institution" className="d-block">Institution</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} />
+                                 </div>
+                             </div>
+                             <br />
+                             <div className="row">
+                                 <input id="pac-input" className="controls" type="text" placeholder="Enter a location" />
+                                 <div className="col-sm-3">
+                                     <label htmlFor="location" className="d-block">Location</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <div id="gmap">
+                                     </div>
+                                     <div id="infowindow-content">
+                                     </div>
+                                 </div>
+                             </div>
+                             <br />
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="location" className="d-block">Location Title</label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <StyledText type="text" className="form-control" field="location" id="location-name" placeholder="Enter a name or choose from map above" />
+                                 </div>
+                             </div>
+                             <br />
 
-                 </form>
+                             <div className="row">
+                                 <div className="col-sm-3">
+                                     <label htmlFor="Captcha" className="d-block"></label>
+                                 </div>
+                                 <div className="col-sm-9">
+                                     <Recaptcha
+                                         sitekey="6LelEl8UAAAAAOMwCw3RD7C41Bdbs9fwDf5OTMmj"
+                                         type="image"
+                                         render="explicit"
+                                         verifyCallback={this.recaptchaVerifyCallback.bind(this)}
+                                         onloadCallback={this.recaptchaCallback.bind(this)}
+                                     />
+                                 </div>
+                             </div>
+                             <br />
+
+                             <div className="row">
+                                 <div className="col-sm-3"></div>
+                                 <button type="submit" className="mb-4 btn btn-primary">Submit</button>
+                             </div>
+
+                         </form>
                      )}}
-             </Form>
-             <br />
-           </div>
-           <div className="col-sm-2"></div>
+                 </Form>
+                 <br />
+             </div>
+             <div className="col-sm-2"></div>
          </div>
 
-       </div>
+     </div>
      );
    }
  }
