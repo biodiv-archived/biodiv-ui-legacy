@@ -75,11 +75,33 @@ const institutions=[
      constructor( props ) {
          super( props );
          var submittedValues = {};
-         this.state = {submittedValues:submittedValues};
+          let defaultValues = {};
+         this.state = {
+           submittedValues:submittedValues,
+           defaultValue:defaultValues
+         };
      }
 
+    getUrlParams(){
+       let pathname= document.location.pathname.split("/")[2];
+         let newparams = queryString.parse(document.location.search);
+         if(pathname=="register"){
+            let defaultValues={};
+           if(newparams.name){
+             defaultValues["name"]=newparams.name;
+           }
+           if(newparams.email){
+             defaultValues["email"]=newparams.email;
+           }
+           this.setState({
+              defaultValues
+           })
+         }
+
+     }
      componentDidMount(){
          MapSelector();
+         this.getUrlParams();
      }
 
 
@@ -229,6 +251,7 @@ const institutions=[
                  validateError={this.errorValidator}
                  validateWarning={this.warningValidator}
                  validateSuccess={this.successValidator}
+                 defaultValues={this.state.defaultValues}
                  onSubmit={this.handleSubmit.bind(this)}>
                  { formApi => {
                      var urlParams = queryString.parse(this.props.location.search);
