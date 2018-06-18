@@ -70,3 +70,13 @@ export function authError(error) {
     payload: error
   };
 }
+
+export function setCredentials(credentials) {
+    return function(dispatch) {
+        loginService.clearCredentials();
+        loginService.setCredentials(credentials);
+        var response= {};
+        response.data = credentials;
+        dispatch({ type: AuthConstants.AUTH_USER, payload:response});
+    }
+}
