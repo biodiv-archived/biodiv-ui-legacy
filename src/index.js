@@ -186,7 +186,7 @@ ReactDOM.render(
                   <Route path="/group/:groupName/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />
 							    				  )}/>
-                  <Route  path="/map" render={(routeProps) => (
+                  <Route exact path="/map" render={(routeProps) => (
           						      		<naksha.Layers {...routeProps} {...map_props} />
           							    )}/>
 

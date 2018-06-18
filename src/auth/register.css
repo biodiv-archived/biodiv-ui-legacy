@@ -282,3 +282,13 @@
 
 .react-form-select-success select{
 }
+
+#profession{
+  border-radius:4px!important;
+
+}
+
+#institution{
+  border-radius:4px!important;
+
+}

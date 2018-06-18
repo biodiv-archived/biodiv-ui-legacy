@@ -20,6 +20,7 @@ import {
 import './register.css'
 
 var Recaptcha = require('react-recaptcha');
+//import Recaptcha from 'react-recaptcha';
  const profession = [
    {
      label: 'Agriculture',
@@ -80,7 +81,8 @@ class BasicForm extends Component {
          var submittedValues = {};
          this.state = {
            submittedValues:submittedValues,
-           defaultValues:{}
+           defaultValues:{},
+           emailExists:false
          };
      }
 
@@ -113,6 +115,7 @@ class BasicForm extends Component {
      }
 
      errorValidator ( values )  {
+       console.log("location test",values)
          const validateName = ( name ) => {
              return !name ? 'Name is required.' : null;
          };
@@ -177,6 +180,7 @@ class BasicForm extends Component {
          const validateLocation = ( ) => {
              return !errors.location ? null : errors.location;
          };
+         console.log("values.email",values)
          return {
              name: validateName( values.name ),
              email: validateEmail( values.email ),
@@ -203,7 +207,7 @@ class BasicForm extends Component {
              data:queryString.stringify(submittedValues),
              json: 'true'
          }
-
+  var errors ;
          var me = this;
          axios(options).then((response)=>{
              console.log(response);
@@ -212,14 +216,21 @@ class BasicForm extends Component {
              //this.setState({modalIsOpen: false});
          }).catch((response)=>{
              console.log(response.response.data);
-             var errors = {};
+             errors = {};
              if(response.response.status == 400) {
                  var error;
-                 for(error in response.response.data) {
-                     errors[error.path] = error.message;
+                 var i;
+                 console.log("length",response.response.data.length)
+                 for( i=0;i< response.response.data.length;i++) {
+                   console.log("hahhaha",response.response.data[i].path)
+                     errors[response.response.data[i].path] = response.response.data[i].message;
                  }
+                 console.log("errrrr",errors)
+                 this.setState({
+                   emailExists:true
+                 })
              }
-
+             console.log("eroos",errors)
              me.successValidator(submittedValues, errors);
 
              this.setState({
@@ -244,7 +255,6 @@ class BasicForm extends Component {
     recaptchaExpiredCallback(response) {
         this.setState({'gRecaptchaResponse':''});
     };
-
 
 
    render() {
@@ -275,9 +285,9 @@ class BasicForm extends Component {
              <br />
              <Form
                  defaultValues={defaultValues}
-                 validateError={this.errorValidator}
-                 validateWarning={this.warningValidator}
-                 validateSuccess={this.successValidator}
+                  validateError={this.errorValidator}
+                  validateWarning={this.warningValidator}
+                  validateSuccess={this.successValidator}
                  onSubmit={this.handleSubmit.bind(this)}>
                  { formApi => {
                      return (
@@ -300,7 +310,9 @@ class BasicForm extends Component {
                                      <StyledText className="form-control" type="email" field="email" id="email" />
                                  </div>
                              </div>
-                             <br />
+                            <br />
+
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Password</label>
@@ -347,7 +359,7 @@ class BasicForm extends Component {
                                      <label htmlFor="profession" className="d-block">Profession</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} />
+                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} className="mb-4"  />
                                  </div>
                              </div>
                              <br />
@@ -356,7 +368,7 @@ class BasicForm extends Component {
                                      <label htmlFor="institution" className="d-block">Institution</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} />
+                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} className="mb-4"/>
                                  </div>
                              </div>
                              <br />
