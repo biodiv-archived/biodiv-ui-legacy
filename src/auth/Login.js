@@ -5,6 +5,8 @@ import {NavLink,withRouter} from 'react-router-dom';
 import * as AuthActions from './AuthActions';
 import { Config } from '../Config';
 
+import queryString from 'query-string';
+
 const renderInput = field => {
     const { input, type } = field;
     return (
@@ -15,6 +17,14 @@ const renderInput = field => {
 }
 
 class Login extends Component {
+
+    componentWillMount() {
+        let pathname= document.location.pathname;
+        if(pathname == "/login/checkauth") { 
+            let credentials = queryString.parse(document.location.search);
+            this.props.setCredentials(credentials);
+        }
+    }
 
     handleFormSubmit({ email, password }) {
         this.props.login({ email, password });
