@@ -115,7 +115,6 @@ class BasicForm extends Component {
      }
 
      errorValidator ( values )  {
-       console.log("location test",values)
          const validateName = ( name ) => {
              return !name ? 'Name is required.' : null;
          };
@@ -163,8 +162,6 @@ class BasicForm extends Component {
      }
 
      successValidator ( values, errors ) {
-
-         console.log(errors);
          const validateName = ( ) => {
              return !errors.name ? null : errors.name;
          };
@@ -180,7 +177,6 @@ class BasicForm extends Component {
          const validateLocation = ( ) => {
              return !errors.location ? null : errors.location;
          };
-         console.log("values.email",values)
          return {
              name: validateName( values.name ),
              email: validateEmail( values.email ),
@@ -210,27 +206,27 @@ class BasicForm extends Component {
   var errors ;
          var me = this;
          axios(options).then((response)=>{
-             console.log(response);
+
              alert(response.data.msg);
              this.props.history.push('/login');
              //this.setState({modalIsOpen: false});
          }).catch((response)=>{
-             console.log(response.response.data);
+
              errors = {};
              if(response.response.status == 400) {
                  var error;
                  var i;
-                 console.log("length",response.response.data.length)
+
                  for( i=0;i< response.response.data.length;i++) {
-                   console.log("hahhaha",response.response.data[i].path)
+
                      errors[response.response.data[i].path] = response.response.data[i].message;
                  }
-                 console.log("errrrr",errors)
+
                  this.setState({
                    emailExists:true
                  })
              }
-             console.log("eroos",errors)
+
              me.successValidator(submittedValues, errors);
 
              this.setState({
@@ -283,6 +279,8 @@ class BasicForm extends Component {
              </div>
              <br />
              <Form
+                 dontValidateOnMount={true}
+                 validateOnSubmit={true}
                  defaultValues={defaultValues}
                   validateError={this.errorValidator}
                   validateWarning={this.warningValidator}
