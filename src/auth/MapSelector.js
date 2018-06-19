@@ -34,6 +34,15 @@ export default function () {
         window.alert("No details available for input: '" + place.name + "'");
         return;
       }
+
+        let event = new Event('input', { bubbles: true });
+        let tracker = input._valueTracker;
+        if (tracker) {
+          tracker.setValue("");
+        }
+
+        // Dispatch it.
+        input.dispatchEvent(event);
       var marker_position;
       geocoder.geocode({'placeId': place.place_id}, function(results, status) {
 
