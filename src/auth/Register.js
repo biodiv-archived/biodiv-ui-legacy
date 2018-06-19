@@ -431,7 +431,7 @@ class BasicForm extends Component {
                                  </div>
                                  <div className="col-sm-9">
                                      <Recaptcha
-                                         sitekey="6LelEl8UAAAAAOMwCw3RD7C41Bdbs9fwDf5OTMmj"
+                                         sitekey={Config.api.googleRecaptchaKey}
                                          type="image"
                                          render="explicit"
                                          verifyCallback={this.recaptchaVerifyCallback.bind(this)}
