@@ -86,6 +86,18 @@ class BasicForm extends Component {
          };
      }
 
+     isAuthenticated(){
+        const loggedIn = this.props.authenticated;
+        //console.log(this.props.location.state.from.pathname)
+        if(loggedIn) {
+            // if(this.props.location.state.from.pathname === "/map/upload"){
+            //   this.props.history.push('/map/upload')
+            // }
+                this.props.closeModal ? this.props.closeModal() : this.props.history.push('/');
+
+        }
+    }
+
     getUrlParams(){
        let pathname= document.location.pathname;
          let newparams = queryString.parse(document.location.search);
@@ -296,6 +308,7 @@ class BasicForm extends Component {
        return (
         <div className="container">
          <div className="signin-wrapper">
+                {this.isAuthenticated()}
                  <div className="row">
                      <div className="col-sm-12 col-xs-12 form-signin-heading"><NavLink to="/login">Login</NavLink> | <NavLink to="/register">Register</NavLink> </div>
                  </div>
@@ -462,11 +475,10 @@ class BasicForm extends Component {
    }
  }
 function mapStateToProps(state){
-return {PublicUrl:state.PublicUrl};
+    return {
+        authenticated: state.auth.authenticated,
+        PublicUrl:state.PublicUrl
+    };
 }
 
-function mapDispatchToProps(dispatch){
-  return null;
-}
-
- export default connect(mapStateToProps)(BasicForm);
+export default connect(mapStateToProps)(BasicForm);

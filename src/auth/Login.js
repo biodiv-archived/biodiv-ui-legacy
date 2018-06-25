@@ -49,7 +49,7 @@ class Login extends Component {
         if (errorMessage) {
             return (
                 <div className="alert alert-danger">
-                    <strong>Oops!</strong>{errorMessage}
+                    {errorMessage}
                 </div>
             );
         }

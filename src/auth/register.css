@@ -1,9 +1,9 @@
 .signin-wrapper {
     max-width  : 600px;
     background: #eee !important;    
+    margin:auto;
     margin-top: 80px;
     margin-bottom: 80px;
-    margin:auto;
     padding: 10px 10px 50px 10px;
 }
 
