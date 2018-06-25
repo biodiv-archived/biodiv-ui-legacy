@@ -146,6 +146,7 @@ export let Config = {
 Config.api.fbId = process.env.REACT_APP_FB_ID;
 Config.api.googleId = process.env.REACT_APP_GOOGLE_ID
 Config.api.cookie = {domain : process.env.REACT_APP_COOKIE_DOMAIN, path : '/'};
+Config.api.googleRecaptchaKey = process.env.REACT_APP_GOOGLE_RECAPTHA_KEY;
 /*
 if(process.env.NODE_ENV=="development" ) {
     Config.api.fbId = "115305755799166"

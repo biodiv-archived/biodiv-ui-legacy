@@ -104,7 +104,7 @@ class LocationFilter extends React.Component {
 
   render() {
     return (
-      <div  style={{'height':'300px','width':'250px'}} ref={el => this.mapContainer = el} >
+      <div  style={{'height':'300px','width':'auto'}} ref={el => this.mapContainer = el} >
       </div>
     )
   }

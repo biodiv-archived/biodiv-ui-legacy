@@ -6,7 +6,8 @@ GoogleMapsLoader.KEY = 'AIzaSyCFan9y3E6XCb_3HE6kbbghfmRTmIgVJ9M';
 GoogleMapsLoader.LIBRARIES = ['places'];
 export default function () {
     GoogleMapsLoader.load(function(google) {
-    map = new google.maps.Map(document.getElementById('gmap'), {
+	var mapDiv = document.getElementById('gmap')
+    map = new google.maps.Map(mapDiv, {
         center: {lat: 12.972442, lng: 77.580643}, // Bangalore
         zoom: 13
       });
@@ -33,6 +34,12 @@ export default function () {
         window.alert("No details available for input: '" + place.name + "'");
         return;
       }
+
+      forceUpdateReactComponent(input,"",input.value);
+      
+      var element = document.getElementById('location-name');
+
+      forceUpdateReactComponent(element,null,input.value);
       var marker_position;
       geocoder.geocode({'placeId': place.place_id}, function(results, status) {
 
@@ -48,14 +55,18 @@ export default function () {
 	    position: results[0].geometry.location,
             draggable:true,
       	});
-      	marker.setVisible(true);
-	geocodePosition(infowindowContent, infowindow, marker, geocoder, place, latLng);
-	google.maps.event.addListener(marker, 'dragend', function() {
-	    var latLng = marker.getPosition();
-	    geocodePosition(infowindowContent, infowindow, marker, geocoder, null, latLng);
-    	});
-	google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map, marker);
+          marker.setVisible(true);
+          //mapDiv.val({'lat':latLng.lat(), 'lng':latLng.lng()});
+          mapDiv.value = latLng;
+          geocodePosition(infowindowContent, infowindow, marker, geocoder, place, latLng);
+          google.maps.event.addListener(marker, 'dragend', function() {
+              var latLng = marker.getPosition();
+              //mapDiv.val({'lat':latLng.lat(), 'lng':latLng.lng()});
+              mapDiv.value=latLng;
+              geocodePosition(infowindowContent, infowindow, marker, geocoder, null, latLng);
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+              infowindow.open(map, marker);
 	});
       });
     });
@@ -75,9 +86,27 @@ function geocodePosition(infowindowContent, infowindow, marker, geocoder, place,
 
 }
 
+function forceUpdateReactComponent(element,lastValue,newValue){
+
+    if(lastValue == null){
+      lastValue = element.value
+    }
+    element.value = newValue;
+    let event = new Event('input', { bubbles: true });
+    let tracker = element._valueTracker;
+    if (tracker) {
+      tracker.setValue(lastValue);
+    }
+
+    // Dispatch it.
+    element.dispatchEvent(event);
+}
+
 function useTitle(listItem) {
 	var title = listItem.parentElement.getElementsByTagName('span')[0].innerText;
-	document.getElementById('location-name').value = title;
+  var element = document.getElementById('location-name');
+
+  forceUpdateReactComponent(element,null,title);
 }
 
 function setPopupContent(contentDiv, place, results) {

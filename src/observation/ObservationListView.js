@@ -162,7 +162,7 @@ display(objs,selectAll){
   let imageUrl="https://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png"
 
   return (
-    <div   className="container-fluid">
+    <div>
 
                   <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white'}}>
 
@@ -204,9 +204,14 @@ display(objs,selectAll){
                                   </div>
                                   </div>
                                 </div>
-
-
-                                  <div className="props"><b><i> {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}</i></b>
+                                  <div className="props">
+                                    <span style={{fontSize:'15px'}}>
+                                    <strong>
+                                      <i>
+                                       {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}
+                                     </i>
+                                   </strong>
+                                 </span>
                                     <span style={{borderRadius:'5px'}} className={`${objs.position==="WORKING"?"showWorking":
                                      objs.position==="CLEAN"?"showClean":
                                      objs.position==="RAW"?"showRaw":null}`} >
@@ -219,11 +224,15 @@ display(objs,selectAll){
                                  </div>
 
                                 <div className="props">
-                                  <div className=""><strong>Observed On </strong>  <Moment format=" MMMM DD  YYYY">{objs.fromdate }</Moment> </div>
+                                  <div className=""> <span className="glyphicon glyphicon-time" aria-hidden="true"></span>  <Moment format=" MMMM DD  YYYY">{objs.fromdate }</Moment>  </div>
                                 </div>
                              <div className="props">
-                               <div className="" > <b> Notes</b> <Truncate lines={1}> <span style={{wordWrap:'break-word'}}  dangerouslySetInnerHTML={{ __html: objs.notes?objs.notes:"Not available"}} /></Truncate>  </div>
+                               <div className="" > {objs.notes?<span><span className="glyphicon glyphicon-book" aria-hidden="true"></span> <Truncate lines={1}> <span style={{wordWrap:'break-word'}}  dangerouslySetInnerHTML={{ __html: objs.notes?objs.notes:"Not available"}} /></Truncate></span>:<br />}  </div>
                             </div>
+                            <div className="props">
+                              <a href={`/${this.props.PublicUrl}user/show/${objs.authorid}`}> <UserAvatar  title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="35"  ></UserAvatar>
+                            </a>
+                           </div>
                       </div>
                   </div>
                 <Tabs rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>

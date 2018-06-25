@@ -1,11 +1,11 @@
 .carousel-caption {
-    margin:0px;
+    margin:-40px;
 }
 .ReactModal__Overlay.ReactModal__Overlay--after-open{
   top:20% !important;
 }
 
-.snip1336 {
+/*.snip1336 {
     position: relative;
     margin: 10px 1%;
     width:350px;
@@ -38,4 +38,4 @@
 }
 img#thumbnail{
     z-index: -1;
-}
+}*/

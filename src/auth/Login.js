@@ -5,6 +5,10 @@ import {NavLink,withRouter} from 'react-router-dom';
 import * as AuthActions from './AuthActions';
 import { Config } from '../Config';
 
+import queryString from 'query-string';
+
+import './register.css'
+
 const renderInput = field => {
     const { input, type } = field;
     return (
@@ -15,6 +19,14 @@ const renderInput = field => {
 }
 
 class Login extends Component {
+
+    componentWillMount() {
+        let pathname= document.location.pathname;
+        if(pathname == "/login/checkauth") {
+            let credentials = queryString.parse(document.location.search);
+            this.props.setCredentials(credentials);
+        }
+    }
 
     handleFormSubmit({ email, password }) {
         this.props.login({ email, password });
@@ -37,7 +49,7 @@ class Login extends Component {
         if (errorMessage) {
             return (
                 <div className="alert alert-danger">
-                    <strong>Oops!</strong>{errorMessage}
+                    {errorMessage}
                 </div>
             );
         }
@@ -48,23 +60,15 @@ class Login extends Component {
         let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
         let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
        return (
-          <div className="container">
-            <div className="col-sm-3 hidden-xs"></div>
-            <div  style={{backgroundColor: 'white'}} className="col-sm-6 col-xs-12">
-              <br />
+        <div className="container">
+         <div className="signin-wrapper">
+             <div className="row">
+                 <div className="col-sm-12 col-xs-12 form-signin-heading"><NavLink to="/login">Login</NavLink> | <NavLink to="/register">Register</NavLink> </div>
+             </div>
 
-              <div className="row">
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-8">
-                    <NavLink to="/register">Register</NavLink>|
-                    <NavLink to="/register/forgotPassword">Forgot Password</NavLink>
-                  </div>
-                  <div className="col-sm-2"></div>
-              </div>
-              <br />
-              <div className="row">
+             <div className="row">
                 <div className="container col-sm-12">
-                <Form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                <Form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}  class="form-signin">
                 <div className="row">
                 <div className="col-sm-3">
                   <label>Email:</label>
@@ -74,7 +78,6 @@ class Login extends Component {
                       type="email" className="form-control" component={renderInput} />
                 </div>
                 </div>
-                <br />
                 <div className="row">
                   <div className="col-sm-3">
                     <label>Password:</label>
@@ -84,35 +87,37 @@ class Login extends Component {
                         type="password" className="form-control" component={renderInput} />
                   </div>
                 </div>
-                <br />
                     {this.isAuthenticated()}
                     {this.renderAlert()}
                   <div className="row">
-                    <div className="col-sm-5"></div>
-                    <div className="col-sm-5">
-                      <button action="submit" className="btn btn-primary">Sign in</button>
-                    </div>
-                    <div className="col-sm-2"></div>
-                  </div>
-                  <br />
-                  <div className="row">
-                    <div className="col-sm-6">
-                        <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
-                        <span className="fa fa-facebook"></span> Sign in with Facebook
-                      </a>
-                    </div>
-                    <div className="col-sm-6">
-                        <a className="btn btn-block btn-social btn-google" href={googleLink}>
-                        <span className="fa fa-google"></span> Sign in with Google
-                      </a>
-                    </div>
+                      <button action="submit" className="btn btn-lg btn-primary btn-block">Login</button>
                   </div>
                 </Form>
                 </div>
               </div>
-              <br />
+
+              <div className="row orWrapper" style={{}}>
+                  <span class="or text-muted">
+                      OR
+                  </span>
+              </div>
+
+
+              <div className="row">
+                  <div className="col-sm-6">
+                      <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
+                          <span className="fa fa-facebook"></span> Sign in with Facebook
+                      </a>
+                  </div>
+                  <div className="col-sm-6">
+                      <a className="btn btn-block btn-social btn-google" href={googleLink}>
+                          <span className="fa fa-google"></span> Sign in with Google
+                      </a>
+                  </div>
+              </div>
+
+
             </div>
-            <div className="col-sm-2 hidden-xs"></div>
 
           </div>
 
