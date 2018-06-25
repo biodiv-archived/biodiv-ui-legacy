@@ -238,7 +238,7 @@ class BasicForm extends Component {
          axios(options).then((response)=>{
 
              alert(response.data.msg);
-             //this.props.history.push('/login');
+             this.props.history.push('/login');
              //this.setState({modalIsOpen: false});
          }).catch((response)=>{
 
