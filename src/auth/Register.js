@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-form';
 import {NavLink} from 'react-router-dom';
 //import {Recaptcha} from 'react-recaptcha';
+import {connect} from 'react-redux';
 
 import LocationSuggest from './LocationSuggest';
 import MapSelector from './MapSelector';
@@ -191,11 +192,15 @@ class BasicForm extends Component {
      }
 
      handleSubmit(submittedValues){
+
          var mapDiv = document.getElementById('gmap');
          submittedValues.latitude = mapDiv.value.lat();
          submittedValues.longitude = mapDiv.value.lng();
          submittedValues['g-recaptcha-response'] = this.state.gRecaptchaResponse;
-
+         //TODO:if webaddress is present in url then add in request param
+         console.log(this.props.PublicUrl);
+         submittedValues['webaddress'] = this.props.PublicUrl.groupName;
+         
          this.setState({
              submittedValues: submittedValues,
              errors:{}
@@ -207,12 +212,12 @@ class BasicForm extends Component {
              data:queryString.stringify(submittedValues),
              json: 'true'
          }
-  var errors ;
+         var errors ;
          var me = this;
          axios(options).then((response)=>{
              console.log(response);
              alert(response.data.msg);
-             this.props.history.push('/login');
+             //this.props.history.push('/login');
              //this.setState({modalIsOpen: false});
          }).catch((response)=>{
              console.log(response.response.data);
@@ -261,28 +266,12 @@ class BasicForm extends Component {
        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
        let defaultValues=this.state.defaultValues
-     return (
-       <div>
-         <div className="container" style={{'backGroundColor':'white'}}>
-           <div className="col-sm-2"></div>
-           <div style={{backgroundColor: 'white'}} className="col-sm-8">
-             <br />
-             <div className="row">
-             <div className="col-sm-4"></div>
-             <div className="col-sm-4 col-xs-12">Already Have Account {' '}<NavLink to="/login">Login</NavLink> </div>
-             <div className="col-sm-6">
-                 <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
-                     <span className="fa fa-facebook"></span> Sign in with Facebook
-                 </a>
-             </div>
-             <div className="col-sm-6">
-                 <a className="btn btn-block btn-social btn-google" href={googleLink}>
-                     <span className="fa fa-google"></span> Sign in with Google
-                 </a>
-             </div>
-
-             </div>
-             <br />
+       return (
+        <div className="container">
+         <div className="signin-wrapper">
+                 <div className="row">
+                     <div className="col-sm-12 col-xs-12 form-signin-heading"><NavLink to="/login">Login</NavLink> | <NavLink to="/register">Register</NavLink> </div>
+                 </div>
              <Form
                  defaultValues={defaultValues}
                   validateError={this.errorValidator}
@@ -291,7 +280,7 @@ class BasicForm extends Component {
                  onSubmit={this.handleSubmit.bind(this)}>
                  { formApi => {
                      return (
-                         <form onSubmit={formApi.submitForm} id="registerForm">
+                         <form onSubmit={formApi.submitForm} id="registerForm" class="form-signin">
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Name</label>
@@ -300,7 +289,6 @@ class BasicForm extends Component {
                                      <StyledText className="form-control" field="name" id="name"/>
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
                                  <div className="col-sm-3">
@@ -310,8 +298,6 @@ class BasicForm extends Component {
                                      <StyledText className="form-control" type="email" field="email" id="email" />
                                  </div>
                              </div>
-                            <br />
-
 
                              <div className="row">
                                  <div className="col-sm-3">
@@ -321,7 +307,7 @@ class BasicForm extends Component {
                                      <StyledText type="password" className="form-control" field="password" id="password" />
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Password Again</label>
@@ -330,7 +316,7 @@ class BasicForm extends Component {
                                      <StyledText className="form-control" type="password" field="password2" id="password2" />
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Gender</label>
@@ -352,26 +338,25 @@ class BasicForm extends Component {
 
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="profession" className="d-block">Profession</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} className="mb-4"  />
+                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} style={{'width':'100%'}} />
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="institution" className="d-block">Institution</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} className="mb-4"/>
+                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions}  style={{'width':'100%'}}/>
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <input id="pac-input" className="controls" type="text" placeholder="Enter a location" />
                                  <div className="col-sm-3">
@@ -384,7 +369,7 @@ class BasicForm extends Component {
                                      </div>
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="location" className="d-block">Location Title</label>
@@ -393,7 +378,6 @@ class BasicForm extends Component {
                                      <StyledText type="text" className="form-control" field="location" id="location-name" placeholder="Enter a name or choose from map above" />
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
                                  <div className="col-sm-3">
@@ -410,23 +394,49 @@ class BasicForm extends Component {
                                      />
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
-                                 <div className="col-sm-3"></div>
-                                 <button type="submit" className="mb-4 btn btn-primary">Submit</button>
+                                 <div className="col-sm-9">
+                                     By registering you agree to our <a className="ibpLink" href={Config.api.IBP_URL+"/page/4250246"}>Terms &amp; Conditions</a> and <a className="ibpLink" href={Config.api.IBP_URL+"/page/12651147"}>Privacy Policy</a> on the use of our site
+                                 </div>
+                                 <div className="col-sm-3">
+                                     <button id="registerButton" type="submit" className="mb-4 btn btn-block btn-primary pull-right">Register</button>
+                                 </div>
                              </div>
 
                          </form>
                      )}}
                  </Form>
-                 <br />
-             </div>
-             <div className="col-sm-2"></div>
-         </div>
 
-     </div>
+                 <div className="row orWrapper" style={{}}>
+                     <span class="or text-muted">
+                         OR
+                     </span>
+                </div>
+
+                 <div className="row">
+                     <div className="col-sm-6">
+                         <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
+                             <span className="fa fa-facebook"></span> Sign in with Facebook
+                         </a>
+                     </div>
+                     <div className="col-sm-6">
+                         <a className="btn btn-block btn-social btn-google" href={googleLink}>
+                             <span className="fa fa-google"></span> Sign in with Google
+                         </a>
+                     </div>
+                 </div>
+         </div>
+         </div>
      );
    }
  }
- export default BasicForm
+function mapStateToProps(state){
+return {PublicUrl:state.PublicUrl};
+}
+
+function mapDispatchToProps(dispatch){
+  return null;
+}
+
+ export default connect(mapStateToProps)(BasicForm);

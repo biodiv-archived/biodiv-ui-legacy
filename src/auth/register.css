@@ -1,3 +1,41 @@
+.signin-wrapper {
+    max-width  : 600px;
+    background: #eee !important;    
+    margin-top: 80px;
+    margin-bottom: 80px;
+    margin:auto;
+    padding: 10px 10px 50px 10px;
+}
+
+.form-signin-heading{
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 60px;
+}
+
+.form-signin .row {
+    margin-bottom:15px;
+}
+
+.form-signin {
+    /*max-width: 380px;*/
+    padding: 15px 35px 25px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,0.1);  
+}
+.orWrapper {
+    text-align:center;
+    margin-top:15px;
+    margin-bottom:15px;
+}
+.or {
+    font-size:24px;
+}
+
+
 /* ----------------- Input styles ----------------- */
 
 .react-form-input {
@@ -218,6 +256,7 @@
 .react-form-select {
     position: relative;
     display: inline-block;
+    padding:0px;
 }
 
 .react-form-select select {

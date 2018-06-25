@@ -177,11 +177,14 @@ ReactDOM.render(
                   <Route exact path="/observation/list" component={App} props={search2} />
                   <Route  path="/group/:groupName/observation" component={App} />
                   <Route  path="/group/:groupName/login" component={Login} />
-                  <Route path="/login" component={Login} />
+                  <Route  path="/group/:groupName/register" component={Register} />
+                  <Route  path="/group/:groupName/forgotPassword" component={ForgotPassword} />
+                  <Route  path="/group/:groupName/resetPassword" component={ResetPassword} />
+                  <Route  path="/login" component={Login} />
                   <Route exact path="/logout" component={Logout} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/register/forgotPassword" component={ForgotPassword} />
-                  <Route exact path="/register/resetPassword" component={ResetPassword}/>
+                  <Route  path="/register" component={Register} />
+                  <Route  path="/register/forgotPassword" component={ForgotPassword} />
+                  <Route  path="/register/resetPassword" component={ResetPassword}/>
 
                   <Route path="/group/:groupName/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />
