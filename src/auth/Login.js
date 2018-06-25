@@ -22,7 +22,7 @@ class Login extends Component {
 
     componentWillMount() {
         let pathname= document.location.pathname;
-        if(pathname == "/login/checkauth") { 
+        if(pathname == "/login/checkauth") {
             let credentials = queryString.parse(document.location.search);
             this.props.setCredentials(credentials);
         }

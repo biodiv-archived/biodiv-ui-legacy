@@ -83,7 +83,6 @@ class BasicForm extends Component {
          this.state = {
            submittedValues:submittedValues,
            defaultValues:{},
-           emailExists:false
          };
      }
 
@@ -115,8 +114,22 @@ class BasicForm extends Component {
 
      }
 
+     onSubmitFailure (errors, formApi, onSubmitError ) {
+       //console.log(errors)
+       var key
+       var msg = '';
+       for(key in errors){
+         if(errors.hasOwnProperty(key) && errors[key]!=null){
+           msg =  msg + errors[key] + "\n"
+         }
+       }
+       alert(msg)
+       console.log("failed onSubmit")
+       console.log(msg)
+     }
+
      errorValidator ( values )  {
-       console.log("location test",values)
+       //console.log("error",values)
          const validateName = ( name ) => {
              return !name ? 'Name is required.' : null;
          };
@@ -132,12 +145,18 @@ class BasicForm extends Component {
          const validateLocation = ( location ) => {
              return !location ? 'Location is required.' : null;
          };
+
+         const validateMapLocation = ( mapLocation )=>{
+           return  document.getElementById('gmap').value == null ? 'Location is required.' : null;
+         }
+
          return {
              name: validateName(values.name),
              email: validateEmail( values.email ),
              password: validatePassword( values.password ),
              password2: validatePassword2( values.password2 ),
-             location: validateLocation( values.location )
+             location: validateLocation( values.location ),
+             mapLocation:validateMapLocation(values.mapLocation)
          };
      }
 
@@ -164,13 +183,12 @@ class BasicForm extends Component {
      }
 
      successValidator ( values, errors ) {
-
-         console.log(errors);
+       //console.log("success",values,errors)
          const validateName = ( ) => {
              return !errors.name ? null : errors.name;
          };
          const validateEmail = ( ) => {
-             return !errors.email ? errors.email : errors.email;
+          return !errors.email ? errors.email :errors.email;
          };
          const validatePassword = ( ) => {
              return !errors.password ? null : errors.password;
@@ -181,13 +199,16 @@ class BasicForm extends Component {
          const validateLocation = ( ) => {
              return !errors.location ? null : errors.location;
          };
-         console.log("values.email",values)
+         const validateMapLocation = () => {
+            return !errors.mapLocation ? null : errors.mapLocation;
+         }
          return {
              name: validateName( values.name ),
-             email: validateEmail( values.email ),
+             email: validateEmail(values.email),
              password: validatePassword( values.password ),
              password2: validatePassword( values.password2 ),
-             location: validateLocation( values.location )
+             location: validateLocation( values.location ),
+             mapLocation:validateMapLocation(values.mapLocation)
          };
      }
 
@@ -215,33 +236,39 @@ class BasicForm extends Component {
          var errors ;
          var me = this;
          axios(options).then((response)=>{
-             console.log(response);
+
              alert(response.data.msg);
              //this.props.history.push('/login');
              //this.setState({modalIsOpen: false});
          }).catch((response)=>{
-             console.log(response.response.data);
+
              errors = {};
              if(response.response.status == 400) {
-                 var error;
+                 //var error;
                  var i;
-                 console.log("length",response.response.data.length)
+
                  for( i=0;i< response.response.data.length;i++) {
-                   console.log("hahhaha",response.response.data[i].path)
+
                      errors[response.response.data[i].path] = response.response.data[i].message;
                  }
-                 console.log("errrrr",errors)
-                 this.setState({
-                   emailExists:true
-                 })
              }
-             console.log("eroos",errors)
+
              me.successValidator(submittedValues, errors);
 
              this.setState({
                  submittedValues: submittedValues,
                  errors:errors
              })
+             var key;
+             if(Object.keys(this.state.errors).length>0){
+               var msg = '';
+               for(key in this.state.errors){
+                 if(this.state.errors.hasOwnProperty(key)){
+                   msg = msg + this.state.errors[key]
+                 }
+               }
+               alert(msg );
+             }
          })
      }
 
@@ -273,6 +300,9 @@ class BasicForm extends Component {
                      <div className="col-sm-12 col-xs-12 form-signin-heading"><NavLink to="/login">Login</NavLink> | <NavLink to="/register">Register</NavLink> </div>
                  </div>
              <Form
+                  onSubmitFailure={this.onSubmitFailure}
+                 dontValidateOnMount={true}
+                 validateOnSubmit={true}
                  defaultValues={defaultValues}
                   validateError={this.errorValidator}
                   validateWarning={this.warningValidator}
@@ -358,12 +388,12 @@ class BasicForm extends Component {
                              </div>
 
                              <div className="row">
-                                 <input id="pac-input" className="controls" type="text" placeholder="Enter a location" />
+                                 <StyledText type="text" className="controls form-control" field="mapLocation" id="pac-input" placeholder="Enter a location" />
                                  <div className="col-sm-3">
                                      <label htmlFor="location" className="d-block">Location</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <div id="gmap">
+                                     <div  className="form-control" id="gmap">
                                      </div>
                                      <div id="infowindow-content">
                                      </div>

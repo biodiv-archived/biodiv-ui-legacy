@@ -166,7 +166,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>
-    <BrowserRouter  onUpdate={fireTracking()}>
+    <BrowserRouter forceRefresh={true}  onUpdate={fireTracking()}>
       <div className="container-fluid">
           <div id="headerWrapper">
               <Header title={"IBP"}/>
