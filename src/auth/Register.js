@@ -109,6 +109,10 @@ class BasicForm extends Component {
            if(newparams.email){
              defaultValues["email"]=newparams.email;
            }
+           if(newparams.openId){
+             defaultValues["openId"]=newparams.openId;
+           }
+ 
            this.setState({
               defaultValues
            })
@@ -225,7 +229,8 @@ class BasicForm extends Component {
      }
 
      handleSubmit(submittedValues){
-
+         document.body.style.cursor = "wait";
+         this.setState({loading:true});
          var mapDiv = document.getElementById('gmap');
          submittedValues.latitude = mapDiv.value.lat();
          submittedValues.longitude = mapDiv.value.lng();
@@ -248,11 +253,14 @@ class BasicForm extends Component {
          var errors ;
          var me = this;
          axios(options).then((response)=>{
-
              alert(response.data.msg);
-             this.props.history.push('/login');
+             document.body.style.cursor = "default";
+             this.setState({loading:false});
+             this.props.history.push('/'+this.props.PublicUrl.url+'/login');
              //this.setState({modalIsOpen: false});
          }).catch((response)=>{
+             document.body.style.cursor = "default";
+             this.setState({loading:false});
 
              errors = {};
              if(response.response.status == 400) {
@@ -310,7 +318,7 @@ class BasicForm extends Component {
          <div className="signin-wrapper">
                 {this.isAuthenticated()}
                  <div className="row">
-                     <div className="col-sm-12 col-xs-12 form-signin-heading"><NavLink to="/login">Login</NavLink> | <NavLink to="/register">Register</NavLink> </div>
+                     <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>Login</a> | <a href= {`/${this.props.PublicUrl.url}register`}>Register</a> </div>
                  </div>
              <Form
                   onSubmitFailure={this.onSubmitFailure}
@@ -330,6 +338,7 @@ class BasicForm extends Component {
                                  </div>
                                  <div className="col-sm-9">
                                      <StyledText className="form-control" field="name" id="name"/>
+                                     <StyledText className="form-control" field="openId" type="hidden" id="openId"/>
                                  </div>
                              </div>
 
@@ -443,7 +452,7 @@ class BasicForm extends Component {
                                      By registering you agree to our <a className="ibpLink" href={Config.api.IBP_URL+"/page/4250246"}>Terms &amp; Conditions</a> and <a className="ibpLink" href={Config.api.IBP_URL+"/page/12651147"}>Privacy Policy</a> on the use of our site
                                  </div>
                                  <div className="col-sm-3">
-                                     <button id="registerButton" type="submit" className="mb-4 btn btn-block btn-primary pull-right">Register</button>
+                                     <button id="registerButton" type="submit" className="mb-4 btn btn-block btn-primary pull-right" disabled={this.state.loading}>Register</button>
                                  </div>
                              </div>
 

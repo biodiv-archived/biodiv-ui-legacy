@@ -63,7 +63,7 @@ class Login extends Component {
         <div className="container">
          <div className="signin-wrapper">
              <div className="row">
-                 <div className="col-sm-12 col-xs-12 form-signin-heading"><NavLink to="/login">Login</NavLink> | <NavLink to="/register">Register</NavLink> </div>
+                     <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>Login</a> | <a href= {`/${this.props.PublicUrl.url}register`}>Register</a> </div>
              </div>
 
              <div className="row">
@@ -128,11 +128,14 @@ class Login extends Component {
 function mapStateToProps(state) {
     return {
         errorMessage: state.auth.error,
-         authenticated: state.auth.authenticated
-     };
+        PublicUrl:state.PublicUrl,
+        authenticated: state.auth.authenticated
+    };
 }
 
 Login = reduxForm({
- form: 'login'
+    form: 'login'
 })(Login);
 export default   withRouter(connect(mapStateToProps, AuthActions)(Login));
+
+
