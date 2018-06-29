@@ -14,7 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
-import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
+import { Login, Logout, AuthUtils,Register,VerifyRegistration,ForgotPassword,ResetPassword} from './auth';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from './actions/index';
 import reducers from './reducers';
 import HomePageContainer from './app/homePage/HomePageContainer';
@@ -181,10 +181,11 @@ ReactDOM.render(
                   <Route  path="/group/:groupName/forgotPassword" component={ForgotPassword} />
                   <Route  path="/group/:groupName/resetPassword" component={ResetPassword} />
                   <Route  path="/login" component={Login} />
-                  <Route exact path="/logout" component={Logout} />
-                  <Route  path="/register" component={Register} />
-                  <Route  path="/register/forgotPassword" component={ForgotPassword} />
-                  <Route  path="/register/resetPassword" component={ResetPassword}/>
+                  <Route  exact path="/logout" component={Logout} />
+                  <Route  exact path="/register" component={Register} />
+                  <Route  exact path="/register/verifyRegistration" component={VerifyRegistration} />
+                  <Route  exact path="/register/forgotPassword" component={ForgotPassword} />
+                  <Route  exact path="/register/resetPassword" component={ResetPassword}/>
 
                   <Route path="/group/:groupName/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />

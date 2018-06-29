@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-form';
-import {NavLink} from 'react-router-dom';
+import { reduxForm } from 'redux-form';
+import {NavLink,withRouter} from 'react-router-dom';
 //import {Recaptcha} from 'react-recaptcha';
 import {connect} from 'react-redux';
+import {REGISTER_MESSAGE} from './AuthConstants';
 
 import LocationSuggest from './LocationSuggest';
 import MapSelector from './MapSelector';
@@ -88,7 +90,6 @@ class BasicForm extends Component {
 
      isAuthenticated(){
         const loggedIn = this.props.authenticated;
-        //console.log(this.props.location.state.from.pathname)
         if(loggedIn) {
             // if(this.props.location.state.from.pathname === "/map/upload"){
             //   this.props.history.push('/map/upload')
@@ -131,7 +132,6 @@ class BasicForm extends Component {
      }
 
      onSubmitFailure (errors, formApi, onSubmitError ) {
-       //console.log(errors)
        var key
        var msg = '';
        for(key in errors){
@@ -140,12 +140,9 @@ class BasicForm extends Component {
          }
        }
        alert(msg)
-       console.log("failed onSubmit")
-       console.log(msg)
      }
 
      errorValidator ( values )  {
-       //console.log("error",values)
          const validateName = ( name ) => {
              return !name ? 'Name is required.' : null;
          };
@@ -199,7 +196,6 @@ class BasicForm extends Component {
      }
 
      successValidator ( values, errors ) {
-       //console.log("success",values,errors)
          const validateName = ( ) => {
              return !errors.name ? null : errors.name;
          };
@@ -235,8 +231,6 @@ class BasicForm extends Component {
          submittedValues.latitude = mapDiv.value.lat();
          submittedValues.longitude = mapDiv.value.lng();
          submittedValues['g-recaptcha-response'] = this.state.gRecaptchaResponse;
-         //TODO:if webaddress is present in url then add in request param
-         console.log(this.props.PublicUrl);
          submittedValues['webaddress'] = this.props.PublicUrl.groupName;
          
          this.setState({
@@ -253,11 +247,13 @@ class BasicForm extends Component {
          var errors ;
          var me = this;
          axios(options).then((response)=>{
-             alert(response.data.msg);
+             //             alert(response.data.msg);
+             //me.props.loginAlertMessage = response.data.msg;
+             //me.props.dispatch({type:REGISTER_MESSAGE, payload:response.data.msg});
              document.body.style.cursor = "default";
-             this.setState({loading:false});
-             this.props.history.push('/'+this.props.PublicUrl.url+'/login');
-             //this.setState({modalIsOpen: false});
+             me.setState({loading:false, registerMessage:response.data.msg});
+             //me.props.history.push(this.props.PublicUrl.url+'/login');
+             window.scrollTo(0, 0);
          }).catch((response)=>{
              document.body.style.cursor = "default";
              this.setState({loading:false});
@@ -301,37 +297,51 @@ class BasicForm extends Component {
     };
 
     recaptchaVerifyCallback(response) {
-        console.log(response)
         this.setState({'gRecaptchaResponse':response});
     };
     recaptchaExpiredCallback(response) {
         this.setState({'gRecaptchaResponse':''});
     };
 
+    renderAlert() {
+        if (this.state.registerMessage) {
+            return (
+                <div className="alert alert-info">
+                    {this.state.registerMessage}
+                </div>
+            );
+        }
+    }
 
    render() {
        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
        let defaultValues=this.state.defaultValues
+       let me = this;
        return (
         <div className="container">
-         <div className="signin-wrapper">
+            <div className="signin-wrapper">
                 {this.isAuthenticated()}
-                 <div className="row">
-                     <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>Login</a> | <a href= {`/${this.props.PublicUrl.url}register`}>Register</a> </div>
-                 </div>
-             <Form
-                  onSubmitFailure={this.onSubmitFailure}
-                 dontValidateOnMount={true}
-                 validateOnSubmit={true}
-                 defaultValues={defaultValues}
-                  validateError={this.errorValidator}
-                  validateWarning={this.warningValidator}
-                  validateSuccess={this.successValidator}
-                 onSubmit={this.handleSubmit.bind(this)}>
-                 { formApi => {
-                     return (
-                         <form onSubmit={formApi.submitForm} id="registerForm" class="form-signin">
+                <div className="row">
+                    <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>Login</a> | <a href= {`/${this.props.PublicUrl.url}register`}>Register</a> </div>
+                </div>
+                { this.state.registerMessage ? (
+                me.renderAlert()
+                ) : (
+                <div>
+                <Form
+                    onSubmitFailure={this.onSubmitFailure}
+                    dontValidateOnMount={true}
+                    validateOnSubmit={true}
+                    defaultValues={defaultValues}
+                    validateError={this.errorValidator}
+                    validateWarning={this.warningValidator}
+                    validateSuccess={this.successValidator}
+                    onSubmit={this.handleSubmit.bind(this)}>
+                    { formApi => {
+                        return (
+                            
+                         <form onSubmit={formApi.submitForm} id="registerForm" className="form-signin">
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Name</label>
@@ -459,6 +469,7 @@ class BasicForm extends Component {
                          </form>
                      )}}
                  </Form>
+                 
 
                  <div className="row orWrapper" style={{}}>
                      <span class="or text-muted">
@@ -478,6 +489,8 @@ class BasicForm extends Component {
                          </a>
                      </div>
                  </div>
+                    </div>
+                 )}
          </div>
          </div>
      );
@@ -485,9 +498,13 @@ class BasicForm extends Component {
  }
 function mapStateToProps(state){
     return {
+        dispatch:state.dispatch,
         authenticated: state.auth.authenticated,
+        loginAlertMessage : state.auth.error, 
         PublicUrl:state.PublicUrl
     };
 }
-
-export default connect(mapStateToProps)(BasicForm);
+BasicForm = reduxForm({
+    form: 'register'
+})(BasicForm);
+export default   withRouter(connect(mapStateToProps)(BasicForm));
