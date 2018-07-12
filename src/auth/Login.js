@@ -85,7 +85,7 @@ class Login extends Component {
                   <div className="col-sm-9">
                     <Field name="password"
                         type="password" className="form-control" component={renderInput} />
-                        <a href= {`/${this.props.PublicUrl.url}register/forgotPassword`}>ForgotPassword</a>
+                        <a href= {`/${this.props.PublicUrl.url}register/forgotPassword`}>Forgot Password?</a>
                   </div>
                 </div>
                     {this.isAuthenticated()}
