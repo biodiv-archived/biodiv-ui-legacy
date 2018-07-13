@@ -120,7 +120,7 @@ function getObvHtml(documents) {
 
 function getTab(evt, index) {
     var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
+    tabcontent = document.getElementsByClassName("tabscontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
@@ -138,10 +138,10 @@ function getHtml(data) {
   let html = "<div class='tab'>"
   html += "<button class='tablinks active' onclick='window.map_getTab(event, 0)'>Observations</button>"
   html += "<button class='tablinks' onclick='window.map_getTab(event, 1)'>&nbsp;&nbsp;Species&nbsp;&nbsp;</button>"
-  html += "<div id='observations' class='tabcontent' style='display:block'>"
+  html += "<div id='observations' class='tabscontent' style='display:block'>"
   html += getObvHtml(data.documents);
   html += "</div>"
-  html += "<div id='species' class='tabcontent'>"
+  html += "<div id='species' class='tabscontent'>"
   html += getSpHtml(data.termsAggregation);
   html += "</div>"
   html += "</div>"
