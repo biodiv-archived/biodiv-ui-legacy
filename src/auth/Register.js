@@ -388,10 +388,10 @@ class BasicForm extends Component {
                                      <StyledRadioGroup field="sexType">
                                          { group => (
                                              <div>
-                                                 <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
+                                                 <Radio group={group} value="Male" id="male" className="mr-3 d-inline-block" />
                                                  <label htmlFor="Male" className="mr-2">Male</label>
                                                  {'                 '}
-                                                 <Radio group={group} value="female" id="female" className="d-inline-block" />
+                                                 <Radio group={group} value="Female" id="female" className="d-inline-block" />
                                                  <label htmlFor="Female" className="mr-2">Female</label>
 
                                              </div>
