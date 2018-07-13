@@ -98,7 +98,7 @@ class Formsuggest extends React.Component {
   if(recoId !==null){
     var options={
       method:'POST',
-      url :   Config.api.ROOT_URL+"/observation/addRecommendationVote",
+      url :   Config.api.API_ROOT_URL+"/observation/addRecommendationVote",
       params:{
         commonName:cNameValue,
         languageName:langValue,
@@ -113,7 +113,7 @@ class Formsuggest extends React.Component {
   }else{
     var options={
       method:'POST',
-      url :   Config.api.ROOT_URL+"/observation/addRecommendationVote",
+      url :   Config.api.API_ROOT_URL+"/observation/addRecommendationVote",
       params:{
         commonName:cNameValue,
         languageName:langValue,

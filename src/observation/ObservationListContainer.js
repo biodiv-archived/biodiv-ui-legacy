@@ -76,8 +76,8 @@ class ObservationListContainer extends Component {
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           let newSearchParams="?"+search1;
-          if(this.props.location.search!=newSearchParams){
-            this.props.history.push(this.props.location.pathname+"?"+search1);
+          if(decodeURIComponent(this.props.location.search)!=newSearchParams){
+             this.props.history.push(this.props.location.pathname+"?"+search1);
           }
 
           ReactGA.pageview(this.props.location.pathname + search1);
@@ -274,11 +274,9 @@ class ObservationListContainer extends Component {
               let url1="/observation/observation?"+search2;
 
               let newSearchParams="?"+search2;
-              if(this.props.location.search!=newSearchParams){
+              if(decodeURIComponent(this.props.location.search)!=newSearchParams){
                 this.props.history.push(this.props.location.pathname+"?"+search2);
               }
-
-
 
           this.setState({
             params:newparams,
@@ -287,9 +285,7 @@ class ObservationListContainer extends Component {
           })
           this.props.fetchObservations(newparams);
           this.props.fetchFilterCount(url1);
-
             });
-
         }
         else{
             let fullUrl = window.location.host;
@@ -333,8 +329,9 @@ class ObservationListContainer extends Component {
           let url1="/observation/observation?"+search2;
 
             let newSearchParams="?"+search2;
-            if(this.props.location.search!=newSearchParams){
-              this.props.history.push(this.props.location.pathname+"?"+search2);
+
+            if(decodeURIComponent(this.props.location.search)!=newSearchParams){
+               this.props.history.push(this.props.location.pathname+"?"+search2);
             }
 
           this.props.fetchObservations(newparams);
@@ -424,8 +421,8 @@ class ObservationListContainer extends Component {
           const seacrh=queryString.stringify(params)
           const search1=decodeURIComponent(seacrh);
           let newSearchParams="?"+search1;
-          if(this.props.location.search!=newSearchParams){
-            this.props.history.push(this.props.location.pathname+"?"+search1);
+          if(decodeURIComponent(this.props.location.search)!=newSearchParams){
+             this.props.history.push(this.props.location.pathname+"?"+search1);
           }
         }
         selectAll(){

@@ -1,7 +1,10 @@
 import React,{Component} from 'react';
 import { Form, Text, Radio, RadioGroup, Select, Checkbox,Field } from 'react-form';
-import {NavLink} from 'react-router-dom';
+import { reduxForm } from 'redux-form';
+import {NavLink,withRouter} from 'react-router-dom';
 //import {Recaptcha} from 'react-recaptcha';
+import {connect} from 'react-redux';
+import {REGISTER_MESSAGE} from './AuthConstants';
 
 import LocationSuggest from './LocationSuggest';
 import MapSelector from './MapSelector';
@@ -85,6 +88,17 @@ class BasicForm extends Component {
          };
      }
 
+     isAuthenticated(){
+        const loggedIn = this.props.authenticated;
+        if(loggedIn) {
+            // if(this.props.location.state.from.pathname === "/map/upload"){
+            //   this.props.history.push('/map/upload')
+            // }
+                this.props.closeModal ? this.props.closeModal() : this.props.history.push('/');
+
+        }
+    }
+
     getUrlParams(){
        let pathname= document.location.pathname;
          let newparams = queryString.parse(document.location.search);
@@ -96,6 +110,10 @@ class BasicForm extends Component {
            if(newparams.email){
              defaultValues["email"]=newparams.email;
            }
+           if(newparams.openId){
+             defaultValues["openId"]=newparams.openId;
+           }
+
            this.setState({
               defaultValues
            })
@@ -114,7 +132,7 @@ class BasicForm extends Component {
      }
 
      onSubmitFailure (errors, formApi, onSubmitError ) {
-       //console.log(errors)
+
        var key
        var msg = '';
        for(key in errors){
@@ -123,8 +141,7 @@ class BasicForm extends Component {
          }
        }
        alert(msg)
-       console.log("failed onSubmit")
-       console.log(msg)
+
      }
 
      errorValidator ( values )  {
@@ -182,7 +199,6 @@ class BasicForm extends Component {
      }
 
      successValidator ( values, errors ) {
-       //console.log("success",values,errors)
          const validateName = ( ) => {
              return !errors.name ? null : errors.name;
          };
@@ -212,10 +228,14 @@ class BasicForm extends Component {
      }
 
      handleSubmit(submittedValues){
+         document.body.style.cursor = "wait";
+         this.setState({loading:true});
          var mapDiv = document.getElementById('gmap');
          submittedValues.latitude = mapDiv.value.lat();
          submittedValues.longitude = mapDiv.value.lng();
          submittedValues['g-recaptcha-response'] = this.state.gRecaptchaResponse;
+
+         submittedValues['webaddress'] = this.props.PublicUrl.groupName;
 
          this.setState({
              submittedValues: submittedValues,
@@ -228,14 +248,19 @@ class BasicForm extends Component {
              data:queryString.stringify(submittedValues),
              json: 'true'
          }
-  var errors ;
-         var me = this;
-         axios(options).then((response)=>{
-
-             alert(response.data.msg);
-             this.props.history.push('/login');
-             //this.setState({modalIsOpen: false});
-         }).catch((response)=>{
+         var errors ;
+                 var me = this;
+                 axios(options).then((response)=>{
+                     //             alert(response.data.msg);
+                     //me.props.loginAlertMessage = response.data.msg;
+                     //me.props.dispatch({type:REGISTER_MESSAGE, payload:response.data.msg});
+                     document.body.style.cursor = "default";
+                     me.setState({loading:false, registerMessage:response.data.msg});
+                     //me.props.history.push(this.props.PublicUrl.url+'/login');
+                     window.scrollTo(0, 0);
+                 }).catch((response)=>{
+                     document.body.style.cursor = "default";
+                     this.setState({loading:false});
 
              errors = {};
              if(response.response.status == 400) {
@@ -276,61 +301,61 @@ class BasicForm extends Component {
     };
 
     recaptchaVerifyCallback(response) {
-        console.log(response)
+
         this.setState({'gRecaptchaResponse':response});
     };
     recaptchaExpiredCallback(response) {
         this.setState({'gRecaptchaResponse':''});
     };
 
+    renderAlert() {
+        if (this.state.registerMessage) {
+            return (
+                <div className="alert alert-info">
+                    {this.state.registerMessage}
+                </div>
+            );
+        }
+    }
 
    render() {
        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
        let defaultValues=this.state.defaultValues
-     return (
-       <div>
-         <div className="container" style={{'backGroundColor':'white'}}>
-           <div className="col-sm-2"></div>
-           <div style={{backgroundColor: 'white'}} className="col-sm-8">
-             <br />
-             <div className="row">
-             <div className="col-sm-4"></div>
-             <div className="col-sm-4 col-xs-12">Already Have Account {' '}<NavLink to="/login">Login</NavLink> </div>
-             <div className="col-sm-6">
-                 <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
-                     <span className="fa fa-facebook"></span> Sign in with Facebook
-                 </a>
-             </div>
-             <div className="col-sm-6">
-                 <a className="btn btn-block btn-social btn-google" href={googleLink}>
-                     <span className="fa fa-google"></span> Sign in with Google
-                 </a>
-             </div>
+       let me = this;
+       return (
+        <div className="container">
+            <div className="signin-wrapper">
+                {this.isAuthenticated()}
+                <div className="row">
+                    <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>Login</a> | <a href= {`/${this.props.PublicUrl.url}register`}>Register</a> </div>
+                </div>
+                { this.state.registerMessage ? (
+                me.renderAlert()
+                ) : (
+                <div>
+                <Form
+                    onSubmitFailure={this.onSubmitFailure}
+                    dontValidateOnMount={true}
+                    validateOnSubmit={true}
+                    defaultValues={defaultValues}
+                    validateError={this.errorValidator}
+                    validateWarning={this.warningValidator}
+                    validateSuccess={this.successValidator}
+                    onSubmit={this.handleSubmit.bind(this)}>
+                    { formApi => {
+                        return (
 
-             </div>
-             <br />
-             <Form
-                  onSubmitFailure={this.onSubmitFailure}
-                 dontValidateOnMount={true}
-                 validateOnSubmit={true}
-                 defaultValues={defaultValues}
-                  validateError={this.errorValidator}
-                  validateWarning={this.warningValidator}
-                  validateSuccess={this.successValidator}
-                 onSubmit={this.handleSubmit.bind(this)}>
-                 { formApi => {
-                     return (
-                         <form onSubmit={formApi.submitForm} id="registerForm">
+                         <form onSubmit={formApi.submitForm} id="registerForm" className="form-signin">
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Name</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <StyledText className="form-control" field="name" id="name"/>
+                                     <StyledText className="form-control" field="openId" type="hidden" id="openId"/>
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
                                  <div className="col-sm-3">
@@ -340,8 +365,6 @@ class BasicForm extends Component {
                                      <StyledText className="form-control" type="email" field="email" id="email" />
                                  </div>
                              </div>
-                            <br />
-
 
                              <div className="row">
                                  <div className="col-sm-3">
@@ -351,7 +374,7 @@ class BasicForm extends Component {
                                      <StyledText type="password" className="form-control" field="password" id="password" />
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Password Again</label>
@@ -360,7 +383,7 @@ class BasicForm extends Component {
                                      <StyledText className="form-control" type="password" field="password2" id="password2" />
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Gender</label>
@@ -382,26 +405,25 @@ class BasicForm extends Component {
 
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="profession" className="d-block">Profession</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} className="mb-4"  />
+                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} style={{'width':'100%'}} />
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="institution" className="d-block">Institution</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} className="mb-4"/>
+                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions}  style={{'width':'100%'}}/>
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <StyledText type="text" className="controls form-control" field="mapLocation" id="pac-input" placeholder="Enter a location" />
                                  <div className="col-sm-3">
@@ -414,7 +436,7 @@ class BasicForm extends Component {
                                      </div>
                                  </div>
                              </div>
-                             <br />
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="location" className="d-block">Location Title</label>
@@ -423,7 +445,6 @@ class BasicForm extends Component {
                                      <StyledText type="text" className="form-control" field="location" id="location-name" placeholder="Enter a name or choose from map above" />
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
                                  <div className="col-sm-3">
@@ -431,7 +452,7 @@ class BasicForm extends Component {
                                  </div>
                                  <div className="col-sm-9">
                                      <Recaptcha
-                                         sitekey="6LelEl8UAAAAAOMwCw3RD7C41Bdbs9fwDf5OTMmj"
+                                         sitekey={Config.api.googleRecaptchaKey}
                                          type="image"
                                          render="explicit"
                                          verifyCallback={this.recaptchaVerifyCallback.bind(this)}
@@ -440,23 +461,55 @@ class BasicForm extends Component {
                                      />
                                  </div>
                              </div>
-                             <br />
 
                              <div className="row">
-                                 <div className="col-sm-3"></div>
-                                 <button type="submit" className="mb-4 btn btn-primary">Submit</button>
+                                 <div className="col-sm-9">
+                                     By registering you agree to our <a className="ibpLink" href={Config.api.IBP_URL+"/page/4250246"}>Terms &amp; Conditions</a> and <a className="ibpLink" href={Config.api.IBP_URL+"/page/12651147"}>Privacy Policy</a> on the use of our site
+                                 </div>
+                                 <div className="col-sm-3">
+                                     <button id="registerButton" type="submit" className="mb-4 btn btn-block btn-primary pull-right" disabled={this.state.loading}>Register</button>
+                                 </div>
                              </div>
 
                          </form>
                      )}}
                  </Form>
-                 <br />
-             </div>
-             <div className="col-sm-2"></div>
-         </div>
 
-     </div>
+
+                 <div className="row orWrapper" style={{}}>
+                     <span class="or text-muted">
+                         OR
+                     </span>
+                </div>
+
+                 <div className="row">
+                     <div className="col-sm-6">
+                         <a className="btn btn-block btn-social btn-facebook" href={fbLink} >
+                             <span className="fa fa-facebook"></span> Sign in with Facebook
+                         </a>
+                     </div>
+                     <div className="col-sm-6">
+                         <a className="btn btn-block btn-social btn-google" href={googleLink}>
+                             <span className="fa fa-google"></span> Sign in with Google
+                         </a>
+                     </div>
+                 </div>
+                    </div>
+                 )}
+         </div>
+         </div>
      );
    }
  }
- export default BasicForm
+function mapStateToProps(state){
+    return {
+        dispatch:state.dispatch,
+        authenticated: state.auth.authenticated,
+        loginAlertMessage : state.auth.error,
+        PublicUrl:state.PublicUrl
+    };
+}
+BasicForm = reduxForm({
+    form: 'register'
+})(BasicForm);
+export default   withRouter(connect(mapStateToProps)(BasicForm));

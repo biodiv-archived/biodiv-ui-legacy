@@ -14,7 +14,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
-import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
+import { Login, Logout, AuthUtils,Register,VerifyRegistration,ForgotPassword,ResetPassword} from './auth';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from './actions/index';
 import reducers from './reducers';
 import HomePageContainer from './app/homePage/HomePageContainer';
@@ -30,7 +30,7 @@ var fileref=document.createElement("link")
        fileref.setAttribute("type", "text/css")
 
        if(Config.api.DEPLOY==="ibp"){
-         fileref.setAttribute("href", "http://192.168.4.126:3000"+"/headerStyles/headerstyle.css")
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
        }else{
          fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
        }
@@ -166,7 +166,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>
-    <BrowserRouter  onUpdate={fireTracking()}>
+    <BrowserRouter forceRefresh={true}  onUpdate={fireTracking()}>
       <div className="container-fluid">
           <div id="headerWrapper">
               <Header title={"IBP"}/>
@@ -177,16 +177,20 @@ ReactDOM.render(
                   <Route exact path="/observation/list" component={App} props={search2} />
                   <Route  path="/group/:groupName/observation" component={App} />
                   <Route  path="/group/:groupName/login" component={Login} />
-                  <Route path="/login" component={Login} />
-                  <Route exact path="/logout" component={Logout} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/register/forgotPassword" component={ForgotPassword} />
-                  <Route exact path="/register/resetPassword" component={ResetPassword}/>
+                  <Route  path="/group/:groupName/register" component={Register} />
+                  <Route  path="/group/:groupName/forgotPassword" component={ForgotPassword} />
+                  <Route  path="/group/:groupName/resetPassword" component={ResetPassword} />
+                  <Route  path="/login" component={Login} />
+                  <Route  exact path="/logout" component={Logout} />
+                  <Route  exact path="/register" component={Register} />
+                  <Route  exact path="/register/verifyRegistration" component={VerifyRegistration} />
+                  <Route  exact path="/register/forgotPassword" component={ForgotPassword} />
+                  <Route  exact path="/register/resetPassword" component={ResetPassword}/>
 
                   <Route path="/group/:groupName/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />
 							    				  )}/>
-                  <Route  path="/map" render={(routeProps) => (
+                  <Route exact path="/map" render={(routeProps) => (
           						      		<naksha.Layers {...routeProps} {...map_props} />
           							    )}/>
 
