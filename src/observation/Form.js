@@ -80,6 +80,8 @@ class Formsuggest extends React.Component {
     var suggestIdComment1="suggestIdComment"+this.props.id2
     //var value1=this.refs[suggestIdComment1].value
     var obvId=this.props.id2
+    var obvIds=[]
+    obvIds.push(obvId);
 
     var recoId=null
 
@@ -105,7 +107,7 @@ class Formsuggest extends React.Component {
         recoName:sNameValue,
         recoId:recoId,
         //recoComment:value1,
-        obvId:obvId
+        obvIds:obvIds
       },
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
@@ -120,7 +122,7 @@ class Formsuggest extends React.Component {
         recoName:sNameValue,
 
         //recoComment:value1,
-        obvId:obvId
+        obvIds:obvIds
       },
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
