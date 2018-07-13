@@ -135,7 +135,7 @@ function getTab(evt, index) {
 }
 
 function getHtml(data) {
-  let html = "<div class='tab'>"
+  let html = "<div class='popup-tab'>"
   html += "<button class='tablinks active' onclick='window.map_getTab(event, 0)'>Observations</button>"
   html += "<button class='tablinks' onclick='window.map_getTab(event, 1)'>&nbsp;&nbsp;Species&nbsp;&nbsp;</button>"
   html += "<div id='observations' class='tabscontent' style='display:block'>"

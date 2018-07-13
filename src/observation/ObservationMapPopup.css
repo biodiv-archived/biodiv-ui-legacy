@@ -1,12 +1,12 @@
 /* Style the tab */
-.tab {
+.popup-tab {
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
 }
 
 /* Style the buttons inside the tab */
-.tab button {
+.popup-tab button {
     background-color: inherit;
     float: left;
     border: none;
@@ -19,12 +19,12 @@
 }
 
 /* Change background color of buttons on hover */
-.tab button:hover {
+.popup-tab button:hover {
     background-color: #ddd;
 }
 
 /* Create an active/current tablink class */
-.tab button.active {
+.popup-tab button.active {
     background-color: #ccc;
 }
 
