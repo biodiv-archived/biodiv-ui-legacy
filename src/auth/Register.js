@@ -389,10 +389,10 @@ class BasicForm extends Component {
                                          { group => (
                                              <div>
                                                  <Radio group={group} value="male" id="male" className="mr-3 d-inline-block" />
-                                                 <label htmlFor="male" className="mr-2">Male</label>
+                                                 <label htmlFor="Male" className="mr-2">Male</label>
                                                  {'                 '}
                                                  <Radio group={group} value="female" id="female" className="d-inline-block" />
-                                                 <label htmlFor="female" className="mr-2">Female</label>
+                                                 <label htmlFor="Female" className="mr-2">Female</label>
 
                                              </div>
                                          )}
@@ -412,7 +412,7 @@ class BasicForm extends Component {
 
                              <div className="row">
                                  <div className="col-sm-3">
-                                     <label htmlFor="institution" className="d-block">Institution</label>
+                                     <label htmlFor="Institution" className="d-block">Institution</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions}  style={{'width':'100%'}}/>
@@ -422,7 +422,7 @@ class BasicForm extends Component {
                              <div className="row">
                                  <StyledText type="text" className="controls form-control" field="mapLocation" id="pac-input" placeholder="Enter a location" />
                                  <div className="col-sm-3">
-                                     <label htmlFor="location" className="d-block">Location</label>
+                                     <label htmlFor="Location" className="d-block">Location</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <div  className="form-control" id="gmap">
