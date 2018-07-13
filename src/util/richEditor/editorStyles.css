@@ -16,3 +16,7 @@
 .draftJsMentionPlugin__mentionSuggestions__2DWjA{
   position:absolute;
 }
+
+.public-DraftEditor-content {
+  min-height: 18px!important;
+}

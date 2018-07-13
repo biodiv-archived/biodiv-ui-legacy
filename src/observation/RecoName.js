@@ -15,6 +15,8 @@ import ModalPopup from '../auth/Modal.js';
 
 import {fetchRecommendations} from '../actions'
 
+const noOfAuthorsToShow = 3;
+
 class RecoName extends React.Component {
 
   constructor(props) {
@@ -294,6 +296,13 @@ class RecoName extends React.Component {
         })
   }
 
+  showForm(){
+    var form1="form"+this.props.id
+    var add1="add"+this.props.id
+    this.refs[form1]?this.refs[form1].style.display="block":null
+    this.refs[add1]?this.refs[add1].style.display="none":null
+  }
+
 
   render(){
     //console.log(this.props.islocked, "recoName called agagin")
@@ -305,207 +314,323 @@ class RecoName extends React.Component {
 
       this.state.response.length>0?
       (
-        this.state.response.map((item,index)=>{
-          var authArray=[]
-            return(
-          <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
-              <div className="col-sm-6">
+        <div id={"myCarousel"+this.props.id} className="carousel slide" data-ride="carousel" data-interval="false" style={{marginTop:'-1%'}}>
+
+              <ol className="carousel-indicators" style={{top:'100%',zIndex:'0'}}>
                 {
-                  item.isScientificName===true?
-                    (
-                      item.hasOwnProperty('speciesId')?
-                      (
-                          item.speciesId!=null?
-                          (
-                            <NavLink to={`/${this.props.PublicUrl}species/show/${item.speciesId}`}>
-                            <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
-                            {"    "}  </i>
-                          </NavLink>
+                    this.state.response.map((item,index)=>{
+                      return(
+
+                        <li key={index} data-target={"#myCarousel"+this.props.id} data-slide-to={index} style={{border:'1px solid #acb3bf'}} className={index===0?" active":""}></li>
+
+                      )
+                    }
+                  )
+                }
+              </ol>
+
+              <div className="carousel-inner">
+                {
+                this.state.response.map((item,index)=>{
+                  var authArray=[]
+                    return(
+                  <div key={index} className={index===0?"item active":"item"} >
+                  <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
+                      <div className="col-sm-6" style={{height:'40px',overflow:'hidden',paddingLeft:'10px',paddingRight:'10px'}}
+                      title={
+                        (
+
+                        item.isScientificName===true?
+                        (item.hasOwnProperty('speciesId')?(item.speciesId!==null?(item.hasOwnProperty('normalizedForm')?item.normalizedForm:""):(item.hasOwnProperty('normalizedForm')?item.normalizedForm:"")):(item.hasOwnProperty('normalizedForm')?item.normalizedForm:item.hasOwnProperty('name')?(item.name):""))
+                        :(item.hasOwnProperty('name')?item.name:"")
+                      ) + " "+
+                        (
+                          item.hasOwnProperty('commonNames')?item.commonNames:""
+                        )
+                        }
+                      >
+                        {
+                          item.isScientificName===true?
+                            (
+                              item.hasOwnProperty('speciesId')?
+                              (
+                                  item.speciesId!=null?
+                                  (
+                                    <NavLink to={`/${this.props.PublicUrl}species/show/${item.speciesId}`}>
+                                    <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
+                                    {"    "}  </i>
+                                  </NavLink>
+                                  ):
+                                  (
+                                        <i>
+                                            {item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
+                                            {"    "}
+                                        </i>
+                                  )
+                              ):
+                              (
+
+                                      <i>
+                                          {item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:(item.hasOwnProperty('name')?<span style={{fontWeight:'bold'}}>{item.name}</span>:null)}
+                                          {"    "}
+                                      </i>
+
+                              )
                           ):
                           (
-                                <i>
-                                    {item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
-                                    {"    "}
-                                </i>
-                          )
-                      ):
-                      (
 
                               <i>
-                                  {item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:(item.hasOwnProperty('name')?<span style={{fontWeight:'bold'}}>{item.name}</span>:null)}
+                                  {item.hasOwnProperty('name') ?<span style={{fontWeight:'bold'}}>{item.name}</span>:null}
                                   {"    "}
                               </i>
 
-                      )
-                  ):
-                  (
-
-                      <i>
-                          {item.hasOwnProperty('name') ?<span style={{fontWeight:'bold'}}>{item.name}</span>:null}
-                          {"    "}
-                      </i>
-
-                  )
-                }
-                {item.hasOwnProperty('commonNames')?<span style={{color:'black'}}>{item.commonNames}</span>:null}
-               </div>
-               <div className="col-sm-3" style={{marginLeft:'0%'}}>
-                   <div className="row pull-left">
-                       {
-                         item.authors.map((aut,index)=>{
-                           authArray=authArray.concat(aut[0].id)
-                           //console.log(authArray)
-                           //console.log(localStorage.getItem('id'))
-                           //var a=AuthUtils.getLoggedInUser().id;
-                           //console.log(item.recoId,$.inArray(parseInt(a),authArray))
-                             return(
-                               <div key={index} className="col-xs-1">
-                                 {
-                                      <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}`}>
-                                          {
-                                            aut[0].icon?
-                                            (
-                                              <UserAvatar  name={aut[0].name} title={aut[0].name} src={Config.api.ROOT_URL+"/biodiv/users/"+aut[0].icon}  size="30" />
-                                            )
-                                            :
-                                            (
-                                              aut[0].profilePic?
-                                              (
-                                                <UserAvatar  name={aut[0].name} title={aut[0].name} src={aut[0].profilePic}  size="30" />
-                                              )
-                                              :
-                                              (
-                                                <UserAvatar  name={aut[0].name} title={aut[0].name}   size="30" />
-                                              )
-                                            )
-                                          }
-
-                                      </NavLink>
-                                 }
-                               </div>
-                             )
-                           })
-                     }
-                   </div>
-               </div>
-               <div className="col-sm-3" >
-                  <div className="row pull-right" >
-                  <div style={{marginRight:'10px'}}>
-
-                  {
-                    item.isLocked===false?
-                    (
-
-
-
-                          (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
-                            (
-                                <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.validatePost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Validate</button>
-                            ):
-                            null
-
-
-                    )
-                    :
-                    (
-
-
-                          (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
-                            (
-                                (item.showLock === false)?
-                                (
-                                  <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
-                                ):
-                                (
-                                  <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs"  disabled>Validate</button>
-                                )
-
-                            ):
-                            (
-                              (item.showLock === false)?
-                              (
-                                <span className="glyphicon glyphicon-lock tooltip-content" data-toggle="tooltip" title={"This species id islocked"}></span>
-
-                              ):null
-                            )
-
-                    )
-                  }
-
-
-
-
-                  {
-                    (AuthUtils.isLoggedIn())?
-                        (
-                          ($.inArray(parseInt(AuthUtils.getLoggedInUser().id),authArray))>=0?
-                          (
-
-                              item.isLocked===false?
-                              (
-                                <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Remove</button>
-                              ):
-                              (
-                                (item.showLock===false)?
-                                (
-                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" disabled>Remove</button>
-                                ):
-                                (
-                                  <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>Remove</button>
-                                )
-
-                              )
-
                           )
-                          :
-                          (
+                        }
+                        {item.hasOwnProperty('commonNames')?<span style={{color:'black'}}>{item.commonNames}</span>:null}
+                       </div>
+                       <div className="col-sm-2" style={{marginLeft:'0%'}}>
+                           <div className="row pull-left">
+                               {
+                                 item.authors.map((aut,index)=>{
+                                   authArray=authArray.concat(aut[0].id)
+                                   //console.log(authArray)
+                                   //console.log(localStorage.getItem('id'))
+                                   //var a=AuthUtils.getLoggedInUser().id;
+                                   //console.log(item.recoId,$.inArray(parseInt(a),authArray))
+                                     return(
+                                       index<noOfAuthorsToShow?
+                                       (
+                                         <div key={index} className="col-xs-1 facepile" >
+                                           {
 
+                                                <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}`}>
+                                                    {
+                                                      aut[0].icon?
+                                                      (
+                                                        <UserAvatar  name={aut[0].name} title={aut[0].name} src={"https://pamba.strandls.com"+"/biodiv/users/"+aut[0].icon}  size="30" />
+                                                      )
+                                                      :
+                                                      (
+                                                        aut[0].profilePic?
+                                                        (
+                                                          <UserAvatar  name={aut[0].name} title={aut[0].name} src={aut[0].profilePic}  size="30" />
+                                                        )
+                                                        :
+                                                        (
+                                                          <UserAvatar  name={aut[0].name} title={aut[0].name}   size="30" />
+                                                        )
+                                                      )
+                                                    }
+                                                </NavLink>
 
-                              item.isLocked===false?
-                              (
-                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
-                              ):
-                              (
-                                <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
-                              )
+                                           }
+                                         </div>
+                                       ):
+                                       (
+                                         index === noOfAuthorsToShow?(
+                                           <div key={index} className="col-xs-1 dropdown container facepile" >
+                                              <a className="dropdown-toggle" data-toggle="dropdown">
+                                              <UserAvatar  name={"+"+(item.authors.length-noOfAuthorsToShow).toString()} title={"See All"} color="yellow"   size="30" />
+                                              </a>
+                                              <div className="dropdown-menu row " style={{backgroundColor:'#bcdae2',borderRadius:'4px',minWidth:'200px'}}>
+                                                {
+                                                  item.authors.map((aut,index)=>{
+                                                    return(
+                                                      <div key={index} className="col-xs-1" >
+                                                        {
+                                                             <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}`} >
+                                                                 {
+                                                                   aut[0].icon?
+                                                                   (
+                                                                     <UserAvatar  name={aut[0].name} title={aut[0].name} src={"https://pamba.strandls.com"+"/biodiv/users/"+aut[0].icon}  size="30" />
+                                                                   )
+                                                                   :
+                                                                   (
+                                                                     aut[0].profilePic?
+                                                                     (
+                                                                       <UserAvatar  name={aut[0].name} title={aut[0].name} src={aut[0].profilePic}  size="30" />
+                                                                     )
+                                                                     :
+                                                                     (
+                                                                       <UserAvatar  name={aut[0].name} title={aut[0].name}   size="30" />
+                                                                     )
+                                                                   )
+                                                                 }
 
-                          )
-                        )
-                        :
-                        (
+                                                             </NavLink>
+                                                        }
+                                                      </div>
+                                                    )
+                                                  })
+                                                }
+                                              </div>
+                                           </div>
+                                         ):
+                                         null
+                                       )
 
+                                     )
+                                   })
+                             }
+                           </div>
+                       </div>
+                       <div className="col-sm-4" >
+                          <div className="row pull-right" >
+                          <div style={{marginRight:'10px'}}>
 
+                          {
                             item.isLocked===false?
                             (
-                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
-                            ):
-                            (
-                              <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
+
+
+
+                                  (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
+                                    (
+                                        <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.validatePost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Validate</button>
+                                    ):
+                                    null
+
+
                             )
-
-                        )
-                    }
-
+                            :
+                            (
 
 
+                                  (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
+                                    (
+                                        (item.showLock === false)?
+                                        (
+                                          <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
+                                        ):
+                                        (
+                                          <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs"  disabled>Validate</button>
+                                        )
 
-                      <RecoComment key={item.recoId} getReco={this.getRecoName} id1={item.recoId} id2={this.props.id} speciesId={item.hasOwnProperty('speciesId')?(item.speciesId!=null?item.speciesId:"no"):"no"} name={item.name} votes={item.authors.length} commentCount={item.totalCommentCount}/>
+                                    ):
+                                    (
+                                      (item.showLock === false)?
+                                      (
+                                        <span className="glyphicon glyphicon-lock tooltip-content" data-toggle="tooltip" title={"This species id islocked"}></span>
 
-                      </div>
-                      </div>
-                </div>
+                                      ):null
+                                    )
+
+                            )
+                          }
+
+
+
+
+                          {
+                            (AuthUtils.isLoggedIn())?
+                                (
+                                  ($.inArray(parseInt(AuthUtils.getLoggedInUser().id),authArray))>=0?
+                                  (
+
+                                      item.isLocked===false?
+                                      (
+                                        <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Remove</button>
+                                      ):
+                                      (
+                                        (item.showLock===false)?
+                                        (
+                                          <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" disabled>Remove</button>
+                                        ):
+                                        (
+                                          <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>Remove</button>
+                                        )
+
+                                      )
+
+                                  )
+                                  :
+                                  (
+
+
+                                      item.isLocked===false?
+                                      (
+                                        <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
+                                      ):
+                                      (
+                                        <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
+                                      )
+
+                                  )
+                                )
+                                :
+                                (
+
+
+                                    item.isLocked===false?
+                                    (
+                                      <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
+                                    ):
+                                    (
+                                      <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
+                                    )
+
+                                )
+                            }
+
+
+
+
+                              <RecoComment key={item.recoId} getReco={this.getRecoName} id1={item.recoId} id2={this.props.id} speciesId={item.hasOwnProperty('speciesId')?(item.speciesId!=null?item.speciesId:"no"):"no"} name={item.name} votes={item.authors.length} commentCount={item.totalCommentCount}/>
+
+                              </div>
+                              </div>
+                        </div>
+                  </div>
+
+                  </div>
+                )}
+                )
+              }
+              </div>
+
+              <a className="left carousel-control" href={"#myCarousel"+this.props.id} data-slide="prev" style={{width:'1%'}}>
+              <span className="glyphicon glyphicon-chevron-left" style={{marginLeft:'0',left:'-17px',color:'#312727'}}></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a className="right carousel-control" href={"#myCarousel"+this.props.id} data-slide="next" style={{width:'1%'}}>
+              <span className="glyphicon glyphicon-chevron-right" style={{marginRight:'0',right:'-17px',color:'#312727'}}></span>
+              <span className="sr-only">Next</span>
+            </a>
+
           </div>
-        )}
-        )
+
       )
       :null
     }
       </div>
-      <div style={{marginTop:'1%'}}>
+      <div style={{marginTop:'1.8vh'}}>
           {
             this.props.islocked==="false"?
             (
-              <Formsuggest  id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain}/>
+              <div>
+              {
+                this.state.response.length>0?
+                (
+                  <div>
+                  <center style={{display:'block'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>Suggest</span></span></button></center>
+                  <div style={{display:'none'}} ref={"form"+this.props.id}>
+                  <Formsuggest   id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain} />
+                  </div>
+                  </div>
+                )
+                :
+                (
+                  <div>
+                  <center style={{display:'none'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>Suggest</span></span></button></center>
+                  <div style={{display:'block'}} ref={"form"+this.props.id}>
+                  <Formsuggest   id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain} />
+                  </div>
+                  </div>
+                )
+              }
+
+
+              </div>
             ):
             (
               <center><span style={{color:'green'}}> This observation ID is locked by a  species curator. </span></center>

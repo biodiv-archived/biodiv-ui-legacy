@@ -52,7 +52,7 @@ axios.interceptors.request.use(function (config) {
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
 //    console.log('---------------------BEFORE REQUEST END------------------------');
-   config.withCredentials = true;
+   config.withCredentials = false;
     return config;
 }, function (error) {
     return Promise.reject(error);

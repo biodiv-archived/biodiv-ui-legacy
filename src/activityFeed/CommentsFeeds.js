@@ -560,15 +560,6 @@ class CommentsFeeds extends React.Component {
                     }
                 </div>
           </div>
-          <div className="comment">
-              <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
-                          //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
-                          obvId={this.props.id}
-                          chId={this.props.id}
-                          getFeeds={this.fetchFeeds}
-                          PublicUrl={this.props.PublicUrl}
-              />
-          </div>
      </div>
       )
     }

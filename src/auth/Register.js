@@ -20,6 +20,7 @@ import {
 import './register.css'
 
 var Recaptcha = require('react-recaptcha');
+//import Recaptcha from 'react-recaptcha';
  const profession = [
    {
      label: 'Agriculture',
@@ -80,7 +81,7 @@ class BasicForm extends Component {
          var submittedValues = {};
          this.state = {
            submittedValues:submittedValues,
-           defaultValues:{}
+           defaultValues:{},
          };
      }
 
@@ -111,10 +112,23 @@ class BasicForm extends Component {
          MapSelector();
 
      }
-     com
 
+     onSubmitFailure (errors, formApi, onSubmitError ) {
+       //console.log(errors)
+       var key
+       var msg = '';
+       for(key in errors){
+         if(errors.hasOwnProperty(key) && errors[key]!=null){
+           msg =  msg + errors[key] + "\n"
+         }
+       }
+       alert(msg)
+       console.log("failed onSubmit")
+       console.log(msg)
+     }
 
      errorValidator ( values )  {
+       //console.log("error",values)
          const validateName = ( name ) => {
              return !name ? 'Name is required.' : null;
          };
@@ -130,12 +144,18 @@ class BasicForm extends Component {
          const validateLocation = ( location ) => {
              return !location ? 'Location is required.' : null;
          };
+
+         const validateMapLocation = ( mapLocation )=>{
+           return  document.getElementById('gmap').value == null ? 'Location is required.' : null;
+         }
+
          return {
              name: validateName(values.name),
              email: validateEmail( values.email ),
              password: validatePassword( values.password ),
              password2: validatePassword2( values.password2 ),
-             location: validateLocation( values.location )
+             location: validateLocation( values.location ),
+             mapLocation:validateMapLocation(values.mapLocation)
          };
      }
 
@@ -150,7 +170,7 @@ class BasicForm extends Component {
              return password && password.length < 6 ? 'Password must be longer than 6 characters.' : null;
          };
          const validatePassword2 = ( password2 ) => {
-             return values.password && password2 && (values.password === password2) ? 'Passwords should match.' : null;
+             return values.password && password2 && (values.password === password2) ? null : 'Passwords should match.';
          };
         return {
             name: validateName(values.name),
@@ -162,13 +182,12 @@ class BasicForm extends Component {
      }
 
      successValidator ( values, errors ) {
-
-         console.log(errors);
+       //console.log("success",values,errors)
          const validateName = ( ) => {
              return !errors.name ? null : errors.name;
          };
          const validateEmail = ( ) => {
-             return !errors.email ? errors.email : errors.email;
+          return !errors.email ? errors.email :errors.email;
          };
          const validatePassword = ( ) => {
              return !errors.password ? null : errors.password;
@@ -179,12 +198,16 @@ class BasicForm extends Component {
          const validateLocation = ( ) => {
              return !errors.location ? null : errors.location;
          };
+         const validateMapLocation = () => {
+            return !errors.mapLocation ? null : errors.mapLocation;
+         }
          return {
              name: validateName( values.name ),
-             email: validateEmail( values.email ),
+             email: validateEmail(values.email),
              password: validatePassword( values.password ),
              password2: validatePassword( values.password2 ),
-             location: validateLocation( values.location )
+             location: validateLocation( values.location ),
+             mapLocation:validateMapLocation(values.mapLocation)
          };
      }
 
@@ -192,6 +215,7 @@ class BasicForm extends Component {
          var mapDiv = document.getElementById('gmap');
          submittedValues.latitude = mapDiv.value.lat();
          submittedValues.longitude = mapDiv.value.lng();
+         submittedValues['g-recaptcha-response'] = this.state.gRecaptchaResponse;
 
          this.setState({
              submittedValues: submittedValues,
@@ -204,20 +228,23 @@ class BasicForm extends Component {
              data:queryString.stringify(submittedValues),
              json: 'true'
          }
-
+  var errors ;
          var me = this;
          axios(options).then((response)=>{
-             console.log(response);
+
              alert(response.data.msg);
              this.props.history.push('/login');
              //this.setState({modalIsOpen: false});
          }).catch((response)=>{
-             console.log(response.response.data);
-             var errors = {};
+
+             errors = {};
              if(response.response.status == 400) {
-                 var error;
-                 for(error in response.response.data) {
-                     errors[error.path] = error.message;
+                 //var error;
+                 var i;
+
+                 for( i=0;i< response.response.data.length;i++) {
+
+                     errors[response.response.data[i].path] = response.response.data[i].message;
                  }
              }
 
@@ -227,6 +254,16 @@ class BasicForm extends Component {
                  submittedValues: submittedValues,
                  errors:errors
              })
+             var key;
+             if(Object.keys(this.state.errors).length>0){
+               var msg = '';
+               for(key in this.state.errors){
+                 if(this.state.errors.hasOwnProperty(key)){
+                   msg = msg + this.state.errors[key]
+                 }
+               }
+               alert(msg );
+             }
          })
      }
 
@@ -239,7 +276,11 @@ class BasicForm extends Component {
     };
 
     recaptchaVerifyCallback(response) {
-        this.setState({'g-recaptcha-response':response});
+        console.log(response)
+        this.setState({'gRecaptchaResponse':response});
+    };
+    recaptchaExpiredCallback(response) {
+        this.setState({'gRecaptchaResponse':''});
     };
 
 
@@ -247,7 +288,6 @@ class BasicForm extends Component {
        let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
        let googleLink = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id="+Config.api.googleId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=google2Client&access_type=offline&scope=email";
        let defaultValues=this.state.defaultValues
-       console.log(defaultValues);
      return (
        <div>
          <div className="container" style={{'backGroundColor':'white'}}>
@@ -271,10 +311,13 @@ class BasicForm extends Component {
              </div>
              <br />
              <Form
+                  onSubmitFailure={this.onSubmitFailure}
+                 dontValidateOnMount={true}
+                 validateOnSubmit={true}
                  defaultValues={defaultValues}
-                 validateError={this.errorValidator}
-                 validateWarning={this.warningValidator}
-                 validateSuccess={this.successValidator}
+                  validateError={this.errorValidator}
+                  validateWarning={this.warningValidator}
+                  validateSuccess={this.successValidator}
                  onSubmit={this.handleSubmit.bind(this)}>
                  { formApi => {
                      return (
@@ -297,7 +340,9 @@ class BasicForm extends Component {
                                      <StyledText className="form-control" type="email" field="email" id="email" />
                                  </div>
                              </div>
-                             <br />
+                            <br />
+
+
                              <div className="row">
                                  <div className="col-sm-3">
                                      <label htmlFor="name">Password</label>
@@ -344,7 +389,7 @@ class BasicForm extends Component {
                                      <label htmlFor="profession" className="d-block">Profession</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} />
+                                     <StyledSelect className="form-control" field="occupationType" id="profession" options={profession} className="mb-4"  />
                                  </div>
                              </div>
                              <br />
@@ -353,17 +398,17 @@ class BasicForm extends Component {
                                      <label htmlFor="institution" className="d-block">Institution</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} />
+                                     <StyledSelect className="form-control" field="institutionType" id="institution" options={institutions} className="mb-4"/>
                                  </div>
                              </div>
                              <br />
                              <div className="row">
-                                 <input id="pac-input" className="controls" type="text" placeholder="Enter a location" />
+                                 <StyledText type="text" className="controls form-control" field="mapLocation" id="pac-input" placeholder="Enter a location" />
                                  <div className="col-sm-3">
                                      <label htmlFor="location" className="d-block">Location</label>
                                  </div>
                                  <div className="col-sm-9">
-                                     <div id="gmap">
+                                     <div  className="form-control" id="gmap">
                                      </div>
                                      <div id="infowindow-content">
                                      </div>
@@ -390,6 +435,7 @@ class BasicForm extends Component {
                                          type="image"
                                          render="explicit"
                                          verifyCallback={this.recaptchaVerifyCallback.bind(this)}
+                                         expiredCallback={this.recaptchaExpiredCallback.bind(this)}
                                          onloadCallback={this.recaptchaCallback.bind(this)}
                                      />
                                  </div>

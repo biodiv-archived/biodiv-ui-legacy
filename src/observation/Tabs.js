@@ -53,7 +53,8 @@ class Tabs extends React.Component {
   render(){
     //console.log("tabs called gain",this.props.objs)
     return(
-<div>
+ <div className="panel with-nav-tabs panel-default" id={this.props.objs.id}>
+
             <ul className="nav nav-tabs">
                 <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab" onClick={this.setReco.bind(this)}>Suggest id</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab2"} data-toggle="tab" onClick={this.setGroup.bind(this)}>Groups</a></li>
@@ -62,6 +63,8 @@ class Tabs extends React.Component {
                 <li><a href={"#"+this.props.objs.id+"_tab5"} data-toggle="tab" onClick={this.setActivity.bind(this)}>Comments</a></li>
             </ul>
 
+
+              <div className="panel-body" style={{backgroundColor:'#e9f0d8',overflow:'visible'}}>
                <div className="tab-content">
                   <div className="tab-pane fade in active" id={this.props.objs.id+"_tab1"}>
                         <div>
@@ -78,6 +81,7 @@ class Tabs extends React.Component {
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.speciesgroupid} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.Activityflag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
+               </div>
                </div>
              </div>
 

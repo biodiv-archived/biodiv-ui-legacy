@@ -93,10 +93,8 @@ export default class LightboxExample extends Component {
                   <div className="item active">
                         <a href={`show/${this.props.objs.id}`} >
                           <figure className="snip1336">
-                            <img id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
-                            <figcaptionpic className="profilepic">
-                             <UserAvatar   title={this.props.authorname} src={this.getUserPhotoUrl(this.props.authorprofilepic)} name={this.props.authorname} size="70"  ></UserAvatar>
-                           </figcaptionpic>
+                            <img className="small-size-pic" id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
+
                           </figure>
 
                         </a>

@@ -30,11 +30,7 @@ var fileref=document.createElement("link")
        fileref.setAttribute("type", "text/css")
 
        if(Config.api.DEPLOY==="ibp"){
-<<<<<<< HEAD
-         fileref.setAttribute("href", "http://localhost:3000"+"/headerStyles/headerstyle.css")
-=======
-         fileref.setAttribute("href",Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
->>>>>>> master
+         fileref.setAttribute("href", "http://192.168.4.126:3000"+"/headerStyles/headerstyle.css")
        }else{
          fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
        }

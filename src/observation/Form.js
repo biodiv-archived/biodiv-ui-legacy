@@ -78,7 +78,7 @@ class Formsuggest extends React.Component {
     var sName1="sName"+this.props.id2
     var sNameValue=this.refs[sName1].autowhatever.input.defaultValue
     var suggestIdComment1="suggestIdComment"+this.props.id2
-    var value1=this.refs[suggestIdComment1].value
+    //var value1=this.refs[suggestIdComment1].value
     var obvId=this.props.id2
 
     var recoId=null
@@ -104,7 +104,7 @@ class Formsuggest extends React.Component {
         languageName:langValue,
         recoName:sNameValue,
         recoId:recoId,
-        recoComment:value1,
+        //recoComment:value1,
         obvId:obvId
       },
       headers : AuthUtils.getAuthHeaders(),
@@ -119,7 +119,7 @@ class Formsuggest extends React.Component {
         languageName:langValue,
         recoName:sNameValue,
 
-        recoComment:value1,
+        //recoComment:value1,
         obvId:obvId
       },
       headers : AuthUtils.getAuthHeaders(),
@@ -360,9 +360,9 @@ class Formsuggest extends React.Component {
     return (
       <div>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.props.getReco} id={this.props.id2}/>):null}
-      <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)} >
+      <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)} style={{marginBottom:'0%'}}>
           <div className="form-group row" style={{marginBottom:'0.3%'}}>
-            <label className="control-label col-sm-2" htmlFor="email">Common name:</label>
+            <label className="control-label col-sm-2 smallFormLabel" htmlFor="email" style={{fontSize:'12px',paddingLeft:'3px',paddingRight:'0px',paddingTop:'3px'}}>Common name:</label>
             <div className="col-sm-7" >
                 <Autosuggest
 
@@ -397,8 +397,8 @@ class Formsuggest extends React.Component {
              <div className="col-sm-1">
              </div>
           </div>
-          <div className="form-group row" style={{marginBottom:'0.3%'}}>
-            <label className="control-label col-sm-2" htmlFor="email">Scientific name:</label>
+          <div className="form-group row" style={{marginBottom:'-1%'}}>
+            <label className="control-label col-sm-2 smallFormLabel" htmlFor="email" style={{fontSize:'12px',paddingLeft:'3px',paddingRight:'0px',paddingTop:'3px'}}>Scientific name:</label>
             <div className="col-sm-9">
                   <Autosuggest
 
@@ -413,19 +413,22 @@ class Formsuggest extends React.Component {
                     inputProps={inputPropsS}
                   />
             </div>
-            <div className="col-sm-1">
+            <div className="col-sm-1 smallFormAdd" style={{paddingLeft:'0px'}}>
+                <input  type="submit" value="Add" className="btn btn-primary btn-xs pull-left"   disabled={this.state.loading}/>
             </div>
           </div>
-
+          {/*
           <div className="form-group row" style={{marginBottom:'0.1%'}}>
-              <label className="control-label col-sm-2" htmlFor="comments">Comments:</label>
+              <label className="control-label col-sm-2" htmlFor="comments" style={{fontSize:'12px'}}>Comments:</label>
               <div className="col-sm-9">
                   <input type="text"  id="comments" placeholder="Write Comments on species call" ref={"suggestIdComment"+this.props.id2} style={{width:'100%',border:'1px solid #aaa',borderRadius:'4px'}}/>
               </div>
               <div className="col-sm-1" >
-                <input  type="submit" value="Add" className="btn btn-primary btn-xs pull-left"   disabled={this.state.loading}/>
+                  <input  type="submit" value="Add" className="btn btn-primary btn-xs pull-left"   disabled={this.state.loading}/>
               </div>
           </div>
+        */}
+
       </form>
       </div>
     );

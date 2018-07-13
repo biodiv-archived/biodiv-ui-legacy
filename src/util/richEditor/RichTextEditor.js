@@ -434,8 +434,8 @@ class RichTextEditor extends React.Component {
     return (
       <div className="row" >
         {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} id={this.props.obvId} funcRefresh={this.props.getFeeds} type={"Reply/Add Comment"}/>):null}
-        <div className="col-xs-10" style={{marginLeft:'1%'}}>
-        <div className="editor" style={{marginTop:'0%'}} onClick={this.focus} >
+        <div className="col-sm-11" >
+        <div className="editor" style={{marginTop:'0%',minHeight:'22px'}} onClick={this.focus} >
         <Editor
           decorators={this.decorator}
           key={this.state.key}
@@ -451,7 +451,7 @@ class RichTextEditor extends React.Component {
         />
         </div>
         </div>
-        <div className="col-xs-1 pull-right" style={{marginRight:'2%'}}>
+        <div className="col-sm-1" >
           <input type="submit" value="Post" className="btn btn-xs btn-primary comment-post-btn " style={{float:'right'}} onClick={this.onCommentPost.bind(this)} disabled={this.state.loading}/>
         </div>
       </div>
