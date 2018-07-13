@@ -107,7 +107,7 @@ class Formsuggest extends React.Component {
         recoName:sNameValue,
         recoId:recoId,
         //recoComment:value1,
-        obvIds:obvIds
+        obvIds:obvIds.toString()
       },
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
@@ -122,7 +122,7 @@ class Formsuggest extends React.Component {
         recoName:sNameValue,
 
         //recoComment:value1,
-        obvIds:obvIds
+        obvIds:obvIds.toString()
       },
       headers : AuthUtils.getAuthHeaders(),
       json: 'true'
