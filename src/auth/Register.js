@@ -64,8 +64,8 @@ const institutions=[
       value:"Government"
     },
     {
-      label:"Non Government Organization",
-      value:"Non_government_organization"
+      label:"Non Governmental Organization",
+      value:"Non_governmental_organization"
     },
     {
       label:"Educational Institution",
