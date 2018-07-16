@@ -166,7 +166,7 @@ class Formsuggest extends React.Component {
         recoId:null
       })
       this.refs[lang1].defaultValue="English";
-      this.refs[suggestIdComment1].value="";
+      //this.refs[suggestIdComment1].value="";
     }
   }
 

@@ -419,7 +419,7 @@ display(objs,selectAll){
                             <span  style={{textAlign:'center',fontSize:'12px',color:'#333',fontWeight:'bold',marginTop:'50%',marginLeft:'0px'}}>Comment:</span>
                           </div>
                           <div className="col-sm-6 col-md-7">
-                            <RichTextEditor style={{width:'100%'}}/>
+                            <RichTextEditor style={{width:'100%'}} chId={objs.id} obvId={objs.id}/>
                           </div>
                         </div>
             </div>

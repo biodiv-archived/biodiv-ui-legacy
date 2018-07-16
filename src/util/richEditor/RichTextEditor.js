@@ -342,7 +342,7 @@ class RichTextEditor extends React.Component {
 
     }else{
       if(this.taggedUsers.length === 0){
-        console.log("tobeposted",value1)
+        console.log("tobepostedhahahha",value1)
         options={
           method:'POST',
           url :    Config.api.API_ROOT_URL+"/comment/addComment",
@@ -380,7 +380,7 @@ class RichTextEditor extends React.Component {
       }
 
     }
-
+    console.log(options)
     if(value1!=="")
     {
     this.setState({
