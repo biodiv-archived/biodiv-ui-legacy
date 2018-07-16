@@ -380,13 +380,14 @@ width: 140px;
   font-size:20px!important;
   color:#337ab7!important;
 }
+.flagged{
+  color:#d9534f!important;
+}
 .glyphicon.glyphicon-flag{
   font-size:20px!important;
   color:#337ab7;
 }
-.flagged{
-  color:#d9534f!important;
-}
+
 
 @media only screen and (max-width: 1110px)  {
   .dropFlag{
