@@ -382,7 +382,7 @@ width: 140px;
 }
 .glyphicon.glyphicon-flag{
   font-size:20px!important;
-  color:#337ab7!important;
+  color:#337ab7;
 }
 .flagged{
   color:#d9534f!important;
