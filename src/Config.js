@@ -52,7 +52,7 @@ axios.interceptors.request.use(function (config) {
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
 //    console.log('---------------------BEFORE REQUEST END------------------------');
-    config.withCredentials = true;
+   config.withCredentials = true;
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -146,6 +146,7 @@ export let Config = {
 Config.api.fbId = process.env.REACT_APP_FB_ID;
 Config.api.googleId = process.env.REACT_APP_GOOGLE_ID
 Config.api.cookie = {domain : process.env.REACT_APP_COOKIE_DOMAIN, path : '/'};
+Config.api.googleRecaptchaKey = process.env.REACT_APP_GOOGLE_RECAPTHA_KEY;
 /*
 if(process.env.NODE_ENV=="development" ) {
     Config.api.fbId = "115305755799166"

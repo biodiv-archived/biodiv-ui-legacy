@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
 
+import {withRouter} from 'react-router-dom';
 import 'rc-checkbox/assets/index.css';
 
 class SpeciesNameFilter extends Component{
@@ -14,16 +15,20 @@ class SpeciesNameFilter extends Component{
   }
   setParameter(){
     const newparams = queryString.parse(document.location.search);
+    let data=[];
     if (newparams.speciesName) {
-      const data = newparams.speciesName.split(",");
-      this.setState({
-        speciesName:data
-      })
-
+      data = newparams.speciesName.split(",");
     }
+    else{
+      data=[];
+    }
+    this.setState({
+      speciesName:data
+    })
   }
   componentDidMount(){
     this.setParameter();
+  
   }
 
 handleCheckboxes(event){
@@ -73,4 +78,4 @@ handleCheckboxes(event){
     )
   }
 }
-export default SpeciesNameFilter;
+export default  withRouter(SpeciesNameFilter);

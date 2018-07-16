@@ -6,20 +6,17 @@ import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import queryString from 'query-string';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch,Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
+
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
-import { Login, Logout, AuthUtils,Register,ForgotPassword,ResetPassword} from './auth';
+import { Login, Logout, AuthUtils,Register,VerifyRegistration,ForgotPassword,ResetPassword} from './auth';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from './actions/index';
-
-
 import reducers from './reducers';
-
-
-
-
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
@@ -27,6 +24,21 @@ import {SET_GROUP_NAME} from './actions/index';
 import naksha from 'naksha-react-ui'
 import ReactGA from 'react-ga';
 import createHistory from 'history/createBrowserHistory';
+
+var fileref=document.createElement("link")
+       fileref.setAttribute("rel", "stylesheet")
+       fileref.setAttribute("type", "text/css")
+
+       if(Config.api.DEPLOY==="ibp"){
+         fileref.setAttribute("href",Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
+       }else{
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
+       }
+
+       //console.log("typeOf",typeof fileref)
+       if (typeof fileref!="undefined")
+               document.getElementsByTagName("head")[0].appendChild(fileref)
+
 
 let Header;
 if(Config.api.DEPLOY==="ibp"){
@@ -74,10 +86,29 @@ else{
   store.dispatch({type:SET_GROUP_NAME,payload:""})
 }
 
-const map_props = {
-	//softBounds: TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
-	hardBounds:Config.map.RESTRICTED_EXTENT // bounds to restrict the map
+var softBounds = undefined;
+var hardBounds = Config.map.RESTRICTED_EXTENT
+var groupContext = null;
+
+let fullUrl = window.location.host;
+let parts=fullUrl.split(".");
+if(groupsyntax === "group" && groupName !== null){
+  groupContext = groupName;
+}else if(parts.length>=3){
+  if(parts[0]=="assambiodiversity"){
+    groupContext = parts[0];
+    hardBounds = [[88, 23], [97, 29]];
+  }
 }
+
+const map_props = {
+	softBounds: softBounds, // TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
+	hardBounds: hardBounds, // bounds to restrict the map
+	contextUrl:window.location.host,
+	groupName: groupContext
+}
+
+window.map_hardbounds = hardBounds;
 
 const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
 "/register/resetPassword"];
@@ -100,28 +131,70 @@ function fireTracking() {
 //
 // );
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+
+  <Route
+    {...rest}
+    render={props =>
+      AuthUtils.isLoggedIn() ? (
+        AuthUtils.isAdmin()?
+        (
+          <Component {...props} {...map_props}/>
+        )
+        :
+        (
+          <Redirect
+            to={{
+              pathname: "/map",
+              state: { from: props.location }
+            }}
+          />
+        )
+
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
+
 ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>
-    <BrowserRouter forceRefresh={true} onUpdate={fireTracking()}>
+    <BrowserRouter forceRefresh={true}  onUpdate={fireTracking()}>
       <div className="container-fluid">
           <div id="headerWrapper">
               <Header title={"IBP"}/>
           </div>
           <div id="contentWrapper">
               <div id="content">
-                  <Route exact path="/" component={HomePageContainer} history={history}/>
-                  <Route exact path="/observation/list" component={App} props={search2} history={history}/>
-                  <Route  path="/group/:groupName/observation" component={App} history={history}/>
-                  <Route  path="/group/:groupName/login" component={Login} history={history}/>
-                  <Route path="/login" component={Login} history={history}/>
-                  <Route exact path="/logout" component={Logout} history={history}/>
-                  <Route exact path="/register" component={Register} history={history}/>
-                  <Route exact path="/register/forgotPassword" component={ForgotPassword} history={history}/>
-                  <Route exact path="/register/resetPassword" component={ResetPassword} history={history}/>
-                  <Route exact path="/map" render={(routeProps) => (
+                  <Route exact path="/" component={HomePageContainer} />
+                  <Route exact path="/observation/list" component={App} props={search2} />
+                  <Route  path="/group/:groupName/observation" component={App} />
+                  <Route  path="/group/:groupName/login" component={Login} />
+                  <Route  path="/group/:groupName/register" component={Register} />
+                  <Route  path="/group/:groupName/forgotPassword" component={ForgotPassword} />
+                  <Route  path="/group/:groupName/resetPassword" component={ResetPassword} />
+                  <Route  path="/login" component={Login} />
+                  <Route  exact path="/logout" component={Logout} />
+                  <Route  exact path="/register" component={Register} />
+                  <Route  exact path="/register/verifyRegistration" component={VerifyRegistration} />
+                  <Route  exact path="/register/forgotPassword" component={ForgotPassword} />
+                  <Route  exact path="/register/resetPassword" component={ResetPassword}/>
+
+                  <Route path="/group/:groupName/map" render={(routeProps) => (
 						      							<naksha.Layers {...routeProps} {...map_props} />
 							    				  )}/>
+                  <Route exact path="/map" render={(routeProps) => (
+          						      		<naksha.Layers {...routeProps} {...map_props} />
+          							    )}/>
+
+                  <PrivateRoute exact path="/map/upload" component={naksha.NewLayerComponent}/>
 
               </div>
                 <div  id="footerWrapper">

@@ -10,22 +10,27 @@ import SpeciesGroup from '../components/filterPanel/speciesGroup/SpeciesGroup';
 import UserGroup from '../userGroup/UserGroup';
 import ScientificNameFilter from  '../components/filterPanel/scientificName/ScientificName';
 import FlaggedFilter from  '../components/filterPanel/flag/Flag';
-import Media_Filter from  '../components/filterPanel/media/Media';
+import Media from  '../components/filterPanel/media/Media';
 import SearchBar from '../taxonBrowser/SearchBar';
-import Year_Filter from  '../components/filterPanel/year/Year';
+import ObservedOn from  '../components/filterPanel/observedOn/ObservedOn';
+import CreatedOn from  '../components/filterPanel/createdOn/CreatedOn';
+
 import Validate_Filter from  '../components/filterPanel/validate/Validate';
 import Month_Filter from '../components/filterPanel/month/Month';
 import Traits_Filter from  '../traits/Traits';
 import UserFilter from  '../user/User';
-
-
+import Status from '../components/filterPanel/Name/Status';
+import TaxonId from '../components/filterPanel/Name/TaxonId';
+import RecoName from '../components/filterPanel/Name/RecoName';
+import CustomFields from '../customFields/CustomFields';
+import Location from '../components/filterPanel/location/Location';
 
 class Right extends Component {
 
 constructor(){
   super();
   this.state={
-    sGroupOpen:false,
+    sGroupOpen:true,
     userGroupOpen:false,
     userOpen:false,
     taxonOpen:false,
@@ -35,8 +40,17 @@ constructor(){
     speciesOpen:false,
     validateOpen:false,
     traitsOpen:false,
+    customFieldsOpen:false,
     length:null,
-    dataCheckOpen:false
+    dataCheckOpen:false,
+    creadtedOnOpen:false,
+    fromDateOpen:false,
+    dateTabOpen:false,
+    nameOpen:false,
+    statusOpen:false,
+    taxonIdOpen:false,
+    recoNameOpen:false,
+    locationOpen:false
 
   }
   this.openFilter=this.openFilter.bind(this);
@@ -72,19 +86,20 @@ openFilter(){
    let validateOpen=this.state.validateOpen;
    let traitsOpen=this.state.traitsOpen;
    let dataCheckOpen=this.state.dataCheckOpen;
-
+   let customFieldsOpen=this.state.customFieldsOpen;
+   let creadtedOnOpen=this.state.creadtedOnOpen;
+   let fromDateOpen=this.state.fromDateOpen;
+   let dateTabOpen=this.state.dateTabOpen;
+   let nameOpen= this.state.nameOpen;
+   let statusOpen=this.state.statusOpen;
+   let taxonIdOpen=this.state.taxonIdOpen;
+   let recoNameOpen=this.state.recoNameOpen;
+   let locationOpen=this.state.locationOpen;
    if(newparams.taxon ){
      taxonOpen=true;
    }
-   else{
-     taxonOpen=true;
-   }
-
    if(newparams.sGroup){
      sGroupOpen=true;
-   }
-   if(newparams.taxon){
-      taxonOpen=true
    }
    if(newparams.userGroupList){
       userGroupOpen=true
@@ -112,6 +127,38 @@ openFilter(){
        validateOpen=true
    }
 
+   if(newparams.createdOnMaxDate || newparams.createdOnMinDate){
+     creadtedOnOpen=true;
+   }
+   if(newparams.maxDate || newparams.minDate){
+     fromDateOpen=true;
+   }
+   if(newparams.createdOnMaxDate || newparams.createdOnMinDate || newparams.maxDate || newparams.minDate ){
+     dateTabOpen=true;
+   }
+   if(newparams.status || newparams.taxonId || newparams.recoName){
+     nameOpen=true;
+     if(newparams.status){
+       statusOpen=true;
+     }
+     if(newparams.taxonId){
+       taxonIdOpen=true;
+     }
+     if(newparams.recoName){
+       recoNameOpen=true;
+     }
+   }
+   if(newparams.location){
+     locationOpen=true;
+   }
+
+   Object.keys(newparams).forEach((key) =>{
+     if(key.includes("custom")){
+       customFieldsOpen=true
+     }
+   });
+
+
    Object.keys(newparams).forEach((key) =>{
      if(key.includes("trait")){
        traitsOpen=true
@@ -130,7 +177,16 @@ openFilter(){
      speciesOpen,
      validateOpen,
      traitsOpen,
-     dataCheckOpen
+     dataCheckOpen,
+     customFieldsOpen,
+     creadtedOnOpen,
+     dateTabOpen,
+     fromDateOpen,
+     nameOpen,
+     statusOpen,
+     taxonIdOpen,
+     recoNameOpen,
+     locationOpen
    })
 }
 componentDidMount(){
@@ -185,23 +241,38 @@ render(){
       this.length++;
 
     }
-    if(urlObject.minDate || urlObject.maxDate){
+    if(urlObject.createdOnMaxDate || urlObject.createdOnMinDate || urlObject.minDate || urlObject.maxDate){
       this.length++;
-
     }
     if(urlObject.months){
       this.length++;
-
     }
-      let increase=true;
+    if(urlObject.status || urlObject.taxonId || urlObject.recoName){
+      this.length++;
+    }
+    if(urlObject.location){
+      this.length++;
+    }
+
+
+      let increaseTraits=true;
     Object.keys(urlObject).forEach((key)=> {
       if(key.includes("trait")){
-        if(increase){
+        if(increaseTraits){
           this.length++;
-          increase=false;
+          increaseTraits=false;
         }
       }
     });
+    let increaseCustom=true;
+  Object.keys(urlObject).forEach((key)=> {
+    if(key.includes("custom")){
+      if(increaseCustom){
+        this.length++;
+        increaseCustom=false;
+      }
+    }
+  });
 
   }
 
@@ -209,22 +280,39 @@ render(){
       <div id="leftSidebar" className="panel panel-success">
         <div  className="panel-heading vertical-align">
             <span  className="glyphicon glyphicon-filter" title="Filters">Filters </span>
-            <NavLink  to={`${this.props.location.pathname}`} className="glyphicon glyphicon-trash">
+            <a href={`${this.props.location.pathname}`} className="glyphicon glyphicon-trash">
                 <span style={{marginTop:'-9px'}} className="badge badge-danger">{this.length}</span>
-            </NavLink>
+            </a>
        </div>
 
         <div  className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
-            <Collapsible lazyRender={true} open={this.state.taxonOpen} trigger={`Taxon Browser`}>
+          <Collapsible  open={this.state.sGroupOpen} trigger={`Species Groups`}>
+            <SpeciesGroup />
+          </Collapsible>
+
+            <Collapsible  open={this.state.taxonOpen} trigger={`Taxon Browser`}>
             <div>
                 <TaxonBrowser />
                 <SearchBar />
             </div>
             </Collapsible>
 
-            <Collapsible  lazyRender={true} open={this.state.sGroupOpen} trigger={`Species Groups`}>
-              <SpeciesGroup />
+            <Collapsible  lazyRender={true} open={this.state.nameOpen} trigger={`Name`}>
+                  <Collapsible  lazyRender={true} open={this.state.recoNameOpen} trigger={'RecoName'}>
+                     <RecoName />
+                  </Collapsible>
+                  <Collapsible  lazyRender={true} open={this.state.statusOpen} trigger={`Status`}>
+                     <Status />
+                  </Collapsible>
+                  <Collapsible  lazyRender={true} open={this.state.taxonIdOpen} trigger={'Taxon Id'}>
+                     <TaxonId />
+                  </Collapsible>
             </Collapsible>
+            <Collapsible lazyRender={true}  open={this.state.locationOpen} trigger={'Location'}>
+                <Location />
+            </Collapsible>
+
+
             <div ref="hide" style={{display:'block'}}>
             <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={`User Group`}>
                 <UserGroup />
@@ -248,13 +336,23 @@ render(){
               <UserFilter/>
             </Collapsible>
             <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type`}>
-              <Media_Filter />
+              <Media />
             </Collapsible>
-            <Collapsible lazyRender={true} trigger={`Date`}>
-              <Year_Filter />
+            <Collapsible lazyRender={true} open={this.state.dateTabOpen} trigger={`Date`}>
+                <Collapsible lazyRender={true} open={this.state.fromDateOpen} trigger={`Observed On`}>
+                  <ObservedOn />
+                </Collapsible>
+                <Collapsible lazyRender={true} open={this.state.creadtedOnOpen} trigger={`Created On`}>
+                  <CreatedOn />
+                </Collapsible>
             </Collapsible>
+
+
             <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal`}>
               <Month_Filter />
+            </Collapsible>
+            <Collapsible lazyRender={true} open={this.state.customFieldsOpen} trigger={`Custom Fields`}>
+              <CustomFields />
             </Collapsible>
             <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
               <Traits_Filter />

@@ -9,7 +9,7 @@ import axios from 'axios';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import {Config} from '../../Config'
-import style from './style/headerstyle.css';
+//import style from './style/headerstyle.css';
 import UserGroupName from '../../util/UserGroup';
 import ModalPopup from '../../auth/Modal.js';
 import ModeratorPopUp from './ModeratorPopUp';

@@ -30,6 +30,7 @@ class CustomFields extends React.Component {
     this.convertToDecimal=this.convertToDecimal.bind(this)
     this.clearData=this.clearData.bind(this)
     this.getFormattedValue=this.getFormattedValue.bind(this)
+    this.expandHeight =  this.expandHeight.bind(this)
     this.getCustomFields(this.props.id)
 
   }
@@ -53,10 +54,12 @@ class CustomFields extends React.Component {
     var edit1="edit"+key+obvId
     var submit1="submit"+key+obvId
     var Cfvalue="cfvalue"+key+obvId
+    var cancel1="cancel"+key+obvId
     this.refs.hasOwnProperty(text)?(this.refs[text].style.display="block"):null
     this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="none"):null
     this.refs.hasOwnProperty(Cfvalue)?(this.refs[Cfvalue].style.display="none"):null
     this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="block"):null
+    this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="block"):null
   }
 
   convertToDecimal(value){
@@ -113,6 +116,7 @@ class CustomFields extends React.Component {
       var Cfvalue="cfvalue"+key+this.props.id
       var edit1="edit"+key+this.props.id
       var submit1="submit"+key+this.props.id
+      var cancel1="cancel"+key+this.props.id
       var value;
 
       if(hasOptions===null){
@@ -188,7 +192,7 @@ class CustomFields extends React.Component {
         this.refs.hasOwnProperty(text)?(this.refs[text].style.display="none"):null
         this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="none"):null
         this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="block"):null
-
+        this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
         axios(options)
             .then((response)=>{
               //console.log("comment",response)
@@ -397,6 +401,19 @@ class CustomFields extends React.Component {
 
   }
 
+  cancelEdit(key){
+      var edit1="edit"+key+this.props.id;
+      var submit1="submit"+key+this.props.id;
+      var cancel1="cancel"+key+this.props.id;
+      var box1="box"+key+this.props.id;
+      var cfvalue1="cfvalue"+key+this.props.id;
+      this.refs.hasOwnProperty(box1)?(this.refs[box1].style.display="none"):null
+      this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="block"):null
+      this.refs.hasOwnProperty(cfvalue1)?(this.refs[cfvalue1].style.display="block"):null
+      this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="none"):null
+      this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
+  }
+
   render(){
 
       return(
@@ -413,7 +430,7 @@ class CustomFields extends React.Component {
                     <div className="col-sm-7">
                         <div className="cfValue" ref={"cfvalue"+item.key + this.props.id} style={{display:'block'}}>
 
-                                <span >{item.value?this.getFormattedValue(item.value,item.dataType):this.getFormattedValue(item.defaultValue,item.dataType)}</span>
+                                <span >{item.value?this.getFormattedValue(item.value,item.dataType):null}</span>
 
                         </div>
                         <div className="cfInlineEdit" ref={"box"+item.key + this.props.id} style={{display:'none'}}>
@@ -514,17 +531,26 @@ class CustomFields extends React.Component {
                         </div>
                     </div>
                     <div className="col-sm-2">
+                        {
+                          (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
+                          (
+                              <a className="editCustomField btn btn-xs btn-primary pull-right" ref={"cancel"+item.key +this.props.id} onClick={this.cancelEdit.bind(this,item.key)}  style={{display:'none',width:'50px'}} disabled={this.state.loading}>Cancel</a>
+                            ):null
+                        }
+
                           {
                             (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
                             (
-                              <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id,item.options,item.dataType)} style={{display:'none',width:'100px'}} disabled={this.state.loading}>Submit</div>
+                              <a className="editCustomField btn btn-xs btn-primary pull-right" ref={"submit"+item.key + this.props.id} onClick={this.customFieldPost.bind(this,item.key,item.id,item.options,item.dataType)} style={{display:'none',width:'50px'}} disabled={this.state.loading}>Submit</a>
+
                             ):null
                           }
+
                           {
 
                             (item.allowedParticipation===true || (AuthUtils.isLoggedIn() && AuthUtils.getLoggedInUser().id===this.props.owner) || AuthUtils.isAdmin())?
                             (
-                            <div className="editCustomField btn btn-xs btn-primary pull-right" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id)} style={{display:'block',width:'100px'}} disabled={this.state.loading}>Edit</div>
+                            <a className="editCustomField btn btn-xs btn-primary pull-right" ref={"edit"+item.key + this.props.id} onClick={this.show.bind(this,item.key,this.props.id)} style={{display:'block',width:'100px'}} disabled={this.state.loading}>Edit</a>
                           ):null
                           }
                     </div>
@@ -540,7 +566,13 @@ class CustomFields extends React.Component {
         </div>
         {
           this.state.response && this.state.response.length>0?(
-            <center style={{marginBottom:'-20px'}}><span id={"downBtn"+this.props.id} className="fa fa-angle-double-down" onClick={this.expandHeight.bind(this)} data-toggle="collapse" data-target={"#demo"+this.props.id}></span></center>
+
+            <div className="row">
+              <a onClick={this.expandHeight} className="col-sm-12"  data-toggle="collapse" data-target={"#demo"+this.props.id}>
+              <center style={{marginBottom:'-20px'}}><span id={"downBtn"+this.props.id} className="fa fa-angle-double-down" ></span></center>
+              </a>
+            </div>
+
           ):null
         }
         </div>

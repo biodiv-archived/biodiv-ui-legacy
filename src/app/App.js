@@ -1,12 +1,16 @@
 import React from 'react';
 import Content from './Content';
+import {withRouter} from 'react-router-dom';
 
-export default class App extends React.Component {
+class App extends React.Component {
+
+componentDidMount(){
+
+}
   render() {
-    console.log("App called");
-
       return (
         <Content />
       );
   }
 }
+export default withRouter(App);

@@ -1,6 +1,7 @@
 import React from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
+import {withRouter} from 'react-router-dom';
 
 import 'rc-checkbox/assets/index.css';
 
@@ -15,16 +16,20 @@ class FlaggedFilter extends React.Component {
   }
   setParameter(){
     const newparams = queryString.parse(document.location.search);
+      let data=[];
     if (newparams.isFlagged) {
-      const data = newparams.isFlagged.split(",");
-      this.setState({
-        isFlagged:data
-      })
-
+       data = newparams.isFlagged.split(",");
     }
+    else{
+      data=[];
+    }
+    this.setState({
+      isFlagged:data
+    })
   }
   componentDidMount(){
     this.setParameter();
+    
   }
 
 
@@ -78,4 +83,4 @@ class FlaggedFilter extends React.Component {
   }
 }
 
-export default FlaggedFilter;
+export default withRouter(FlaggedFilter);

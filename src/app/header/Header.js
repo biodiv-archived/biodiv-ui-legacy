@@ -6,11 +6,11 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import { Form, Text} from 'react-form';
 
-import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
+import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages,fetchDataSetList} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import $ from 'jquery';
 import {Config} from '../../Config'
-import style from './style/headerstyle.css';
+//import style from './style/headerstyle.css';
 import Banner from './Banner';
 import {logout} from '../../auth/AuthActions';
 import UserAvatar from '../../util/userIcon';
@@ -32,9 +32,15 @@ class Header extends React.Component {
     }
 
     componentDidMount(){
-        this.props.fetchLanguages()
         this.props.fetchUserGroupList()
+        this.props.fetchDataSetList()
         this.props.fetchSpeciesGroup()
+        this.props.fetchLanguages()
+        this.props.history.listen((location,action)=>{
+        if(action=="POP"){
+          window.location.reload()
+        }
+        })
     }
 
     logout(){
@@ -70,8 +76,6 @@ class Header extends React.Component {
                 <div className="navbar-collapse collapse" id="header_menu">
 
                     <ul className="nav navbar-nav navbar-right">
-
-
 
                             {
                                 AuthUtils.isLoggedIn() ?
@@ -133,7 +137,6 @@ class Header extends React.Component {
 
             </nav>
             <Banner />
-
             <NavigationHeader />
         </div>
         )
@@ -146,9 +149,9 @@ function mapStateToProps(state) {
         UserProfile: state.UserProfile,
         UserGroupList:state.UserGroupList,
         PublicUrl:state.PublicUrl.url,
-        groupName:state.PublicUrl.groupName
+        groupName:state.PublicUrl.groupName,
     };
 }
 
 
-export default withRouter(connect(mapStateToProps,{logout,fetchLanguages,fetchUserGroupList,fetchSpeciesGroup})(Header));
+export default withRouter(connect(mapStateToProps,{fetchDataSetList,logout,fetchLanguages,fetchUserGroupList,fetchSpeciesGroup})(Header));

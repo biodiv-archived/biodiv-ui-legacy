@@ -18,6 +18,7 @@ export const DELETE_RECOMMENDATIONS='DELETE_RECOMMENDATIONS';
 
 export const FETCH_SPECIES_GROUP ='FETCH_SPECIES_GROUP';
 export const FETCH_FILTER_COUNT ='FETCH_FILTER_COUNT';
+export const FETCH_DATA_SET_LIST='FETCH_DATA_SET_LIST';
 
 
 export function fetchUniqueSpecies(params,count,flag){
@@ -150,5 +151,14 @@ export function clearRecommendations(){
   return{
     type:DELETE_RECOMMENDATIONS,
     payload:{}
+  }
+}
+
+export function fetchDataSetList(){
+  const url = Config.api.ROOT_URL+"/dataPackage/list?isDeleted=false&offset=0&format=json"
+  const request = axios.get(url);
+  return{
+    type:FETCH_DATA_SET_LIST,
+    payload:request
   }
 }

@@ -46,14 +46,14 @@ class UserAvatar extends React.Component {
 
     const imageStyle = {
       display: 'block',
+      border:'1px solid white',
       borderRadius
     };
 
     const innerStyle = {
-      lineHeight: size,
+        lineHeight: size,
        textAlign: 'center',
        fontWeight:'bold',
-       color:'white',
        borderRadius
     };
 

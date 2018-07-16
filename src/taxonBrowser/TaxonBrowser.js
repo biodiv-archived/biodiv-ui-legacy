@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Tree, { TreeNode } from 'rc-tree';
 import axios from 'axios';
 import $ from 'jquery';
@@ -7,6 +6,7 @@ import {connect} from 'react-redux';
 import  queryString from 'query-string';
 import _ from "lodash";
 import  scrollIntoView  from 'dom-scroll-into-view';
+import {withRouter} from 'react-router-dom';
 
 
 import 'rc-tree/assets/index.css';
@@ -83,10 +83,14 @@ gettaxonData(){
       });
       }
       else{
-
         this.props.fetchTaxonList(this.state.classification);
+        this.setState({
+          Expanded:[],
+          checkedKeys:[],
+        },()=>{
+            this.setScrollClass();
+        })
       }
-
 }
 
 getSearchNodeData(e){
@@ -102,12 +106,7 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1).t
     showButton:taxonToshow1
   },()=>{
       this.setScrollClass();
-      var event = new CustomEvent("getTaxon-filter",{ "detail":{
-        taxon:[],
-        classification:this.state.classification
-      }
-    });
-    document.dispatchEvent(event);
+  
   })
 
 });
@@ -321,4 +320,4 @@ return {
   treeData:state.treeData
 };
 }
-export default connect(mapStateToProps,{fetchTaxonList})(TaxonBrowser);
+export default withRouter(connect(mapStateToProps,{fetchTaxonList})(TaxonBrowser));

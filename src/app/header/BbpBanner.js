@@ -9,7 +9,7 @@ import axios from 'axios';
 import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import {Config} from '../../Config'
-import style from './style/bbpHeaderStyle.css';
+//import style from './style/bbpHeaderStyle.css';
 import UserGroupName from '../../util/UserGroup';
 import ModalPopup from '../../auth/Modal.js';
 import ModeratorPopUp from './ModeratorPopUp';
@@ -148,19 +148,25 @@ getJoinPermission(){
                     userGroup?
                     (
                     <div>
-                    <div className="navbar-header col-sm-10">
-                        <NavLink to="/">
-                            <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?Config.api.BBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.BBP_URL+"/assets/all/bbp-logo.png")}></img>
-                        </NavLink>
-                        <NavLink to="/" className="navbar-brand" style={{paddingTop:'0.00001px'}}>
-                            <h3>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:'Bhutan Biodiversity Portal')}</h3>
-                        </NavLink>
-                    </div>
-                    <div className="col-sm-2">
-                    {userGroup?userGroup.allowUsersToJoin?
-                          <button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
-                          :null:null
-                    }
+                    <div className="navbar-header col-sm-12 logobar">
+                      <div className="row">
+                          <div className="col-xs-3">
+                          <NavLink to="/" className="logobar" style={{marginLeft:'50%'}}>
+                              <img className=" logoimage" src={userGroup?Config.api.BBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.BBP_URL+"/assets/all/bbp-logo.png")}/>
+                          </NavLink>
+                          </div>
+                          <div className="col-xs-6">
+                          <NavLink to="/" className="logoimage" style={{textDecoration:'none'}}>
+                              <h3 className="logoimageinside logofont" style={{fontWeight:'bold',color:'black',textAlign:'center'}}>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:'Bhutan Biodiversity Portal')}</h3>
+                          </NavLink>
+                          </div>
+                          <div className="col-xs-3 logobar">
+                              {userGroup?userGroup.allowUsersToJoin?
+                                    <button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
+                                    :null:null
+                              }
+                          </div>
+                      </div>
                     </div>
                     </div>
                   )
