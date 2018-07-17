@@ -157,6 +157,7 @@ class RecoName extends React.Component {
               loading:false
             })
             if(response.status === 200){
+              console.log("hshshhddh",response.data)
               this.getObvAgain(this.props.id)
               this.getRecoName(this.props.id)
             }
@@ -328,7 +329,7 @@ class RecoName extends React.Component {
     })
     var options={
       method:"GET",
-      url:Config.api.PAMBA_API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
+      url:Config.api.API_ROOT_URL +"/naksha/search/observation/observation/"+obvId,
       headers :AuthUtils.getAuthHeaders(),
       json: 'true'
     }
