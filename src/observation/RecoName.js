@@ -17,19 +17,62 @@ import {fetchRecommendations} from '../actions'
 
 const noOfAuthorsToShow = 3;
 
+function WithInAuthorArray(authorArray,loggedInUserId){
+  var result = false;
+  var i;
+  for(i=0;i<authorArray.length;i++){
+    if(authorArray[i][0].id.toString() === loggedInUserId){
+      result = true;
+      break;
+    }
+  }
+  return result;
+}
+
+
 class RecoName extends React.Component {
 
   constructor(props) {
     super(props);
+
+    var activeIndex=0;
+    if(AuthUtils.isLoggedIn()){
+      var i;
+        for(i=0;i<this.props.recos['recoVotes'].length;i++){
+        var flag = WithInAuthorArray(this.props.recos['recoVotes'][i].authors,AuthUtils.getLoggedInUser().id)
+        if(flag){
+          activeIndex=i;
+          break;
+        }
+      }
+    }
+
     this.state={
       response:this.props.recos['recoVotes'],
       login_modal:false,
       options:'',
-      loading:false
+      loading:false,
+      activeIndex:activeIndex
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
     this.getObvAgain=this.getObvAgain.bind(this)
+    this.findActiveIndex=this.findActiveIndex.bind(this);
+  }
+
+  findActiveIndex(recoVotes){
+    var activeIndex=0;
+    if(AuthUtils.isLoggedIn()){
+      var i;
+        for(i=0;i<recoVotes.length;i++){
+        var flag = WithInAuthorArray(recoVotes[i].authors,AuthUtils.getLoggedInUser().id)
+        if(flag){
+          activeIndex=i;
+          break;
+        }
+      }
+    }
+    return activeIndex;
   }
 
   getRecoName(id){
@@ -77,9 +120,12 @@ class RecoName extends React.Component {
             loading:false
           })
           if(response.status === 200){
+
             this.setState({
+              activeIndex:this.findActiveIndex(response.data[id]['recoVotes']),
               response:response.data[id]['recoVotes']
             });
+
           }
         })
   }
@@ -321,7 +367,7 @@ class RecoName extends React.Component {
                     this.state.response.map((item,index)=>{
                       return(
 
-                        <li key={index} data-target={"#myCarousel"+this.props.id} data-slide-to={index} style={{border:'1px solid #acb3bf'}} className={index===0?" active":""}></li>
+                        <li key={index} data-target={"#myCarousel"+this.props.id} data-slide-to={index} style={{border:'1px solid #acb3bf'}} className={""+(index===this.state.activeIndex?"active":"")}></li>
 
                       )
                     }
@@ -334,8 +380,8 @@ class RecoName extends React.Component {
                 this.state.response.map((item,index)=>{
                   var authArray=[]
                     return(
-                  <div key={index} className={index===0?"item active":"item"} >
-                  <div key={index} className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
+                  <div key={index} className={"item "+ (index===this.state.activeIndex?"active":"")} >
+                  <div  className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
                       <div className="col-sm-6" style={{height:'40px',overflow:'hidden',paddingLeft:'10px',paddingRight:'10px'}}
                       title={
                         (
@@ -583,7 +629,8 @@ class RecoName extends React.Component {
                   </div>
 
                   </div>
-                )}
+                )
+              }
                 )
               }
               </div>
