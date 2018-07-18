@@ -399,6 +399,9 @@ class RichTextEditor extends React.Component {
             if(this.props.getFeeds){
               this.props.getFeeds(this.props.obvId,true);
             }
+            if(this.props.goToCommentsTab){
+              this.props.goToCommentsTab()
+            }
             if(this.props.getRecoComment){
               if(this.props.incrementCount){
                 this.props.incrementCount();

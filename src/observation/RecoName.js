@@ -157,7 +157,6 @@ class RecoName extends React.Component {
               loading:false
             })
             if(response.status === 200){
-              console.log("hshshhddh",response.data)
               this.getObvAgain(this.props.id)
               this.getRecoName(this.props.id)
             }
@@ -361,7 +360,7 @@ class RecoName extends React.Component {
 
       this.state.response.length>0?
       (
-        <div id={"myCarousel"+this.props.id} className="carousel slide" data-ride="carousel" data-interval="false" style={{marginTop:'-1%'}}>
+        <div id={"myCarousel"+this.props.id} className="carousel slide" data-ride="carousel" data-interval="false" style={{marginTop:'-1%'}} >
 
               <ol className="carousel-indicators" style={{top:'100%',zIndex:'0'}}>
                 {

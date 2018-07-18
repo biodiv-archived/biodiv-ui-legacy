@@ -53,6 +53,7 @@ class ListComponent extends Component{
         this.getObsAgain = this.getObsAgain.bind(this);
         this.closeFlagDropDown = this.closeFlagDropDown.bind(this);
         this.includesOrNot = this.includesOrNot.bind(this);
+        this.goToCommentsTab = this.goToCommentsTab.bind(this)
     }
 
     componentDidMount(){
@@ -273,6 +274,12 @@ class ListComponent extends Component{
 
  }
 
+ goToCommentsTab(){
+  //  console.log("goToCommentsTab")
+  //  console.log("child",)
+   this.child.wrappedInstance.switchToCommentsTab()
+ }
+
 display(objs,selectAll){
   let imageUrl="https://indiabiodiversity.org/biodiv/group_icons/speciesGroups/birds_th1.png"
 
@@ -359,7 +366,7 @@ display(objs,selectAll){
                                  </div>
 
                                  <div className="row" style={{marginTop:'3%'}}>
-                                    <Tabs rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
+                                    <Tabs  ref={instance => { this.child = instance; }}  rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
                                  </div>
 
                         </div>
@@ -419,7 +426,7 @@ display(objs,selectAll){
                             <span  style={{textAlign:'center',fontSize:'12px',color:'#333',fontWeight:'bold',marginTop:'50%',marginLeft:'0px'}}>Comment:</span>
                           </div>
                           <div className="col-sm-6 col-md-7">
-                            <RichTextEditor style={{width:'100%'}} chId={objs.id} obvId={objs.id}/>
+                            <RichTextEditor goToCommentsTab={this.goToCommentsTab} style={{width:'100%'}} chId={objs.id} obvId={objs.id}/>
                           </div>
                         </div>
             </div>

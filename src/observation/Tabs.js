@@ -16,6 +16,7 @@ class Tabs extends React.Component {
       Groupsflag:0,
       Activityflag:0,
     }
+    this.switchToCommentsTab = this.switchToCommentsTab.bind(this);
   }
 
   setTrait(){
@@ -41,13 +42,19 @@ class Tabs extends React.Component {
   }
 
   setActivity(){
-    //console.log("activityCalled")
+    console.log("activityCalled")
   this.setState({Activityflag:1,Traitflag:0,Customflag:0,Groupsflag:0})
   }
 
   setReco(){
   this.setState({Activityflag:0,Traitflag:0,Customflag:0,Groupsflag:0})
 
+  }
+
+  switchToCommentsTab(){
+    //console.log("switchToCommentsTab")
+    var comment = "commentsTab"+this.props.objs.id
+    this.refs[comment].click();
   }
 
   render(){
@@ -60,7 +67,7 @@ class Tabs extends React.Component {
                 <li><a href={"#"+this.props.objs.id+"_tab2"} data-toggle="tab" onClick={this.setGroup.bind(this)}>Groups</a></li>
                 <li><a  href={"#"+this.props.objs.id+"_tab3"}  data-toggle="tab" data-tab-url={"#"+this.props.objs.id+"_tab3"} onClick={this.setTrait.bind(this)} >Traits</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab4"} data-toggle="tab" onClick={this.setCustom.bind(this)} >Custom fields</a></li>
-                <li><a href={"#"+this.props.objs.id+"_tab5"} data-toggle="tab" onClick={this.setActivity.bind(this)}>Comments</a></li>
+                <li><a href={"#"+this.props.objs.id+"_tab5"} ref={"commentsTab"+this.props.objs.id} data-toggle="tab" onClick={this.setActivity.bind(this)}>Comments</a></li>
             </ul>
 
 
@@ -94,4 +101,4 @@ return {
   Recommendations:state.Recommendations
 };
 }
-export default  withRouter(connect(mapStateToProps, null)(Tabs));
+export default  connect(mapStateToProps, null,null,{ withRef: true })(Tabs);

@@ -340,7 +340,7 @@ class CommentsFeeds extends React.Component {
                         this.state.response.length>0?(
                         this.state.response.map((item,index)=>{
                           return(
-                                <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
+                                <div key={index} className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
 
                                           <div  className="author-icon col-sm-1">
                                           {
