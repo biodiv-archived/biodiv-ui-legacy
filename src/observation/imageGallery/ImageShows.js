@@ -38,7 +38,7 @@ export default class LightboxExample extends Component {
 
       let group=speciesGroup.toLowerCase();
       let groupIcon=null;
-      groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/'+group+'_th1.png';
+      groupIcon=Config.api.IBP_URL+'/biodiv/group_icons/speciesGroups/'+group+'_gall.png';
 
       let res = thumbnail?thumbnail.split("."):null;
 
@@ -55,7 +55,7 @@ export default class LightboxExample extends Component {
             }
           }
           else{
-            return `${Config.api.IBP_URL}/biodiv/observations/`+res[0]+"_th1.jpg"
+            return `${Config.api.IBP_URL}/biodiv/observations/`+res[0]+"_gall.jpg"
           }
         }
       else {
