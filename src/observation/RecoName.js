@@ -122,8 +122,8 @@ class RecoName extends React.Component {
           if(response.status === 200){
 
             this.setState({
+              response:response.data[id]['recoVotes'],
               activeIndex:this.findActiveIndex(response.data[id]['recoVotes']),
-              response:response.data[id]['recoVotes']
             });
 
           }
