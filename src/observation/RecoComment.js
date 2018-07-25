@@ -69,8 +69,8 @@ class RecoComment extends React.Component {
     if(first === true || second === true){
       this.refs[pop].className = "drop-content container"
     }
-    if(this.refs[pop].className.trim() === "drop-content container".trim()){
-      this.refs[pop].className = "drop-content container show"
+    if(!this.refs[pop].classList.contains("show")){
+      this.refs[pop].classList.add("show");
 
       var refTime;
       var id1 = this.props.id1
@@ -128,9 +128,9 @@ class RecoComment extends React.Component {
         })
     }else{
       document.body.style.cursor = "default";
-      if(this.refs[pop].className.trim() === "drop-content container show".trim()){
-        this.refs[pop].className = "drop-content container"
-      }
+       if(this.refs[pop].classList.contains("show")){
+         this.refs[pop].classList.remove("show")
+       }
     }
       }
 
