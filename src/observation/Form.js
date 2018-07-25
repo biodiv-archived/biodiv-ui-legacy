@@ -103,7 +103,7 @@ class Formsuggest extends React.Component {
       params:{
         commonName:cNameValue===""?null:cNameValue,
         languageName:langValue,
-        recoName:sNameValue,
+        recoName:sNameValue===""?null:sNameValue,
         recoId:recoId,
         //recoComment:value1,
         obvIds:obvIds.toString()
@@ -118,7 +118,7 @@ class Formsuggest extends React.Component {
       params:{
         commonName:cNameValue===""?null:cNameValue,
         languageName:langValue,
-        recoName:sNameValue,
+        recoName:sNameValue===""?null:sNameValue,
 
         //recoComment:value1,
         obvIds:obvIds.toString()
