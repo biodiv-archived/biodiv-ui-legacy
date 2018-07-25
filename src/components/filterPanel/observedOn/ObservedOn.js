@@ -22,9 +22,8 @@ const optionsStyle = {
     minDate.setFullYear(1800);
     minDate.setMonth(0);
     minDate.setDate(1);
-    minDate.setHours(0, 0, 0, 0);
     maxDate.setFullYear(maxDate.getFullYear());
-    maxDate.setHours(0, 0, 0, 0);
+
     this.state = {
       minDate: minDate,
       maxDate: maxDate,
@@ -46,8 +45,8 @@ const optionsStyle = {
     else{
       var event = new CustomEvent("year-filter", {
           "detail": {
-            minDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
-            maxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
+            minDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD"),
+            maxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")
           }
         });
         document.dispatchEvent(event);
@@ -67,8 +66,8 @@ const optionsStyle = {
     else{
       var event = new CustomEvent("year-filter", {
           "detail": {
-            minDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
-            maxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
+            minDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD"),
+            maxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")
           }
         });
         document.dispatchEvent(event);

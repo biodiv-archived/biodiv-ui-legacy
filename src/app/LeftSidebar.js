@@ -285,7 +285,7 @@ render(){
             </a>
        </div>
 
-        <div  className="panel-body" style={{marginRight:'-10px',marginLeft:'-10px'}}>
+        <div  className="panel-body" >
           <Collapsible  open={this.state.sGroupOpen} trigger={`Species Groups`}>
             <SpeciesGroup />
           </Collapsible>
