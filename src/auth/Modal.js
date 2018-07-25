@@ -85,6 +85,9 @@ class ModalPopup extends React.Component {
                         if(this.props.type=='joinus'){
                           this.props.funcjoinus();
                         }
+                        if(this.props.type==='obvFlags'){
+                          this.props.funcRefresh();
+                        }
                     }else{
                         this.props.sGroup?
                             (

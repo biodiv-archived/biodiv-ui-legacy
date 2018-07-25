@@ -11,7 +11,7 @@ const defaultColors = [
   '#e67e22', // carrot
   '#e74c3c', // alizarin
   '#1abc9c', // turquoise
-  '#2c3e50', // midnight blue
+  //'#2c3e50', // midnight blue
 ];
 
 function sumChars(str) {
@@ -40,8 +40,10 @@ class UserAvatar extends React.Component {
     } = this.props;
 
     if (!name) throw new Error('UserAvatar requires a name');
-
-    const abbr = initials(name);
+    var abbr
+    //console.log("name",name)
+    if(name.charAt(0) == "+")  abbr = name;
+    else  abbr = initials(name);
     size = addPx(size);
 
     const imageStyle = {

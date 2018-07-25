@@ -34,6 +34,12 @@ export default function () {
         window.alert("No details available for input: '" + place.name + "'");
         return;
       }
+
+      forceUpdateReactComponent(input,"",input.value);
+
+      var element = document.getElementById('location-name');
+
+      forceUpdateReactComponent(element,null,input.value);
       var marker_position;
       geocoder.geocode({'placeId': place.place_id}, function(results, status) {
 
@@ -80,9 +86,27 @@ function geocodePosition(infowindowContent, infowindow, marker, geocoder, place,
 
 }
 
+function forceUpdateReactComponent(element,lastValue,newValue){
+
+    if(lastValue == null){
+      lastValue = element.value
+    }
+    element.value = newValue;
+    let event = new Event('input', { bubbles: true });
+    let tracker = element._valueTracker;
+    if (tracker) {
+      tracker.setValue(lastValue);
+    }
+
+    // Dispatch it.
+    element.dispatchEvent(event);
+}
+
 function useTitle(listItem) {
 	var title = listItem.parentElement.getElementsByTagName('span')[0].innerText;
-	document.getElementById('location-name').value = title;
+  var element = document.getElementById('location-name');
+
+  forceUpdateReactComponent(element,null,title);
 }
 
 function setPopupContent(contentDiv, place, results) {

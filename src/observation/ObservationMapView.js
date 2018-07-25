@@ -3,6 +3,7 @@ import Naksha from 'naksha-react-ui';
 import axios from 'axios';
 
 import { Config } from '../Config';
+import style from './ObservationMapPopup.css';
 
 class ObservationMapView extends Component{
 
@@ -47,7 +48,42 @@ class ObservationMapView extends Component{
   }
 }
 
-function getHtml(documents) {
+function getNextSpecies(e, direction) {
+  let documents = window.map_speciesDocs;
+  let html = "";
+
+  window.map_speciesTabOffset = direction === 1 ? window.map_speciesTabOffset + 10 : window.map_speciesTabOffset - 10;
+  let limit = Math.min(window.map_speciesTabOffset + 10, documents.length);
+  for (var i = window.map_speciesTabOffset; i < limit ; i++)
+    html += "<div>" + documents[i].key + "&nbsp;&nbsp;(" + documents[i].doc_count + ")" + "</div>";
+
+  if(window.map_speciesTabOffset !== 0)
+    html += "<span style='float:left;cursor:pointer' onclick='window.map_getNextSpecies(event.target.parentNode, -1)'><i class='fa fa-arrow-circle-left' style='color:black'></i></span>"
+
+  if(window.map_speciesTabOffset +10 < documents.length) {
+    html += "<span style='float:right;cursor:pointer' onclick='window.map_getNextSpecies(event.target.parentNode, 1)'><i class='fa fa-arrow-circle-right' style='color:black'></i></span>"
+  }
+
+  e.parentNode.innerHTML = html;
+}
+
+function getSpHtml(documents) {
+  documents = JSON.parse(documents);
+  documents = documents["sterms#name.keyword"]["buckets"];
+  window.map_speciesDocs = documents;
+  let html = "";
+  for (var i = 0; i < 10 && i < documents.length; i++)
+    html += "<div>" + documents[i].key + "&nbsp;&nbsp;(" + documents[i].doc_count + ")" + "</div>";
+
+  //right arrow button
+  if(documents.length > 10) {
+    html += "<span style='float:right;cursor:pointer' onclick='window.map_getNextSpecies(event.target.parentNode, 1)'><i class='fa fa-arrow-circle-right' style='color:black'></i></span>"
+  }
+
+  return html;
+}
+
+function getObvHtml(documents) {
 
   let getObservationNameHtml = function(document) {
     let getObservationUrl = function(document) {
@@ -58,15 +94,14 @@ function getHtml(documents) {
       if(!name || name === "null") name = "Unidentified";
       return name;
     }
-    return "<a target='_blank' href='" + getObservationUrl(document) + "'>" + getObservationName(document) + "</a>";
+    return "<a class='red' target='_blank' href='" + getObservationUrl(document) + "'>" + getObservationName(document) + "</a>";
   }
 
   let getImageUrl = function(document) {
     return "/images/group/" + document.speciesgroupid + ".png";
   }
 
-  let html = "<div>"
-
+  let html = "";
   // get observation's species group image and observation's hyperlinked name
   for (var i = 0; i < documents.length; i++) {
       let document = documents[i];
@@ -80,11 +115,38 @@ function getHtml(documents) {
   if(documents.length === 10)
     html += "<span style='float:right;cursor:pointer' onclick='window.map_getPopup(event.target.parentNode, undefined, 1)'><i class='fa fa-arrow-circle-right' style='color:black'></i></span>"
 
-  html += "</div>"
-
   return html;
 }
 
+function getTab(evt, index) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabscontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    // document.getElementById(cityName).style.display = "block";
+    tabcontent[index].style.display = "block";
+    evt.currentTarget.className += " active";
+    window.map_popupIndex = index;
+}
+
+function getHtml(data) {
+  let html = "<div class='popup-tab'>"
+  html += "<button class='tablinks active' onclick='window.map_getTab(event, 0)'>Observations</button>"
+  html += "<button class='tablinks' onclick='window.map_getTab(event, 1)'>&nbsp;&nbsp;Species&nbsp;&nbsp;</button>"
+  html += "<div id='observations' class='tabscontent' style='display:block'>"
+  html += getObvHtml(data.documents);
+  html += "</div>"
+  html += "<div id='species' class='tabscontent'>"
+  html += getSpHtml(data.termsAggregation);
+  html += "</div>"
+  html += "</div>"
+  return html;
+}
 function getPopup(e, coordinates, direction) {
 
   if(!coordinates) {
@@ -107,6 +169,10 @@ function getPopup(e, coordinates, direction) {
   let left = Math.min(coordinates[0][0][0], coordinates[0][1][0], coordinates[0][2][0]);
   let right = Math.max(coordinates[0][0][0], coordinates[0][1][0], coordinates[0][2][0]);
 
+  return getHtmlPopupData(e, direction, top, bottom, right, left)
+}
+
+function getHtmlPopupData(e, direction, top, bottom, right, left) {
   return new Promise( (resolve, reject) => {
     let url = window.popupUrl;
     url = url.replace(/offset=[0-9]+/,'offset=' + window.map_offset);
@@ -123,12 +189,23 @@ function getPopup(e, coordinates, direction) {
         bottom: bottom,
         right: right,
         left: left,
-        geoAggregationField: "location"
+        geoAggregationField: "location",
+        termsAggregationField: "name.keyword"
       }})
         .then(({
           data
         }) => {
-          var html = getHtml(data.documents);
+          var html;
+          if(!direction) {
+            html = getHtml(data);
+          }
+          else if (window.map_popupIndex === 0) {
+            html = getObvHtml(data.documents);
+          }
+          else {
+            html = getSpHtml(data.termsAggregation);
+          }
+
           if(direction) {
             e.parentNode.innerHTML = html;
           }
@@ -142,4 +219,8 @@ function getPopup(e, coordinates, direction) {
 }
 
 export default ObservationMapView;
-window.map_getPopup = getPopup
+window.map_getPopup = getPopup;
+window.map_getTab = getTab;
+window.map_popupIndex = 0;
+window.map_speciesTabOffset = 0;
+window.map_getNextSpecies = getNextSpecies;

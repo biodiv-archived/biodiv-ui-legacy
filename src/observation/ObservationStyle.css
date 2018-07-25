@@ -222,3 +222,200 @@ width: 140px;
 .well{
   background: #FFFFFF;
 }
+
+@media only screen and (max-width: 1314px) and  (min-width: 992px) {
+    .snip1336{
+
+    }
+
+}
+@media only screen and (max-width: 1450px) and  (min-width: 1315px){
+  .userPosition{
+    top: 25px!important;
+    left:-60px!important;
+  }
+}
+@media only screen and (max-width: 1314px) and  (min-width: 1200px) {
+    .userPosition{
+      top: 220px!important;
+      left:-280px!important;
+    }
+}
+@media only screen and (max-width: 1199px) and  (min-width: 1067px) {
+    .userPosition{
+      top: 220px!important;
+      left:-240px!important;
+
+    }
+}
+@media only screen and (max-width: 1066px) and  (min-width: 992px) {
+    .userPosition{
+      top: 220px!important;
+      left:-210px!important;
+    }
+}
+
+@media only screen and (max-width: 1314px) and  (min-width: 992px){
+    .small-size-pic{
+      height:75%!important;
+      width:75%!important;
+
+    }
+}
+
+.container-fluid{
+  font-size:12px!important;
+}
+
+.panel{
+  margin-left: 0.5%!important;
+  margin-right: 0.5%!important;
+}
+
+@media only screen and (min-width:992px){
+    .panel-body{
+      min-height: 146px!important;
+    }
+}
+@media only screen and (min-width:1750px){
+  .panel-body{
+    min-height: 238px!important;
+  }
+}
+@media only screen and (min-width:2200px){
+  .panel-body{
+    min-height: 332px!important;
+  }
+}
+
+@media only screen and (max-width: 991px) and  (min-width: 600px){
+    .obv-info-md{
+      top:-291px!important;
+      left:390px!important;
+      position:absolute!important;
+
+    }
+    .userPosition{
+      top: -100px!important;
+      left:280px!important;
+
+    }
+
+}
+@media only screen and (min-width: 2200px){
+  .snip1336{
+    height:500px!important;
+    width:500px!important;
+
+  }
+  .small-size-pic{
+    height:500px!important;
+    width:500px!important;
+
+  }
+}
+
+@media only screen and (min-width: 1750px) and (max-width: 2199px){
+  .snip1336{
+    height:400px!important;
+    width:400px!important;
+
+  }
+  .small-size-pic{
+    height:400px!important;
+    width:400px!important;
+
+  }
+}
+
+
+@media only screen and (max-width: 400px) {
+    .snip1336{
+      height:200px!important;
+      width:200px!important;
+
+    }
+    .small-size-pic{
+      height:200px!important;
+      width:200px!important;
+
+    }
+    .userPosition{
+      top: -200px!important;
+      left:180px!important;
+
+    }
+
+}
+
+@media only screen and (max-width: 600px) and (min-width: 401px) {
+  .userPosition{
+    top: -300px!important;
+    left:280px!important;
+
+  }
+
+}
+@media only screen and (min-width: 2200px) {
+  .userPosition{
+    top: 25px!important;
+    left:-60px!important;
+
+  }
+
+}
+
+.fa.fa-thumbs-o-up{
+  font-size:20px!important;
+  color:#337ab7!important;
+}
+.fa.fa-thumbs-up{
+  font-size:20px!important;
+  color:#337ab7!important;
+}
+.glyphicon{
+  position:inherit!important;
+}
+.glyphicon.glyphicon-share{
+  font-size:20px!important;
+  color:#337ab7!important;
+}
+.flagged{
+  color:#d9534f!important;
+}
+.glyphicon.glyphicon-flag{
+  font-size:20px!important;
+  color:#337ab7;
+}
+
+
+@media only screen and (max-width: 1110px)  {
+  .dropFlag{
+    min-width:400px!important;
+
+  }
+}
+@media only screen and (max-width: 767px)  {
+  .dropFlag{
+    min-width:400px!important;
+    right:0!important;
+    left:auto!important;
+  }
+}
+@media only screen and (max-width: 450px)  {
+  .dropFlag{
+    min-width:300px!important;
+    right:0!important;
+    left:auto!important;
+  }
+}
+@media only screen and (max-width: 767px)  {
+  .alignLeftCenter{
+    margin-left:14px!important;
+    text-align: left!important
+  }
+  .alignLeft{
+    float:left!important;
+    margin-left:14px!important;
+  }
+}

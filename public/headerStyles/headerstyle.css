@@ -59,7 +59,7 @@
 
 .brand-bar {
     background-image:-webkit-linear-gradient(left, #ECE9B7, #ebfefd);
-    margin-bottom:1px;
+    margin-bottom:-1px;
 }
 
 .menu-item {
@@ -90,6 +90,12 @@
     top: 157px;
     left: 0;
     display: inline-block;
+}
+@media only screen and (max-width: 420px) {
+    #contentWrapper{
+      top: 200px!important;
+
+    }
 }
 #content {
     padding: 0px 0 0px 0;
