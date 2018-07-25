@@ -90,19 +90,18 @@ class Formsuggest extends React.Component {
         recoId=this.state.recoId
       }
     }else{
-      if(cNameValue !== null && cNameValue !=null){
+      if(cNameValue !== null && cNameValue !==""){
         if(cNameValue === this.state.lastSelectedCommon){
           recoId=this.state.recoId
         }
       }
     }
-
   if(recoId !==null){
     var options={
       method:'POST',
       url :   Config.api.API_ROOT_URL+"/observation/addRecommendationVote",
       params:{
-        commonName:cNameValue,
+        commonName:cNameValue===""?null:cNameValue,
         languageName:langValue,
         recoName:sNameValue,
         recoId:recoId,
@@ -117,7 +116,7 @@ class Formsuggest extends React.Component {
       method:'POST',
       url :   Config.api.API_ROOT_URL+"/observation/addRecommendationVote",
       params:{
-        commonName:cNameValue,
+        commonName:cNameValue===""?null:cNameValue,
         languageName:langValue,
         recoName:sNameValue,
 
