@@ -404,7 +404,7 @@ display(objs,selectAll){
                               <div className="col-xs-4 dropdown">
                                 <a className="glyphicon glyphicon-share dropdown-toggle" data-toggle="dropdown"></a>
                                 <div className="dropdown-menu" style={{borderRadius:'4px',minWidth:'200px',backgroundColor:'#e9f0d8'}}>
-                                    <ShareInterface obvId={objs.id} obvImage={objs.imageresource[0]}/>
+                                    <ShareInterface title={objs.name} obvId={objs.id} obvImage={objs.imageresource[0]}/>
                                 </div>
                               </div>
                               <div className="col-xs-4 dropdown" ref={"flagDropdown"+objs.id} id={"flagDropdown"+objs.id}>
