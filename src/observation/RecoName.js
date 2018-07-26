@@ -381,7 +381,7 @@ class RecoName extends React.Component {
                   var authArray=[]
                     return(
                   <div key={index} className={"item "+ (index===this.state.activeIndex?"active":"")} >
-                  <div  className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
+                  <div  className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
                       <div className="col-sm-6" style={{height:'40px',overflow:'hidden',paddingLeft:'10px',paddingRight:'10px'}}
                       title={
                         (
