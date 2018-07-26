@@ -16,6 +16,7 @@ class Tabs extends React.Component {
       Groupsflag:0,
       Activityflag:0,
     }
+    this.switchToCommentsTab = this.switchToCommentsTab.bind(this);
   }
 
   setTrait(){
@@ -41,7 +42,7 @@ class Tabs extends React.Component {
   }
 
   setActivity(){
-    //console.log("activityCalled")
+    console.log("activityCalled")
   this.setState({Activityflag:1,Traitflag:0,Customflag:0,Groupsflag:0})
   }
 
@@ -50,18 +51,27 @@ class Tabs extends React.Component {
 
   }
 
+  switchToCommentsTab(){
+    //console.log("switchToCommentsTab")
+    var comment = "commentsTab"+this.props.objs.id
+    this.refs[comment].click();
+  }
+
   render(){
     //console.log("tabs called gain",this.props.objs)
     return(
-<div>
+ <div className="panel with-nav-tabs panel-default" id={this.props.objs.id}>
+
             <ul className="nav nav-tabs">
                 <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab" onClick={this.setReco.bind(this)}>Suggest id</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab2"} data-toggle="tab" onClick={this.setGroup.bind(this)}>Groups</a></li>
                 <li><a  href={"#"+this.props.objs.id+"_tab3"}  data-toggle="tab" data-tab-url={"#"+this.props.objs.id+"_tab3"} onClick={this.setTrait.bind(this)} >Traits</a></li>
                 <li><a href={"#"+this.props.objs.id+"_tab4"} data-toggle="tab" onClick={this.setCustom.bind(this)} >Custom fields</a></li>
-                <li><a href={"#"+this.props.objs.id+"_tab5"} data-toggle="tab" onClick={this.setActivity.bind(this)}>Comments</a></li>
+                <li><a href={"#"+this.props.objs.id+"_tab5"} ref={"commentsTab"+this.props.objs.id} data-toggle="tab" onClick={this.setActivity.bind(this)}>Comments</a></li>
             </ul>
 
+
+              <div className="panel-body" style={{backgroundColor:'#e9f0d8',overflow:'visible'}}>
                <div className="tab-content">
                   <div className="tab-pane fade in active" id={this.props.objs.id+"_tab1"}>
                         <div>
@@ -79,6 +89,7 @@ class Tabs extends React.Component {
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.Activityflag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
                </div>
+               </div>
              </div>
 
 
@@ -90,4 +101,4 @@ return {
   Recommendations:state.Recommendations
 };
 }
-export default  withRouter(connect(mapStateToProps, null)(Tabs));
+export default  connect(mapStateToProps, null,null,{ withRef: true })(Tabs);

@@ -113,7 +113,7 @@ class BasicForm extends Component {
            if(newparams.openId){
              defaultValues["openId"]=newparams.openId;
            }
- 
+
            this.setState({
               defaultValues
            })
@@ -132,6 +132,7 @@ class BasicForm extends Component {
      }
 
      onSubmitFailure (errors, formApi, onSubmitError ) {
+
        var key
        var msg = '';
        for(key in errors){
@@ -140,9 +141,11 @@ class BasicForm extends Component {
          }
        }
        alert(msg)
+
      }
 
      errorValidator ( values )  {
+       //console.log("error",values)
          const validateName = ( name ) => {
              return !name ? 'Name is required.' : null;
          };
@@ -231,8 +234,9 @@ class BasicForm extends Component {
          submittedValues.latitude = mapDiv.value.lat();
          submittedValues.longitude = mapDiv.value.lng();
          submittedValues['g-recaptcha-response'] = this.state.gRecaptchaResponse;
+
          submittedValues['webaddress'] = this.props.PublicUrl.groupName;
-         
+
          this.setState({
              submittedValues: submittedValues,
              errors:{}
@@ -245,18 +249,18 @@ class BasicForm extends Component {
              json: 'true'
          }
          var errors ;
-         var me = this;
-         axios(options).then((response)=>{
-             //             alert(response.data.msg);
-             //me.props.loginAlertMessage = response.data.msg;
-             //me.props.dispatch({type:REGISTER_MESSAGE, payload:response.data.msg});
-             document.body.style.cursor = "default";
-             me.setState({loading:false, registerMessage:response.data.msg});
-             //me.props.history.push(this.props.PublicUrl.url+'/login');
-             window.scrollTo(0, 0);
-         }).catch((response)=>{
-             document.body.style.cursor = "default";
-             this.setState({loading:false});
+                 var me = this;
+                 axios(options).then((response)=>{
+                     //             alert(response.data.msg);
+                     //me.props.loginAlertMessage = response.data.msg;
+                     //me.props.dispatch({type:REGISTER_MESSAGE, payload:response.data.msg});
+                     document.body.style.cursor = "default";
+                     me.setState({loading:false, registerMessage:response.data.msg});
+                     //me.props.history.push(this.props.PublicUrl.url+'/login');
+                     window.scrollTo(0, 0);
+                 }).catch((response)=>{
+                     document.body.style.cursor = "default";
+                     this.setState({loading:false});
 
              errors = {};
              if(response.response.status == 400) {
@@ -297,6 +301,7 @@ class BasicForm extends Component {
     };
 
     recaptchaVerifyCallback(response) {
+
         this.setState({'gRecaptchaResponse':response});
     };
     recaptchaExpiredCallback(response) {
@@ -340,7 +345,7 @@ class BasicForm extends Component {
                     onSubmit={this.handleSubmit.bind(this)}>
                     { formApi => {
                         return (
-                            
+
                          <form onSubmit={formApi.submitForm} id="registerForm" className="form-signin">
                              <div className="row">
                                  <div className="col-sm-3">
@@ -469,7 +474,7 @@ class BasicForm extends Component {
                          </form>
                      )}}
                  </Form>
-                 
+
 
                  <div className="row orWrapper" style={{}}>
                      <span class="or text-muted">
@@ -500,7 +505,7 @@ function mapStateToProps(state){
     return {
         dispatch:state.dispatch,
         authenticated: state.auth.authenticated,
-        loginAlertMessage : state.auth.error, 
+        loginAlertMessage : state.auth.error,
         PublicUrl:state.PublicUrl
     };
 }

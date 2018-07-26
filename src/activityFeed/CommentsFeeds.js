@@ -340,7 +340,7 @@ class CommentsFeeds extends React.Component {
                         this.state.response.length>0?(
                         this.state.response.map((item,index)=>{
                           return(
-                                <div className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
+                                <div key={index} className="activityFeed-Container row well well-sm" style={{marginLeft:'0.1%',marginTop:'0.2%',marginBottom:'0.2%',marginRight:'0.1%'}}>
 
                                           <div  className="author-icon col-sm-1">
                                           {
@@ -559,15 +559,6 @@ class CommentsFeeds extends React.Component {
                     ):null
                     }
                 </div>
-          </div>
-          <div className="comment">
-              <RichTextEditor ref={"obvComment"+this.props.id} key={"richtextComment"+this.props.id}
-                          //htm={'Thanks <a class="red tagUsers" contenteditable="false" href="http://indiabiodiversity.org/user/show/2920" rel="2920" target="_blank">Muthu Karthick</a> for the ID http://localhost:3000/observation/list?count=0&hasMore=true&max=10&offset=0&sort=lastRevised'}
-                          obvId={this.props.id}
-                          chId={this.props.id}
-                          getFeeds={this.fetchFeeds}
-                          PublicUrl={this.props.PublicUrl}
-              />
           </div>
      </div>
       )

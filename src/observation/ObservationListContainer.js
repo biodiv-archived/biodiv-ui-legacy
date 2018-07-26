@@ -21,7 +21,7 @@ import Navigate from '../bulk/Navigation.js'
 import ModalPopup from '../auth/Modal.js';
 
 import ReactGA from 'react-ga';
-
+import './ObservationListContainer.css'
 
 function clean(obj) {
   for (var propName in obj) {
@@ -549,33 +549,35 @@ class ObservationListContainer extends Component {
 return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMap} key={item.id} filterUrl={this.state.urlforPassing} view={this.state.params.view}  selectAll={this.state.selectAll}  launchBulk={this.launchBulk}/>
 }):null;
     return(
-            <div className="container-fluid" style={{paddingRight:'15px',paddingLeft:'32px',paddingTop:'auto',paddingBottom:'auto'}}>
+            <div className="container-fluid" style={{paddingRight:'15px',paddingLeft:'15px',paddingTop:'auto',paddingBottom:'auto'}}>
             {this.state.login_modal==true?(<ModalPopup key={"downloadLogin"}   id={"downloads login"} func={this.setOpenModal}/>):null}
             {this.state.openModal?<DownloadModal/>:""}
             {(this.props.Observation.all && this.props.Observation.all.length>0)?(this.fetchReco===true?this.obvResponse():null):null}
             {this.props.Observation.count?
               <div>
-                  <div className="row">
-                    <div className="col-sm-4">
-                      <ul className="nav nav-tabs">
-                          <li role="presentation" ><button  className={`btn  ${this.state.params.view==="list"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list">List</span></button></li>
-                          <li role="presentation" ><button  className={`btn  ${this.state.params.view==="grid"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th">Grid</span></button></li>
-                          <li role="presentation" ><button  className={`btn  ${this.state.params.view==="map"?"btn-success":"btn-default"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker">Map</span></button></li>
+                  <div className="row" style={{marginBottom:'5px'}}>
+                    <div className="col-sm-4 " style={{paddingRight:'0px'}}>
+                      <ul className="nav nav-tabs" style={{border:'0px'}}>
+                          <li role="presentation" ><button style={{fontSize:'1em'}}  className={`btn  ${this.state.params.view==="list"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list"> List</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="grid"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th"> Grid</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="map"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker"> Map</span></button></li>
                       </ul>
                     </div>
-                    <div className="col-sm-4">
-                      <h5 className="text-primary">{this.props.Observation.count} result(s) found</h5>
+                    <div className="col-sm-4 " style={{paddingRight:'0px',paddingLeft:'0px'}}>
+                      <div className="alignLeftCenter" style={{display:'block',textAlign:'-webkit-center'}}><h5 className="text-primary" style={{marginTop:'4px',marginBottom:'4px'}}>{this.props.Observation.count} result(s) found</h5></div>
                     </div>
-                    <div className="col-sm-4 ">
-                    <button style={{marginRight:'5px'}} onClick={this.setOpenModal.bind(this)} className="btn btn-default">Download</button>
-                    <select className="btn btn-default"  onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
-                        <option  value="Last Updated">Last Updated</option>
-                        <option  value="Latest">Latest</option>
-                        <option  value="Most Viewed">Most Viewed</option>
-                    </select>
+                    <div className="col-sm-4" style={{paddingLeft:'0px'}}>
+                      <div className="alignLeft" style={{float:'right'}}>
+                        <button style={{marginRight:'5px',fontSize:'1em'}} onClick={this.setOpenModal.bind(this)} className="btn btn-default btn-xs">Download</button>
+                        <select className="btn btn-default btn-xs" style={{fontSize:'1em'}} onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
+                            <option  value="Last Updated">Last Updated</option>
+                            <option  value="Latest">Latest</option>
+                            <option  value="Most Viewed">Most Viewed</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                  <div className="row">
+                  <div className="row" >
                     <div className="col-sm-12">
                     {this.state.params.view=="map"?
                     <ObservationListWrapper view={this.state.params.view} filterUrl={this.state.urlforPassing} />

@@ -36,7 +36,7 @@ export default function () {
       }
 
       forceUpdateReactComponent(input,"",input.value);
-      
+
       var element = document.getElementById('location-name');
 
       forceUpdateReactComponent(element,null,input.value);
