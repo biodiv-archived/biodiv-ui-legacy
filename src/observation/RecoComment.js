@@ -282,8 +282,8 @@ render(){
       {
           <div className="comment-popup drop ">
 
-                    <a className="btn btn-xs btn-warning bigmarginxs"  onClick={this.getRecoComment}>
-                                <span className="glyphicon glyphicon-comment"></span>
+                    <a className="btn btn-xs  bigmarginxs"  onClick={this.getRecoComment}>
+                                <span className="glyphicon glyphicon-comment" style={{color:'#000'}}></span>
                                 {" "}
                     {this.state.commentCount}
                     </a>

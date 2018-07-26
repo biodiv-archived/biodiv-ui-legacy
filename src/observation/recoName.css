@@ -49,7 +49,7 @@
 }
 
 .carousel-inner{
-  overflow-x: hidden;
+  overflow-x: visible;
   overflow-y: visible;
 }
 

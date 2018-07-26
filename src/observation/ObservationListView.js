@@ -318,7 +318,7 @@ display(objs,selectAll){
                                           <div className=" groupEdit" >
                                               <div style={{display:"block"}} ref={objs.id+"1"} >
                                                 <button title={objs.speciesgroupname} className={`btn species_groups_sprites ${objs.speciesgroupname.toLowerCase()}_gall_th `}>  </button> {"  "}
-                                                <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-danger btn-xs">
+                                                <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-primary btn-xs">
                                                  <span className="glyphicon glyphicon-edit"></span>
                                                 </button>
                                               </div>
@@ -429,10 +429,10 @@ display(objs,selectAll){
                             <RichTextEditor goToCommentsTab={this.goToCommentsTab} style={{width:'100%'}} chId={objs.id} obvId={objs.id}/>
                           </div>
                         </div>
-            </div>
+                 </div>
 
             <br/>
-        </div>
+    </div>
 
   )
 
