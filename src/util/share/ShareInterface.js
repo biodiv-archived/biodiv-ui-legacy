@@ -40,7 +40,7 @@ class ShareInterface extends React.Component {
 
   render(){
     console.log("share",this.props.obvId,this.props.obvImage)
-    const shareUrl = Config.api.ROOT_URL+"observation/show/"+this.props.obvId;
+    const shareUrl = Config.api.ROOT_URL+"/observation/show/"+this.props.obvId;
     const title = this.props.title;
     const media = Config.api.ROOT_URL+"/biodiv/observations/"+this.props.obvImage;
     return(
