@@ -39,7 +39,7 @@ const optionsStyle = {
 
     let endDate=this.state.maxDate;
     let startDate=date;
-    if(startDate>endDate){
+    if(moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")>moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")){
       alert("Start date should be before the End date")
     }
     else{
@@ -60,7 +60,7 @@ const optionsStyle = {
     let endDate=date;
     let startDate=this.state.minDate;
 
-    if(startDate>endDate){
+    if(moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")>moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")){
       alert("Start date should be before the End date")
     }
     else{
