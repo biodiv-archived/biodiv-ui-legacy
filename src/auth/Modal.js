@@ -7,7 +7,7 @@ import AuthUtils from './AuthUtils.js';
 import {connect} from 'react-redux';
 import * as AuthConstants from  './AuthConstants';
 import loginService from './LoginService';
-
+import './Modal.css'
 
 import { getNewAccessToken } from './AuthActions';
 

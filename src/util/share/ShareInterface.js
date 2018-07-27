@@ -39,9 +39,10 @@ class ShareInterface extends React.Component {
   }
 
   render(){
-    const shareUrl = `https://indiabiodiversity.org/observation/show/${this.props.obvId}`;
-    const title = 'ShowPage';
-    const media = `https://indiabiodiversity.org/biodiv/observations/${this.props.obvImage}`
+    console.log("share",this.props.obvId,this.props.obvImage)
+    const shareUrl = Config.api.ROOT_URL+"/observation/show/"+this.props.obvId;
+    const title = this.props.title;
+    const media = Config.api.ROOT_URL+"/biodiv/observations/"+this.props.obvImage;
     return(
       <div className="container-fluid" style={{paddingTop:'10px',paddingBottom:'10px',paddingRight:'20px',paddingLeft:'20px'}}>
         <div className="row">

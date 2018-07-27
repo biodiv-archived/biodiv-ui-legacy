@@ -21,7 +21,7 @@ import Navigate from '../bulk/Navigation.js'
 import ModalPopup from '../auth/Modal.js';
 
 import ReactGA from 'react-ga';
-
+import './ObservationListContainer.css'
 
 function clean(obj) {
   for (var propName in obj) {
@@ -558,9 +558,9 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                   <div className="row" style={{marginBottom:'5px'}}>
                     <div className="col-sm-4 " style={{paddingRight:'0px'}}>
                       <ul className="nav nav-tabs" style={{border:'0px'}}>
-                          <li role="presentation" ><button style={{fontSize:'1em'}}  className={`btn  ${this.state.params.view==="list"?"btn-success btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list"> List</span></button></li>
-                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="grid"?"btn-success btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th"> Grid</span></button></li>
-                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="map"?"btn-success btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker"> Map</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}}  className={`btn  ${this.state.params.view==="list"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list"> List</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="grid"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th"> Grid</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="map"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker"> Map</span></button></li>
                       </ul>
                     </div>
                     <div className="col-sm-4 " style={{paddingRight:'0px',paddingLeft:'0px'}}>

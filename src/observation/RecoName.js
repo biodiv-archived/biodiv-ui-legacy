@@ -122,8 +122,8 @@ class RecoName extends React.Component {
           if(response.status === 200){
 
             this.setState({
+              response:response.data[id]['recoVotes'],
               activeIndex:this.findActiveIndex(response.data[id]['recoVotes']),
-              response:response.data[id]['recoVotes']
             });
 
           }
@@ -360,7 +360,7 @@ class RecoName extends React.Component {
 
       this.state.response.length>0?
       (
-        <div id={"myCarousel"+this.props.id} className="carousel slide" data-ride="carousel" data-interval="false" style={{marginTop:'-1%'}} >
+        <div id={"myCarousel"+this.props.id} className="carousel" data-ride="carousel" data-interval="false" style={{marginTop:'-1%'}} >
 
               <ol className="carousel-indicators" style={{top:'100%',zIndex:'0'}}>
                 {
@@ -375,7 +375,7 @@ class RecoName extends React.Component {
                 }
               </ol>
 
-              <div className="carousel-inner">
+              <div className="carousel-inner" id="carouselInner" style={{zIndex:'10'}}>
                 {
                 this.state.response.map((item,index)=>{
                   var authArray=[]
@@ -453,7 +453,7 @@ class RecoName extends React.Component {
                                                     {
                                                       aut[0].icon?
                                                       (
-                                                        <UserAvatar  name={aut[0].name} title={aut[0].name} src={"https://pamba.strandls.com"+"/biodiv/users/"+aut[0].icon}  size="30" />
+                                                        <UserAvatar  name={aut[0].name} title={aut[0].name} src={Config.api.ROOT_URL+"/biodiv/users/"+aut[0].icon}  size="30" />
                                                       )
                                                       :
                                                       (
@@ -488,7 +488,7 @@ class RecoName extends React.Component {
                                                                  {
                                                                    aut[0].icon?
                                                                    (
-                                                                     <UserAvatar  name={aut[0].name} title={aut[0].name} src={"https://pamba.strandls.com"+"/biodiv/users/"+aut[0].icon}  size="30" />
+                                                                     <UserAvatar  name={aut[0].name} title={aut[0].name} src={Config.api.ROOT_URL+"/biodiv/users/"+aut[0].icon}  size="30" />
                                                                    )
                                                                    :
                                                                    (
@@ -650,7 +650,7 @@ class RecoName extends React.Component {
       :null
     }
       </div>
-      <div style={{marginTop:'1.8vh'}}>
+      <div style={{marginTop:'1.9vh'}}>
           {
             this.props.islocked==="false"?
             (
