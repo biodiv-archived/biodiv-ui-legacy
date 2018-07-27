@@ -453,7 +453,7 @@ class RecoName extends React.Component {
                                                     {
                                                       aut[0].icon?
                                                       (
-                                                        <UserAvatar  name={aut[0].name} title={aut[0].name} src={"https://pamba.strandls.com"+"/biodiv/users/"+aut[0].icon}  size="30" />
+                                                        <UserAvatar  name={aut[0].name} title={aut[0].name} src={Config.api.ROOT_URL+"/biodiv/users/"+aut[0].icon}  size="30" />
                                                       )
                                                       :
                                                       (
@@ -488,7 +488,7 @@ class RecoName extends React.Component {
                                                                  {
                                                                    aut[0].icon?
                                                                    (
-                                                                     <UserAvatar  name={aut[0].name} title={aut[0].name} src={"https://pamba.strandls.com"+"/biodiv/users/"+aut[0].icon}  size="30" />
+                                                                     <UserAvatar  name={aut[0].name} title={aut[0].name} src={Config.api.ROOT_URL+"/biodiv/users/"+aut[0].icon}  size="30" />
                                                                    )
                                                                    :
                                                                    (
