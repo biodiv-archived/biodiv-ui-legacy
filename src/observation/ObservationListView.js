@@ -310,7 +310,9 @@ display(objs,selectAll){
                         <div className="col-md-8 col-xl-9" >
                                 <div  className="row" style={{marginLeft:'2%'}} >
                                       <div className="userPosition" style={{top:'25px',left:'-80px',position:'absolute'}}>
-                                       <UserAvatar   title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="70"  ></UserAvatar>
+                                       <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}>
+                                        <UserAvatar   title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="70"  ></UserAvatar>
+                                       </NavLink>
                                       </div>
 
                                       <div className="obv-info-md">
