@@ -7,7 +7,7 @@ import AuthUtils from './AuthUtils.js';
 import {connect} from 'react-redux';
 import * as AuthConstants from  './AuthConstants';
 import loginService from './LoginService';
-
+import './Modal.css'
 
 import { getNewAccessToken } from './AuthActions';
 
@@ -84,6 +84,9 @@ class ModalPopup extends React.Component {
                         }
                         if(this.props.type=='joinus'){
                           this.props.funcjoinus();
+                        }
+                        if(this.props.type==='obvFlags'){
+                          this.props.funcRefresh();
                         }
                     }else{
                         this.props.sGroup?

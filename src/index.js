@@ -30,7 +30,7 @@ var fileref=document.createElement("link")
        fileref.setAttribute("type", "text/css")
 
        if(Config.api.DEPLOY==="ibp"){
-         fileref.setAttribute("href",Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
+         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
        }else{
          fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
        }

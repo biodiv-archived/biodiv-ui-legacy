@@ -31,3 +31,37 @@
 .bigmarginxs{
     margin: 0 3px 0 3px;
 }
+
+.carousel-indicators .active{
+  background-color: #777 !important;
+}
+.carousel-control.left{
+  background-image: none!important;
+}
+.carousel-control.right{
+  background-image: none!important;
+}
+.glyphicon.glyphicon-chevron-left{
+  font-size: 20px!important;
+}
+.glyphicon.glyphicon-chevron-right{
+  font-size: 20px!important;
+}
+
+.carousel-inner{
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+.facepile{
+  padding-left: 6px!important;
+}
+@media only screen and (max-width: 767px)  {
+  .smallFormLabel{
+    padding-left: 15px!important;
+    padding-right: 12px!important;
+  }
+  .smallFormAdd{
+    padding-left: 15px!important;
+  }
+}

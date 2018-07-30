@@ -74,7 +74,7 @@ class FilterPanel extends Component{
           {this.state.list.map(item=>{
               return(
                 <li key={item.id}>
-                  <button style={{borderRadius:'100%',border:'solid thin #5B5757'}} ref={item.id.toString()} onClick={this.handleInput.bind(this,item.id.toString())} title={item.name} value={item.id.toString()} name={item.name} className={`btn species_groups_sprites ${item.name.toLowerCase()}_gall_th ${this.state.sGroupId.includes(item.id.toString())?'active':""}`}>
+                  <button style={{ marginBottom:'5px',borderRadius:'100%',border:'solid thin #5B5757'}} ref={item.id.toString()} onClick={this.handleInput.bind(this,item.id.toString())} title={item.name} value={item.id.toString()} name={item.name} className={`btn species_groups_sprites ${item.name.toLowerCase()}_gall_th ${this.state.sGroupId.includes(item.id.toString())?'active':""}`}>
                   </button>
                 </li>
             )

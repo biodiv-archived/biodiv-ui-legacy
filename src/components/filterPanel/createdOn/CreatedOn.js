@@ -20,9 +20,7 @@ const optionsStyle = {
     minDate.setFullYear(1800);
     minDate.setMonth(0);
     minDate.setDate(1);
-    minDate.setHours(0, 0, 0, 0);
     maxDate.setFullYear(maxDate.getFullYear());
-    maxDate.setHours(0, 0, 0, 0);
 
     this.state = {
       minDate:minDate,
@@ -39,14 +37,17 @@ const optionsStyle = {
 
     let endDate=this.state.maxDate;
     let startDate=date;
-    if(startDate>endDate){
+    console.log("from min");
+    console.log(startDate);
+    console.log(endDate);
+    if(moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")>moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")){
       alert("Start date should be before the End date")
     }
     else{
       var event = new CustomEvent("created-on-filter", {
           "detail": {
-            createdOnMinDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
-            createdOnMaxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
+            createdOnMinDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD"),
+            createdOnMaxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")
           }
         });
         document.dispatchEvent(event);
@@ -60,15 +61,17 @@ const optionsStyle = {
   handleChangeMaxDate (event, date)  {
     let endDate=date;
     let startDate=this.state.minDate;
-
-    if(startDate>endDate){
+    console.log("from max");
+    console.log(startDate);
+    console.log(endDate);
+    if(moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")>moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")){
       alert("Start date should be before the End date")
     }
     else{
       var event = new CustomEvent("created-on-filter", {
           "detail": {
-            createdOnMinDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm"),
-            createdOnMaxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DDTHH:mm")
+            createdOnMinDate:moment(startDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD"),
+            createdOnMaxDate:moment(endDate,moment.HTML5_FMT.DATETIME_LOCAL).format("YYYY-MM-DD")
           }
         });
         document.dispatchEvent(event);
