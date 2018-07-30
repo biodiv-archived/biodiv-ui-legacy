@@ -278,14 +278,14 @@ render(){
 
   return (
       <div id="leftSidebar" className="panel panel-success" >
-        <div  className="panel-heading vertical-align" style={{height:'35px',backgroundColor:'#EBEABD',backgroundImage:'none'}}>
+        <div  className="panel-heading vertical-align panelHeadingBBP" style={{height:'35px',backgroundColor:'#EBEABD',backgroundImage:'none'}}>
             <span  className="glyphicon glyphicon-filter" title="Filters" style={{color:'#000'}}>Filters </span>
             <a href={`${this.props.location.pathname}`} className="glyphicon glyphicon-trash">
                 <span style={{marginTop:'-9px'}} className="badge badge-danger">{this.length}</span>
             </a>
        </div>
 
-        <div  className="panel-body" style={{backgroundColor:'#EBEABD',padding:'6px'}}>
+        <div  className="panel-body panelBodyBBP" style={{backgroundColor:'#EBEABD',padding:'6px'}}>
           <Collapsible  open={this.state.sGroupOpen} trigger={`Species Groups`}>
             <SpeciesGroup />
           </Collapsible>
