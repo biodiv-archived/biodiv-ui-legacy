@@ -72,6 +72,7 @@ class RecoName extends React.Component {
         }
       }
     }
+    //console.log("newActiveIndex",activeIndex)
     return activeIndex;
   }
 
@@ -120,13 +121,15 @@ class RecoName extends React.Component {
             loading:false
           })
           if(response.status === 200){
-
             this.setState({
-              response:response.data[id]['recoVotes'],
               activeIndex:this.findActiveIndex(response.data[id]['recoVotes']),
+              response:response.data[id]['recoVotes'],
             });
 
           }
+          // this.setState({
+          //     activeIndex:this.findActiveIndex(this.state.response),
+          // })
         })
   }
 
@@ -378,9 +381,11 @@ class RecoName extends React.Component {
               <div className="carousel-inner" id="carouselInner" style={{zIndex:'10'}}>
                 {
                 this.state.response.map((item,index)=>{
+
+
                   var authArray=[]
                     return(
-                  <div key={index} className={"item "+ (index===this.state.activeIndex?"active":"")} >
+                  <div key={index} className={"item " + (index===this.state.activeIndex?"active":"")} >
                   <div  className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
                       <div className="col-sm-6" style={{height:'40px',overflow:'hidden',paddingLeft:'10px',paddingRight:'10px'}}
                       title={

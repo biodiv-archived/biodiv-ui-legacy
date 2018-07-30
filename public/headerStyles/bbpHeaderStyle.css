@@ -138,6 +138,11 @@
       top: 270px!important;
   }
 }
+@media only screen and (max-height: 1425px) {
+  #contentWrapper {
+      top: 255px!important;
+  }
+}
 @media only screen and (max-height: 1350px) {
   #contentWrapper {
       top: 260px!important;
@@ -145,22 +150,27 @@
 }
 @media only screen and (max-height: 1200px) {
   #contentWrapper {
-      top: 240px!important;
+      top: 225px!important;
   }
 }
 @media only screen and (max-height: 1050px) {
   #contentWrapper {
-      top: 220px!important;
+      top: 210px!important;
   }
 }
 @media only screen and (max-height: 900px) {
   #contentWrapper {
-      top: 200px!important;
+      top: 193px!important;
   }
 }
 @media only screen and (max-height: 750px) {
   #contentWrapper {
-      top: 180px!important;
+      top: 170px!important;
+  }
+}
+@media only screen and (max-height: 650px) {
+  #contentWrapper {
+      top: 170px!important;
   }
 }
 #content {
@@ -204,7 +214,6 @@
  }
 
 .viewContent, .panel>.panel-body {
-    background-color:#F0FCCF!important;
     overflow:auto;
 }
 
@@ -246,4 +255,17 @@
 ::-webkit-scrollbar-thumb {
     background: grey;
     border: 1px  rgb(0,0,0);
+}
+.contentColumnWrapperBBP{
+
+  background-color:#ccc!important;
+}
+.panelHeadingBBP{
+  background-color:#ccc!important;
+}
+.panelBodyBBP{
+  background-color:#ccc!important;
+}
+.Collapsible__trigger{
+  background: #8ca643!important;
 }
