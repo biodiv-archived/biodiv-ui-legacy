@@ -8,8 +8,8 @@ export default function () {
     GoogleMapsLoader.load(function(google) {
 	var mapDiv = document.getElementById('gmap')
     map = new google.maps.Map(mapDiv, {
-        center: {lat: 27.478, lng: 90.552}, // Bangalore
-        zoom: 7.5
+        center: {lat: 27.478, lng: 90.552}, // Bhutan
+        zoom: 7
       });
     var input = document.getElementById('pac-input');
 
