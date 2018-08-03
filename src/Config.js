@@ -144,7 +144,7 @@ export let Config = {
         }
     },
 	map : {
-		RESTRICTED_EXTENT : [[68, 5.75], [98, 37.5]]
+		RESTRICTED_EXTENT : [[88.5, 26.4], [92.3, 28.5]]
 	}
 }
 
