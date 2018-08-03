@@ -88,9 +88,6 @@ class BasicForm extends Component {
          };
      }
 
-     componentDidMount(){
-       document.title = "Registration || "+this.props.title;
-     }
 
      isAuthenticated(){
         const loggedIn = this.props.authenticated;
@@ -132,6 +129,7 @@ class BasicForm extends Component {
      componentDidMount(){
 
          MapSelector();
+         document.title = "Registration || "+this.props.title;
 
      }
 
