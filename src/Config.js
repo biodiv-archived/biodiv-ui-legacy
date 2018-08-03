@@ -13,6 +13,7 @@ export let IBP_URL;
 export let BBP_URL;
 export let DEPLOY;
 export let TITLE;
+export let TRACKING_CODE;
 //if(process.env.NODE_ENV=="development" ){
 ROOT_URL=process.env.REACT_APP_ROOT_URL
 API_ROOT_URL=process.env.REACT_APP_API_ROOT_URL
@@ -21,6 +22,7 @@ IBP_URL=process.env.REACT_APP_IBP_URL
 BBP_URL=process.env.REACT_APP_BBP_URL
 DEPLOY="ibp";
 TITLE="India Biodiversity Portal";
+TRACKING_CODE='UA-3185202-1';
 //}
     /*
 if(process.env.NODE_ENV=="kk" ){
@@ -99,6 +101,7 @@ export let Config = {
         BBP_URL:BBP_URL,
         DEPLOY:DEPLOY,
         TITLE:TITLE,
+        TRACKING_CODE:TRACKING_CODE,
         login : {
             default : {
                 method : 'post',

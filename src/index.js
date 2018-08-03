@@ -115,7 +115,7 @@ const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/regis
 
 
 const history = createHistory();
-ReactGA.initialize('UA-3185202-1');
+ReactGA.initialize(Config.api.TRACKING_CODE);
 
 function fireTracking() {
   //console.log("fileTracking",window.location.pathname,window.location.search)
