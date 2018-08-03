@@ -12,6 +12,10 @@ class Logout extends Component {
             console.log("after clear in logout",localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
         }
     }
+    componentDidMount(){
+      document.title = "Logout || "+this.props.title;
+    }
+
     render() {
 
         return <div>Sorry to see you go...</div>;

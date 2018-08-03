@@ -88,6 +88,7 @@ class BasicForm extends Component {
          };
      }
 
+
      isAuthenticated(){
         const loggedIn = this.props.authenticated;
         if(loggedIn) {
@@ -128,6 +129,7 @@ class BasicForm extends Component {
      componentDidMount(){
 
          MapSelector();
+         document.title = "Registration || "+this.props.title;
 
      }
 
@@ -184,7 +186,7 @@ class BasicForm extends Component {
              return email && email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ? 'Email is invalid.' : null;
          };*/
          const validatePassword = ( password ) => {
-             return password && password.length < 6 ? 'Password must be longer than 6 characters.' : null;
+             return password && password.length < 8 ? 'Password must be longer than 8 characters.' : null;
          };
          const validatePassword2 = ( password2 ) => {
              return values.password && password2 && (values.password === password2) ? null : 'Passwords should match.';

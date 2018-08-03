@@ -115,7 +115,7 @@ const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/regis
 
 
 const history = createHistory();
-ReactGA.initialize('UA-3185202-1');
+ReactGA.initialize(Config.api.TRACKING_CODE);
 
 function fireTracking() {
   //console.log("fileTracking",window.location.pathname,window.location.search)
@@ -130,6 +130,7 @@ function fireTracking() {
 //   }
 //
 // );
+const title = Config.api.TITLE;
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 
@@ -139,7 +140,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       AuthUtils.isLoggedIn() ? (
         AuthUtils.isAdmin()?
         (
-          <Component {...props} {...map_props}/>
+          <Component {...props} {...map_props} title={title}/>
         )
         :
         (
@@ -175,23 +176,23 @@ ReactDOM.render(
               <div id="content">
                   <Route exact path="/" component={HomePageContainer} />
                   <Route exact path="/observation/list" component={App} props={search2} />
-                  <Route  path="/group/:groupName/observation" component={App} />
-                  <Route  path="/group/:groupName/login" component={Login} />
-                  <Route  path="/group/:groupName/register" component={Register} />
-                  <Route  path="/group/:groupName/forgotPassword" component={ForgotPassword} />
-                  <Route  path="/group/:groupName/resetPassword" component={ResetPassword} />
-                  <Route  path="/login" component={Login} />
-                  <Route  exact path="/logout" component={Logout} />
-                  <Route  exact path="/register" component={Register} />
-                  <Route  exact path="/register/verifyRegistration" component={VerifyRegistration} />
-                  <Route  exact path="/register/forgotPassword" component={ForgotPassword} />
-                  <Route  exact path="/register/resetPassword" component={ResetPassword}/>
+                  <Route  path="/group/:groupName/observation" render={(props) => <App {...props} title={title} />}/>
+                  <Route  path="/group/:groupName/login" render={(props) => <Login {...props} title={title} />}/>
+                  <Route  path="/group/:groupName/register"  render={(props) => <Register {...props} title={title} />}/>
+                  <Route  path="/group/:groupName/forgotPassword"  render={(props) => <ForgotPassword {...props} title={title} />}/>
+                  <Route  path="/group/:groupName/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
+                  <Route  path="/login"  render={(props) => <Login {...props} title={title} />}/>
+                  <Route  exact path="/logout"  render={(props) => <Logout {...props} title={title} />}/>
+                  <Route  exact path="/register" render={(props) => <Register {...props} title={title} />}/>
+                  <Route  exact path="/register/verifyRegistration" render={(props) => <VerifyRegistration {...props} title={title} />}/>
+                  <Route  exact path="/register/forgotPassword" render={(props) => <ForgotPassword {...props} title={title} />}/>
+                  <Route  exact path="/register/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
 
                   <Route path="/group/:groupName/map" render={(routeProps) => (
-						      							<naksha.Layers {...routeProps} {...map_props} />
+						      							<naksha.Layers {...routeProps} {...map_props} title={title}/>
 							    				  )}/>
                   <Route exact path="/map" render={(routeProps) => (
-          						      		<naksha.Layers {...routeProps} {...map_props} />
+          						      		<naksha.Layers {...routeProps} {...map_props} title={title}/>
           							    )}/>
 
                   <PrivateRoute exact path="/map/upload" component={naksha.NewLayerComponent}/>

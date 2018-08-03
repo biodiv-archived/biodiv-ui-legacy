@@ -55,6 +55,10 @@ class Login extends Component {
         }
     }
 
+    componentDidMount(){
+      document.title="Login || "+this.props.title
+    }
+
     render(){
         const { handleSubmit } = this.props;
         let fbLink = "https://www.facebook.com/dialog/oauth?response_type=code&client_id="+Config.api.fbId+"&redirect_uri="+Config.api.API_ROOT_URL+"/login/callback?client_name=facebookClient&scope=email,user_location&state=biodiv-api-state";
@@ -138,5 +142,3 @@ Login = reduxForm({
     form: 'login'
 })(Login);
 export default   withRouter(connect(mapStateToProps, AuthActions)(Login));
-
-

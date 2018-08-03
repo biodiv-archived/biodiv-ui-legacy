@@ -40,6 +40,10 @@ class ResetPassword extends Component{
     componentWillMount(){
     }
 
+    componentDidMount(){
+      document.title = "Reset password || "+this.props.title;
+    }
+
     onSubmitFailure (errors, formApi, onSubmitError ) {
         var key
         var msg = '';
@@ -152,7 +156,7 @@ class ResetPassword extends Component{
             }
         })
     }
-    
+
     renderAlert() {
         if (this.state.registerMessage) {
             return (
@@ -179,7 +183,7 @@ class ResetPassword extends Component{
                             ) : (
                                 <div>
 
-                                    <Form 
+                                    <Form
                                         onSubmitFailure={this.onSubmitFailure}
                                         dontValidateOnMount={true}
                                         validateOnSubmit={true}
@@ -233,7 +237,7 @@ function mapStateToProps(state){
     return {
         dispatch:state.dispatch,
         authenticated: state.auth.authenticated,
-        loginAlertMessage : state.auth.error, 
+        loginAlertMessage : state.auth.error,
         PublicUrl:state.PublicUrl
     };
 }
