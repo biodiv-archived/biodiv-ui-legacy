@@ -88,6 +88,10 @@ class BasicForm extends Component {
          };
      }
 
+     componentDidMount(){
+       document.title = "Registration || "+this.props.title;
+     }
+
      isAuthenticated(){
         const loggedIn = this.props.authenticated;
         if(loggedIn) {
