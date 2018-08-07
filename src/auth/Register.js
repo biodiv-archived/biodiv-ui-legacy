@@ -88,6 +88,7 @@ class BasicForm extends Component {
          };
      }
 
+
      isAuthenticated(){
         const loggedIn = this.props.authenticated;
         if(loggedIn) {
@@ -128,6 +129,7 @@ class BasicForm extends Component {
      componentDidMount(){
 
          MapSelector();
+         document.title = "Registration || "+this.props.title;
 
      }
 

@@ -1,3 +1,4 @@
+import './example.css';
 const React = require('react');
 const initials = require('initials');
 const addPx = require('add-px');
@@ -49,6 +50,10 @@ class UserAvatar extends React.Component {
     const imageStyle = {
       display: 'block',
       border:'1px solid white',
+      objectFit:'cover',
+      zIndex:'5001',
+      overflow:'hidden',
+      transition:'1s all',
       borderRadius
     };
 
@@ -64,12 +69,12 @@ class UserAvatar extends React.Component {
       imageStyle.height = innerStyle.height = innerStyle.maxHeight = size;
     }
 
-    let inner, classes = [className, 'UserAvatar'];
+    let inner, classes = ['UserAvatar'];
     if (src || srcset) {
       if(title){
-        inner = <img className="UserAvatar--img" style={imageStyle} src={src} srcSet={srcset} alt={name} title={title}/>
+        inner = <img className={"UserAvatar--img "+className} style={imageStyle} src={src} srcSet={srcset} alt={name} title={title}/>
       }else{
-        inner = <img className="UserAvatar--img" style={imageStyle} src={src} srcSet={srcset} alt={name} />
+        inner = <img className={"UserAvatar--img "+className} style={imageStyle} src={src} srcSet={srcset} alt={name} />
       }
     } else {
       let background;
@@ -100,4 +105,4 @@ class UserAvatar extends React.Component {
   }
 }
 
-module.exports = UserAvatar;
+export default UserAvatar;

@@ -42,15 +42,15 @@ class Content extends Component {
                     <div  className={`${this.state.hideSideBar?'':'hidden'}`}>
                       <MobileLeftSideBar />
                     </div>
-                    <div className="col-xs-12 col-sm-9 pull-right" id="contentColumnWrapper" style={{backgroundColor:'#EBEABD',paddingLeft:'0px',paddingRight:'0px',paddingTop:'14px'}}>
+                    <div className="col-xs-12 col-sm-9 pull-right contentColumnWrapperBBP" id="contentColumnWrapper" style={{backgroundColor:'#EBEABD',paddingLeft:'0px',paddingRight:'0px',paddingTop:'14px'}}>
                         <div id="contentColumn">
                             <ObservationListContainer />
                             <div id="footerWrapper">
                                 <Footer />
                             </div>
                         </div>
-                    </div>
                 </div>
+              </div>
                 )
     }
 }

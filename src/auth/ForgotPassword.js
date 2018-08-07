@@ -33,6 +33,7 @@ class ForgotPassword extends Component{
     componentWillMount(){
     }
     componentDidMount(){
+      document.title = "Forgot password || "+this.props.title;
     }
     isAuthenticated(){
         const loggedIn = this.props.authenticated;
@@ -85,7 +86,7 @@ class ForgotPassword extends Component{
          document.body.style.cursor = "wait";
          this.setState({loading:true});
          submittedValues['g-recaptcha-response'] = this.state.gRecaptchaResponse;
-         
+
          this.setState({
              submittedValues: submittedValues,
              errors:{}
@@ -176,8 +177,8 @@ class ForgotPassword extends Component{
                 me.renderAlert()
                 ) : (
                 <div>
- 
-                            <Form 
+
+                            <Form
                                 onSubmitFailure={this.onSubmitFailure}
                                 dontValidateOnMount={true}
                                 validateOnSubmit={true}
@@ -236,7 +237,7 @@ function mapStateToProps(state){
     return {
         dispatch:state.dispatch,
         authenticated: state.auth.authenticated,
-        loginAlertMessage : state.auth.error, 
+        loginAlertMessage : state.auth.error,
         PublicUrl:state.PublicUrl
     };
 }

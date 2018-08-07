@@ -1,0 +1,6 @@
+.contributorImage:hover{
+  height:150px!important;
+  width:150px!important;
+  object-fit: cover!important;
+  overflow: hidden!important;
+}

@@ -17,7 +17,9 @@ class VerifyRegistration extends Component {
 
         }
     }
-
+    componentDidMount(){
+      document.title = "Verify registration || "+this.props.title;
+    }
     componentWillMount(){
         this.verifyRegistration();
     }
