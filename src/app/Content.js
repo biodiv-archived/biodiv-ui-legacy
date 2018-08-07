@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import LeftSidebar from './LeftSidebar';
+import MobileLeftSideBar from './LeftSideFIlterPanel';
 
 import ObservationListContainer from '../observation/ObservationListContainer';
 import {connect} from 'react-redux';
@@ -35,8 +36,11 @@ class Content extends Component {
     render(){
         return (
                 <div>
-                    <div className={`col-sm-3 hidden-xs`} id="leftSidebarWrapper">
+                    <div className={`col-sm-3 ${this.state.hideSideBar?'hidden':''}`} id="leftSidebarWrapper">
                         <LeftSidebar />
+                    </div>
+                    <div  className={`${this.state.hideSideBar?'':'hidden'}`}>
+                      <MobileLeftSideBar />
                     </div>
                     <div className="col-xs-12 col-sm-9 pull-right" id="contentColumnWrapper" style={{backgroundColor:'#EBEABD',paddingLeft:'0px',paddingRight:'0px',paddingTop:'14px'}}>
                         <div id="contentColumn">
