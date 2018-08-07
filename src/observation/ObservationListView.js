@@ -286,7 +286,7 @@ display(objs,selectAll){
   return (
     <div   className="container-fluid">
 
-                  <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white'}}>
+                  <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white',zIndex:'5'}}>
 
                       <div className="media col-md-4 col-xl-3" >
                             <div style={{position:'relative'}} className="pull-left">
@@ -307,11 +307,11 @@ display(objs,selectAll){
                             </div>
                         </div>
 
-                        <div className="col-md-8 col-xl-9" >
-                                <div  className="row" style={{marginLeft:'2%'}} >
-                                      <div className="userPosition" style={{top:'25px',left:'-80px',position:'absolute'}}>
+                        <div className="col-md-8 col-xl-9" style={{zIndex:'5'}}>
+                                <div  className="row" style={{marginLeft:'2%',zIndex:'5'}} >
+                                      <div className="userPosition" style={{top:'25px',left:'-80px',position:'absolute',zIndex:'5'}}>
                                        <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}>
-                                        <UserAvatar   title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="70"  ></UserAvatar>
+                                        <UserAvatar style={{zIndex:'21'}} className="contributorImage"  title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="70"  ></UserAvatar>
                                        </NavLink>
                                       </div>
 
