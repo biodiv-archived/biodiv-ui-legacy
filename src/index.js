@@ -178,10 +178,10 @@ ReactDOM.render(
                   <Route exact path="/observation/list" component={App} props={search2} />
                   <Route  path="/group/:groupName/observation" render={(props) => <App {...props} title={title} />}/>
                   <Route  path="/group/:groupName/login" render={(props) => <Login {...props} title={title} />}/>
-                  <Route  path="/group/:groupName/register"  render={(props) => <Register {...props} title={title} />}/>
                   <Route  exact path="/group/:groupName/register/verifyRegistration" render={(props) => <VerifyRegistration {...props} title={title} />}/>
                   <Route  path="/group/:groupName/register/forgotPassword"  render={(props) => <ForgotPassword {...props} title={title} />}/>
                   <Route  path="/group/:groupName/register/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
+                  <Route  path="/group/:groupName/register"  render={(props) => <Register {...props} title={title} />}/>
                   <Route  path="/login"  render={(props) => <Login {...props} title={title} />}/>
                   <Route  exact path="/logout"  render={(props) => <Logout {...props} title={title} />}/>
                   <Route  exact path="/register" render={(props) => <Register {...props} title={title} />}/>
