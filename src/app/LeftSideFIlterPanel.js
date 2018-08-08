@@ -40,7 +40,7 @@ export default class LeftSideFIlterPanel extends React.Component {
     return (
       <div>
         <div>
-            {!this.state.open ?<button className="btn btn-primary btn-xs"
+            {!this.state.open ?<button className="btn btn-success btn-xs"
               style={{margin: 20,position:'fixed',zIndex:2010,top:'15%'}}
               onClick={this.toggleDrawer}
               disabled={this.state.open && !this.state.noOverlay}
