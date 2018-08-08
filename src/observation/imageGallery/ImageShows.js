@@ -93,7 +93,7 @@ export default class LightboxExample extends Component {
                   <div className="item active">
                         <a href={`show/${this.props.objs.id}`} >
                           <figure className="snip1336">
-                            <img className="small-size-pic" id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}  />
+                            <img className="small-size-pic" id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}   onError={(e)=>{e.target.src=this.getUrl(this.props.thumbnail,this.props.speciesgroupname).split("_th2")[0]+"_th1.jpg"}} />
 
                           </figure>
 
