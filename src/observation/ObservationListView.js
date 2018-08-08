@@ -315,16 +315,16 @@ display(objs,selectAll){
                                        </NavLink>
                                       </div>
 
-                                      <div className="obv-info-md">
-                                        <div className="props pull-right">
-                                          <div className=" groupEdit" >
+                                      <div className="obv-info-md" style={{zIndex:'5'}}>
+                                        <div className="props pull-right" style={{zIndex:'5'}}>
+                                          <div className=" groupEdit" style={{zIndex:'5'}}>
                                               <div style={{display:"block"}} ref={objs.id+"1"} >
                                                 <button title={objs.speciesgroupname} className={`btn species_groups_sprites ${objs.speciesgroupname.toLowerCase()}_gall_th `}>  </button> {"  "}
                                                 <button onClick={this.changeStyle.bind(this,objs.id)} className="btn btn-primary btn-xs">
                                                  <span className="glyphicon glyphicon-edit"></span>
                                                 </button>
                                               </div>
-                                              <div  style={{display:"none"}} ref={objs.id+"2"}>
+                                              <div  style={{display:"none",zIndex:'5'}} ref={objs.id+"2"}>
                                                 <div className="form-group form-inline">
                                                     <select  onChange={this.fetchChange.bind(this,objs.id)} ref={objs.id+"3"} defaultValue={objs.speciesgroupname}  className="form-control" >
                                                       {this.props.SpeciesGroup?this.props.SpeciesGroup.map((item)=>{
@@ -338,7 +338,7 @@ display(objs,selectAll){
                                           </div>
                                         </div>
 
-                                        <div className="props" style={{marginTop:'4px'}}>
+                                        <div className="props" style={{marginTop:'4px',zIndex:'5'}}>
                                             <span style={{fontSize:'15px'}}>
                                                 <strong>
                                                   <i>
@@ -353,21 +353,21 @@ display(objs,selectAll){
                                             </span>
                                          </div>
 
-                                         <div className="props" >
+                                         <div className="props" style={{zIndex:'5'}}>
                                            <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <Truncate lines={1}>{objs.placename?objs.placename:"Not available"}</Truncate>
                                          </div>
 
-                                        <div className="props">
+                                        <div className="props" style={{zIndex:'5'}}>
                                           <div className=""> <span className="glyphicon glyphicon-time" aria-hidden="true"></span>  <Moment format=" MMMM DD  YYYY">{objs.fromdate }</Moment>  </div>
                                         </div>
 
-                                       <div className="props">
+                                       <div className="props" style={{zIndex:'5'}}>
                                          <div className="" > {objs.notes?<span><span className="glyphicon glyphicon-book" aria-hidden="true"></span> <Truncate lines={1}> <span style={{wordWrap:'break-word'}}  dangerouslySetInnerHTML={{ __html: objs.notes?objs.notes:"Not available"}} /></Truncate></span>:<br />}  </div>
                                        </div>
                                      </div>
                                  </div>
 
-                                 <div className="row" style={{marginTop:'3%'}}>
+                                 <div className="row" style={{marginTop:'3%',zIndex:'20'}}>
                                     <Tabs  ref={instance => { this.child = instance; }}  rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
                                  </div>
 

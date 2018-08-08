@@ -280,7 +280,7 @@ render(){
       <span>
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.getRecoComment} id={this.props.id2} id1={this.props.id1}/>):null}
       {
-          <div className="comment-popup drop ">
+          <div className="comment-popup drop " style={{zIndex:'20'}}>
 
                     <a className="btn btn-xs  bigmarginxs"  onClick={this.getRecoComment}>
                                 <span className="glyphicon glyphicon-comment" style={{color:'#000'}}></span>
