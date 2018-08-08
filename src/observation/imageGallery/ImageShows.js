@@ -89,7 +89,7 @@ export default class LightboxExample extends Component {
         return (
             <div>
               <div id="mycarousel" className="carousel slide" data-ride="carousel">
-                <div className="carousel-inner">
+                <div className="carousel-inner" style={{zIndex:'3'}}>
                   <div className="item active">
                         <a href={`show/${this.props.objs.id}`} >
                           <figure className="snip1336">
