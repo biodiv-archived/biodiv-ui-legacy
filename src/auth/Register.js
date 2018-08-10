@@ -466,7 +466,7 @@ class BasicForm extends Component {
 
                              <div className="row">
                                  <div className="col-sm-9">
-                                     By registering you agree to our <a className="ibpLink" href={Config.api.IBP_URL+"/page/4250246"}>Terms &amp; Conditions</a> and <a className="ibpLink" href={Config.api.IBP_URL+"/page/12651147"}>Privacy Policy</a> on the use of our site
+                                     By registering you agree to our <a className="ibpLink" href={Config.api.IBP_URL+"/page/415184"}>Terms &amp; Conditions</a> and <a className="ibpLink" href={Config.api.IBP_URL+"/page/435985"}>Privacy Policy</a> on the use of our site
                                  </div>
                                  <div className="col-sm-3">
                                      <button id="registerButton" type="submit" className="mb-4 btn btn-block btn-primary pull-right" disabled={this.state.loading}>Register</button>
