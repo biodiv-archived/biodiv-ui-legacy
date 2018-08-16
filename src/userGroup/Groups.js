@@ -355,10 +355,12 @@ class Groups extends React.Component {
                   {
                     this.state.responseObv.map((grp,index)=>{
                       return(
+                        <a title={grp.name} href={grp.domainName?grp.domainName:Config.api.ROOT_URL+"/group/"+grp.webaddress+"/show"} style={{color:'#333'}}>
                         <div key={index} className="chip" >
                           <img src={`${Config.api.ROOT_URL}/biodiv/userGroups${grp.icon}`}/>
                           <EllipsisText text={grp.name} length={13} />
                         </div>
+                        </a>
                       )
                     })
                   }
