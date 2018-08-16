@@ -298,7 +298,7 @@ display(objs,selectAll){
                                         selectAll===true?
                                         (<span className="glyphicon glyphicon-check" id={"checkselectAll"+objs.id} ></span>)
                                         :
-                                        (<input type="checkbox" name="selectAllFalse" value="selectAllFalse" style={{top:'6px', left:'3px',position:'absolute'}} className="checkbox" id={"check1SelectAll"+objs.id} onChange={this.launch.bind(this,objs.id)} defaultChecked={false} />)
+                                        (<input type="checkbox" name="selectAllFalse" value="selectAllFalse" style={{top:'6px', left:'3px',position:'absolute',zIndex:'3'}} className="checkbox" id={"check1SelectAll"+objs.id} onChange={this.launch.bind(this,objs.id)} defaultChecked={false} />)
                                       ):null
                                     }
 
