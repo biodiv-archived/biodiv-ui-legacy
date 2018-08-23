@@ -19,6 +19,7 @@ export const DELETE_RECOMMENDATIONS='DELETE_RECOMMENDATIONS';
 export const FETCH_SPECIES_GROUP ='FETCH_SPECIES_GROUP';
 export const FETCH_FILTER_COUNT ='FETCH_FILTER_COUNT';
 export const FETCH_DATA_SET_LIST='FETCH_DATA_SET_LIST';
+export const LOAD_LOCALE='LOAD_LOCALE';
 
 
 export function fetchUniqueSpecies(params,count,flag){
@@ -66,6 +67,12 @@ const request = axios.get(url);
 }
 
 
+export function loadLocale(data) {
+  return {
+    type:LOAD_LOCALE,
+    payload:data
+  }
+}
 
 export function fetchMessage() {
   return function(dispatch) {

@@ -9,8 +9,6 @@ import queryString from 'query-string';
 import { BrowserRouter, Route, Switch,Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
-
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
@@ -20,10 +18,15 @@ import reducers from './reducers';
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
-import {SET_GROUP_NAME} from './actions/index';
+import {SET_GROUP_NAME,LOAD_LOCALE} from './actions/index';
 import naksha from 'naksha-react-ui'
 import ReactGA from 'react-ga';
 import createHistory from 'history/createBrowserHistory';
+// import fr from './fr.js';
+import en from './en.js';
+import fr from './fr.js';
+
+
 
 var fileref=document.createElement("link")
        fileref.setAttribute("rel", "stylesheet")
@@ -54,6 +57,14 @@ if(Config.api.DEPLOY==="ibp"){
     Footer = require('./app/footer/BbpFooter.js').default;
 }
 
+let language;
+ if (navigator.languages != undefined){
+   language =  navigator.languages[0];
+ } else {
+   language =  navigator.language;
+ }
+
+
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 
@@ -65,7 +76,12 @@ let store = createStoreWithMiddleware(reducers);
 if (AuthUtils.isLoggedIn()) {
   store.dispatch({ type: AUTH_USER});
 }
-
+if(language==='en' || language==='en-GB' ||  language==='en-UK' || language==='en-US'){
+  store.dispatch({type:LOAD_LOCALE,payload:en})
+}
+if(language==='fr'){
+     store.dispatch({type:LOAD_LOCALE,payload:fr})
+}
 const newparams =  queryString.parse(document.location.search);
 let search1=queryString.stringify(newparams);
 let search2 = decodeURIComponent( search1 );
