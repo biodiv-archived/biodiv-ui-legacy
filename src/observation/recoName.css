@@ -52,6 +52,30 @@
   overflow-x: visible;
   overflow-y: visible;
 }
+.carousel-indicators{
+  top:100%;
+  z-index: 0;
+
+}
+.carousel-indicators li{
+  border:1px solid #acb3bf;
+}
+.carousel-control{
+  width:1%;
+}
+.carousel-control .glyphicon-chevron-left{
+  margin-left:0;
+  left:-17px;
+  color:#312727;
+}
+.carousel-control .glyphicon-chevron-right{
+  margin-right:0;
+  right:-17px;
+  color:#312727;
+}
+.carousel-inner{
+  z-index:20;
+}
 
 .facepile{
   padding-left: 6px!important;

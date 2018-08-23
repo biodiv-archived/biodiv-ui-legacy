@@ -77,7 +77,7 @@ class Tabs extends React.Component {
                         <div>
                           {
                             (this.props.Recommendations && Object.keys(this.props.Recommendations).length>0 && this.props.Recommendations[this.props.objs.id] != null)?
-                            <RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]} ObvRenderAgain={this.props.ObvRenderAgain} rerun={this.props.rerun}/>
+                            <RecoName id={this.props.objs.id} islocked={this.props.objs.islocked} recos={this.props.Recommendations[this.props.objs.id]} ObvRenderAgain={this.props.ObvRenderAgain} rerun={this.props.rerun} style={{zIndex:'20'}}/>
                             :(
                               <div className="loader"></div>
                             )

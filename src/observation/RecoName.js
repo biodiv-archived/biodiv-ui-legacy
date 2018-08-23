@@ -15,6 +15,8 @@ import ModalPopup from '../auth/Modal.js';
 
 import {fetchRecommendations} from '../actions'
 
+import {Carousel} from 'react-bootstrap';
+
 const noOfAuthorsToShow = 3;
 
 function WithInAuthorArray(authorArray,loggedInUserId){
@@ -52,12 +54,14 @@ class RecoName extends React.Component {
       login_modal:false,
       options:'',
       loading:false,
-      activeIndex:activeIndex
+      activeIndex:activeIndex,
+      direction:'null',
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
     this.getObvAgain=this.getObvAgain.bind(this)
     this.findActiveIndex=this.findActiveIndex.bind(this);
+    this.handleSelect=this.handleSelect.bind(this);
   }
 
   findActiveIndex(recoVotes){
@@ -352,6 +356,14 @@ class RecoName extends React.Component {
     this.refs[add1]?this.refs[add1].style.display="none":null
   }
 
+  handleSelect(selectedIndex, e) {
+
+      this.setState({
+        activeIndex: selectedIndex,
+        direction: e.direction
+      });
+    }
+
 
   render(){
     //console.log(this.props.islocked, "recoName called agagin")
@@ -363,30 +375,25 @@ class RecoName extends React.Component {
 
       this.state.response.length>0?
       (
-        <div id={"myCarousel"+this.props.id} className="carousel" data-ride="carousel" data-interval="false" style={{marginTop:'-1%'}} >
 
-              <ol className="carousel-indicators" style={{top:'100%',zIndex:'0'}}>
-                {
-                    this.state.response.map((item,index)=>{
-                      return(
 
-                        <li key={index} data-target={"#myCarousel"+this.props.id} data-slide-to={index} style={{border:'1px solid #acb3bf'}} className={""+(index===this.state.activeIndex?"active":"")}></li>
 
-                      )
-                    }
-                  )
-                }
-              </ol>
 
-              <div className="carousel-inner" id="carouselInner" style={{zIndex:'10'}}>
+                  <Carousel
+                    activeIndex={this.state.activeIndex}
+                    direction={this.state.direction}
+                    onSelect={this.handleSelect}
+                    slide={false}
+                    style={{marginTop:'-1%',zIndex:'20'}}
+                  >
                 {
                 this.state.response.map((item,index)=>{
 
 
                   var authArray=[]
                     return(
-                  <div key={index} className={"item " + (index===this.state.activeIndex?"active":"")} >
-                  <div  className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC'}}>
+                  <Carousel.Item style={{zIndex:'20'}}>
+                  <div  className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC',zIndex:'20'}}>
                       <div className="col-sm-6" style={{height:'40px',overflow:'hidden',paddingLeft:'10px',paddingRight:'10px'}}
                       title={
                         (
@@ -626,30 +633,21 @@ class RecoName extends React.Component {
 
 
 
-                              <RecoComment key={item.recoId} getReco={this.getRecoName} id1={item.recoId} id2={this.props.id} speciesId={item.hasOwnProperty('speciesId')?(item.speciesId!=null?item.speciesId:"no"):"no"} name={item.name} votes={item.authors.length} commentCount={item.totalCommentCount}/>
+                              <RecoComment key={item.recoId} getReco={this.getRecoName} id1={item.recoId} id2={this.props.id} speciesId={item.hasOwnProperty('speciesId')?(item.speciesId!=null?item.speciesId:"no"):"no"} name={item.name} votes={item.authors.length} commentCount={item.totalCommentCount} style={{zIndex:'20'}}/>
 
                               </div>
                               </div>
                         </div>
                   </div>
 
-                  </div>
+                  </Carousel.Item>
                 )
               }
                 )
               }
-              </div>
+              </Carousel>
 
-              <a className="left carousel-control" href={"#myCarousel"+this.props.id} data-slide="prev" style={{width:'1%'}}>
-              <span className="glyphicon glyphicon-chevron-left" style={{marginLeft:'0',left:'-17px',color:'#312727'}}></span>
-              <span className="sr-only">Previous</span>
-            </a>
-            <a className="right carousel-control" href={"#myCarousel"+this.props.id} data-slide="next" style={{width:'1%'}}>
-              <span className="glyphicon glyphicon-chevron-right" style={{marginRight:'0',right:'-17px',color:'#312727'}}></span>
-              <span className="sr-only">Next</span>
-            </a>
 
-          </div>
 
       )
       :null
