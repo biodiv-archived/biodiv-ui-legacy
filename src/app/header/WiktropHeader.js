@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import { Form, Text} from 'react-form';
 
-import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages,fetchDataSetList,loadLocale} from '../../actions/index';
+import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages,fetchDataSetList,loadLocale,setLocale} from '../../actions/index';
 import AuthUtils from '../../auth/AuthUtils';
 import $ from 'jquery';
 import {Config} from '../../Config'
@@ -74,7 +74,7 @@ class WiktropHeader extends React.Component {
     }
 
     handleChange(checked) {
-      console.log("chchchchcchch",checked);
+      //console.log("chchchchcchch",checked);
       if(checked){
           this.props.setLocale("en")
           this.props.loadLocale(en)
@@ -233,7 +233,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
 
-return bindActionCreators({fetchDataSetList,logout,fetchLanguages,fetchUserGroupList,fetchSpeciesGroup,loadLocale},dispatch);
+return bindActionCreators({fetchDataSetList,logout,fetchLanguages,fetchUserGroupList,fetchSpeciesGroup,loadLocale,setLocale},dispatch);
 }
 
 
