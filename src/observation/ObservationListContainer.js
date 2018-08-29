@@ -558,9 +558,9 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                   <div className="row" style={{marginBottom:'5px'}}>
                     <div className="col-sm-4 " style={{paddingRight:'0px'}}>
                       <ul className="nav nav-tabs" style={{border:'0px'}}>
-                          <li role="presentation" ><button style={{fontSize:'1em'}}  className={`btn  ${this.state.params.view==="list"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list"> List</span></button></li>
-                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="grid"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th"> Grid</span></button></li>
-                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="map"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker"> Map</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}}  className={`btn  ${this.state.params.view==="list"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list">{" "+this.props.LocaleData['default.instance.list']}</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="grid"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th">{" "+this.props.LocaleData['default.instance.grid']}</span></button></li>
+                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="map"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker">{" "+this.props.LocaleData['default.instance.map']}</span></button></li>
                       </ul>
                     </div>
                     <div className="col-sm-4 " style={{paddingRight:'0px',paddingLeft:'0px'}}>
@@ -568,11 +568,11 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                     </div>
                     <div className="col-sm-4" style={{paddingLeft:'0px'}}>
                       <div className="alignLeft" style={{float:'right'}}>
-                        <button style={{marginRight:'5px',fontSize:'1em'}} onClick={this.setOpenModal.bind(this)} className="btn btn-default btn-xs">Download</button>
+                        <button style={{marginRight:'5px',fontSize:'1em'}} onClick={this.setOpenModal.bind(this)} className="btn btn-default btn-xs">{this.props.LocaleData['button.download']}</button>
                         <select className="btn btn-default btn-xs" style={{fontSize:'1em'}} onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
-                            <option  value="Last Updated">Last Updated</option>
-                            <option  value="Latest">Latest</option>
-                            <option  value="Most Viewed">Most Viewed</option>
+                            <option  value="Last Updated">{this.props.LocaleData['button.last.updated']}</option>
+                            <option  value="Latest">{this.props.LocaleData['button.latest']}</option>
+                            <option  value="Most Viewed">{this.props.LocaleData['button.most.viewed']}</option>
                         </select>
                       </div>
                     </div>
@@ -591,7 +591,7 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
                   {this.state.params.view==="map"?null:<InfiniteScroll
                     next={this.loadMore.bind(this)}
                     hasMore={this.state.params.hasMore}
-                    loader={ <Button bsStyle="success" bsSize="small" block>Loading ............</Button>}
+                    loader={ <Button bsStyle="success" bsSize="small" block>{this.props.LocaleData['button.loading']}</Button>}
                     >
                   </InfiniteScroll>}
 
@@ -616,7 +616,8 @@ function mapStateToProps(state){
 return {
   Observation:state.Observation,
   Recommendations:state.Recommendations,
-  UserGroupList:state.UserGroupList
+  UserGroupList:state.UserGroupList,
+  LocaleData:state.LocaleData
 };
 }
 export default  withRouter(connect(mapStateToProps, {fetchObservations,ClearObservationPage,fetchRecommendations,clearRecommendations,fetchFilterCount})(ObservationListContainer));

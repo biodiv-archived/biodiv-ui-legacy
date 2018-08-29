@@ -179,7 +179,7 @@ class FlaggingInterface extends React.Component {
         {this.state.login_modal===true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.refreshObvAndFlags} id={this.props.id} type="obvFlags"/>):null}
         <div className="row">
             <div className="col-sm-6">
-             <b style={{fontSize:'14px',marginLeft:'3%'}}>Why?</b>
+             <b style={{fontSize:'14px',marginLeft:'3%'}}>{this.props.LocaleData['common.observation.why']+"?"}</b>
             </div>
             <div className="col-sm-6">
               <button type="button" className="close pull-right" aria-label="Close" style={{opacity:'1'}} onClick={this.closeFlagDropDown.bind(this)}>
@@ -188,20 +188,20 @@ class FlaggingInterface extends React.Component {
             </div>
         </div>
         <div>
-             <input type="radio" ref={"DETAILS_INAPPROPRIATE"+this.props.id} name="flag" value="DETAILS_INAPPROPRIATE" defaultChecked/> Inappropriate details<br/>
-             <input type="radio" ref={"LOCATION_INAPPROPRIATE"+this.props.id} name="flag" value="LOCATION_INAPPROPRIATE"/> Inappropriate location<br/>
-             <input type="radio" ref={"DATE_INAPPROPRIATE"+this.props.id} name="flag" value="DATE_INAPPROPRIATE"/> Inappropriate date
+             <input type="radio" ref={"DETAILS_INAPPROPRIATE"+this.props.id} name="flag" value="DETAILS_INAPPROPRIATE" defaultChecked/>{" "+this.props.LocaleData['default.inappropriateDetails.label']}<br/>
+             <input type="radio" ref={"LOCATION_INAPPROPRIATE"+this.props.id} name="flag" value="LOCATION_INAPPROPRIATE"/>{" "+this.props.LocaleData['default.inappropriateLocation.label']}<br/>
+             <input type="radio" ref={"DATE_INAPPROPRIATE"+this.props.id} name="flag" value="DATE_INAPPROPRIATE"/>{" "+this.props.LocaleData['default.inappropriateDate.label']}
         </div>
         <br/>
         <div className="row">
-            <center><textarea ref={"notesFlag"+this.props.id} placeholder="Tell us why?" style={{width:'90%',borderRadius:'4px'}}/></center>
+            <center><textarea ref={"notesFlag"+this.props.id} placeholder={this.props.LocaleData['default.tellUsWhy.placeholder']} style={{width:'90%',borderRadius:'4px'}}/></center>
         </div>
         <div className="row">
-            <button className="btn btn-danger btn-xs pull-right" style={{marginRight:'5%'}} onClick={this.flagThisObject.bind(this)} disabled={this.state.loading}>Flag</button>
+            <button className="btn btn-danger btn-xs pull-right" style={{marginRight:'5%'}} onClick={this.flagThisObject.bind(this)} disabled={this.state.loading}>{this.props.LocaleData['button.flag']}</button>
         </div>
         <br/>
         <div className="row">
-            <b style={{fontSize:'14px',marginLeft:'3%'}}>Other flags on the observation:</b>
+            <b style={{fontSize:'14px',marginLeft:'3%'}}>{this.props.LocaleData['default.otherFlags.label']}</b>
         </div>
         <br/>
         <div className="pre-scrollable">
@@ -254,7 +254,8 @@ class FlaggingInterface extends React.Component {
 
 function mapStateToProps(state){
 return {
-  PublicUrl:state.PublicUrl.url
+  PublicUrl:state.PublicUrl.url,
+  LocaleData:state.LocaleData
 };
 }
 export default  withRouter(connect(mapStateToProps,null)(FlaggingInterface));

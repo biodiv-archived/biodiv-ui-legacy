@@ -21,6 +21,7 @@ import FilterCount from './reducer_filter_count';
 import CustomFields from '../customFields/CustomFieldsReducer';
 import DataSetList from './reducer_dataSetList';
 import LocaleData from './reducer_loadLocale';
+import Locale from './reducer_locale';
 
 const rootReducer = combineReducers({
   Observation:ObservationReducer,
@@ -40,7 +41,8 @@ const rootReducer = combineReducers({
   FilterCount:FilterCount,
   CustomFields:CustomFields,
   DataSetList:DataSetList,
-  LocaleData:LocaleData
+  LocaleData:LocaleData,
+  Locale:Locale
 });
 
 export default rootReducer;

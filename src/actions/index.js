@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Config } from '../Config';
 import AuthUtils from '../auth/AuthUtils.js';
+import {store} from '../index.js'
 
 export const FETCH_SPECIES_CHART='FETCH_SPECIES_CHART';
 export const FETCH_GROUP_OBSERVATIONS="FETCH_GROUP_OBSERVATIONS";
@@ -20,7 +21,7 @@ export const FETCH_SPECIES_GROUP ='FETCH_SPECIES_GROUP';
 export const FETCH_FILTER_COUNT ='FETCH_FILTER_COUNT';
 export const FETCH_DATA_SET_LIST='FETCH_DATA_SET_LIST';
 export const LOAD_LOCALE='LOAD_LOCALE';
-
+export const SET_LOCALE="SET_LOCALE";
 
 export function fetchUniqueSpecies(params,count,flag){
   var options={
@@ -71,6 +72,13 @@ export function loadLocale(data) {
   return {
     type:LOAD_LOCALE,
     payload:data
+  }
+}
+
+export function setLocale(locale){
+  return{
+    type:SET_LOCALE,
+    payload:locale
   }
 }
 

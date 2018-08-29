@@ -20,7 +20,7 @@ API_ROOT_URL=process.env.REACT_APP_API_ROOT_URL
 PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
 IBP_URL=process.env.REACT_APP_IBP_URL
 BBP_URL=process.env.REACT_APP_BBP_URL
-DEPLOY="ibp";
+DEPLOY="wiktrop";
 TITLE="India Biodiversity Portal";
 TRACKING_CODE='UA-3185202-1';
 //}
@@ -56,7 +56,7 @@ axios.interceptors.request.use(function (config) {
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
 //    console.log('---------------------BEFORE REQUEST END------------------------');
-   config.withCredentials = true;
+   config.withCredentials = false;
     return config;
 }, function (error) {
     return Promise.reject(error);

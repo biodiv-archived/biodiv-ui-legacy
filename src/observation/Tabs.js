@@ -6,6 +6,8 @@ import Traits from '../traits/TraitsObv.js'
 import CommentsFeeds from '../activityFeed/CommentsFeeds.js'
 import {NavLink,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {getLocaleData} from '../actions'
+import {bindActionCreators} from 'redux'
 
 class Tabs extends React.Component {
   constructor(props){
@@ -63,11 +65,11 @@ class Tabs extends React.Component {
  <div className="panel with-nav-tabs panel-default" id={this.props.objs.id}>
 
             <ul className="nav nav-tabs">
-                <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab" onClick={this.setReco.bind(this)}>Suggest id</a></li>
-                <li><a href={"#"+this.props.objs.id+"_tab2"} data-toggle="tab" onClick={this.setGroup.bind(this)}>Groups</a></li>
+                <li className="active"><a href={"#"+this.props.objs.id+"_tab1"} data-toggle="tab" onClick={this.setReco.bind(this)}>{this.props.LocaleData['default.suggestId.label']}</a></li>
+                <li><a href={"#"+this.props.objs.id+"_tab2"} data-toggle="tab" onClick={this.setGroup.bind(this)}>{this.props.LocaleData['default.groups.label']}</a></li>
                 <li><a  href={"#"+this.props.objs.id+"_tab3"}  data-toggle="tab" data-tab-url={"#"+this.props.objs.id+"_tab3"} onClick={this.setTrait.bind(this)} >Traits</a></li>
-                <li><a href={"#"+this.props.objs.id+"_tab4"} data-toggle="tab" onClick={this.setCustom.bind(this)} >Custom fields</a></li>
-                <li><a href={"#"+this.props.objs.id+"_tab5"} ref={"commentsTab"+this.props.objs.id} data-toggle="tab" onClick={this.setActivity.bind(this)}>Comments</a></li>
+                <li><a href={"#"+this.props.objs.id+"_tab4"} data-toggle="tab" onClick={this.setCustom.bind(this)} >{this.props.LocaleData['default.customFields.label']}</a></li>
+                <li><a href={"#"+this.props.objs.id+"_tab5"} ref={"commentsTab"+this.props.objs.id} data-toggle="tab" onClick={this.setActivity.bind(this)}>{this.props.LocaleData['default.comments.label']}</a></li>
             </ul>
 
 
@@ -98,7 +100,9 @@ class Tabs extends React.Component {
 }
 function mapStateToProps(state){
 return {
-  Recommendations:state.Recommendations
+  Recommendations:state.Recommendations,
+  LocaleData:state.LocaleData
 };
 }
-export default  connect(mapStateToProps, null,null,{ withRef: true })(Tabs);
+
+export default connect(mapStateToProps,null,null,{ withRef: true })(Tabs);

@@ -4,11 +4,12 @@ import $ from 'jquery'
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import EllipsisText  from 'react-ellipsis-text';
+import {NavLink,withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import { Config } from '../Config';
 import ModalPopup from '../auth/Modal.js';
 import AuthUtils from '../auth/AuthUtils.js';
-
 
 
 class Groups extends React.Component {
@@ -370,7 +371,7 @@ class Groups extends React.Component {
           }
           </div>
           <div className="col-sm-2">
-              <button  className="btn btn-primary btn-xs pull-right" onClick={this.show.bind(this,this.props.id)}>Edit</button>
+              <button  className="btn btn-primary btn-xs pull-right" onClick={this.show.bind(this,this.props.id)}>{this.props.LocaleData['button.edit']}</button>
           </div>
         </div>
         <div className="row" ref={"userGroups"+this.props.id} style={{display:'none'}}>
@@ -424,4 +425,10 @@ class Groups extends React.Component {
     )
   }
 }
-export default Groups;
+//export default Groups;
+function mapStateToProps(state){
+return {
+  LocaleData:state.LocaleData
+};
+}
+export default  withRouter(connect(mapStateToProps, null)(Groups));

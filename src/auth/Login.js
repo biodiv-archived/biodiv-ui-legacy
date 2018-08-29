@@ -67,7 +67,7 @@ class Login extends Component {
         <div className="container">
          <div className="signin-wrapper">
              <div className="row">
-                     <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>Login</a> | <a href= {`/${this.props.PublicUrl.url}register`}>Register</a> </div>
+                     <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>{this.props.LocaleData['button.login']}</a> | <a href= {`/${this.props.PublicUrl.url}register`}>{this.props.LocaleData['button.register']}</a> </div>
              </div>
 
              <div className="row">
@@ -84,18 +84,18 @@ class Login extends Component {
                 </div>
                 <div className="row">
                   <div className="col-sm-3">
-                    <label>Password:</label>
+                    <label>{this.props.LocaleData['spring.security.ui.login.password']}</label>
                   </div>
                   <div className="col-sm-9">
                     <Field name="password"
                         type="password" className="form-control" component={renderInput} />
-                        <a href= {`/${this.props.PublicUrl.url}register/forgotPassword`}>Forgot Password?</a>
+                        <a href= {`/${this.props.PublicUrl.url}register/forgotPassword`}>{this.props.LocaleData['spring.security.ui.login.forgotPassword']}</a>
                   </div>
                 </div>
                     {this.isAuthenticated()}
                     {this.renderAlert()}
                   <div className="row">
-                      <button action="submit" className="btn btn-lg btn-primary btn-block">Login</button>
+                      <button action="submit" className="btn btn-lg btn-primary btn-block">{this.props.LocaleData['button.login']}</button>
                   </div>
                 </Form>
                 </div>
@@ -134,7 +134,8 @@ function mapStateToProps(state) {
     return {
         errorMessage: state.auth.error,
         PublicUrl:state.PublicUrl,
-        authenticated: state.auth.authenticated
+        authenticated: state.auth.authenticated,
+        LocaleData:state.LocaleData
     };
 }
 
