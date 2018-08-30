@@ -47,7 +47,7 @@ var fileref=document.createElement("link")
              fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
              break;
         case "wiktrop":
-             fileref.setAttribute("href", "http://localhost:3000"+"/headerStyles/wiktropHeaderStyle.css")
+             fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/wiktropHeaderStyle.css")
        }
 
        //console.log("typeOf",typeof fileref)
