@@ -353,7 +353,7 @@ class WiktropNavigationHeader extends Component{
     }
 }
 function mapStateToProps(state) {
-  console.log(state.DataSetList);
+  //console.log(state.DataSetList);
     return {
         authenticated: state.auth.authenticated,
         userData: state.auth.userData,

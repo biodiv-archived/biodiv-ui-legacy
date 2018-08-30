@@ -1601,6 +1601,11 @@ var obj =
   'button.suggest':'Suggest',
   'button.loading':'Loading ............',
   'default.customFields.label':'Custom fields',
+  'DATE_INAPPROPRIATE':'Inappropriate date',
+  'DETAILS_INAPPROPRIATE':'Inappropriate details',
+  'LOCATION_INAPPROPRIATE':'Inappropriate location',
+  'wikwio.portal.name':'Weed Identification and Knowledge in the Tropics - WIKTROP',
+  'wikwio.portal.abbr':'WIKTROP Portal V.2.0'
 };
 
 export default obj;

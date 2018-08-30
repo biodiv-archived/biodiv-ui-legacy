@@ -230,7 +230,7 @@ class FlaggingInterface extends React.Component {
                       </NavLink>
                   </div>
                   <div className="col-sm-8">
-                      <div className="row" style={{marginLeft:'0.3%'}}>{item.flag+" :"}</div>
+                      <div className="row" style={{marginLeft:'0.3%'}}>{this.props.LocaleData[item.flag]+" :"}</div>
                       <div className="row" style={{marginLeft:'0.3%'}}>{item.notes}</div>
                   </div>
                   <div className="col-sm-2">

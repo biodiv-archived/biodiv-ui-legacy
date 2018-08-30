@@ -37,14 +37,14 @@ class WiktropHeader extends React.Component {
          }else{
            checked = true
          }
-         console.log("checked",checked)
+         //console.log("checked",checked)
         this.state={
             PublicUrl:this.props.PublicUrl,
             parents:null,
             children:null,
             checked:checked
         }
-        console.log("swithed",this.state.checked)
+        //console.log("swithed",this.state.checked)
         this.logout = this.logout.bind(this);
         this.children = new Map();
         this.parents = [];
@@ -102,7 +102,7 @@ class WiktropHeader extends React.Component {
                         <span className="icon-bar"></span>
                     </button>
                     <a href={`${Config.api.IBP_URL}`} className="navbar-brand">
-                        India Biodiversity Portal
+                        {this.props.LocaleData['wikwio.portal.abbr']}
                     </a>
                 </div>
 
@@ -228,6 +228,7 @@ function mapStateToProps(state) {
         UserGroupList:state.UserGroupList,
         PublicUrl:state.PublicUrl.url,
         groupName:state.PublicUrl.groupName,
+        LocaleData:state.LocaleData
     };
 }
 

@@ -58,8 +58,12 @@
 }
 
 .brand-bar {
-    background-image:-webkit-linear-gradient(left, #ECE9B7, #ebfefd);
-    margin-bottom:-1px;
+  background-image:url(http://portal.wikwio.org/assets/all/header-bg.jpg);
+  background-repeat: repeat-y;
+  background-position: top left;
+  background-size: cover;
+
+  margin-bottom:-1px;
 }
 
 .menu-item {
@@ -87,16 +91,23 @@
     height: 100%;
     width: 100%;
     position: absolute;
-    top: 157px;
+    top: 196px;
     left: 0;
     display: inline-block;
 }
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 734px) {
     #contentWrapper{
-      top: 200px!important;
+      top: 222px!important;
 
     }
 }
+@media only screen and (max-width: 451px) {
+    #contentWrapper{
+      top: 248px!important;
+
+    }
+}
+
 #content {
     padding: 0px 0 0px 0;
 }
@@ -169,4 +180,7 @@
 ::-webkit-scrollbar-thumb {
     background: grey;
     border: 1px  rgb(0,0,0);
+}
+.ReactModal__Overlay.ReactModal__Overlay--after-open{
+  top:25% !important;
 }

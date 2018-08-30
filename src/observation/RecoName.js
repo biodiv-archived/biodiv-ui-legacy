@@ -55,7 +55,7 @@ class RecoName extends React.Component {
       options:'',
       loading:false,
       activeIndex:activeIndex,
-      direction:'null',
+      direction:null,
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)

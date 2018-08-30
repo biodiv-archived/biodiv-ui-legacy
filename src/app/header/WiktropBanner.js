@@ -44,15 +44,15 @@ class WiktropBanner extends Component{
             let subPortalName=undefined;
             if(parts.length>=3){
               if(parts[0]=="assambiodiversity"){
-                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif`;
+                someGroupLogo=`${Config.api.WIKTROP_URL}/biodiv/userGroups/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif`;
                 subPortalName="Assam Biodiversity Portal";
               }
               if(parts[0]=="treesindia"){
-                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ff695abd-c38a-4b8d-ac7c-a79f5df0ad84/resources/315.png`;
+                someGroupLogo=`${Config.api.WIKTROP_URL}/biodiv/userGroups/ff695abd-c38a-4b8d-ac7c-a79f5df0ad84/resources/315.png`;
                 subPortalName="TreesIndia";
               }
               if(parts[0]=="thewesternghats"){
-                someGroupLogo=`${Config.api.IBP_URL}/biodiv/userGroups/ca7dc494-eff4-4f49-b340-f69e8d543a75/resources/map-logo.gif`;
+                someGroupLogo=`${Config.api.WIKTROP_URL}/biodiv/userGroups/ca7dc494-eff4-4f49-b340-f69e8d543a75/resources/map-logo.gif`;
                 subPortalName="The Western Ghats";
               }
             }
@@ -137,26 +137,30 @@ getJoinPermission(){
         //        userGroup = {name:'Assam Biodiversity Portal for invasive species', icon:'/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif'}
 
         let userUserGroup=this.state.userUserGroup?this.state.userUserGroup.filter((item)=>{return item.webaddress==this.props.PublicUrl.split("/")[1]})[0]:null;
-          console.log(userUserGroup);
+          //console.log(userUserGroup);
 
         if(true) {
             return(
                 <div className="navbar navbar-default row brand-bar">
                   {this.state.login_modal===true?(<ModalPopup funcjoinus={this.getJoinPermission} type="joinus" key={this.state.options} options={this.state.options} />):null}
                   {this.state.moderatorPopup?<ModeratorPopUp key={this.state.moderatorPopup} />:null}
-                    <div className="navbar-header">
-                        <NavLink to="/">
-                            <img className="logo pull-left" style={{marginLeft:'15px'}} src={userGroup?Config.api.IBP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.IBP_URL+"/logo/IBP.png")}></img>
-                        </NavLink>
-                        <NavLink to="/" className="navbar-brand" style={{paddingTop:'0.00001px'}}>
-                            <h3>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:'India Biodiversity Portal')}</h3>
-                        </NavLink>
-                    </div>
-                    <div>
-                    {userGroup?userGroup.allowUsersToJoin?
-                          <button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
-                          :null:null
-                    }
+                    <div className="row">
+                      <div className="navbar-header col-sm-11">
+                        <div className="row">
+                          <NavLink to="/" className="col-sm-2">
+                              <img className="logo pull-left" style={{marginLeft:'14px',height:'90px',width:'92.25px'}} src={userGroup?Config.api.WIKTROP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.WIKTROP_URL+"/logo/wikwio.png")}></img>
+                          </NavLink>
+                          <NavLink to="/" className="col-sm-10" style={{paddingTop:'0.00001px',marginTop:'1%',color:'#777',textDecoration:'none'}}>
+                              <h3>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:this.props.LocaleData['wikwio.portal.name'])}</h3>
+                          </NavLink>
+                        </div>
+                      </div>
+                      <div className="col-sm-1">
+                      {userGroup?userGroup.allowUsersToJoin?
+                            <button onClick={this.getJoinPermission} className="btn btn-xs btn-primary pull-right" style={{marginRight:'20px'}}> <span className="glyphicon glyphicon-plus"></span>Join Us</button>
+                            :null:null
+                      }
+                      </div>
                     </div>
                 </div>
             )
@@ -172,7 +176,8 @@ function mapStateToProps(state) {
         UserProfile: state.UserProfile,
         UserGroupList:state.UserGroupList,
         PublicUrl:state.PublicUrl.url,
-        groupName:state.PublicUrl.groupName
+        groupName:state.PublicUrl.groupName,
+        LocaleData:state.LocaleData
     };
 }
 

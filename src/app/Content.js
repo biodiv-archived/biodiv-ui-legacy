@@ -8,11 +8,19 @@ import {bindActionCreators} from 'redux';
 
 import {Config} from '../Config'
 let Footer;
-if(Config.api.DEPLOY==="ibp"){
-    Footer = require('./footer/Footer').default;
-}else{
-    Footer = require('./footer/BbpFooter.js').default;
+switch(Config.api.DEPLOY)
+{
+  case "ibp":
+      Footer = require('./footer/Footer').default;
+      break;
+  case "bbp":
+      Footer = require('./footer/BbpFooter.js').default;
+      break;
+  case "wiktrop":
+      Footer = require('./footer/WiktropFooter.js').default;
+      break;
 }
+
 
 class Content extends Component {
 

@@ -1430,5 +1430,10 @@ var obj=
   'button.suggest':'Suggérer',
   'button.loading':'Chargement ............',
   'default.customFields.label':'Champ de personnalisation',
+  'DATE_INAPPROPRIATE':'Date inappropriée',
+  'DETAILS_INAPPROPRIATE':'Détails inappropriés',
+  'LOCATION_INAPPROPRIATE':'Emplacement inapproprié',
+  'wikwio.portal.name':'Identification et Connaissance des Adventices Tropicales - WIKTROP',
+  'wikwio.portal.abbr':'WIKTROP Portal V.2.0'
 }
 export default obj;

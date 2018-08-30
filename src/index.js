@@ -91,7 +91,7 @@ switch(Config.api.DEPLOY)
       Footer = require('./app/footer/BbpFooter.js').default;
       break;
   case "wiktrop":
-      Footer = require('./app/footer/Footer.js').default;
+      Footer = require('./app/footer/WiktropFooter.js').default;
       break;
 }
 
