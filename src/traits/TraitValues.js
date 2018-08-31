@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
+import {NavLink,withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import 'rc-checkbox/assets/index.css';
 
@@ -42,4 +44,9 @@ showFilter(traitId,traitType,traitDataType){
   }
 }
 
-export default TraitValue
+function mapStateToProps(state) {
+  return {
+    Locale:state.Locale
+  }
+}
+export default withRouter(connect(mapStateToProps,null)(TraitValue ));

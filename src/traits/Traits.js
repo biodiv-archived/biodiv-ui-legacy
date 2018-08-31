@@ -1,8 +1,10 @@
 import React from 'react';
 import InputRange from 'react-input-range';
 import Collapsible from 'react-collapsible';
+import {NavLink,withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
 import '../../node_modules/react-input-range/lib/css/index.css'
-import {getObservationTraits} from './TraitsApiCall';
+import {getAllTraits} from './TraitsApiCall';
 import queryString from 'query-string';
 import TraitValues from './TraitValues';
 
@@ -32,7 +34,7 @@ class Traits extends React.Component {
   }
   componentDidMount(){
       this.setParameter()
-    getObservationTraits().then(data=>{
+    getAllTraits("fr").then(data=>{
     this.setState({
       observationTraitList:data
     })
@@ -56,6 +58,11 @@ class Traits extends React.Component {
   })
   this.callFilter(traitIdwithValues)
   }
+  componentWillReceiveProps(nextProps){
+    console.log("kfsdhfklsd");
+    console.log(nextProps);
+
+  }
   render() {
     let observationTraitList=this.state.observationTraitList;
     let traitIdwithValues=this.state.traitIdwithValues;
@@ -69,11 +76,10 @@ class Traits extends React.Component {
           {observationTraitList.data?observationTraitList.data.map((item,index)=>{
             return(
               <div key={index}>
-                <Collapsible  open={keys.includes(item.id.toString())} trigger={item.name}>
-                    <TraitValues alues  passToTraitValues={this.passToTraitValues} traitId={item.id}  traitName={item.name} traitType={item.traitTypes} traitDataType={item.dataTypes}/>
+                <Collapsible  open={keys.includes(item.trait.id.toString())} trigger={item.name}>
+                    <TraitValues  passToTraitValues={this.passToTraitValues}  language={item.language.threeLetterCode} traitId={item.trait.id}  traitName={item.trait.name} traitType={item.trait.traitTypes} traitDataType={item.trait.dataTypes}/>
                 </Collapsible>
               </div>
-
             )
           }):null}
     </div>
@@ -81,4 +87,9 @@ class Traits extends React.Component {
   }
 }
 
-export default Traits
+function mapStateToProps(state) {
+  return {
+    Locale:state.Locale
+  }
+}
+export default withRouter(connect(mapStateToProps,null)(Traits ));

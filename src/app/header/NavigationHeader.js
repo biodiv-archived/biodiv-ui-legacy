@@ -132,7 +132,7 @@ class NavigationHeader extends Component{
                                         <a href= {`/${this.props.PublicUrl}species/list`}>Species Pages</a>
                                     </li>
                                     <li>
-                                        { <a href= {`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</a>}
+                                        { <a href= {`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=6&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</a>}
                                     </li>
                                     <li>
                                         <a href= {`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>Species Traits</a>

@@ -20,14 +20,14 @@ constructor(){
   super();
   this.state={
     checkedKeys:[],
-    classification:"265799",
+    classification:"6",
     Expanded:[],
     Selected:[],
     current:0,
     showButton:[],
     title:[],
     classificationTable:[],
-    classificationSelected:{ value: '265799', label: 'India Biodiversity portal '}
+    classificationSelected:{ value: '6', label: 'India Biodiversity portal '}
 }
   this.onLoadData =this.onLoadData.bind(this);
   this.onCheck =this.onCheck.bind(this);
@@ -47,9 +47,7 @@ gettaxonData(){
     let expand_taxon=undefined;
     let parent=undefined;
       if(checkedKey.length==1){
-          if(checkedKey.includes("872")|| checkedKey.includes("122888")|| checkedKey.includes("2998")
-          || checkedKey.includes("124658")|| checkedKey.includes("94899")|| checkedKey.includes("123467")||
-          checkedKey.includes("64231")){
+          if(checkedKey.includes("1")){
             this.props.fetchTaxonList(this.state.classification).then(()=>{
               this.setState({
                 checkedKeys:checkedKey,
@@ -106,7 +104,7 @@ this.props.fetchTaxonList(this.state.classification,expand_taxon,taxonToshow1).t
     showButton:taxonToshow1
   },()=>{
       this.setScrollClass();
-  
+
   })
 
 });

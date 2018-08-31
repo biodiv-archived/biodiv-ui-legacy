@@ -21,7 +21,7 @@ export const FETCH_SPECIES_GROUP ='FETCH_SPECIES_GROUP';
 export const FETCH_FILTER_COUNT ='FETCH_FILTER_COUNT';
 export const FETCH_DATA_SET_LIST='FETCH_DATA_SET_LIST';
 export const LOAD_LOCALE='LOAD_LOCALE';
-export const SET_LOCALE="SET_LOCALE";
+export const SET_LOCALE='SET_LOCALE';
 
 export function fetchUniqueSpecies(params,count,flag){
   var options={

@@ -44,7 +44,8 @@ class ObservationListContainer extends Component {
           maxDate:undefined,
           hasMore:true,
           max:10,
-          view:'list'
+          view:'list',
+          lan:'en'
         },
         showMap:false,
         selectAll:false,
