@@ -1,0 +1,186 @@
+@media(min-width:0px) {
+  .margintopde {
+    margin-top: 15px;
+  }
+}
+
+@media(min-width:1030px) {
+  .margintople {
+    margin-top: -30px;
+  }
+}
+
+@media (max-width: 1030px) {
+  .navbar-header {
+    float: none;
+  }
+  .navbar-toggle {
+    display: block;
+  }
+  .navbar-collapse {
+    border-top: 1px solid transparent;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .navbar-collapse.collapse {
+    display: none!important;
+  }
+  .navbar-nav {
+    float: none!important;
+    margin: 7.5px -15px;
+  }
+  .navbar-nav>li {
+    float: none;
+  }
+  .navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .navbar-text {
+    float: none;
+    margin: 15px 0;
+  }
+  /* since 3.1.0 */
+  .navbar-collapse.collapse.in {
+    display: block!important;
+  }
+  .collapsing {
+    overflow: hidden!important;
+  }
+}
+
+
+.logo {
+    border: 0 none;
+    height: 50px;
+    max-width: 220px;
+    /*margin-left: 16px;*/
+    margin-right: 16px;
+}
+
+.brand-bar {
+  background-image:url(http://portal.wikwio.org/assets/all/header-bg.jpg);
+  background-repeat: repeat-y;
+  background-position: top left;
+  background-size: cover;
+
+  margin-bottom:-1px;
+}
+
+.menu-item {
+    /*background-image:-webkit-linear-gradient(left, #cccccc, #ffffff);*/
+}
+
+#headerWrapper {
+    top: 0;
+    z-index: 1030;
+    position: fixed;
+    right: 0;
+    left: 0;
+    border-width: 0 0 1px;
+    min-height: 100px;
+    border: 1px solid transparent;
+}
+
+#footerWrapper {
+    border-width: 0 0 1px;
+    min-height: 100px;
+    border: 1px solid transparent;
+}
+#contentWrapper {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 196px;
+    left: 0;
+    display: inline-block;
+}
+@media only screen and (max-width: 734px) {
+    #contentWrapper{
+      top: 222px!important;
+
+    }
+}
+@media only screen and (max-width: 451px) {
+    #contentWrapper{
+      top: 248px!important;
+
+    }
+}
+
+#content {
+    padding: 0px 0 0px 0;
+}
+#contentColumnWrapper {
+    height: 100%;
+    padding:14px;
+    overflow-y: auto;
+}
+#contentColumn {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0px;
+}
+#leftSidebarWrapper {
+    height: 100%;
+    position: fixed;
+    padding:0px 0px 0px 0px;
+    /*background-color:black;
+    box-shadow:3px 3px 6px 3px rgb(0, 0, 0);*/
+
+}
+#leftSidebar {
+    position: relative;
+    height: 100%;
+    overflow:auto;
+    margin-right: -10px;
+}
+#leftSidebar .list-group-item {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+}
+
+
+.viewContent, .panel>.panel-body {
+    overflow:auto;
+}
+
+.text-primary {
+    font-weight: bold;
+    color:black;
+    text-decoration: none;
+    text-shadow: 1px 1px 3px #999999;
+}
+.panel>.panel-heading {
+    height:52px; /*42 for nav-tabs + 10px padding*/
+/*    background-color:#3c763d;
+*/
+}
+.vertical-align {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgb(0,0,0);
+    border: 4px solid transparent;
+    background-clip: content-box;   // this is important
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: grey;
+    border: 1px  rgb(0,0,0);
+}
+.ReactModal__Overlay.ReactModal__Overlay--after-open{
+  top:25% !important;
+}

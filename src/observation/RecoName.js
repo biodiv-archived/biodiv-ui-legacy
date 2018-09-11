@@ -55,7 +55,7 @@ class RecoName extends React.Component {
       options:'',
       loading:false,
       activeIndex:activeIndex,
-      direction:'null',
+      direction:null,
     }
     this.authArray=[];
     this.getRecoName=this.getRecoName.bind(this)
@@ -392,7 +392,7 @@ class RecoName extends React.Component {
 
                   var authArray=[]
                     return(
-                  <Carousel.Item style={{zIndex:'20'}}>
+                  <Carousel.Item style={{zIndex:'20'}} key={index}>
                   <div  className="well well-sm row " style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'0.1%',paddingRight:'0px',paddingLeft:'0px',backgroundColor:'#FBFCFC',zIndex:'20'}}>
                       <div className="col-sm-6" style={{height:'40px',overflow:'hidden',paddingLeft:'10px',paddingRight:'10px'}}
                       title={
@@ -544,7 +544,7 @@ class RecoName extends React.Component {
 
                                   (AuthUtils.isLoggedIn() && (item.hasObvLockPerm || AuthUtils.isAdmin()))?
                                     (
-                                        <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.validatePost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Validate</button>
+                                        <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.validatePost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>{this.props.LocaleData['button.validate']}</button>
                                     ):
                                     null
 
@@ -561,7 +561,7 @@ class RecoName extends React.Component {
                                           <button id={"unlockBtn"+this.props.id+item.recoId} ref={"unlockButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs" onClick={this.unlockPost.bind(this,item.recoId,this.props.id)} disabled={this.state.loading}>Unlock</button>
                                         ):
                                         (
-                                          <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs"  disabled>Validate</button>
+                                          <button id={"validateBtn"+this.props.id+item.recoId} ref={"validateButton"+this.props.id+item.recoId} className="btn btn-danger btn-xs nameAgree bigxs"  disabled>{this.props.LocaleData['button.validate']}</button>
                                         )
 
                                     ):
@@ -587,15 +587,15 @@ class RecoName extends React.Component {
 
                                       item.isLocked===false?
                                       (
-                                        <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Remove</button>
+                                        <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>{this.props.LocaleData['button.remove']}</button>
                                       ):
                                       (
                                         (item.showLock===false)?
                                         (
-                                          <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" disabled>Remove</button>
+                                          <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" disabled>{this.props.LocaleData['button.remove']}</button>
                                         ):
                                         (
-                                          <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>Remove</button>
+                                          <button id={"removeBtn"+this.props.id+item.recoId} ref={"removeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs" onClick={this.removePost.bind(this,item.recoId,this.props.id,item.authors.length)}>{this.props.LocaleData['button.remove']}</button>
                                         )
 
                                       )
@@ -607,10 +607,10 @@ class RecoName extends React.Component {
 
                                       item.isLocked===false?
                                       (
-                                        <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
+                                        <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>{this.props.LocaleData['button.agree']}</button>
                                       ):
                                       (
-                                        <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
+                                        <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>{this.props.LocaleData['button.agree']}</button>
                                       )
 
                                   )
@@ -621,10 +621,10 @@ class RecoName extends React.Component {
 
                                     item.isLocked===false?
                                     (
-                                      <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>Agree</button>
+                                      <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"  onClick={this.agreePost.bind(this,item.recoId,this.props.id,item.authors.length)} disabled={this.state.loading}>{this.props.LocaleData['button.agree']}</button>
                                     ):
                                     (
-                                      <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>Agree</button>
+                                      <button id={"agreeBtn"+this.props.id+item.recoId} ref={"agreeButton"+this.props.id+item.recoId} className="btn btn-primary btn-xs nameAgree bigxs"   disabled>{this.props.LocaleData['button.agree']}</button>
                                     )
 
                                 )
@@ -662,7 +662,7 @@ class RecoName extends React.Component {
                 this.state.response.length>0?
                 (
                   <div>
-                  <center style={{display:'block'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>Suggest</span></span></button></center>
+                  <center style={{display:'block'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
                   <div style={{display:'none'}} ref={"form"+this.props.id}>
                   <Formsuggest   id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain} />
                   </div>
@@ -671,7 +671,7 @@ class RecoName extends React.Component {
                 :
                 (
                   <div>
-                  <center style={{display:'none'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>Suggest</span></span></button></center>
+                  <center style={{display:'none'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
                   <div style={{display:'block'}} ref={"form"+this.props.id}>
                   <Formsuggest   id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain} />
                   </div>
@@ -695,7 +695,8 @@ class RecoName extends React.Component {
 function mapStateToProps(state){
 return {
   Recommendations:state.Recommendations,
-  PublicUrl:state.PublicUrl.url
+  PublicUrl:state.PublicUrl.url,
+  LocaleData:state.LocaleData
 };
 }
 export default  withRouter(connect(mapStateToProps, {fetchRecommendations})(RecoName));

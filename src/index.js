@@ -9,8 +9,6 @@ import queryString from 'query-string';
 import { BrowserRouter, Route, Switch,Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
-
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
@@ -20,19 +18,36 @@ import reducers from './reducers';
 import HomePageContainer from './app/homePage/HomePageContainer';
 import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
-import {SET_GROUP_NAME} from './actions/index';
+import {SET_GROUP_NAME,LOAD_LOCALE,SET_LOCALE} from './actions/index';
 import naksha from 'naksha-react-ui'
 import ReactGA from 'react-ga';
 import createHistory from 'history/createBrowserHistory';
+// import fr from './fr.js';
+import en from './en.js';
+import fr from './fr.js';
+
+
 
 var fileref=document.createElement("link")
        fileref.setAttribute("rel", "stylesheet")
        fileref.setAttribute("type", "text/css")
 
-       if(Config.api.DEPLOY==="ibp"){
-         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
-       }else{
-         fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
+      //  if(Config.api.DEPLOY==="ibp"){
+      //    fileref.setAttribute("href", "http://localhost:3000"+"/headerStyles/headerstyle.css")
+      //  }else{
+      //    fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
+      //  }
+
+       switch(Config.api.DEPLOY)
+       {
+         case "ibp":
+             fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
+             break;
+         case "bbp":
+             fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
+             break;
+        case "wiktrop":
+             fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/wiktropHeaderStyle.css")
        }
 
        //console.log("typeOf",typeof fileref)
@@ -41,29 +56,74 @@ var fileref=document.createElement("link")
 
 
 let Header;
-if(Config.api.DEPLOY==="ibp"){
-    Header = require('./app/header/Header.js').default;
-}else{
-    Header = require('./app/header/BbpHeader.js').default;
+// if(Config.api.DEPLOY==="ibp"){
+//     Header = require('./app/header/Header.js').default;
+// }else{
+//     Header = require('./app/header/BbpHeader.js').default;
+// }
+
+switch(Config.api.DEPLOY)
+{
+  case "ibp":
+      Header = require('./app/header/Header.js').default;
+      break;
+  case "bbp":
+      Header = require('./app/header/BbpHeader.js').default;
+      break;
+  case "wiktrop":
+      Header = require('./app/header/WiktropHeader.js').default;
+      break;
 }
 
 let Footer;
-if(Config.api.DEPLOY==="ibp"){
-    Footer = require('./app/footer/Footer').default;
-}else{
-    Footer = require('./app/footer/BbpFooter.js').default;
-}
+// if(Config.api.DEPLOY==="ibp"){
+//     Footer = require('./app/footer/Footer').default;
+// }else{
+//     Footer = require('./app/footer/BbpFooter.js').default;
+// }
 
+switch(Config.api.DEPLOY)
+{
+  case "ibp":
+      Footer = require('./app/footer/Footer').default;
+      break;
+  case "bbp":
+      Footer = require('./app/footer/BbpFooter.js').default;
+      break;
+  case "wiktrop":
+      Footer = require('./app/footer/WiktropFooter.js').default;
+      break;
+}
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
 
 /*
 Let the user login always
 */
-
 let store = createStoreWithMiddleware(reducers);
+
 if (AuthUtils.isLoggedIn()) {
   store.dispatch({ type: AUTH_USER});
+}
+
+
+let language;
+ if (navigator.languages != undefined){
+   language =  navigator.languages[0];
+ } else {
+   language =  navigator.language;
+ }
+//language = "fr";
+
+if(language!=='fr' || Config.api.DEPLOY !=="wiktrop"){
+     store.dispatch({type:SET_LOCALE,payload:"en"})
+}else{
+      store.dispatch({type:SET_LOCALE,payload:"fr"})
+}
+if(store.getState().Locale ==="fr"){
+   store.dispatch({type:LOAD_LOCALE,payload:fr})
+}else{
+  store.dispatch({type:LOAD_LOCALE,payload:en})
 }
 
 const newparams =  queryString.parse(document.location.search);

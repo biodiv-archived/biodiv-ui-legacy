@@ -331,7 +331,7 @@ class CommentsFeeds extends React.Component {
       <div className=" union-comment" id={this.props.id+"_comments"} >
           <div className="activityfeed activityfeedSpecific" >
                 <div className="row" style={{marginLeft:'2%'}}>
-                    <a className="activiyfeednewermsg " style={{display:'block'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{"Show "+this.state.remainingFeedCount+ " older Feed(s)"}</a>
+                    <a className="activiyfeednewermsg " style={{display:'block'}}  title="load new feeds" ref={"moreFeedBtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>{this.props.LocaleData['link.show']+" "+this.state.remainingFeedCount+ " "+this.props.LocaleData['showallactivityfeed.older.feeds']}</a>
                     {/*<a className="activiyfeedoldermsg " style={{display:'block'}} title="show feeds" ref={"feedbtn"+this.props.id} onClick={this.fetchFeeds.bind(this,this.props.id)}>Show  older feeds </a>*/}
                 </div>
                 <div className="pre-scrollable" id={this.props.id+"feedlist"} style={{width:'99%',marginLeft:'0.5%',marginTop:'0.2%',marginBottom:'2%'}}>
@@ -367,7 +367,7 @@ class CommentsFeeds extends React.Component {
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
-                                                        <span className="yj-context text-success">  {item.descriptionJson.activity_performed + ' '}
+                                                        <span className="yj-context text-success">  {this.props.LocaleData['item.descriptionJson.activity_performed'] + ' '}
                                                             {
                                                               (item.descriptionJson.name && item.descriptionJson.ro_id)?
                                                               (
@@ -452,7 +452,7 @@ class CommentsFeeds extends React.Component {
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
-                                                        <span className="yj-context text-success">  {item.descriptionJson.activity_performed + ' '}
+                                                        <span className="yj-context text-success">  {this.props.LocaleData['item.descriptionJson.activity_performed'] + ' '}
                                                         {
                                                           item.descriptionJson.ro_type === "userGroup"?
                                                           (
@@ -571,7 +571,7 @@ class CommentsFeeds extends React.Component {
 }
 //export default CommentsFeeds;
 function mapStateToProps(state){
-return {UserGroupList:state.UserGroupList,PublicUrl:state.PublicUrl.url};
+return {UserGroupList:state.UserGroupList,PublicUrl:state.PublicUrl.url,LocaleData:state.LocaleData};
 }
 
 function mapDispatchToProps(dispatch){

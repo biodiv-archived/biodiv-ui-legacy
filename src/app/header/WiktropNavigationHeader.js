@@ -11,7 +11,7 @@ import {Config} from '../../Config'
 //import style from './style/headerstyle.css';
 import UserGroupName from '../../util/UserGroup';
 
-class NavigationHeader extends Component{
+class WiktropNavigationHeader extends Component{
 
     constructor(props){
         super(props);
@@ -124,97 +124,97 @@ class NavigationHeader extends Component{
 
                         <ul className="nav navbar-nav navbar-center">
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Species
+                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.species.label']}
                                     <span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}species/list`}>Species Pages</a>
+                                        <a href= {`/${this.props.PublicUrl}species/list`}>{this.props.LocaleData['default.speciesPage.label']}</a>
                                     </li>
                                     <li>
-                                        { <a href= {`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=6&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>Taxon Namelist</a>}
+                                        { <a href= {`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>{this.props.LocaleData['default.taxonNamelist.label']}</a>}
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>Species Traits</a>
+                                        <a href= {`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>{this.props.LocaleData['default.speciesTrait.label']}</a>
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}dataTable/list?type=species`}>Species Datatables</a>
+                                        <a href= {`/${this.props.PublicUrl}dataTable/list?type=species`}>{this.props.LocaleData['default.speciesDatatables.label']}</a>
                                     </li>
 
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Observation
+                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.observation.label']}
                                     <span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}observation/list`}>Observations
+                                        <a href= {`/${this.props.PublicUrl}observation/list`}>{this.props.LocaleData['default.observation.label']}
                                         </a>
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}checklist/index`}>Checklists
+                                        <a href= {`/${this.props.PublicUrl}checklist/index`}>{this.props.LocaleData['default.checklist.label']}
                                         </a>
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}datasource/list`}>Datasets
+                                        {<a href= {`/${this.props.PublicUrl}datasource/list`}>{this.props.LocaleData['default.datasource.label']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}observation/traits/`}>Observation Traits
+                                        {<a href= {`/${this.props.PublicUrl}observation/traits/`}>{this.props.LocaleData['default.observationTraits.label']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}dataTable/list?type=observations`}>Observation Datatables
+                                        {<a href= {`/${this.props.PublicUrl}dataTable/list?type=observations`}>{this.props.LocaleData['default.observationDatatables.label']}
                                         </a>}
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                {<a href= {`/${this.props.PublicUrl}map`} className="menu-item"  >Maps
+                                {<a href= {`/${this.props.PublicUrl}map`} className="menu-item"  >{this.props.LocaleData['button.maps']}
                                 </a>}
                             </li>
                             <li className="dropdown">
-                              <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Documents<span className="caret"></span>
+                              <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.document.label']}<span className="caret"></span>
                               </a>
                               <ul className="dropdown-menu" role="menu">
                                 <li>
-                                {<a href={`/${this.props.PublicUrl}document/list`}  className="menu-item">Documents
+                                {<a href={`/${this.props.PublicUrl}document/list`}  className="menu-item">{this.props.LocaleData['default.document.label']}
                                 </a>}
                                 </li>
                                 <li>
-                                {<a href= {`/${this.props.PublicUrl}dataTable/list?type=documents`} className="menu-item"  >Document Datatables
+                                {<a href= {`/${this.props.PublicUrl}dataTable/list?type=documents`} className="menu-item"  >{this.props.LocaleData['default.documentDatatables.label']}
                                 </a>}
                                 </li>
                               </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">Contribute<span className="caret"></span>
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">{this.props.LocaleData['button.contribute']}<span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}species/contribute`}>Contribute to Species page
+                                        {<a href= {`/${this.props.PublicUrl}species/contribute`}>{this.props.LocaleData['link.contribute.to']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}observation/create`}>Add Observation
+                                        {<a href= {`/${this.props.PublicUrl}observation/create`}>{this.props.LocaleData['link.add.observation']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}observation/bulkCreate`}>  Add Multiple Observations
+                                        {<a href= {`/${this.props.PublicUrl}observation/bulkCreate`}>  {this.props.LocaleData['title.add.multiple']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}dataTable/create`}>Add a list
+                                        {<a href= {`/${this.props.PublicUrl}dataTable/create`}>{this.props.LocaleData['link.add.list']}
                                         </a>}
                                     </li>
                                     <li>
                                         {<a href= {`/${this.props.PublicUrl}document/create`}>
-                                            Add Documents</a>}
+                                            {this.props.LocaleData['link.add.document']}</a>}
                                     </li>
 
                                     <li>
-                                            {<a href= {`/${this.props.PublicUrl}dataset/create`}>Add Dataset
+                                            {<a href= {`/${this.props.PublicUrl}dataset/create`}>{this.props.LocaleData['button.create.dataset']}
                                             </a>}
                                     </li>
 
@@ -222,7 +222,7 @@ class NavigationHeader extends Component{
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<a href= {`/${this.props.PublicUrl}trait/create`}> Add Trait/Value
+                                            {<a href= {`/${this.props.PublicUrl}trait/create`}> {this.props.LocaleData['title.trait.add']}
                                             </a>}
                                         </li>
                                       ):null
@@ -231,7 +231,7 @@ class NavigationHeader extends Component{
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<a href= {`/${this.props.PublicUrl}fact/upload`}>Add Fact
+                                            {<a href= {`/${this.props.PublicUrl}fact/upload`}>{this.props.LocaleData['title.fact.add']}
                                             </a>}
                                         </li>
                                       ):null
@@ -241,18 +241,18 @@ class NavigationHeader extends Component{
                                       (
                                         <li>
                                             {<a href= {`/${this.props.PublicUrl}dataPackage/create`}>
-                                                Add Data Package</a>}
+                                                {this.props.LocaleData['title.dataPackage.add']}</a>}
                                         </li>
                                       ):null
                                     }
                                 </ul>
                             </li>
                             <li>
-                                {<a href= {`/${this.props.PublicUrl}discussion/list`} className="menu-item"  >Discussions
+                                {<a href= {`/${this.props.PublicUrl}discussion/list`} className="menu-item"  >{this.props.LocaleData['default.pagetitle.discussions']}
                                 </a>}
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Datasets<span className="caret"></span>
+                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.datasource.label']}<span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                   {this.props.DataSetList.length>0?this.props.DataSetList.map((item)=>{
@@ -267,7 +267,7 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                {<a href=  {`/${this.props.PublicUrl}group/list`} className="dropdown-toggle menu-item" data-toggle="dropdown">Groups<span className="caret"></span></a>}
+                                {<a href=  {`/${this.props.PublicUrl}group/list`} className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.groups.label']}<span className="caret"></span></a>}
                                 <ul className="dropdown-menu pre-scrollable" style={{'height':'auto','width':'200px'}} role="menu">
                                     {this.props.UserGroupList.length>0?
                                       (
@@ -286,7 +286,7 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">Pages
+                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.pages.label']}
                                     <span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
@@ -318,24 +318,24 @@ class NavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">More
+                                <a href="#" className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['link.moree']}
                                     <span className="caret"></span>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}activityFeed/list`}>Activity
+                                        {<a href= {`/${this.props.PublicUrl}activityFeed/list`}>{this.props.LocaleData['button.activity']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}user/list`}>Participants
+                                        {<a href= {`/${this.props.PublicUrl}user/list`}>{this.props.LocaleData['default.members.label']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}chart/show`}>Dashboard
+                                        {<a href= {`/${this.props.PublicUrl}chart/show`}>{this.props.LocaleData['button.dashboard']}
                                         </a>}
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}about`}>About Us
+                                        <a href= {`/${this.props.PublicUrl}about`}>{this.props.LocaleData['button.about.us']}
                                         </a>
 
                                     </li>
@@ -353,7 +353,7 @@ class NavigationHeader extends Component{
     }
 }
 function mapStateToProps(state) {
-  console.log(state.DataSetList);
+  //console.log(state.DataSetList);
     return {
         authenticated: state.auth.authenticated,
         userData: state.auth.userData,
@@ -361,9 +361,10 @@ function mapStateToProps(state) {
         UserGroupList:state.UserGroupList,
         PublicUrl:state.PublicUrl.url,
         groupName:state.PublicUrl.groupName,
-        DataSetList:state.DataSetList
+        DataSetList:state.DataSetList,
+        LocaleData:state.LocaleData
     };
 }
 
 
-export default withRouter(connect(mapStateToProps,{fetchUserGroupList})(NavigationHeader));
+export default withRouter(connect(mapStateToProps,{fetchUserGroupList})(WiktropNavigationHeader));

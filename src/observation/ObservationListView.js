@@ -342,7 +342,7 @@ display(objs,selectAll){
                                             <span style={{fontSize:'15px'}}>
                                                 <strong>
                                                   <i>
-                                                   {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>Help Identify</NavLink>}
+                                                   {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>{this.props.LocaleData['link.help.identify']}</NavLink>}
                                                  </i>
                                                </strong>
                                             </span>
@@ -425,7 +425,7 @@ display(objs,selectAll){
                             </div>
                           </div>
                           <div className="col-sm-2 col-md-1" >
-                            <span  style={{textAlign:'center',fontSize:'12px',color:'#333',fontWeight:'bold',marginTop:'50%',marginLeft:'0px'}}>Comment:</span>
+                            <span  style={{textAlign:'center',fontSize:'12px',color:'#333',fontWeight:'bold',marginTop:'50%',marginLeft:'0px'}}>{this.props.LocaleData['default.comment.label']+":"}</span>
                           </div>
                           <div className="col-sm-6 col-md-7">
                             <RichTextEditor goToCommentsTab={this.goToCommentsTab} style={{width:'100%'}} chId={objs.id} obvId={objs.id}/>
@@ -459,6 +459,7 @@ function mapStateToProps(state,ownProps) {
     userData:state.auth.userData,
     PublicUrl:state.PublicUrl.url,
     SpeciesGroup:state.SpeciesGroup,
+    LocaleData:state.LocaleData,
     item:getList(state.Observation.all,ownProps.uniqueKey,true)
   };
 }

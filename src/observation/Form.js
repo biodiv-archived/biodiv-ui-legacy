@@ -348,7 +348,7 @@ class Formsuggest extends React.Component {
 
     const inputPropsC = {
       id: "cInput",
-      placeholder: 'Suggest a common name',
+      placeholder: this.props.LocaleData['editrecomendation.placeholder.suggest'],
       value: Cvalue,
       onChange: this.onChange1,
 
@@ -356,7 +356,7 @@ class Formsuggest extends React.Component {
 
     const inputPropsS = {
       id: "sInput",
-      placeholder: 'Suggest a scientific name',
+      placeholder: this.props.LocaleData['editrecomendation.placeholder.scientific'],
       value:Svalue,
       onChange: this.onChange2
     };
@@ -367,7 +367,7 @@ class Formsuggest extends React.Component {
       {this.state.login_modal==true?(<ModalPopup key={this.state.options} options={this.state.options} funcRefresh={this.props.getReco} id={this.props.id2}/>):null}
       <form  className="form-horizontal" onSubmit={this.suggestIdPost.bind(this)} style={{marginBottom:'0%'}}>
           <div className="form-group row" style={{marginBottom:'0.3%'}}>
-            <label className="control-label col-sm-2 smallFormLabel" htmlFor="email" style={{fontSize:'12px',paddingLeft:'3px',paddingRight:'0px',paddingTop:'3px'}}>Common name:</label>
+            <label className="control-label col-sm-2 smallFormLabel" htmlFor="email" style={{fontSize:'12px',paddingLeft:'3px',paddingRight:'0px',paddingTop:'3px'}}>{this.props.LocaleData['name.common']+":"}</label>
             <div className="col-sm-7" >
                 <Autosuggest
 
@@ -403,7 +403,7 @@ class Formsuggest extends React.Component {
              </div>
           </div>
           <div className="form-group row" style={{marginBottom:'-1%'}}>
-            <label className="control-label col-sm-2 smallFormLabel" htmlFor="email" style={{fontSize:'12px',paddingLeft:'3px',paddingRight:'0px',paddingTop:'3px'}}>Scientific name:</label>
+            <label className="control-label col-sm-2 smallFormLabel" htmlFor="email" style={{fontSize:'12px',paddingLeft:'3px',paddingRight:'0px',paddingTop:'3px'}}>{this.props.LocaleData['name.scientific']+":"}</label>
             <div className="col-sm-9">
                   <Autosuggest
 
@@ -419,7 +419,7 @@ class Formsuggest extends React.Component {
                   />
             </div>
             <div className="col-sm-1 smallFormAdd" style={{paddingLeft:'0px'}}>
-                <input  type="submit" value="Add" className="btn btn-primary btn-xs pull-left"   disabled={this.state.loading}/>
+                <input  type="submit" value={this.props.LocaleData['title.value.add']} className="btn btn-primary btn-xs pull-left"   disabled={this.state.loading}/>
             </div>
           </div>
           {/*
@@ -441,7 +441,11 @@ class Formsuggest extends React.Component {
 }
 
 function mapStateToProps(state){
-return {Languages:state.Languages,authenticated: state.auth.authenticated};
+  return {
+    Languages:state.Languages,
+    authenticated: state.auth.authenticated,
+    LocaleData:state.LocaleData
+  };
 }
 
 function mapDispatchToProps(dispatch){

@@ -39,14 +39,14 @@ class ShareInterface extends React.Component {
   }
 
   render(){
-    console.log("share",this.props.obvId,this.props.obvImage)
+    //console.log("share",this.props.obvId,this.props.obvImage)
     const shareUrl = Config.api.ROOT_URL+"/observation/show/"+this.props.obvId;
     const title = this.props.title;
     const media = Config.api.ROOT_URL+"/biodiv/observations/"+this.props.obvImage;
     return(
       <div className="container-fluid" style={{paddingTop:'10px',paddingBottom:'10px',paddingRight:'20px',paddingLeft:'20px'}}>
         <div className="row">
-            <center><b>Share With</b></center>
+            <center><b>{this.props.LocaleData['title.share']}</b></center>
         </div>
         <div className="row" style={{marginTop:'5%'}}>
           <div className="col-xs-4">
@@ -124,7 +124,8 @@ class ShareInterface extends React.Component {
 
 function mapStateToProps(state){
 return {
-  PublicUrl:state.PublicUrl.url
+  PublicUrl:state.PublicUrl.url,
+  LocaleData:state.LocaleData
 };
 }
 export default  withRouter(connect(mapStateToProps,null)(ShareInterface));
