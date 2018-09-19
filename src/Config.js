@@ -22,7 +22,7 @@ PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
 IBP_URL=process.env.REACT_APP_IBP_URL
 BBP_URL=process.env.REACT_APP_BBP_URL
 WIKTROP_URL=process.env.REACT_APP_WIKTROP_URL
-DEPLOY="wiktrop";
+DEPLOY="ibp";
 TITLE="India Biodiversity Portal";
 TRACKING_CODE='UA-3185202-1';
 //}

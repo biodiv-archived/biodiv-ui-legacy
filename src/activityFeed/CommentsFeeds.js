@@ -367,7 +367,7 @@ class CommentsFeeds extends React.Component {
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
-                                                        <span className="yj-context text-success">  {this.props.LocaleData['item.descriptionJson.activity_performed'] + ' '}
+                                                        <span className="yj-context text-success">  {this.props.LocaleData[item.descriptionJson.activity_performed] + ' '}
                                                             {
                                                               (item.descriptionJson.name && item.descriptionJson.ro_id)?
                                                               (
@@ -452,7 +452,7 @@ class CommentsFeeds extends React.Component {
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
-                                                        <span className="yj-context text-success">  {this.props.LocaleData['item.descriptionJson.activity_performed'] + ' '}
+                                                        <span className="yj-context text-success">  {this.props.LocaleData[item.descriptionJson.activity_performed] + ' '}
                                                         {
                                                           item.descriptionJson.ro_type === "userGroup"?
                                                           (

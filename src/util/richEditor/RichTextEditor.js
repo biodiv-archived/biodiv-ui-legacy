@@ -177,7 +177,7 @@ class RichTextEditor extends React.Component {
               let data={}
              data.id=JSON.stringify(user.userId)
              data.name=user.value
-             data.link=this.props.PublicUrl+"/user/show/"+JSON.stringify(user.userId);
+             data.link=Config.api.ROOT_URL+"/user/show/"+JSON.stringify(user.userId);
              data.avatar=user.user_pic
              return data
            })
