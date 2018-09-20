@@ -307,7 +307,7 @@ display(objs,selectAll){
                             </div>
                         </div>
 
-                        <div className="col-md-8 col-xl-9" style={{zIndex:'5'}}>
+                        <div className="col-md-8 col-xl-9">
                                 <div  className="row" style={{marginLeft:'2%',zIndex:'5'}} >
                                       <div className="userPosition" style={{top:'25px',left:'-80px',position:'absolute',zIndex:'5'}}>
                                        <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}>

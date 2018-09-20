@@ -8,7 +8,6 @@
     "autosuggest-highlight": "^3.1.0",
     "axios": "^0.16.2",
     "babel-core": "^6.26.0",
-    "bootstrap": "^3.3.7",
     "contrast": "^1.0.1",
     "d3": "^3.5.17",
     "d3-array": "^0.8.1",
