@@ -662,7 +662,7 @@ class RecoName extends React.Component {
                 this.state.response.length>0?
                 (
                   <div>
-                  <center style={{display:'block'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
+                  <center style={{display:'block'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" onClick={this.showForm.bind(this)} style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"><span style={{fontFamily:'none'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
                   <div style={{display:'none'}} ref={"form"+this.props.id}>
                   <Formsuggest   id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain} />
                   </div>
@@ -671,7 +671,7 @@ class RecoName extends React.Component {
                 :
                 (
                   <div>
-                  <center style={{display:'none'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"    onClick={this.showForm.bind(this)}><span style={{fontFamily:'none'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
+                  <center style={{display:'none'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" onClick={this.showForm.bind(this)} style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"><span style={{fontFamily:'none'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
                   <div style={{display:'block'}} ref={"form"+this.props.id}>
                   <Formsuggest   id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain} />
                   </div>
