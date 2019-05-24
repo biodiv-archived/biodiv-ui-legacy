@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Button} from 'react-bootstrap';
-import EllipsisText  from 'react-ellipsis-text';
+import EllipsisText  from 'react-ellipsis-text-x';
 import  queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
 import  deepEqual  from 'deep-equal';
@@ -599,12 +599,9 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
               </div>
             :(this.props.Observation.count===0)?"No result found":<div style={{height:'600px',width:'660x',marginTop:'80px'}} className="container-fluid">
                 <div className="row">
-                    <div className="col-sm-5">
-                    </div>
-                    <div className={`col-sm-2 loader`}>
-                    </div>
-                    <div className="col-sm-5">
-                    </div>
+                  <div className="col-sm-offset-5 col-sm-2">
+                    <div className="loader"></div>
+                  </div>
                 </div>
             </div>}
             {(this.state.bulk===true || this.state.selectAll===true)?(<Navigate selectAllHack={this.state.selectAll} filterUrl={this.props.filterUrl} ids={this.state.bulkId} selectAllFunc={this.selectAll} resetBulk={this.resetBulk} resetSelectAllFunc={this.resetSelectAll} allObvs={this.props.Observation.all}/>):null }

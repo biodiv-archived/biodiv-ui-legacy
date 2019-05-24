@@ -1,12 +1,8 @@
 import React from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
-
+import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-
-
-
-
 import 'rc-checkbox/assets/index.css';
 
 class MediaFilter extends React.Component {
@@ -31,7 +27,7 @@ class MediaFilter extends React.Component {
   }
   componentDidMount(){
     this.setParameter();
-  
+
   }
   handleCheckboxes(event){
     let mediaFilter=this.state.mediaFilter;
@@ -67,32 +63,37 @@ class MediaFilter extends React.Component {
                 value={"noofaudio"}
                 checked={ this.state.mediaFilter.includes("noofaudio")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Audio"}
+            />{this.props.LocaleData['filter.mediaType.audio']}
         </div>
         <div>
             <Checkbox
                 checked={ this.state.mediaFilter.includes("noofvideos")?true:false }
                 value={"noofvideos"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Video"}
+            />{this.props.LocaleData['filter.mediaType.video']}
         </div>
         <div>
             <Checkbox
                 checked={ this.state.mediaFilter.includes("noofimages")?true:false }
                 value={"noofimages"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Images"}
+            />{this.props.LocaleData['filter.mediaType.images']}
         </div>
         <div>
             <Checkbox
                 checked={ this.state.mediaFilter.includes("nomedia")?true:false }
                 value={"nomedia"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" No media"}
+            />{this.props.LocaleData['filter.mediaType.noMedia']}
         </div>
       </div>
     )
   }
 }
+function mapStateToProps(state) {
 
-export default  withRouter(MediaFilter);
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+export default withRouter(connect(mapStateToProps)(MediaFilter));

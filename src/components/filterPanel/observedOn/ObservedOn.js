@@ -126,4 +126,5 @@ const optionsStyle = {
     );
   }
 }
+
 export default withRouter(DatePickerExampleToggle);

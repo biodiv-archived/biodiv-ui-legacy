@@ -25,17 +25,17 @@ import fr from '../../fr.js';
 class WiktropHeader extends React.Component {
     constructor(props) {
         super(props);
-        let language;
-         if (navigator.languages != undefined){
-           language =  navigator.languages[0];
-         } else {
-           language =  navigator.language;
-         }
+        // let language;
+        //  if (navigator.languages != undefined){
+        //    language =  navigator.languages[0];
+        //  } else {
+        //    language =  navigator.language;
+        //  }
          let checked
-         if(language==='fr'){
-           checked = false
-         }else{
+         if(sessionStorage.locale==='fr'){
            checked = true
+         }else{
+           checked = false
          }
          //console.log("checked",checked)
         this.state={
@@ -76,11 +76,13 @@ class WiktropHeader extends React.Component {
     handleChange(checked) {
       //console.log("chchchchcchch",checked);
       if(checked){
-          this.props.setLocale("en")
-          this.props.loadLocale(en)
+          sessionStorage.locale="fr"
+          this.props.setLocale("fr")
+          this.props.loadLocale(fr)
       }else{
-        this.props.setLocale("fr")
-        this.props.loadLocale(fr)
+        sessionStorage.locale="en"
+        this.props.setLocale("en")
+        this.props.loadLocale(en)
       }
 
         this.setState({ checked });
@@ -91,7 +93,7 @@ class WiktropHeader extends React.Component {
 
         return (
             <div>
-                <nav className="navbar navbar-default navbar-inverse row" role="navigation" style={{
+                <nav className="navbar navbar-default navbar-inverse" role="navigation" style={{
                     marginBottom: '0px',
                 }}>
                 <div className="navbar-header">
@@ -101,7 +103,7 @@ class WiktropHeader extends React.Component {
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <a href={`${Config.api.IBP_URL}`} className="navbar-brand">
+                    <a href={`${Config.api.IBP_URL}?lang=${sessionStorage.locale}`} className="navbar-brand">
                         {this.props.LocaleData['wikwio.portal.abbr']}
                     </a>
                 </div>
@@ -115,7 +117,7 @@ class WiktropHeader extends React.Component {
                                     (
                                         <li>
                                             <div>
-                                                <NavLink to={`/${this.props.PublicUrl}user/show/${AuthUtils.getLoggedInUser().id}`}>
+                                                <NavLink to={`/${this.props.PublicUrl}user/show/${AuthUtils.getLoggedInUser().id}?lang=${sessionStorage.locale}`}>
                                                     {
                                                         (AuthUtils.getLoggedInUser().pic) ?
                                                         (
@@ -148,24 +150,25 @@ class WiktropHeader extends React.Component {
                              {
                                 !AuthUtils.isLoggedIn() ? (
                                 <li>
-                                    <NavLink to={`/${this.props.PublicUrl}login`}>Login</NavLink>
+                                    <NavLink to={`/${this.props.PublicUrl}login?lang=${sessionStorage.locale}`}>Login</NavLink>
                                 </li>
                                 ):null
                             }
                    </ul>
+                   <span className="pull-right" style={{color:'white',marginTop:'12px',fontSize:'16px',marginLeft:'-1.5%',marginRight:'1%'}}><b>FRE</b></span>
                    <div className="pull-right" style={{marginTop:'0.7%',marginRight:'2%'}}>
                        <Switch
                           onChange={this.handleChange}
                           checked={this.state.checked}
                           id="normal-switch"
                           height={20}
-                          width={65}
+                          width={45}
                           offColor="#e6e6e6"
                           onColor="#f5f5f5"
                           offHandleColor="#798a60"
                           onHandleColor="#798a60"
-                          handleDiameter={30}
-                          uncheckedIcon={
+                          handleDiameter={20}
+                          checkedIcon={
                               <div
                                 style={{
                                   display: "flex",
@@ -177,10 +180,10 @@ class WiktropHeader extends React.Component {
                                   paddingRight: 12
                                 }}
                               >
-                                <b>FRE</b>
+                                <b></b>
                               </div>
                             }
-                            checkedIcon={
+                            uncheckedIcon={
                               <div
                                 style={{
                                   display: "flex",
@@ -192,11 +195,12 @@ class WiktropHeader extends React.Component {
                                   paddingLeft:12
                                 }}
                               >
-                                <b>ENG</b>
+                                <b></b>
                               </div>
                             }
                         />
                    </div>
+                   <span className="pull-right" style={{color:'white',marginTop:'12px',fontSize:'16px',marginRight:'0.5%'}}><b>ENG</b></span>
                       <Form   onSubmit={this.searchTerm.bind(this)}>
                        {formApi => (
                          <form className="navbar-form navbar-right" onSubmit={formApi.submitForm} >

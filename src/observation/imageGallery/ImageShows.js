@@ -64,19 +64,21 @@ export default class LightboxExample extends Component {
     }
     render() {
       let images=[];
-      this.props.images?this.props.images.map((data)=>{
-        if(data=='v'){
-        }
-        else if(data.split(".")[1]==="mp3" || data.split(".")[1]==="wav" ){
-          images.push(Config.api.IBP_URL+"/biodiv/assets/all/audioicon.png")
-        }
-        else{
-          data=Config.api.IBP_URL+"/biodiv/observations/"+data;
-           images.push(data);
-        }
-
-      }):null;
-      this.props.videos?this.props.videos.map((data)=>{
+      if(this.props.images){
+        this.props.images.map((data)=>{
+          if(data=='v'){
+          }
+          else if(data.split(".")[1]==="mp3" || data.split(".")[1]==="wav" ){
+            images.push(Config.api.IBP_URL+"/biodiv/assets/all/audioicon.png")
+          }
+          else{
+            data=Config.api.IBP_URL+"/biodiv/observations/"+data;
+             images.push(data);
+          }
+        })
+      }
+      if(this.props.videos){
+        this.props.videos.map((data)=>{
           let url = data;
           let videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
           if(videoid != null) {
@@ -84,16 +86,17 @@ export default class LightboxExample extends Component {
             images.push(imageUrl);
 
           }
-      }):null;
+        })
+      }
       const {photoIndex,isOpen} = this.state;
         return (
             <div>
               <div id="mycarousel" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner" style={{zIndex:'3'}}>
                   <div className="item active">
-                        <a href={`show/${this.props.objs.id}`} >
+                        <a href={`show/${this.props.objs.id}?lang=${sessionStorage.locale}`} >
                           <figure className="snip1336">
-                            <img className="small-size-pic" id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}   onError={(e)=>{e.target.src=this.getUrl(this.props.thumbnail,this.props.speciesgroupname).split("_th2")[0]+"_th1.jpg"}} />
+                            <img className="small-size-pic" id="thumbnail" src={this.getUrl(this.props.thumbnail,this.props.speciesgroupname)}   onError={(e)=>{return; e.target.onError = null; e.target.src=this.getUrl(this.props.thumbnail,this.props.speciesgroupname).split("_th2")[0]+"_th1.jpg"}} />
 
                           </figure>
 

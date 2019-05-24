@@ -113,9 +113,9 @@ class CommentsFeeds extends React.Component {
         //  this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="block"):null
           document.body.style.cursor = "default";
           if(response.data.remainingFeedCount ==0){
-            this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="none"):null
+            if(this.refs.hasOwnProperty(feedMore)){this.refs[feedMore].style.display="none"}
           }else{
-            this.refs.hasOwnProperty(feedMore)?(this.refs[feedMore].style.display="block"):null
+            if(this.refs.hasOwnProperty(feedMore)){this.refs[feedMore].style.display="block"}
           }
           if(response.data){
 
@@ -136,7 +136,7 @@ class CommentsFeeds extends React.Component {
     e.preventDefault();
     var id1=this.props.id;
     var obvComment1="obvComment"+this.props.id
-    this.refs[obvComment1]?console.log("tag*************************************************",this.refs[obvComment1]):null
+    if(this.refs[obvComment1]){console.log("tag*************************************************",this.refs[obvComment1])}
     // var value1=this.refs[obvComment1].props.value
     // var d = new Date();
     // var tym = d.getTime();
@@ -177,12 +177,12 @@ class CommentsFeeds extends React.Component {
     var edit = "Edit"+id;
     var del = "Delete"+id;
     //var postBtn = "Replypost"+id
-    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
-    this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="none"):null
-    this.refs.hasOwnProperty(del)?(this.refs[del].style.display="none"):null
-    this.refs.hasOwnProperty(canRep)?(this.refs[canRep].style.display="block"):null
-    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
-    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="block"):null
+    if(this.refs.hasOwnProperty(rep)){this.refs[rep].style.display="none"}
+    if(this.refs.hasOwnProperty(edit)){this.refs[edit].style.display="none"}
+    if(this.refs.hasOwnProperty(del)){this.refs[del].style.display="none"}
+    if(this.refs.hasOwnProperty(canRep)){this.refs[canRep].style.display="block"}
+    if(this.refs.hasOwnProperty(box2)){this.refs[box2].style.display="none"}
+    if(this.refs.hasOwnProperty(box)){this.refs[box].style.display="block"}
     //this.refs.hasOwnProperty(postBtn)?(this.refs[postBtn].style.display="block"):null
   }
 
@@ -193,12 +193,12 @@ class CommentsFeeds extends React.Component {
     var box = "Replybox"+id;
     var box2 = "Editbox"+id;
     var canEdit ="CancelEdit"+id;
-    this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="none"):null
-    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
-    this.refs.hasOwnProperty(del)?(this.refs[del].style.display="none"):null
-    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="block"):null
-    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="block"):null
-    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+    if(this.refs.hasOwnProperty(edit)){this.refs[edit].style.display="none"}
+    if(this.refs.hasOwnProperty(rep)){this.refs[rep].style.display="none"}
+    if(this.refs.hasOwnProperty(del)){this.refs[del].style.display="none"}
+    if(this.refs.hasOwnProperty(canEdit)){this.refs[canEdit].style.display="block"}
+    if(this.refs.hasOwnProperty(box2)){this.refs[box2].style.display="block"}
+    if(this.refs.hasOwnProperty(box)){this.refs[box].style.display="none"}
   }
 
   deleteOnComment(id){
@@ -238,15 +238,15 @@ class CommentsFeeds extends React.Component {
     var edit = "Edit"+item.id;
     var del = "Delete"+item.id;
     //var postBtn = "Replypost"+id
-    this.refs.hasOwnProperty(canRep)?(this.refs[canRep].style.display="none"):null
-    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="block"):null
+    if(this.refs.hasOwnProperty(canRep)){this.refs[canRep].style.display="none"}
+    if(this.refs.hasOwnProperty(rep)){this.refs[rep].style.display="block"}
 
     if(AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id){
-      this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="block"):null
-      this.refs.hasOwnProperty(del)?(this.refs[del].style.display="block"):null
+      if(this.refs.hasOwnProperty(edit)){this.refs[edit].style.display="block"}
+      if(this.refs.hasOwnProperty(del)){this.refs[del].style.display="block"}
     }
-    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
-    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+    if(this.refs.hasOwnProperty(box2)){this.refs[box2].style.display="none"}
+    if(this.refs.hasOwnProperty(box)){this.refs[box].style.display="none"}
     //this.refs.hasOwnProperty(postBtn)?(this.refs[postBtn].style.display="none"):null
   }
 
@@ -257,15 +257,15 @@ class CommentsFeeds extends React.Component {
     var canEdit ="CancelEdit"+item.id;
     var edit = "Edit"+item.id;
     var del = "Delete"+item.id;
-    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="none"):null
-    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="block"):null
+    if(this.refs.hasOwnProperty(canEdit)){this.refs[canEdit].style.display="none"}
+    if(this.refs.hasOwnProperty(rep)){this.refs[rep].style.display="block"}
 
     if(AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id){
-      this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="block"):null
-      this.refs.hasOwnProperty(del)?(this.refs[del].style.display="block"):null
+      if(this.refs.hasOwnProperty(edit)){this.refs[edit].style.display="block"}
+      if(this.refs.hasOwnProperty(del)){this.refs[del].style.display="block"}
     }
-    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
-    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+    if(this.refs.hasOwnProperty(box2)){this.refs[box2].style.display="none"}
+    if(this.refs.hasOwnProperty(box)){this.refs[box].style.display="none"}
   }
 
   getGroupUrlById(groupId){
@@ -452,7 +452,7 @@ class CommentsFeeds extends React.Component {
                                                   <div className="row">
                                                     <b>
                                                         {item.author.name}   :
-                                                        <span className="yj-context text-success">  {this.props.LocaleData[item.descriptionJson.activity_performed] + ' '}
+                                                        <span className="yj-context text-success">  {this.props.LocaleData['item.descriptionJson.activity_performed'] + ' '}
                                                         {
                                                           item.descriptionJson.ro_type === "userGroup"?
                                                           (

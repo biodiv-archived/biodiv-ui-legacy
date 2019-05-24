@@ -58,19 +58,18 @@ constructor(){
 
 openFilter(){
 
-  this.props.PublicUrl?this.refs.hide.style.display='none':null
+  if(this.props.PublicUrl){this.refs.hide.style.display='none'}
   let fullUrl = window.location.host;
   let parts=fullUrl.split(".");
   if(parts.length>=3){
-    if(parts[0]=="assambiodiversity"){
-
-      this.refs.hide?this.refs.hide.style.display='none':null
+    if(parts[0]==="assambiodiversity"){
+      if(this.refs.hide){this.refs.hide.style.display='none'}
     }
-    if(parts[0]=="treesindia"){
-        this.refs.hide?this.refs.hide.style.display='none':null
+    if(parts[0]==="treesindia"){
+      if(this.refs.hide){this.refs.hide.style.display='none'}
     }
-    if(parts[0]=="thewesternghats"){
-        this.refs.hide?this.refs.hide.style.display='none':null
+    if(parts[0]==="thewesternghats"){
+      if(this.refs.hide){this.refs.hide.style.display='none'}
     }
   }
    const newparams = queryString.parse(document.location.search);
@@ -226,7 +225,7 @@ render(){
         }
       }
       else{
-        this.props.PublicUrl?null:this.length++
+        if(!this.props.PublicUrl){this.length++}
       }
     }
     if(urlObject.user){
@@ -279,82 +278,82 @@ render(){
   return (
       <div id="leftSidebar" className="panel panel-success" >
         <div  className="panel-heading vertical-align panelHeadingBBP" style={{height:'35px',backgroundColor:'#EBEABD',backgroundImage:'none'}}>
-            <span  className="glyphicon glyphicon-filter" title="Filters" style={{color:'#000'}}>Filters </span>
+            <span  className="glyphicon glyphicon-filter" title="Filters" style={{color:'#000'}}>{this.props.LocaleData['filter.key']} </span>
             <a href={`${this.props.location.pathname}`} className="glyphicon glyphicon-trash">
                 <span style={{marginTop:'-9px'}} className="badge badge-danger">{this.length}</span>
             </a>
        </div>
 
         <div  className="panel-body panelBodyBBP" style={{backgroundColor:'#EBEABD',padding:'6px'}}>
-          <Collapsible  open={this.state.sGroupOpen} trigger={`Species Groups`}>
+          {/* <Collapsible  open={this.state.sGroupOpen} trigger={`Species Groups`}>
             <SpeciesGroup />
-          </Collapsible>
+          </Collapsible> */}
 
-            <Collapsible  open={this.state.taxonOpen} trigger={`Taxon Browser`}>
+            <Collapsible  open={this.state.taxonOpen} trigger={this.props.LocaleData['filter.taxon_browser']}>
             <div>
                 <TaxonBrowser />
                 <SearchBar />
             </div>
             </Collapsible>
 
-            <Collapsible  lazyRender={true} open={this.state.nameOpen} trigger={`Name`}>
-                  <Collapsible  lazyRender={true} open={this.state.recoNameOpen} trigger={'RecoName'}>
+            <Collapsible  lazyRender={true} open={this.state.nameOpen} trigger={this.props.LocaleData['filter.Name']}>
+                  <Collapsible  lazyRender={true} open={this.state.recoNameOpen} trigger={this.props.LocaleData['filter.name.reconame']}>
                      <RecoName />
                   </Collapsible>
-                  <Collapsible  lazyRender={true} open={this.state.statusOpen} trigger={`Status`}>
+                  <Collapsible  lazyRender={true} open={this.state.statusOpen} trigger={this.props.LocaleData['filter.name.status']}>
                      <Status />
                   </Collapsible>
-                  <Collapsible  lazyRender={true} open={this.state.taxonIdOpen} trigger={'Taxon Id'}>
+                  <Collapsible  lazyRender={true} open={this.state.taxonIdOpen} trigger={this.props.LocaleData['filter.name.taxonId']}>
                      <TaxonId />
                   </Collapsible>
             </Collapsible>
-            <Collapsible lazyRender={true}  open={this.state.locationOpen} trigger={'Location'}>
+            <Collapsible lazyRender={true}  open={this.state.locationOpen} trigger={this.props.LocaleData['filter.location']}>
                 <Location />
             </Collapsible>
 
 
             <div ref="hide" style={{display:'block'}}>
-            <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={`User Group`}>
+            <Collapsible lazyRender={true} open={this.state.userGroupOpen} trigger={this.props.LocaleData['filter.usergroup']}>
                 <UserGroup />
             </Collapsible>
             </div>
-            <Collapsible lazyRender={true} open={this.state.dataCheckOpen} trigger={`Data Quality `}>
-                  <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger={`Identification `}>
+            <Collapsible lazyRender={true} open={this.state.dataCheckOpen} trigger={this.props.LocaleData['filter.dataQuality']}>
+                  <Collapsible lazyRender={true} open={this.state.speciesOpen} trigger={this.props.LocaleData['filter.indentification']}>
                       <ScientificNameFilter />
                   </Collapsible>
 
-                  <Collapsible lazyRender={true} open={this.state.flagOpen} trigger={`Flag `}>
+                  <Collapsible lazyRender={true} open={this.state.flagOpen} trigger={this.props.LocaleData['filter.flag']}>
                       <FlaggedFilter />
                   </Collapsible>
 
-                  <Collapsible lazyRender={true} open={this.state.validateOpen} trigger={`Validation`}>
+                  <Collapsible lazyRender={true} open={this.state.validateOpen} trigger={this.props.LocaleData['filter.validation']}>
                       <Validate_Filter />
                   </Collapsible>
 
             </Collapsible>
-            <Collapsible lazyRender={true} open={this.state.userOpen} trigger={`User `}>
+            <Collapsible lazyRender={true} open={this.state.userOpen} trigger={this.props.LocaleData['filter.user']}>
               <UserFilter/>
             </Collapsible>
-            <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={`Media Type`}>
+            <Collapsible lazyRender={true} open={this.state.mediaOpen} trigger={this.props.LocaleData['filter.mediaType']}>
               <Media />
             </Collapsible>
-            <Collapsible lazyRender={true} open={this.state.dateTabOpen} trigger={`Date`}>
-                <Collapsible lazyRender={true} open={this.state.fromDateOpen} trigger={`Observed On`}>
+            <Collapsible lazyRender={true} open={this.state.dateTabOpen} trigger={this.props.LocaleData['filter.date']}>
+                <Collapsible lazyRender={true} open={this.state.fromDateOpen} trigger={this.props.LocaleData['filter.date.observedOn']}>
                   <ObservedOn />
                 </Collapsible>
-                <Collapsible lazyRender={true} open={this.state.creadtedOnOpen} trigger={`Created On`}>
+                <Collapsible lazyRender={true} open={this.state.creadtedOnOpen} trigger={this.props.LocaleData['filter.date.createdOn']}>
                   <CreatedOn />
                 </Collapsible>
             </Collapsible>
 
 
-            <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={`Seasonal`}>
+            <Collapsible lazyRender={true} open={this.state.monthOpen} trigger={this.props.LocaleData['filter.seasonal']}>
               <Month_Filter />
             </Collapsible>
-            <Collapsible lazyRender={true} open={this.state.customFieldsOpen} trigger={`Custom Fields`}>
+            <Collapsible lazyRender={true} open={this.state.customFieldsOpen} trigger={this.props.LocaleData['filter.customFields']}>
               <CustomFields />
             </Collapsible>
-            <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={`Traits`}>
+            <Collapsible lazyRender={true} open={this.state.traitsOpen} trigger={this.props.LocaleData['filter.traits']}>
               <Traits_Filter />
             </Collapsible>
             <div style={{height:'250px'}}></div>
@@ -368,7 +367,8 @@ function mapStateToProps(state) {
   return {
     PublicUrl:state.PublicUrl.url,
     groupName:state.PublicUrl.groupName,
-    FilterCount:state.FilterCount
+    FilterCount:state.FilterCount,
+    LocaleData:state.LocaleData
   };
 }
 

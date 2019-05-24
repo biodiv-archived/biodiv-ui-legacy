@@ -147,7 +147,7 @@ class RecoComment extends React.Component {
 
 show(id2,id1){
   var comment_table1="comment_table"+id2+id1
-  this.refs.hasOwnProperty(comment_table1)?(this.refs[comment_table1].style.display="block"):null
+  if(this.refs.hasOwnProperty(comment_table1)){this.refs[comment_table1].style.display="block"}
 }
 
 incrementCount(){
@@ -213,12 +213,12 @@ recoCommentPost(e){
     var box = "Replybox"+id+id2;
     var box2 = "Editbox"+id+id2;
     var canEdit ="CancelEdit"+id+id2;
-    this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="none"):null
-    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="none"):null
-    this.refs.hasOwnProperty(del)?(this.refs[del].style.display="none"):null
-    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="block"):null
-    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="block"):null
-    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+    if(this.refs.hasOwnProperty(edit)){this.refs[edit].style.display="none"}
+    if(this.refs.hasOwnProperty(rep)){this.refs[rep].style.display="none"}
+    if(this.refs.hasOwnProperty(del)){this.refs[del].style.display="none"}
+    if(this.refs.hasOwnProperty(canEdit)){this.refs[canEdit].style.display="block"}
+    if(this.refs.hasOwnProperty(box2)){this.refs[box2].style.display="block"}
+    if(this.refs.hasOwnProperty(box)){this.refs[box].style.display="none"}
   }
 
   deleteOnComment(id){
@@ -263,15 +263,16 @@ recoCommentPost(e){
     var canEdit ="CancelEdit"+item.id+id2;
     var edit = "Edit"+item.id+id2;
     var del = "Delete"+item.id+id2;
-    this.refs.hasOwnProperty(canEdit)?(this.refs[canEdit].style.display="none"):null
-    this.refs.hasOwnProperty(rep)?(this.refs[rep].style.display="block"):null
+    if(this.refs.hasOwnProperty(canEdit)){this.refs[canEdit].style.display="none"}
+    if(this.refs.hasOwnProperty(rep)){this.refs[rep].style.display="block"}
 
     if(AuthUtils.isLoggedIn() && item.author.id==AuthUtils.getLoggedInUser().id){
-      this.refs.hasOwnProperty(edit)?(this.refs[edit].style.display="block"):null
-      this.refs.hasOwnProperty(del)?(this.refs[del].style.display="block"):null
+      if(this.refs.hasOwnProperty(edit)){this.refs[edit].style.display="block"}
+      if(this.refs.hasOwnProperty(del)){this.refs[del].style.display="block"}
     }
-    this.refs.hasOwnProperty(box2)?(this.refs[box2].style.display="none"):null
-    this.refs.hasOwnProperty(box)?(this.refs[box].style.display="none"):null
+    if(this.refs.hasOwnProperty(box2)){this.refs[box2].style.display="none"}
+    if(this.refs.hasOwnProperty(box)){this.refs[box].style.display="none"}
+
   }
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 
 import 'rc-checkbox/assets/index.css';
@@ -64,19 +65,25 @@ class TaxonStatus extends React.Component {
                 checked={ this.state.Status.includes("accepted")?true:false }
                 value={"accepted"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Accepted"}
+            />{this.props.LocaleData['filter.name.status.accepted']}
         </div>
         <div>
             <Checkbox
                 checked={ this.state.Status.includes("synonym")?true:false }
                 value={"synonym"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Synonyms"}
+            />{this.props.LocaleData['filter.name.status.synonyms']}
         </div>
 
       </div>
     )
   }
 }
+function mapStateToProps(state) {
 
-export default  withRouter(TaxonStatus);
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(TaxonStatus));

@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import queryString from 'query-string';
+import {connect} from 'react-redux';
+import {withRouter,NavLink} from 'react-router-dom';
 
 class RecoName extends Component{
 
@@ -56,4 +58,11 @@ class RecoName extends Component{
       )
     }
 }
-export default RecoName;
+function mapStateToProps(state) {
+
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(RecoName));

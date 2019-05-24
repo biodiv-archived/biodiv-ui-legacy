@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 // import Select from 'react-select';
 // import 'react-select/dist/react-select.css';
-// import EllipsisText  from 'react-ellipsis-text';
+// import EllipsisText  from 'react-ellipsis-text-x';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 

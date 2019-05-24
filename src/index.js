@@ -26,7 +26,9 @@ import createHistory from 'history/createBrowserHistory';
 import en from './en.js';
 import fr from './fr.js';
 
-
+import "naksha-components-react/dist/index.css";
+import "./index.css";
+import { Layers } from "naksha-components-react";
 
 var fileref=document.createElement("link")
        fileref.setAttribute("rel", "stylesheet")
@@ -38,18 +40,16 @@ var fileref=document.createElement("link")
       //    fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
       //  }
 
-       switch(Config.api.DEPLOY)
-       {
-         case "ibp":
-             fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/headerstyle.css")
-             break;
-         case "bbp":
-             fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
-             break;
+      switch (Config.api.DEPLOY) {
+        case "bbp":
+          fileref.setAttribute("href", "/headerStyles/bbpHeaderStyle.css?v=2");
+          break;
         case "wiktrop":
-             fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/wiktropHeaderStyle.css")
-       }
-
+          fileref.setAttribute("href", "/headerStyles/wiktropHeaderStyle.css?v=2");
+          break;
+        default:
+          fileref.setAttribute("href", "/headerStyles/headerstyle.css?v=2");
+      }
        //console.log("typeOf",typeof fileref)
        if (typeof fileref!="undefined")
                document.getElementsByTagName("head")[0].appendChild(fileref)
@@ -116,9 +116,19 @@ let language;
 //language = "fr";
 
 if(language!=='fr' || Config.api.DEPLOY !=="wiktrop"){
-     store.dispatch({type:SET_LOCALE,payload:"en"})
+    if(sessionStorage.locale){
+      store.dispatch({type:SET_LOCALE,payload:sessionStorage.locale})
+    }else{
+      store.dispatch({type:SET_LOCALE,payload:"en"})
+      sessionStorage.locale="en";
+    }
 }else{
+    if(sessionStorage.locale){
+      store.dispatch({type:SET_LOCALE,payload:sessionStorage.locale})
+    }else{
       store.dispatch({type:SET_LOCALE,payload:"fr"})
+      sessionStorage.locale="fr"
+    }
 }
 if(store.getState().Locale ==="fr"){
    store.dispatch({type:LOAD_LOCALE,payload:fr})
@@ -228,7 +238,7 @@ ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>
     <BrowserRouter forceRefresh={true}  onUpdate={fireTracking()}>
-      <div className="container-fluid">
+      <>
           <div id="headerWrapper">
               <Header title={"IBP"}/>
           </div>
@@ -239,8 +249,8 @@ ReactDOM.render(
                   <Route  path="/group/:groupName/observation" render={(props) => <App {...props} title={title} />}/>
                   <Route  path="/group/:groupName/login" render={(props) => <Login {...props} title={title} />}/>
                   <Route  exact path="/group/:groupName/register/verifyRegistration" render={(props) => <VerifyRegistration {...props} title={title} />}/>
-                  <Route  path="/group/:groupName/register/forgotPassword"  render={(props) => <ForgotPassword {...props} title={title} />}/>
-                  <Route  path="/group/:groupName/register/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
+                  <Route  path="/group/:groupName/forgotPassword"  render={(props) => <ForgotPassword {...props} title={title} />}/>
+                  <Route  path="/group/:groupName/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
                   <Route  path="/group/:groupName/register"  render={(props) => <Register {...props} title={title} />}/>
                   <Route  path="/login"  render={(props) => <Login {...props} title={title} />}/>
                   <Route  exact path="/logout"  render={(props) => <Logout {...props} title={title} />}/>
@@ -250,10 +260,32 @@ ReactDOM.render(
                   <Route  exact path="/register/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
 
                   <Route path="/group/:groupName/map" render={(routeProps) => (
-						      							<naksha.Layers {...routeProps} {...map_props} title={title}/>
+                    <div
+                    style={{
+                      height: "75vh",
+                      width: "100%"
+                    }}
+                  >
+                    <Layers
+                      mapboxToken="pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg"
+                      endpoint={process.env.REACT_APP_ROOT_URL}
+                      layersPanelClosed={true}
+                    />
+                  </div>
 							    				  )}/>
                   <Route exact path="/map" render={(routeProps) => (
-          						      		<naksha.Layers {...routeProps} {...map_props} title={title}/>
+          						      		<div
+                                style={{
+                                  height: "75vh",
+                                  width: "100%"
+                                }}
+                              >
+                                <Layers
+                                  mapboxToken="pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg"
+                                  endpoint={process.env.REACT_APP_ROOT_URL}
+                                  layersPanelClosed={true}
+                                />
+                              </div>
           							    )}/>
 
                   <PrivateRoute exact path="/map/upload" component={naksha.NewLayerComponent}/>
@@ -267,7 +299,7 @@ ReactDOM.render(
               })}
                 </div>
          </div>
-      </div>
+      </>
     </BrowserRouter>
   </Provider>
 </MuiThemeProvider>

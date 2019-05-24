@@ -2,6 +2,7 @@ import React from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import 'rc-checkbox/assets/index.css';
 
@@ -29,7 +30,7 @@ class FlaggedFilter extends React.Component {
   }
   componentDidMount(){
     this.setParameter();
-    
+
   }
 
 
@@ -68,19 +69,24 @@ class FlaggedFilter extends React.Component {
                 checked={this.state.isFlagged.includes("0")?true:false}
                 value={"0"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Unflagged"}
+            />{this.props.LocaleData['filter.dataQuality.flag.unFlagged']}
         </div>
         <div>
             <Checkbox
               checked={this.state.isFlagged.includes("1")?true:false}
                 value={"1"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Flagged"}
+            />{this.props.LocaleData['filter.dataQuality.flag.flagged']}
         </div>
 
       </div>
     )
   }
 }
+function mapStateToProps(state) {
 
-export default withRouter(FlaggedFilter);
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+export default withRouter(connect(mapStateToProps)(FlaggedFilter));
