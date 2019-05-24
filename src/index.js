@@ -4,24 +4,20 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
-import logger from 'redux-logger';
 import queryString from 'query-string';
-import { BrowserRouter, Route, Switch,Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import {Config} from './Config'
 import registerServiceWorker from './registerServiceWorker';
 import App from './app/App';
 import { Login, Logout, AuthUtils,Register,VerifyRegistration,ForgotPassword,ResetPassword} from './auth';
-import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from './actions/index';
 import reducers from './reducers';
 import HomePageContainer from './app/homePage/HomePageContainer';
-import UserGroupHomePage from './userGroup/UserGroupHomePage';
 import {AUTH_USER} from './auth/AuthConstants'
 import {SET_GROUP_NAME,LOAD_LOCALE,SET_LOCALE} from './actions/index';
-import naksha from 'naksha-react-ui'
+import naksha from 'naksha-react-ui-legacy'
 import ReactGA from 'react-ga';
-import createHistory from 'history/createBrowserHistory';
 // import fr from './fr.js';
 import en from './en.js';
 import fr from './fr.js';
@@ -108,7 +104,7 @@ if (AuthUtils.isLoggedIn()) {
 
 
 let language;
- if (navigator.languages != undefined){
+ if (navigator.languages !== undefined){
    language =  navigator.languages[0];
  } else {
    language =  navigator.language;
@@ -165,7 +161,7 @@ let parts=fullUrl.split(".");
 if(groupsyntax === "group" && groupName !== null){
   groupContext = groupName;
 }else if(parts.length>=3){
-  if(parts[0]=="assambiodiversity"){
+  if(parts[0]==="assambiodiversity"){
     groupContext = parts[0];
     hardBounds = [[88, 23], [97, 29]];
   }
@@ -184,7 +180,6 @@ const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/regis
 "/register/resetPassword"];
 
 
-const history = createHistory();
 ReactGA.initialize(Config.api.TRACKING_CODE);
 
 function fireTracking() {
@@ -267,7 +262,7 @@ ReactDOM.render(
                     }}
                   >
                     <Layers
-                      mapboxToken="pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg"
+                      mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
                       endpoint={process.env.REACT_APP_ROOT_URL}
                       layersPanelClosed={true}
                     />
@@ -281,7 +276,7 @@ ReactDOM.render(
                                 }}
                               >
                                 <Layers
-                                  mapboxToken="pk.eyJ1IjoicHJpeWFuc2h1LWEiLCJhIjoiY2phMmQ1bTFvNzRjZDMzcGdiNmQ5a3k5YSJ9.cpBkEIu8fQFAgx1cYuTQVg"
+                                  mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
                                   endpoint={process.env.REACT_APP_ROOT_URL}
                                   layersPanelClosed={true}
                                 />

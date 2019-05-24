@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import Naksha from 'naksha-react-ui';
+import Naksha from 'naksha-react-ui-legacy';
 import axios from 'axios';
 
 import { Config } from '../Config';
@@ -55,7 +55,7 @@ function getNextSpecies(e, direction) {
   window.map_speciesTabOffset = direction === 1 ? window.map_speciesTabOffset + 10 : window.map_speciesTabOffset - 10;
   let limit = Math.min(window.map_speciesTabOffset + 10, documents.length);
   for (var i = window.map_speciesTabOffset; i < limit ; i++)
-    html += "<div>" + documents[i].key + "&nbsp;&nbsp;(" + documents[i].doc_count + ")" + "</div>";
+    html += `<div>${documents[i].key}&nbsp;&nbsp;(${documents[i].doc_count})</div>`;
 
   if(window.map_speciesTabOffset !== 0)
     html += "<span style='float:left;cursor:pointer' onclick='window.map_getNextSpecies(event.target.parentNode, -1)'><i class='fa fa-arrow-circle-left' style='color:black'></i></span>"
@@ -73,7 +73,7 @@ function getSpHtml(documents) {
   window.map_speciesDocs = documents;
   let html = "";
   for (var i = 0; i < 10 && i < documents.length; i++)
-    html += "<div>" + documents[i].key + "&nbsp;&nbsp;(" + documents[i].doc_count + ")" + "</div>";
+    html += `<div>${documents[i].key}&nbsp;&nbsp;(${documents[i].doc_count})</div>`
 
   //right arrow button
   if(documents.length > 10) {

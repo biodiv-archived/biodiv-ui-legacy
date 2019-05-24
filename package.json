@@ -30,7 +30,7 @@
     "moment": "2.21.0",
     "naksha-components-react": "^1.0.0",
     "naksha-components-react-x": "0.0.2",
-    "naksha-react-ui": "strandls/naksha-react-ui#master",
+    "naksha-react-ui-legacy": "^1.0.2",
     "prop-types": "15.6.1",
     "query-string": "5.0.0",
     "rc-checkbox": "2.0.3",
