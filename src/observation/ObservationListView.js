@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {NavLink,withRouter} from 'react-router-dom';
-import EllipsisText  from 'react-ellipsis-text';
+import EllipsisText  from 'react-ellipsis-text-x';
 import Moment from 'react-moment';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -307,7 +307,7 @@ display(objs,selectAll){
                             </div>
                         </div>
 
-                        <div className="col-md-8 col-xl-9">
+                        <div className="col-md-8 col-xl-9" style={{zIndex:'5'}}>
                                 <div  className="row" style={{marginLeft:'2%',zIndex:'5'}} >
                                       <div className="userPosition" style={{top:'25px',left:'-80px',position:'absolute',zIndex:'5'}}>
                                        <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}>
@@ -339,7 +339,7 @@ display(objs,selectAll){
                                         </div>
 
                                         <div className="props" style={{marginTop:'4px',zIndex:'5'}}>
-                                            <span style={{fontSize:'15px'}}>
+                                          <span style={{fontSize:'1.4em', lineHeight: "1.6em"}}>
                                                 <strong>
                                                   <i>
                                                    {objs.name?objs.name:"Unknown"} {objs.name?null: <NavLink to={`/observation/show/${objs.id}`}>{this.props.LocaleData['link.help.identify']}</NavLink>}
@@ -349,7 +349,7 @@ display(objs,selectAll){
                                             <span style={{borderRadius:'5px'}} className={`${objs.position==="WORKING"?"showWorking":
                                                  objs.position==="CLEAN"?"showClean":
                                                  objs.position==="RAW"?"showRaw":null}`} >
-                                                 <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}> {"  "}<span style={{color:'#2B2929',textTransform:'capitalize'}}>{objs.status?objs.status.toLowerCase():null}</span></NavLink>
+                                                 <NavLink to={`/namelist/index?taxon=${objs.taxonconceptid}`}> {"  "}{objs.status?objs.status.toLowerCase():null}</NavLink>
                                             </span>
                                          </div>
 

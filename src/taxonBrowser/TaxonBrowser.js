@@ -170,7 +170,7 @@ setScrollClass(){
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }
 
-  componentWillunmount(){
+  componentWillUnmount(){
   document.addEventListener("getSearchNode", this.getSearchNodeData.bind(this));
   }
 

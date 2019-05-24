@@ -141,7 +141,7 @@ getJoinPermission(){
 
         if(true) {
             return(
-                <div className="navbar navbar-default row brand-bar">
+                <div className="navbar navbar-default row brand-bar logo-bar">
                   {this.state.login_modal===true?(<ModalPopup funcjoinus={this.getJoinPermission} type="joinus" key={this.state.options} options={this.state.options} />):null}
                   {this.state.moderatorPopup?<ModeratorPopUp key={this.state.moderatorPopup} />:null}
                     <div className="navbar-header">

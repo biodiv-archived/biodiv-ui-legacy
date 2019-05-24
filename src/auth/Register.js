@@ -330,7 +330,7 @@ class BasicForm extends Component {
             <div className="signin-wrapper">
                 {this.isAuthenticated()}
                 <div className="row">
-                    <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>Login</a> | <a href= {`/${this.props.PublicUrl.url}register`}>Register</a> </div>
+                    <div className="col-sm-12 col-xs-12 form-signin-heading"><a href= {`/${this.props.PublicUrl.url}login/auth`}>{this.props.LocaleData['button.login']}</a> | <a href= {`/${this.props.PublicUrl.url}register`}>{this.props.LocaleData['button.register']}</a> </div>
                 </div>
                 { this.state.registerMessage ? (
                 me.renderAlert()
@@ -351,7 +351,7 @@ class BasicForm extends Component {
                          <form onSubmit={formApi.submitForm} id="registerForm" className="form-signin">
                              <div className="row">
                                  <div className="col-sm-3">
-                                     <label htmlFor="name">Name</label>
+                                     <label htmlFor="name">{this.props.LocaleData['default.name.label']}</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <StyledText className="form-control" field="name" id="name"/>
@@ -370,7 +370,7 @@ class BasicForm extends Component {
 
                              <div className="row">
                                  <div className="col-sm-3">
-                                     <label htmlFor="name">Password</label>
+                                     <label htmlFor="name">{this.props.LocaleData['register.password.label']}</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <StyledText type="password" className="form-control" field="password" id="password" />
@@ -379,7 +379,7 @@ class BasicForm extends Component {
 
                              <div className="row">
                                  <div className="col-sm-3">
-                                     <label htmlFor="name">Password Again</label>
+                                     <label htmlFor="name">{this.props.LocaleData['register.password.again.label']}</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <StyledText className="form-control" type="password" field="password2" id="password2" />
@@ -388,7 +388,7 @@ class BasicForm extends Component {
 
                              <div className="row">
                                  <div className="col-sm-3">
-                                     <label htmlFor="name">Gender</label>
+                                     <label htmlFor="name">{this.props.LocaleData['register.gender.label']}</label>
                                  </div>
                                  <div className="col-sm-9">
 
@@ -396,10 +396,10 @@ class BasicForm extends Component {
                                          { group => (
                                              <div>
                                                  <Radio group={group} value="Male" id="male" className="mr-3 d-inline-block" />
-                                                 <label htmlFor="Male" className="mr-2">Male</label>
+                                                 <label htmlFor="Male" className="mr-2">{this.props.LocaleData['register.gender.options.male']}</label>
                                                  {'                 '}
                                                  <Radio group={group} value="Female" id="female" className="d-inline-block" />
-                                                 <label htmlFor="Female" className="mr-2">Female</label>
+                                                 <label htmlFor="Female" className="mr-2">{this.props.LocaleData['register.gender.options.female']}</label>
 
                                              </div>
                                          )}
@@ -429,7 +429,7 @@ class BasicForm extends Component {
                              <div className="row">
                                  <StyledText type="text" className="controls form-control" field="mapLocation" id="pac-input" placeholder="Enter a location" />
                                  <div className="col-sm-3">
-                                     <label htmlFor="Location" className="d-block">Location</label>
+                                     <label htmlFor="Location" className="d-block">{this.props.LocaleData['register.location.label']}</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <div  className="form-control" id="gmap">
@@ -441,7 +441,7 @@ class BasicForm extends Component {
 
                              <div className="row">
                                  <div className="col-sm-3">
-                                     <label htmlFor="location" className="d-block">Location Title</label>
+                                     <label htmlFor="location" className="d-block">{this.props.LocaleData['register.location.title']}</label>
                                  </div>
                                  <div className="col-sm-9">
                                      <StyledText type="text" className="form-control" field="location" id="location-name" placeholder="Enter a name or choose from map above" />
@@ -466,10 +466,10 @@ class BasicForm extends Component {
 
                              <div className="row">
                                  <div className="col-sm-9">
-                                     By registering you agree to our <a className="ibpLink" href={Config.api.IBP_URL+"/page/4250246"}>Terms &amp; Conditions</a> and <a className="ibpLink" href={Config.api.IBP_URL+"/page/12651147"}>Privacy Policy</a> on the use of our site
+                                 {this.props.LocaleData['register.index.policy']}  <a className="ibpLink" href={Config.api.IBP_URL+"/page/4250246"}>{this.props.LocaleData['link.terms.conditions']}</a> {this.props.LocaleData['text.and']} <a className="ibpLink" href={Config.api.IBP_URL+"/page/12651147"}>{this.props.LocaleData['text.privacypolicy']}</a> {this.props.LocaleData['text.useofoursite']}
                                  </div>
                                  <div className="col-sm-3">
-                                     <button id="registerButton" type="submit" className="mb-4 btn btn-block btn-primary pull-right" disabled={this.state.loading}>Register</button>
+                                     <button id="registerButton" type="submit" className="mb-4 btn btn-block btn-primary pull-right" disabled={this.state.loading}>{this.props.LocaleData['button.register']}</button>
                                  </div>
                              </div>
 
@@ -508,6 +508,7 @@ function mapStateToProps(state){
         dispatch:state.dispatch,
         authenticated: state.auth.authenticated,
         loginAlertMessage : state.auth.error,
+        LocaleData:state.LocaleData,
         PublicUrl:state.PublicUrl
     };
 }

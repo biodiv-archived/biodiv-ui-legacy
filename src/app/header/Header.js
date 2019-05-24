@@ -58,7 +58,7 @@ class Header extends React.Component {
 
         return (
             <div>
-                <nav className="navbar navbar-default navbar-inverse row" role="navigation" style={{
+                <nav className="navbar navbar-default navbar-inverse" role="navigation" style={{
                     marginBottom: '0px',
                 }}>
                 <div className="navbar-header">

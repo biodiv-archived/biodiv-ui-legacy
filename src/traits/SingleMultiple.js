@@ -3,7 +3,7 @@ import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
 import {NavLink,withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import './TraitsObvStyle.css'
 import 'rc-checkbox/assets/index.css';
 import {getTraitValues} from './TraitsApiCall';
 
@@ -51,7 +51,7 @@ class Single extends Component{
   componentDidMount(){
     let {traitId}=this.props;
     this.setParameter(traitId);
-  getTraitValues(traitId,"fr").then(data=>{
+  getTraitValues(traitId,this.props.Locale).then(data=>{
     this.setState({
       traitValueList:data,
     })
@@ -65,7 +65,7 @@ class Single extends Component{
         <div>
           {traitValueList.data?traitValueList.data.map((item,index)=>{
 
-            return  <div key={index}><Checkbox defaultChecked={traitSelectedValues.includes(item.value)?true:false} onChange={this.onChange.bind(this)} traitValue={item.value} traitId={item.traitValue.traitId} /><img src={`http://portal.wikwio.org/biodiv/traits/${item.traitValue.icon}`} height="30px" width="30px" />{" "+ item.value}</div>
+            return  <div key={index}><Checkbox defaultChecked={traitSelectedValues.includes(item.value)?true:false} onChange={this.onChange.bind(this)} traitValue={item.value} traitId={item.traitValue.traitId} /><img className="traitHover" src={`http://portal.wikwio.org/biodiv/traits/${item.traitValue.icon}`} height="30px" width="30px" />{" "+ item.value}</div>
           }):null}
         </div>
       )

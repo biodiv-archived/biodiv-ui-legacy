@@ -147,10 +147,10 @@ getJoinPermission(){
                     <div className="row">
                       <div className="navbar-header col-sm-11">
                         <div className="row">
-                          <NavLink to="/" className="col-sm-2">
-                              <img className="logo pull-left" style={{marginLeft:'14px',height:'90px',width:'92.25px'}} src={userGroup?Config.api.WIKTROP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.WIKTROP_URL+"/logo/wikwio.png")}></img>
+                          <NavLink to={`/?lang=${sessionStorage.locale}`} className="col-sm-3">
+                              <img className="logo pull-left" alt="Wiktrop Logo" style={{marginLeft:'14px',height:'90px',width:'220px'}} src={userGroup?Config.api.WIKTROP_URL+"/biodiv/userGroups/"+userGroup.icon:( this.state.someGroupLogo?this.state.someGroupLogo:Config.api.WIKTROP_URL+"/logo/Wiktrop1.png")}></img>
                           </NavLink>
-                          <NavLink to="/" className="col-sm-10" style={{paddingTop:'0.00001px',marginTop:'1%',color:'#777',textDecoration:'none'}}>
+                          <NavLink to={`/?lang=${sessionStorage.locale}`} className="col-sm-9" style={{paddingTop:'0.00001px',marginTop:'1%',color:'#464646',textDecoration:'none'}}>
                               <h3>{userGroup?userGroup.name:(this.state.subPortalName?this.state.subPortalName:this.props.LocaleData['wikwio.portal.name'])}</h3>
                           </NavLink>
                         </div>

@@ -8,3 +8,5 @@ REACT_APP_WIKTROP_URL=http://portal.wikwio.org
 REACT_APP_FB_ID=320284831369968
 REACT_APP_GOOGLE_ID=317806372709-tm8qc7j41enrblvqisd11b3mqrjdijfv.apps.googleusercontent.com
 REACT_APP_COOKIE_DOMAIN=.indiabiodiversity.org
+
+REACT_APP_GOOGLE_RECAPTHA_KEY=6LfxHhATAAAAANpgfSPggCfUiisgPnj63ZiQx28l

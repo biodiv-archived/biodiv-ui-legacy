@@ -1,10 +1,6 @@
-
-
 import axios from 'axios';
 
-import AuthUtils from './auth/AuthUtils.js';
 import loginService from './auth/LoginService';
-import { getNewAccessToken } from './auth/AuthActions';
 require('dotenv').config()
 export let ROOT_URL;
 export let PAMBA_API_ROOT_URL;
@@ -22,9 +18,9 @@ PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
 IBP_URL=process.env.REACT_APP_IBP_URL
 BBP_URL=process.env.REACT_APP_BBP_URL
 WIKTROP_URL=process.env.REACT_APP_WIKTROP_URL
-DEPLOY="ibp";
-TITLE="India Biodiversity Portal";
-TRACKING_CODE='UA-3185202-1';
+DEPLOY=process.env.REACT_APP_CONFIG_DEPLOY;
+TITLE=process.env.REACT_APP_CONFIG_TITLE;
+TRACKING_CODE=process.env.REACT_APP_CONFIG_TRACKING_CODE;
 //}
     /*
 if(process.env.NODE_ENV=="kk" ){
@@ -58,7 +54,7 @@ axios.interceptors.request.use(function (config) {
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
     }
 //    console.log('---------------------BEFORE REQUEST END------------------------');
-   config.withCredentials = false;
+   config.withCredentials = true;
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -71,7 +67,7 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function(error) {
     console.log(error);
-    if(error.response.status == 401) {
+    if(error.status === 401) {
         /*        var credentials = loginService.getCredentials();
         var now = new Date().getTime();
         var brToken = credentials.getRefreshToken();
@@ -147,8 +143,8 @@ export let Config = {
             }
         }
     },
-	map : {
-		RESTRICTED_EXTENT : [[68, 5.75], [98, 37.5]]
+        map : {
+		RESTRICTED_EXTENT : JSON.parse(process.env.REACT_APP_CONFIG_RESTRICTED_EXTENT)
 	}
 }
 

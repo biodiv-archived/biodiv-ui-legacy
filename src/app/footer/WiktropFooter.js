@@ -144,21 +144,21 @@ import UserGroupName from '../../util/UserGroup';
                  ):null
                }
                 <div className={this.state.parents == null?'col-xs-6 col-sm-2 footer-item col-md-offset-2':'col-xs-6 col-sm-2 footer-item'}>
-                    <span><a href={Config.api.IBP_URL+"/page/4250187"}>POLICY</a></span>
+                    <span><a href={Config.api.IBP_URL+"/page/4250187"}>{this.props.LocaleData['link.policy']}</a></span>
                          <ul className="list list-unstyled">
-                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250189"}>Data Sharing</a></li>
-                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250212"}>Licenses</a></li>
-                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250246"}>Terms & Conditions</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250189"}>{this.props.LocaleData['link.data.sharing']}</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250212"}>{this.props.LocaleData['default.licenses.label']}</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/page/4250246"}>{this.props.LocaleData['link.terms.conditions']}</a></li>
                          </ul>
                  </div>
                 <div  className="col-xs-6 col-sm-2 footer-item">
-                         <span>OTHERS</span>
+                         <span>{this.props.LocaleData['default.others.label']}</span>
                          <ul className="list list-unstyled">
-                           <li className="list-item"><a href={"https://blog.indiabiodiversity.org/"}>Blog</a></li>
-                           <li className="list-item"><a href={Config.api.IBP_URL+"/sitemap"}>Sitemap</a></li>
-                           <li className="list-item"><a href={Config.api.IBP_URL+"/biodiv/docs"}>API Docs</a></li>
-                           <li className="list-item"><a href={Config.api.IBP_URL+"/feedback_form"}>Feedback</a></li>
-                           <li className="list-item"><a href={Config.api.IBP_URL+"/contact"}>Contact Us</a></li>
+                           <li className="list-item"><a href={"https://blog.indiabiodiversity.org/"}>{this.props.LocaleData['link.blog']}</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/sitemap"}>{this.props.LocaleData['link.sitemap']}</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/biodiv/docs"}>{this.props.LocaleData['link.apidocs']}</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/feedback_form"}>{this.props.LocaleData['link.feedbak']}</a></li>
+                           <li className="list-item"><a href={Config.api.IBP_URL+"/contact"}>{this.props.LocaleData['link.contact.us']}</a></li>
                          </ul>
                  </div>
                  <div className="col-sm-2">
@@ -204,7 +204,8 @@ import UserGroupName from '../../util/UserGroup';
 function mapStateToProps(state){
 return {
   publicUrl:state.PublicUrl.url,
-  groupName:state.PublicUrl.groupName
+  groupName:state.PublicUrl.groupName,
+  LocaleData:state.LocaleData
 };
 }
 

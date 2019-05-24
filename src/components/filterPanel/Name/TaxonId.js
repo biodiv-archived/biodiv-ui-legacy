@@ -2,6 +2,8 @@ import React from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+
 import 'rc-checkbox/assets/index.css';
 
 class TaxonIdsFilter extends React.Component {
@@ -62,18 +64,23 @@ class TaxonIdsFilter extends React.Component {
                 checked={ this.state.TaxonId.includes("1")?true:false }
                 value={"1"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Has Taxon Id"}
+            />{this.props.LocaleData['filter.name.taxonId.hasTaxonId']}
         </div>
         <div>
             <Checkbox
                 checked={ this.state.TaxonId.includes("0")?true:false }
                 value={"0"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" No Taxon Id"}
+            />{this.props.LocaleData['filter.name.taxonId.noTaxonId']}
         </div>
       </div>
     )
   }
 }
+function mapStateToProps(state) {
 
-export default  withRouter(TaxonIdsFilter);
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+export default withRouter(connect(mapStateToProps)(TaxonIdsFilter));

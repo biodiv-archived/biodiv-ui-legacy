@@ -3,7 +3,7 @@ import axios from 'axios';
 import $ from 'jquery'
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import EllipsisText  from 'react-ellipsis-text';
+import EllipsisText  from 'react-ellipsis-text-x';
 import {NavLink,withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -87,14 +87,13 @@ class Groups extends React.Component {
           this.setState({
             mapped:true
           });
-          (this.state.responseUser && this.state.mapped)?
-          (
-            this.state.responseObv.map((edt,index)=>{
+          if(this.state.responseUser && this.state.mapped){
+            this.state.responseObv.map((edt)=>{
                 this.setState({
                   intersected:this.state.intersected.concat(edt)
                 })
             })
-          ):null
+          }
           this.setState({
             final:true
           })
@@ -116,9 +115,15 @@ class Groups extends React.Component {
         login_modal:!(this.state.login_modal)
       });
     }
-    this.refs.hasOwnProperty(obvGroups1)?(this.refs[obvGroups1].style.display="none"):null
-    this.refs.hasOwnProperty(userGroups1)?(this.refs[userGroups1].style.display="block"):null
-    this.refs.hasOwnProperty(buttons1)?(this.refs[buttons1].style.display="block"):null
+    if (this.refs.hasOwnProperty(obvGroups1)) {
+      this.refs[obvGroups1].style.display="none"
+    }
+    if (this.refs.hasOwnProperty(userGroups1)) {
+      this.refs[userGroups1].style.display="block"
+    }
+    if (this.refs.hasOwnProperty(buttons1)) {
+      this.refs[buttons1].style.display="block"
+    }
 
   }
 
@@ -127,9 +132,16 @@ class Groups extends React.Component {
     var userGroups1 = 'userGroups'+id
     var buttons1='buttons'+id
 
-    this.refs.hasOwnProperty(userGroups1)?(this.refs[userGroups1].style.display="none"):null
-    this.refs.hasOwnProperty(buttons1)?(this.refs[buttons1].style.display="none"):null
-    this.refs.hasOwnProperty(obvGroups1)?(this.refs[obvGroups1].style.display="block"):null
+    if (this.refs.hasOwnProperty(userGroups1)) {
+      this.refs[userGroups1].style.display = "none";
+    }
+    if (this.refs.hasOwnProperty(buttons1)) {
+      this.refs[buttons1].style.display = "none";
+    }
+    if (this.refs.hasOwnProperty(obvGroups1)) {
+      this.refs[obvGroups1].style.display = "block";
+    }
+
     this.cleanup();
   }
 
@@ -356,7 +368,7 @@ class Groups extends React.Component {
                   {
                     this.state.responseObv.map((grp,index)=>{
                       return(
-                        <a title={grp.name} href={grp.domainName?grp.domainName:Config.api.ROOT_URL+"/group/"+grp.webaddress+"/show"} style={{color:'#333'}}>
+                        <a title={grp.name} href={grp.domainName?grp.domainName:Config.api.ROOT_URL+"/group/"+grp.webaddress+"/show?lang="+sessionStorage.locale} style={{color:'#333'}}>
                         <div key={index} className="chip" >
                           <img src={`${Config.api.ROOT_URL}/biodiv/userGroups${grp.icon}`}/>
                           <EllipsisText text={grp.name} length={13} />

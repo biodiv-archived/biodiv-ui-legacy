@@ -55,11 +55,11 @@ class CustomFields extends React.Component {
     var submit1="submit"+key+obvId
     var Cfvalue="cfvalue"+key+obvId
     var cancel1="cancel"+key+obvId
-    this.refs.hasOwnProperty(text)?(this.refs[text].style.display="block"):null
-    this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="none"):null
-    this.refs.hasOwnProperty(Cfvalue)?(this.refs[Cfvalue].style.display="none"):null
-    this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="block"):null
-    this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="block"):null
+    if(this.refs.hasOwnProperty(text)){this.refs[text].style.display="block"}
+    if(this.refs.hasOwnProperty(edit1)){this.refs[edit1].style.display="none"}
+    if(this.refs.hasOwnProperty(Cfvalue)){this.refs[Cfvalue].style.display="none"}
+    if(this.refs.hasOwnProperty(submit1)){this.refs[submit1].style.display="block"}
+    if(this.refs.hasOwnProperty(cancel1)){this.refs[cancel1].style.display="block"}
   }
 
   convertToDecimal(value){
@@ -188,11 +188,11 @@ class CustomFields extends React.Component {
         this.clearData(dataType,hasOptions,cfId)
 
         //this.refs.hasOwnProperty(custom1)?(this.refs[custom1].value=""):null
-        this.refs.hasOwnProperty(Cfvalue)?(this.refs[Cfvalue].style.display="block"):null
-        this.refs.hasOwnProperty(text)?(this.refs[text].style.display="none"):null
-        this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="none"):null
-        this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="block"):null
-        this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
+        if(this.refs.hasOwnProperty(Cfvalue)){this.refs[Cfvalue].style.display="block"}
+        if(this.refs.hasOwnProperty(text)){this.refs[text].style.display="none"}
+        if(this.refs.hasOwnProperty(submit1)){this.refs[submit1].style.display="none"}
+        if(this.refs.hasOwnProperty(edit1)){this.refs[edit1].style.display="block"}
+        if(this.refs.hasOwnProperty(cancel1)){this.refs[cancel1].style.display="none"}
         axios(options)
             .then((response)=>{
               //console.log("comment",response)
@@ -243,7 +243,7 @@ class CustomFields extends React.Component {
 
         case 'INTEGER':
           let noOptionInteger1="no_option_integer"+this.props.id+cfId
-          this.refs[noOptionInteger1]?this.refs[noOptionInteger1].value='':null
+          if(this.refs[noOptionInteger1]){this.refs[noOptionInteger1].value=''}
           break;
 
         case 'DECIMAL':
@@ -407,11 +407,11 @@ class CustomFields extends React.Component {
       var cancel1="cancel"+key+this.props.id;
       var box1="box"+key+this.props.id;
       var cfvalue1="cfvalue"+key+this.props.id;
-      this.refs.hasOwnProperty(box1)?(this.refs[box1].style.display="none"):null
-      this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="block"):null
-      this.refs.hasOwnProperty(cfvalue1)?(this.refs[cfvalue1].style.display="block"):null
-      this.refs.hasOwnProperty(submit1)?(this.refs[submit1].style.display="none"):null
-      this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
+      if(this.refs.hasOwnProperty(box1)){this.refs[box1].style.display="none"}
+      if(this.refs.hasOwnProperty(edit1)){this.refs[edit1].style.display="block"}
+      if(this.refs.hasOwnProperty(cfvalue1)){this.refs[cfvalue1].style.display="block"}
+      if(this.refs.hasOwnProperty(submit1)){this.refs[submit1].style.display="none"}
+      if(this.refs.hasOwnProperty(cancel1)){this.refs[cancel1].style.display="none"}
   }
 
   render(){

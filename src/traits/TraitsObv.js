@@ -338,12 +338,12 @@ submitTraits(id1,id2,traitType,dataType){
     var onclick_edit1='onclick_edit_'+uni+item
     var sub1='sub_'+uni+item
     var cancel1='cancel_'+uni+item
-   this.refs.hasOwnProperty(fact1)?(this.refs[fact1].style.display="none"):null
+    if(this.refs.hasOwnProperty(fact1)){(this.refs[fact1].style.display="none")}
 
-   this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="none"):null
-   this.refs.hasOwnProperty(onclick_edit1)?(this.refs[onclick_edit1].style.display="block"):null
-   this.refs.hasOwnProperty(sub1)?(this.refs[sub1].style.display="block"):null
-   this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="block"):null
+    if(this.refs.hasOwnProperty(edit1)){(this.refs[edit1].style.display="none")}
+    if(this.refs.hasOwnProperty(onclick_edit1)){(this.refs[onclick_edit1].style.display="block")}
+    if(this.refs.hasOwnProperty(sub1)){(this.refs[sub1].style.display="block")}
+    if(this.refs.hasOwnProperty(cancel1)){(this.refs[cancel1].style.display="block")}
 
 }
 
@@ -354,11 +354,11 @@ submitTraits(id1,id2,traitType,dataType){
     var onclick_edit1='onclick_edit_'+uni+item
     var sub1='sub_'+uni+item
     var cancel1='cancel_'+uni+item
-    this.refs.hasOwnProperty(fact1)?(this.refs[fact1].style.display="block"):null
-    this.refs.hasOwnProperty(edit1)?(this.refs[edit1].style.display="block"):null
-    this.refs.hasOwnProperty(onclick_edit1)?(this.refs[onclick_edit1].style.display="none"):null
-    this.refs.hasOwnProperty(sub1)?(this.refs[sub1].style.display="none"):null
-    this.refs.hasOwnProperty(cancel1)?(this.refs[cancel1].style.display="none"):null
+    if(this.refs.hasOwnProperty(fact1)){this.refs[fact1].style.display="block"}
+    if(this.refs.hasOwnProperty(edit1)){this.refs[edit1].style.display="block"}
+    if(this.refs.hasOwnProperty(onclick_edit1)){this.refs[onclick_edit1].style.display="none"}
+    if(this.refs.hasOwnProperty(sub1)){this.refs[sub1].style.display="none"}
+    if(this.refs.hasOwnProperty(cancel1)){this.refs[cancel1].style.display="none"}
   }
 
  getFormattedValue(value,dataType,traitType,units){
@@ -440,7 +440,7 @@ submitTraits(id1,id2,traitType,dataType){
                         <div key={index} className="well well-sm" style={{width:'99%',marginLeft:'0.5%',marginBottom:'0.2%'}}>
                             <div className="name-and-button row">
                                 <div className="name col-sm-8" style={{margin:'0%'}}>
-                                    <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait."+item.id+"=any&max=&offset=0"} >
+                                    <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait."+item.id+"=any&max=&offset=0&lang="+sessionStorage.locale} >
                                          <span>{item.name}</span>
                                      </a>
                                 </div>
@@ -610,7 +610,7 @@ submitTraits(id1,id2,traitType,dataType){
                                    <div key={index} className="well well-sm " style={{width:'99%',marginLeft:'0.5%',marginBottom:'0.2%'}}>
                                        <div className="name-and-button row">
                                            <div className="name col-sm-8" style={{margin:'0%'}}>
-                                               <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
+                                               <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0&lang="+sessionStorage.locale}>
                                                     <span>{item.name}</span>
                                                 </a>
                                            </div>
@@ -783,7 +783,7 @@ submitTraits(id1,id2,traitType,dataType){
                                       <div key={index} className="well well-sm " style={{width:'99%',marginLeft:'0.5%',marginBottom:'0.2%'}}>
                                           <div className="name-and-button row" >
                                               <div className="name col-sm-8" style={{margin:'0%'}}>
-                                                  <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
+                                                  <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0&lang="+sessionStorage.locale}>
                                                        <span>{item.name}</span>
                                                    </a>
                                               </div>
@@ -956,7 +956,7 @@ submitTraits(id1,id2,traitType,dataType){
                                   <div className="well well-sm " style={{width:'99%',marginLeft:'0.5%',marginBottom:'0.2%'}}>
                                       <div className="name-and-button row" >
                                           <div className="name col-sm-8" style={{margin:'0%'}}>
-                                              <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0"}>
+                                              <a href={Config.api.ROOT_URL+"/trait/show/"+item.id+"/?trait.12=any&max=&offset=0&lang="+sessionStorage.locale}>
                                                    <span>{item.name}</span>
                                                </a>
                                           </div>
