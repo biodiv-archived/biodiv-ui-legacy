@@ -77,7 +77,8 @@
     "build:wiktrop": "REACT_APP_ENV=wiktrop npm run build",
     "build:pamba": "REACT_APP_ENV=pamba npm run build",
     "build:kk": "REACT_APP_ENV=kk npm run build",
-    "test": "react-scripts test"
+    "encrypt-assets": "node ./.scripts/encrypt.js",
+    "decrypt-assets": "node ./.scripts/decrypt.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -97,6 +98,7 @@
   "devDependencies": {
     "babel-loader": "^8.0.5",
     "eslint": "^5.16.0",
+    "file-encryptor": "^0.1.1",
     "terser": "^3.14.1"
   }
 }

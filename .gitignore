@@ -11,9 +11,16 @@
 /node_modules
 # misc
 .DS_Store
-.env*
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *~
+
+# Encrypted Configuration Files
+.env
+.env.kk
+.env.pamba
+.env.wiktrop
+.env.bbp
+.scripts/test.txt
