@@ -39,7 +39,7 @@ class WiktropNavigationHeader extends Component{
                 this.getNewsLetters(group.id);
             })
         } else {
-          if(parts.length>=3){
+          if(parts.length>=4){
             if(parts[0]=="assambiodiversity"){
               this.getNewsLetters(4087136);
             }
@@ -129,16 +129,16 @@ class WiktropNavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}species/list`}>{this.props.LocaleData['default.speciesPage.label']}</a>
+                                        <a href= {`/${this.props.PublicUrl}species/list?lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.speciesPage.label']}</a>
                                     </li>
                                     <li>
-                                        { <a href= {`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN`}>{this.props.LocaleData['default.taxonNamelist.label']}</a>}
+                                        { <a href= {`/${this.props.PublicUrl}namelist/index/?taxon=872&parentId=872&classificationId=265799&ranksToFetch=0,1&statusToFetch=ACCEPTED,SYNONYM&positionsToFetch=RAW,WORKING,CLEAN&lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.taxonNamelist.label']}</a>}
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}trait/list/?max=&offset=0`}>{this.props.LocaleData['default.speciesTrait.label']}</a>
+                                        <a href= {`/${this.props.PublicUrl}trait/list/?max=&offset=0&lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.speciesTrait.label']}</a>
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}dataTable/list?type=species`}>{this.props.LocaleData['default.speciesDatatables.label']}</a>
+                                        <a href= {`/${this.props.PublicUrl}dataTable/list?type=species&lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.speciesDatatables.label']}</a>
                                     </li>
 
                                 </ul>
@@ -149,29 +149,29 @@ class WiktropNavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}observation/list`}>{this.props.LocaleData['default.observation.label']}
+                                        <a href= {`/${this.props.PublicUrl}observation/list?lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.observation.label']}
                                         </a>
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}checklist/index`}>{this.props.LocaleData['default.checklist.label']}
+                                        <a href= {`/${this.props.PublicUrl}checklist/index?lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.checklist.label']}
                                         </a>
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}datasource/list`}>{this.props.LocaleData['default.datasource.label']}
+                                        {<a href= {`/${this.props.PublicUrl}datasource/list?lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.datasource.label']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}observation/traits/`}>{this.props.LocaleData['default.observationTraits.label']}
+                                        {<a href= {`/${this.props.PublicUrl}observation/traits?lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.observationTraits.label']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}dataTable/list?type=observations`}>{this.props.LocaleData['default.observationDatatables.label']}
+                                        {<a href= {`/${this.props.PublicUrl}dataTable/list?type=observations&lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.observationDatatables.label']}
                                         </a>}
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                {<a href= {`/${this.props.PublicUrl}map`} className="menu-item"  >{this.props.LocaleData['button.maps']}
+                                {<a href= {`/${this.props.PublicUrl}map?lang=${sessionStorage.locale}`} className="menu-item"  >{this.props.LocaleData['button.maps']}
                                 </a>}
                             </li>
                             <li className="dropdown">
@@ -179,11 +179,11 @@ class WiktropNavigationHeader extends Component{
                               </a>
                               <ul className="dropdown-menu" role="menu">
                                 <li>
-                                {<a href={`/${this.props.PublicUrl}document/list`}  className="menu-item">{this.props.LocaleData['default.document.label']}
+                                {<a href={`/${this.props.PublicUrl}document/list?lang=${sessionStorage.locale}`}  className="menu-item">{this.props.LocaleData['default.document.label']}
                                 </a>}
                                 </li>
                                 <li>
-                                {<a href= {`/${this.props.PublicUrl}dataTable/list?type=documents`} className="menu-item"  >{this.props.LocaleData['default.documentDatatables.label']}
+                                {<a href= {`/${this.props.PublicUrl}dataTable/list?type=documents&lang=${sessionStorage.locale}`} className="menu-item"  >{this.props.LocaleData['default.documentDatatables.label']}
                                 </a>}
                                 </li>
                               </ul>
@@ -193,28 +193,28 @@ class WiktropNavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}species/contribute`}>{this.props.LocaleData['link.contribute.to']}
+                                        {<a href= {`/${this.props.PublicUrl}species/contribute?lang=${sessionStorage.locale}`}>{this.props.LocaleData['link.contribute.to']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}observation/create`}>{this.props.LocaleData['link.add.observation']}
+                                        {<a href= {`/${this.props.PublicUrl}observation/create?lang=${sessionStorage.locale}`}>{this.props.LocaleData['link.add.observation']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}observation/bulkCreate`}>  {this.props.LocaleData['title.add.multiple']}
+                                        {<a href= {`/${this.props.PublicUrl}observation/bulkCreate?lang=${sessionStorage.locale}`}>  {this.props.LocaleData['title.add.multiple']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}dataTable/create`}>{this.props.LocaleData['link.add.list']}
+                                        {<a href= {`/${this.props.PublicUrl}dataTable/create?lang=${sessionStorage.locale}`}>{this.props.LocaleData['link.add.list']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}document/create`}>
+                                        {<a href= {`/${this.props.PublicUrl}document/create?lang=${sessionStorage.locale}`}>
                                             {this.props.LocaleData['link.add.document']}</a>}
                                     </li>
 
                                     <li>
-                                            {<a href= {`/${this.props.PublicUrl}dataset/create`}>{this.props.LocaleData['button.create.dataset']}
+                                            {<a href= {`/${this.props.PublicUrl}dataset/create?lang=${sessionStorage.locale}`}>{this.props.LocaleData['button.create.dataset']}
                                             </a>}
                                     </li>
 
@@ -222,7 +222,7 @@ class WiktropNavigationHeader extends Component{
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<a href= {`/${this.props.PublicUrl}trait/create`}> {this.props.LocaleData['title.trait.add']}
+                                            {<a href= {`/${this.props.PublicUrl}trait/create?lang=${sessionStorage.locale}`}> {this.props.LocaleData['title.trait.add']}
                                             </a>}
                                         </li>
                                       ):null
@@ -231,7 +231,7 @@ class WiktropNavigationHeader extends Component{
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<a href= {`/${this.props.PublicUrl}fact/upload`}>{this.props.LocaleData['title.fact.add']}
+                                            {<a href= {`/${this.props.PublicUrl}fact/upload?lang=${sessionStorage.locale}`}>{this.props.LocaleData['title.fact.add']}
                                             </a>}
                                         </li>
                                       ):null
@@ -240,7 +240,7 @@ class WiktropNavigationHeader extends Component{
                                       AuthUtils.isAdmin() === true?
                                       (
                                         <li>
-                                            {<a href= {`/${this.props.PublicUrl}dataPackage/create`}>
+                                            {<a href= {`/${this.props.PublicUrl}dataPackage/create?lang=${sessionStorage.locale}`}>
                                                 {this.props.LocaleData['title.dataPackage.add']}</a>}
                                         </li>
                                       ):null
@@ -248,7 +248,7 @@ class WiktropNavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li>
-                                {<a href= {`/${this.props.PublicUrl}discussion/list`} className="menu-item"  >{this.props.LocaleData['default.pagetitle.discussions']}
+                                {<a href= {`/${this.props.PublicUrl}discussion/list?lang=${sessionStorage.locale}`} className="menu-item"  >{this.props.LocaleData['default.pagetitle.discussions']}
                                 </a>}
                             </li>
                             <li className="dropdown">
@@ -258,7 +258,7 @@ class WiktropNavigationHeader extends Component{
                                   {this.props.DataSetList.length>0?this.props.DataSetList.map((item)=>{
                                     return (
                                     <li key={item.id}>
-                                        {<a href= {`/${this.props.PublicUrl}dataset/list?dataPackage=${item.id}&offset=&view=grid`}>{item.title}
+                                        {<a href= {`/${this.props.PublicUrl}dataset/list?dataPackage=${item.id}&offset=&view=grid&lang=${sessionStorage.locale}`}>{item.title}
                                         </a>}
                                     </li>
                                   )
@@ -267,12 +267,12 @@ class WiktropNavigationHeader extends Component{
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                {<a href=  {`/${this.props.PublicUrl}group/list`} className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.groups.label']}<span className="caret"></span></a>}
+                                {<a href=  {`/${this.props.PublicUrl}group/list?lang=${sessionStorage.locale}`} className="dropdown-toggle menu-item" data-toggle="dropdown">{this.props.LocaleData['default.groups.label']}<span className="caret"></span></a>}
                                 <ul className="dropdown-menu pre-scrollable" style={{'height':'auto','width':'200px'}} role="menu">
                                     {this.props.UserGroupList.length>0?
                                       (
                                         <li style={{background:'#294EA7'}}>
-                                          <a href={`${Config.api.IBP_URL}/group/list`} ><span style={{textAlign:'center',marginLeft:'55px'}} > {"See All"}</span> </a >
+                                          <a href={`${Config.api.IBP_URL}/group/list?lang=${sessionStorage.locale}`} ><span style={{textAlign:'center',marginLeft:'55px'}} > {"See All"}</span> </a >
                                         </li>
                                       )
                                       :null}
@@ -295,14 +295,14 @@ class WiktropNavigationHeader extends Component{
                                             this.state.parents.map((item1,index1)=>{
                                                 return(
                                                     <li key={index1}>
-                                                        <a href= {`/${this.props.PublicUrl}page/${item1.id}`}>{item1.title}</a>
+                                                        <a href= {`/${this.props.PublicUrl}page/${item1.id}?lang=${sessionStorage.locale}`}>{item1.title}</a>
                                                         <ul>
                                                             {
                                                                 this.state.children.get(item1.id) != null ?
                                                                     this.state.children.get(item1.id).map((item2,index2)=>{
                                                                         return(
                                                                             <li key={item2.id}>
-                                                                                <a href= {`/${this.props.PublicUrl}page/${item2.id}`}>{item2.title}</a>
+                                                                                <a href= {`/${this.props.PublicUrl}page/${item2.id}?lang=${sessionStorage.locale}`}>{item2.title}</a>
                                                                             </li>
                                                                         )
                                                                     })
@@ -323,19 +323,19 @@ class WiktropNavigationHeader extends Component{
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}activityFeed/list`}>{this.props.LocaleData['button.activity']}
+                                        {<a href= {`/${this.props.PublicUrl}activityFeed/list?lang=${sessionStorage.locale}`}>{this.props.LocaleData['button.activity']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}user/list`}>{this.props.LocaleData['default.members.label']}
+                                        {<a href= {`/${this.props.PublicUrl}user/list?lang=${sessionStorage.locale}`}>{this.props.LocaleData['default.members.label']}
                                         </a>}
                                     </li>
                                     <li>
-                                        {<a href= {`/${this.props.PublicUrl}chart/show`}>{this.props.LocaleData['button.dashboard']}
+                                        {<a href= {`/${this.props.PublicUrl}chart/show?lang=${sessionStorage.locale}`}>{this.props.LocaleData['button.dashboard']}
                                         </a>}
                                     </li>
                                     <li>
-                                        <a href= {`/${this.props.PublicUrl}about`}>{this.props.LocaleData['button.about.us']}
+                                        <a href= {`/${this.props.PublicUrl}about?lang=${sessionStorage.locale}`}>{this.props.LocaleData['button.about.us']}
                                         </a>
 
                                     </li>

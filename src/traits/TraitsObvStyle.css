@@ -53,3 +53,11 @@ padding-right: 10px;
   margin-left: 5px;
   box-shadow: 1px 1px grey;
 }
+
+.traitHover:hover {
+    position:relative;
+    height:150px!important;
+    width:150px!important;
+    object-fit: cover!important;
+    overflow: hidden!important;
+}

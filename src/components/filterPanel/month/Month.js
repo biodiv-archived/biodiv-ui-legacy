@@ -3,7 +3,7 @@ import style from './Month.css';
 import Checkbox from 'rc-checkbox';
 import 'rc-checkbox/assets/index.css';
 import queryString from 'query-string';
-
+import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 
@@ -22,7 +22,7 @@ class MonthApp extends React.Component {
   }
   componentDidMount(){
       this.setParameter();
-    
+
   }
 
   setParameter(){
@@ -73,7 +73,7 @@ else{
             name={"Januray"}
           />
           &nbsp;
-          January
+          {this.props.LocaleData['filter.seasonal.january']}
         </div>
 
         <div>
@@ -84,7 +84,7 @@ else{
             name={"February"}
           />
           &nbsp;
-          February
+          {this.props.LocaleData['filter.seasonal.february']}
         </div>
 
         <div>
@@ -95,7 +95,8 @@ else{
             name={"March"}
           />
           &nbsp;
-          March
+          {this.props.LocaleData['filter.seasonal.march']}
+
         </div>
 
         <div>
@@ -106,7 +107,7 @@ else{
             checked={this.state.monthSelected.includes("4")}
           />
           &nbsp;
-          April
+          {this.props.LocaleData['filter.seasonal.april']}
         </div>
 
         <div>
@@ -116,8 +117,8 @@ else{
             name={"May"}
             checked={this.state.monthSelected.includes("5")}
           />
+          {this.props.LocaleData['filter.seasonal.may']}
           &nbsp;
-          May
         </div>
 
         <div>
@@ -128,7 +129,7 @@ else{
             checked={this.state.monthSelected.includes("6")}
           />
           &nbsp;
-          June
+          {this.props.LocaleData['filter.seasonal.june']}
         </div>
 
         <div>
@@ -139,7 +140,7 @@ else{
             checked={this.state.monthSelected.includes("7")}
           />
           &nbsp;
-          July
+          {this.props.LocaleData['filter.seasonal.july']}
         </div>
 
         <div>
@@ -150,7 +151,7 @@ else{
             checked={this.state.monthSelected.includes("8")}
           />
           &nbsp;
-          August
+          {this.props.LocaleData['filter.seasonal.august']}
         </div>
 
         <div>
@@ -161,7 +162,7 @@ else{
             checked={this.state.monthSelected.includes("9")}
           />
           &nbsp;
-          September
+          {this.props.LocaleData['filter.sesonal.september']}
         </div>
 
         <div>
@@ -172,7 +173,7 @@ else{
             checked={this.state.monthSelected.includes("10")}
           />
           &nbsp;
-          October
+          {this.props.LocaleData['filter.seasonal.october']}
         </div>
 
         <div>
@@ -183,7 +184,7 @@ else{
             checked={this.state.monthSelected.includes("11")}
           />
           &nbsp;
-          November
+          {this.props.LocaleData['filter.seasonal.november']}
         </div>
 
         <div>
@@ -194,11 +195,15 @@ else{
             checked={this.state.monthSelected.includes("12")}
           />
           &nbsp;
-          December
+          {this.props.LocaleData['filter.seasonal.december']}
         </div>
       </div>
     );
   }
 }
-
-export default withRouter(MonthApp);
+function mapStateToProps(state) {
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+export default withRouter(connect(mapStateToProps)(MonthApp));

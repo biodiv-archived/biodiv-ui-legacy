@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import queryString from 'query-string';
 import Checkbox from 'rc-checkbox';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import 'rc-checkbox/assets/index.css';
 
@@ -28,7 +29,7 @@ class ValidateFilter extends Component{
   }
   componentDidMount(){
     this.setParameter();
-    
+
   }
 
 handleCheckboxes(event){
@@ -66,18 +67,24 @@ handleCheckboxes(event){
                 value={"validate"}
                 checked={ this.state.ValidateFilter.includes("validate")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Validated "}
+            />{this.props.LocaleData['filter.dataQuality.validation.validated']}
         </div>
         <div>
             <Checkbox
                 value={"invalidate"}
                 checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Not validated "}
+            />{this.props.LocaleData['filter.dataQuality.validation.notValidated']}
         </div>
 
       </div>
     )
   }
 }
-export default  withRouter(ValidateFilter);
+function mapStateToProps(state) {
+
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+export default withRouter(connect(mapStateToProps)(ValidateFilter));

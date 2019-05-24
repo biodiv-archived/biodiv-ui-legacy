@@ -74,7 +74,7 @@ class ModalPopup extends React.Component {
 
         if(this.props.options) {
             var newOptions=this.props.options;
-            newOptions.headers=AuthUtils.getAuthHeaders(),
+            newOptions.headers=AuthUtils.getAuthHeaders()
                 axios(newOptions)
                 .then((response)=>{
                     console.log("comment",response)
@@ -89,13 +89,13 @@ class ModalPopup extends React.Component {
                           this.props.funcRefresh();
                         }
                     }else{
-                        this.props.sGroup?
-                            (
-                                this.props.funcRefresh?this.props.funcRefresh(this.props.id,this.props.sGroup):null
-                            ):
-                            (
-                                this.props.funcRefresh?(this.props.id1?this.props.funcRefresh(this.props.id1,this.props.id):this.props.funcRefresh(this.props.id)):null
-                            )
+                        if(this.props.sGroup){
+                            if(this.props.funcRefresh){this.props.funcRefresh(this.props.id,this.props.sGroup)}
+                        }else{
+                            if(this.props.funcRefresh){
+                                this.props.id1?this.props.funcRefresh(this.props.id1,this.props.id):this.props.funcRefresh(this.props.id)
+                            }
+                        }
                     }
 
                 })
@@ -105,7 +105,7 @@ class ModalPopup extends React.Component {
                 });
         }
         else{
-            this.props.func?this.props.func():null
+            if(this.props.func){this.props.func()}
         }
     }
 

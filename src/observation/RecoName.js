@@ -352,8 +352,8 @@ class RecoName extends React.Component {
   showForm(){
     var form1="form"+this.props.id
     var add1="add"+this.props.id
-    this.refs[form1]?this.refs[form1].style.display="block":null
-    this.refs[add1]?this.refs[add1].style.display="none":null
+    if(this.refs[form1]){this.refs[form1].style.display="block"}
+    if(this.refs[add1]){this.refs[add1].style.display="none"}
   }
 
   handleSelect(selectedIndex, e) {
@@ -414,7 +414,7 @@ class RecoName extends React.Component {
                               (
                                   item.speciesId!=null?
                                   (
-                                    <NavLink to={`/${this.props.PublicUrl}species/show/${item.speciesId}`}>
+                                    <NavLink to={`/${this.props.PublicUrl}species/show/${item.speciesId}?lang=${sessionStorage.locale}`}>
                                     <i>{item.hasOwnProperty('normalizedForm') ?<span style={{fontWeight:'bold'}}>{item.normalizedForm}</span>:null}
                                     {"    "}  </i>
                                   </NavLink>
@@ -461,7 +461,7 @@ class RecoName extends React.Component {
                                          <div key={index} className="col-xs-1 facepile" >
                                            {
 
-                                                <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}`}>
+                                                <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}?lang=${sessionStorage.locale}`}>
                                                     {
                                                       aut[0].icon?
                                                       (
@@ -496,7 +496,7 @@ class RecoName extends React.Component {
                                                     return(
                                                       <div key={index} className="col-xs-1" >
                                                         {
-                                                             <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}`} >
+                                                             <NavLink to={`/${this.props.PublicUrl}user/show/${aut[0].id}?lang=${sessionStorage.locale}`} >
                                                                  {
                                                                    aut[0].icon?
                                                                    (
@@ -662,7 +662,7 @@ class RecoName extends React.Component {
                 this.state.response.length>0?
                 (
                   <div>
-                  <center style={{display:'block'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" onClick={this.showForm.bind(this)} style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"><span style={{fontFamily:'none'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
+                  <center style={{display:'block'}} ref={"add"+this.props.id}>  <button  className="btn btn-primary" onClick={this.showForm.bind(this)} style={{borderRadius:'1em'}}><span className="glyphicon glyphicon-plus"><span style={{fontFamily:'sans-serif'}}>{this.props.LocaleData['button.suggest']}</span></span></button></center>
                   <div style={{display:'none'}} ref={"form"+this.props.id}>
                   <Formsuggest   id2={this.props.id} getReco={this.getRecoName} getObvAgain={this.getObvAgain} />
                   </div>

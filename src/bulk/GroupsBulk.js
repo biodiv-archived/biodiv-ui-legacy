@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import EllipsisText  from 'react-ellipsis-text';
+import EllipsisText  from 'react-ellipsis-text-x';
 
 import AuthUtils from '../auth/AuthUtils.js'
 import { Config } from '../Config';
@@ -21,7 +21,7 @@ class GroupsBulk extends React.Component{
     this.unpost=[];
     this.checked="Post to Groups";
     this.getUserGroupsWithWrite = this.getUserGroupsWithWrite.bind(this)
-    this.state.responseUser.length===0?this.getUserGroupsWithWrite():null
+    if(this.state.responseUser.length===0){this.getUserGroupsWithWrite()}
     //console.log("checking_id",this.props.ids)
     //console.log(this.props.selectAll)
   }

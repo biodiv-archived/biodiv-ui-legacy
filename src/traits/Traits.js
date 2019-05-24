@@ -34,7 +34,7 @@ class Traits extends React.Component {
   }
   componentDidMount(){
       this.setParameter()
-    getAllTraits("fr").then(data=>{
+    getAllTraits(this.props.Locale).then(data=>{
     this.setState({
       observationTraitList:data
     })
@@ -58,19 +58,17 @@ class Traits extends React.Component {
   })
   this.callFilter(traitIdwithValues)
   }
-  componentWillReceiveProps(nextProps){
-    console.log("kfsdhfklsd");
-    console.log(nextProps);
 
-  }
   render() {
     let observationTraitList=this.state.observationTraitList;
     let traitIdwithValues=this.state.traitIdwithValues;
     let Comkeys = Array.from( traitIdwithValues.keys());
     let keys=[];
-      Comkeys?Comkeys.map((item)=>{
+    if(Comkeys){
+      Comkeys.map((item)=>{
         keys.push(item.split(".")[0])
-      }):null;
+      })
+    }
     return (
       <div>
           {observationTraitList.data?observationTraitList.data.map((item,index)=>{

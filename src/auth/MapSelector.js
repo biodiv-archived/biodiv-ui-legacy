@@ -121,7 +121,7 @@ function setPopupContent(contentDiv, place, results) {
 	}
 	for (var i = 0; i < listItems.length; i++){
 	  html += "<li> <span class='title'>" + listItems[i] + "</span>"
-		  + "<a onclick=useTitle(this) class='use-as-title'>Use as title</a>"
+		  + "<a onclick=useTitle(this) class='use-as-title'>Use as title</a>" +
 		"</li>"
 	}
 	html += "</ul>"

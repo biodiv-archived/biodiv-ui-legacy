@@ -52,7 +52,7 @@ class CustomFields extends React.Component {
       let group=this.props.UserGroupList.find((item)=>{
           return item.webaddress==groupName
       })
-      group?this.props.fetchCustomFields(group.id):null;
+      if(group){this.props.fetchCustomFields(group.id)}
     }
     else{
       this.props.fetchCustomFields();
@@ -92,7 +92,7 @@ setUserGroup(UserGroupList){
     let group=UserGroupList.find((item)=>{
         return item.webaddress==groupName
     })
-  group?this.props.fetchCustomFields(group.id):null;
+    if(group){this.props.fetchCustomFields(group.id)}
   }
   else{
     this.props.fetchCustomFields();
@@ -114,7 +114,7 @@ setUserGroup(UserGroupList){
     if(parts[0]=="thewesternghats"){
       groupid=1;
     }
-    groupid?this.props.fetchCustomFields(groupid):null
+    if(groupid){this.props.fetchCustomFields(groupid)}
   }
 }
   componentWillReceiveProps(nextProps){
@@ -134,9 +134,11 @@ setUserGroup(UserGroupList){
     let CustomFieldsSelectedMap=this.state.CustomFieldsSelectedMap;
     let Comkeys = Array.from( CustomFieldsSelectedMap.keys());
     let keys=[];
-      Comkeys?Comkeys.map((item)=>{
+    if(Comkeys){
+      Comkeys.map((item)=>{
         keys.push(item.split(".")[0])
-      }):null;
+      })
+    }
 
     return (
       <div>

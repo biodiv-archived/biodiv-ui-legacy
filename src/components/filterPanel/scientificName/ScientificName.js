@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Checkbox from 'rc-checkbox';
 import queryString from 'query-string';
-
+import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import 'rc-checkbox/assets/index.css';
 
@@ -28,7 +28,7 @@ class SpeciesNameFilter extends Component{
   }
   componentDidMount(){
     this.setParameter();
-  
+
   }
 
 handleCheckboxes(event){
@@ -65,17 +65,23 @@ handleCheckboxes(event){
                 value={"UNIDENTIFED"}
                 checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Unidentified"}
+            />{this.props.LocaleData['filter.dataQuality.identification.unIdentified']}
         </div>
         <div>
             <Checkbox
                 value={"IDENTIFED"}
                 checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
                 onChange={this.handleCheckboxes.bind(this)}
-            />{" Identified"}
+            />{this.props.LocaleData['filter.dataQuality.identification.identified']}
         </div>
       </div>
     )
   }
 }
-export default  withRouter(SpeciesNameFilter);
+function mapStateToProps(state) {
+
+  return {
+    LocaleData:state.LocaleData
+  };
+}
+export default withRouter(connect(mapStateToProps)(SpeciesNameFilter));
