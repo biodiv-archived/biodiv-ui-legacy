@@ -149,7 +149,7 @@ class RichTextEditor extends React.Component {
       console.log("statatatatatatatatattatta",this.stat)
     }
     this.state = {
-      editorState: (this.props.htm?EditorState.createWithContent(this.stat,new CompositeDecorator(this.decorator)):EditorState.createEmpty()),
+      editorState: (this.props.htm?EditorState.createWithContent(this.stat):EditorState.createEmpty()),
       suggestions:[],
       key:this.props.obvId,
       login_modal:false,

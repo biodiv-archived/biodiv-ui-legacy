@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import {Config} from './Config'
-import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 import App from './app/App';
 import { Login, Logout, AuthUtils,Register,VerifyRegistration,ForgotPassword,ResetPassword} from './auth';
 import reducers from './reducers';
@@ -299,4 +299,4 @@ ReactDOM.render(
   </Provider>
 </MuiThemeProvider>
   , document.querySelector('.outer-wrapper'));
-registerServiceWorker();
+unregister();
