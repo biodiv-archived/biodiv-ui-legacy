@@ -39,14 +39,14 @@ class NavigationHeader extends Component{
                 this.getNewsLetters(group.id);
             })
         } else {
-          if(parts.length>=3){
-            if(parts[0]=="assambiodiversity"){
+            if (parts.length >= 3 && parts[0] !== "pamba") {
+            if(parts[0]==="assambiodiversity"){
               this.getNewsLetters(4087136);
             }
-            if(parts[0]=="treesindia"){
+            if(parts[0]==="treesindia"){
               this.getNewsLetters(18);
             }
-            if(parts[0]=="thewesternghats"){
+            if(parts[0]==="thewesternghats"){
             this.getNewsLetters(1);
             }
           }

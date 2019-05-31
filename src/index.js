@@ -24,7 +24,7 @@ import fr from './fr.js';
 
 import "naksha-components-react/dist/index.css";
 import "./index.css";
-import { Layers } from "naksha-components-react";
+import { Layers, Upload } from "naksha-components-react";
 
 var fileref=document.createElement("link")
        fileref.setAttribute("rel", "stylesheet")
@@ -205,7 +205,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       AuthUtils.isLoggedIn() ? (
         AuthUtils.isAdmin()?
         (
-          <Component {...props} {...map_props} title={title}/>
+          <Component
+            endpoint={
+              process.env.REACT_APP_ROOT_URL + "/naksha/layer/uploadshp"
+            }
+            title={title}
+          />
         )
         :
         (
@@ -283,7 +288,7 @@ ReactDOM.render(
                               </div>
           							    )}/>
 
-                  <PrivateRoute exact path="/map/upload" component={naksha.NewLayerComponent}/>
+              <PrivateRoute exact path="/map/upload" component={Upload}/>
 
               </div>
                 <div  id="footerWrapper">

@@ -24,6 +24,7 @@ import TaxonId from '../components/filterPanel/Name/TaxonId';
 import RecoName from '../components/filterPanel/Name/RecoName';
 import CustomFields from '../customFields/CustomFields';
 import Location from '../components/filterPanel/location/Location';
+import { Config } from '../Config';
 
 class Right extends Component {
 
@@ -285,9 +286,14 @@ render(){
        </div>
 
         <div  className="panel-body panelBodyBBP" style={{backgroundColor:'#EBEABD',padding:'6px'}}>
-          {/* <Collapsible  open={this.state.sGroupOpen} trigger={`Species Groups`}>
-            <SpeciesGroup />
-          </Collapsible> */}
+            {Config.DEPLOY !== "wiktrop" && (
+              <Collapsible
+                open={this.state.sGroupOpen}
+                trigger={`Species Groups`}
+              >
+                <SpeciesGroup />
+              </Collapsible>
+            )}
 
             <Collapsible  open={this.state.taxonOpen} trigger={this.props.LocaleData['filter.taxon_browser']}>
             <div>

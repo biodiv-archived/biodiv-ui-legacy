@@ -1,4 +1,4 @@
-.species_groups_sprites, .species_groups_sprites.active { background-image: url("https://indiabiodiversity.org/biodiv/assets/all/group_icons/speciesGroups/all_small_sprite.png"); background-color: transparent; background-repeat: no-repeat; }
+.species_groups_sprites, .species_groups_sprites.active { background-image: url("https://indiabiodiversity.org/biodiv/assets/all/group_icons/speciesGroups/all_small_sprite.png")!important; background-color: transparent; background-repeat: no-repeat; }
 
 .species_groups_sprites.all_gall_th { width: 32px; height: 32px; background-position: 0 -865px; }
 .species_groups_sprites.all_gall_th.active, .species_groups_sprites.all_gall_th:active { background-position: 0 -929px; }

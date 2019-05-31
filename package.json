@@ -1,6 +1,6 @@
 {
   "name": "biodiv-ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.1.1",
@@ -28,8 +28,8 @@
     "mapbox-gl": "0.45.0",
     "material-ui": "0.20.0",
     "moment": "2.21.0",
-    "naksha-components-react": "^1.0.1",
-    "naksha-react-ui-legacy": "^1.0.2",
+    "naksha-components-react": "^1.1.2",
+    "naksha-react-ui-legacy": "^1.0.3",
     "prop-types": "15.6.1",
     "query-string": "5.0.0",
     "rc-checkbox": "2.0.3",
