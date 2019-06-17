@@ -41,12 +41,14 @@
   }
 }
 
+.showRaw,
 .showWorking,
 .showClean {
   padding: 5px 8px;
   border-radius: 15px !important;
 }
 
+.showRaw a,
 .showWorking a,
 .showClean a {
   text-transform: uppercase;
@@ -58,6 +60,14 @@
 
 .showWorking a {
   color: #e89b2f !important;
+}
+
+.showRaw {
+  background: #d5d5d6;
+}
+
+.showRaw a {
+  color: #6b6a6a !important;
 }
 
 .showClean {
@@ -135,4 +145,8 @@
 
 .txt-bold.txt-s{
   margin-top: 0
+}
+
+.glyphicon{
+  font-family: 'Glyphicons Halflings', sans-serif;
 }

@@ -234,6 +234,21 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
+const RenderMap = () => (
+  <div
+    style={{
+      height: "75vh",
+      width: "100%"
+    }}
+  >
+    <Layers
+      mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
+      endpoint={window.location.origin}
+      layersPanelClosed={true}
+    />
+  </div>
+)
+
 ReactDOM.render(
   <MuiThemeProvider>
   <Provider store={store}>
@@ -259,34 +274,8 @@ ReactDOM.render(
                   <Route  exact path="/register/forgotPassword" render={(props) => <ForgotPassword {...props} title={title} />}/>
                   <Route  exact path="/register/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
 
-                  <Route path="/group/:groupName/map" render={(routeProps) => (
-                    <div
-                    style={{
-                      height: "75vh",
-                      width: "100%"
-                    }}
-                  >
-                    <Layers
-                      mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                      endpoint={process.env.REACT_APP_ROOT_URL}
-                      layersPanelClosed={true}
-                    />
-                  </div>
-							    				  )}/>
-                  <Route exact path="/map" render={(routeProps) => (
-          						      		<div
-                                style={{
-                                  height: "75vh",
-                                  width: "100%"
-                                }}
-                              >
-                                <Layers
-                                  mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                                  endpoint={process.env.REACT_APP_ROOT_URL}
-                                  layersPanelClosed={true}
-                                />
-                              </div>
-          							    )}/>
+                  <Route path={["/group/:groupName/map", "/group/:groupName/map/show"]} render={RenderMap}/>
+                  <Route exact path={["/map", "/map/show"]} render={RenderMap}/>
 
               <PrivateRoute exact path="/map/upload" component={Upload}/>
 

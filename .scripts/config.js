@@ -4,7 +4,8 @@ module.exports = {
     ".env",
     ".env.pamba",
     ".env.wiktrop",
-    ".env.bbp"
+    ".env.bbp",
+    ".env.kk"
   ],
   warning: `🚨 If it's throwing ERR_INVALID_CALLBACK error that means your password is wrong`
 };
