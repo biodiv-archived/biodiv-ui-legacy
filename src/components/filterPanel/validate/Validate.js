@@ -62,20 +62,22 @@ handleCheckboxes(event){
     return(
       <div>
 
-        <div>
-            <Checkbox
-                value={"validate"}
-                checked={ this.state.ValidateFilter.includes("validate")?true:false }
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.validation.validated']}
-        </div>
-        <div>
-            <Checkbox
-                value={"invalidate"}
-                checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.validation.notValidated']}
-        </div>
+        {this.props.stat && <>
+          <div>
+              <Checkbox
+                  value={"validate"}
+                  checked={ this.state.ValidateFilter.includes("validate")?true:false }
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.validation.validated']} <span className="filter--counter">{this.props.stat["1"]}</span>
+          </div>
+          <div>
+              <Checkbox
+                  value={"invalidate"}
+                  checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.validation.notValidated']} <span className="filter--counter">{this.props.stat["0"]}</span>
+          </div>
+        </>}
 
       </div>
     )
@@ -84,6 +86,9 @@ handleCheckboxes(event){
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupValidate
+      : null,
     LocaleData:state.LocaleData
   };
 }

@@ -60,20 +60,22 @@ handleCheckboxes(event){
   render(){
     return(
       <div>
-        <div>
-            <Checkbox
-                value={"UNIDENTIFED"}
-                checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.identification.unIdentified']}
-        </div>
-        <div>
-            <Checkbox
-                value={"IDENTIFED"}
-                checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.identification.identified']}
-        </div>
+        {this.props.stat && <>
+          <div>
+              <Checkbox
+                  value={"UNIDENTIFED"}
+                  checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
+                  onChange={this.handleCheckboxes.bind(this)}
+              />{this.props.LocaleData['filter.dataQuality.identification.unIdentified']} <span className="filter--counter">{this.props.stat["missing"]}</span>
+          </div>
+          <div>
+              <Checkbox
+                  value={"IDENTIFED"}
+                  checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
+                  onChange={this.handleCheckboxes.bind(this)}
+              />{this.props.LocaleData['filter.dataQuality.identification.identified']} <span className="filter--counter">{this.props.stat["available"]}</span>
+          </div>
+        </>}
       </div>
     )
   }
@@ -81,6 +83,9 @@ handleCheckboxes(event){
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupIdentificationNameExists
+      : null,
     LocaleData:state.LocaleData
   };
 }

@@ -92,6 +92,7 @@ class ObservationListContainer extends Component {
             openModal:false
           })
           this.props.fetchObservations(params);
+          console.log("fobs-GlobalCall")
           this.props.clearRecommendations();
           this.fetchReco = true;
     }
@@ -285,6 +286,7 @@ class ObservationListContainer extends Component {
             openModal:false
           })
           this.props.fetchObservations(newparams);
+          console.log("fobs-setParameter")
           this.props.fetchFilterCount(url1);
             });
         }
@@ -293,15 +295,15 @@ class ObservationListContainer extends Component {
             let parts=fullUrl.split(".");
 
             if(parts.length>=3){
-              if(parts[0]=="assambiodiversity"){
+              if(parts[0]==="assambiodiversity"){
                   newparams.userGroupList="4087136";
 
               }
-              if(parts[0]=="treesindia"){
+              if(parts[0]==="treesindia"){
                 newparams.userGroupList="18";
 
               }
-              if(parts[0]=="thewesternghats"){
+              if(parts[0]==="thewesternghats"){
                 newparams.userGroupList="1";
               }
             }
@@ -336,6 +338,7 @@ class ObservationListContainer extends Component {
             }
 
           this.props.fetchObservations(newparams);
+          console.log("fobs-setParameter2")
           this.props.fetchFilterCount(url1);
           this.setState({
             params:newparams,
@@ -366,6 +369,7 @@ class ObservationListContainer extends Component {
           openModal:false
         })
         this.props.fetchObservations(params);
+        console.log("fobs-loadMore");
         this.fetchReco = true;
         }
 

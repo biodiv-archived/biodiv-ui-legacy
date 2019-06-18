@@ -64,21 +64,22 @@ class FlaggedFilter extends React.Component {
   render() {
     return (
       <div>
-        <div>
-            <Checkbox
-                checked={this.state.isFlagged.includes("0")?true:false}
-                value={"0"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.flag.unFlagged']}
-        </div>
-        <div>
-            <Checkbox
-              checked={this.state.isFlagged.includes("1")?true:false}
-                value={"1"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.flag.flagged']}
-        </div>
-
+        {this.props.stat && (<>
+          <div>
+              <Checkbox
+                  checked={this.state.isFlagged.includes("0")?true:false}
+                  value={"0"}
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.flag.unFlagged']} <span className="filter--counter">{this.props.stat["0"]}</span>
+          </div>
+          <div>
+              <Checkbox
+                checked={this.state.isFlagged.includes("1")?true:false}
+                  value={"1"}
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.flag.flagged']} <span className="filter--counter">{this.props.stat["1"]}</span>
+          </div>
+        </>)}
       </div>
     )
   }
@@ -86,6 +87,9 @@ class FlaggedFilter extends React.Component {
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupFlag
+      : null,
     LocaleData:state.LocaleData
   };
 }

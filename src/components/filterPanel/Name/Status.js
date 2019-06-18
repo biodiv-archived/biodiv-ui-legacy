@@ -59,22 +59,20 @@ class TaxonStatus extends React.Component {
   render() {
     return (
       <div>
-
         <div>
-            <Checkbox
-                checked={ this.state.Status.includes("accepted")?true:false }
-                value={"accepted"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.name.status.accepted']}
+          <Checkbox
+            checked={this.state.Status.includes("accepted") ? true : false}
+            value={"accepted"}
+            onChange={this.handleCheckboxes.bind(this)}
+          /> {this.props.LocaleData["filter.name.status.accepted"]} <span className="filter--counter">{this.props.stat["ACCEPTED"]}</span>
         </div>
         <div>
-            <Checkbox
-                checked={ this.state.Status.includes("synonym")?true:false }
-                value={"synonym"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.name.status.synonyms']}
+          <Checkbox
+            checked={this.state.Status.includes("synonym") ? true : false}
+            value={"synonym"}
+            onChange={this.handleCheckboxes.bind(this)}
+          /> {this.props.LocaleData["filter.name.status.synonyms"]} <span className="filter--counter">{this.props.stat["SYNONYM"]}</span>
         </div>
-
       </div>
     )
   }
@@ -82,6 +80,9 @@ class TaxonStatus extends React.Component {
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupStatus
+      : null,
     LocaleData:state.LocaleData
   };
 }

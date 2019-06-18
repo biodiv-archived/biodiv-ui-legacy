@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import './TraitsObvStyle.css'
 import 'rc-checkbox/assets/index.css';
 import {getTraitValues} from './TraitsApiCall';
+import { ROOT_URL } from '../Config';
 
 class Single extends Component{
 
@@ -63,10 +64,24 @@ class Single extends Component{
       let traitSelectedValues=this.state.traitSelectedValues;
       return(
         <div>
-          {traitValueList.data?traitValueList.data.map((item,index)=>{
-
-            return  <div key={index}><Checkbox defaultChecked={traitSelectedValues.includes(item.value)?true:false} onChange={this.onChange.bind(this)} traitValue={item.value} traitId={item.traitValue.traitId} /><img className="traitHover" src={`http://portal.wikwio.org/biodiv/traits/${item.traitValue.icon}`} height="30px" width="30px" />{" "+ item.value}</div>
-          }):null}
+          {traitValueList.data?traitValueList.data.map((item,index)=>(
+            <div key={index}>
+              <Checkbox
+                defaultChecked={traitSelectedValues.includes(item.value) ? true : false}
+                onChange={this.onChange.bind(this)}
+                traitValue={item.value}
+                traitId={item.traitId}
+              />
+              <img
+                className="traitHover"
+                src={`${ROOT_URL}/biodiv/traits${item.icon}`}
+                alt={item.value}
+                height="30px"
+                width="30px"
+              />
+              {`${item.value}`}
+            </div>
+              )):null}
         </div>
       )
     }

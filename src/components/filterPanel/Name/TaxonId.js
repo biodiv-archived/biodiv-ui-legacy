@@ -58,21 +58,20 @@ class TaxonIdsFilter extends React.Component {
   render() {
     return (
       <div>
-
-        <div>
+        {this.props.stat && <><div>
             <Checkbox
                 checked={ this.state.TaxonId.includes("1")?true:false }
                 value={"1"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.name.taxonId.hasTaxonId']}
+            /> {this.props.LocaleData['filter.name.taxonId.hasTaxonId']} <span className="filter--counter">{this.props.stat["available"]}</span>
         </div>
         <div>
             <Checkbox
                 checked={ this.state.TaxonId.includes("0")?true:false }
                 value={"0"}
                 onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.name.taxonId.noTaxonId']}
-        </div>
+            /> {this.props.LocaleData['filter.name.taxonId.noTaxonId']} <span className="filter--counter">{this.props.stat["missing"]}</span>
+        </div></>}
       </div>
     )
   }
@@ -80,6 +79,9 @@ class TaxonIdsFilter extends React.Component {
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupTaxonIDExists
+      : null,
     LocaleData:state.LocaleData
   };
 }

@@ -204,7 +204,7 @@ onChangeCheck(event){
     };
     return(
       <div>
-        {this.state.selectValues.length>0?this.state.selectValues.map((item)=>{
+        {this.state.selectValues.length>0 && this.props.stat?this.state.selectValues.map((item)=>{
           return (
             <div key={item.id}>
             <div >
@@ -212,8 +212,7 @@ onChangeCheck(event){
               defaultChecked={true}
               onChange={this.onChangeCheck}
               item={item}
-            />
-            &nbsp;{item.name}
+            /> {item.name} <span className="filter--counter">{this.props.stat[item.name]}</span>
         </div>
         </div>
           )
@@ -234,17 +233,16 @@ onChangeCheck(event){
         <div>
 
 
-          {newList.map((item,index)=>{
+          {this.props.stat && newList.map((item,index)=>{
             return(
               (this.state.selectValues.length+index)<10?
               <div key={index}>
-                  <div >
+                  <div>
                 <Checkbox
                   checked={false}
                   item={item}
                   onChange={this.onChangeCheck.bind(this)}
-                />
-                &nbsp;{item.name}
+                /> {item.name} <span className="filter--counter">{this.props.stat[item.name]}</span>
               </div>
               </div>
                 :null
@@ -263,6 +261,9 @@ onChangeCheck(event){
 } //class
 function mapStateToProps(state){
 return {
+  stat: state.Observation.stats
+      ? state.Observation.stats.groupUserGroupName
+      : null,
   UserGroupList:state.UserGroupList,
 };
 }

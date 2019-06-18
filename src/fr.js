@@ -1482,7 +1482,7 @@ var obj = {
   'filter.seasonal.june': 'juin',
   'filter.seasonal.july': 'juillet',
   'filter.seasonal.august': 'août',
-  'filter.sesonal.september': 'septembre',
+  'filter.seasonal.september': 'septembre',
   'filter.seasonal.october': 'octobre',
   'filter.seasonal.november': 'novembre',
   'filter.seasonal.december': 'décembre',
