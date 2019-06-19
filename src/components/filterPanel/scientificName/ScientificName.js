@@ -4,6 +4,7 @@ import queryString from 'query-string';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import 'rc-checkbox/assets/index.css';
+import StatCounter from '../counter';
 
 class SpeciesNameFilter extends Component{
 
@@ -66,14 +67,14 @@ handleCheckboxes(event){
                   value={"UNIDENTIFED"}
                   checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              />{this.props.LocaleData['filter.dataQuality.identification.unIdentified']} <span className="filter--counter">{this.props.stat["missing"]}</span>
+              />{this.props.LocaleData['filter.dataQuality.identification.unIdentified']} <StatCounter count={this.props.stat["missing"]} />
           </div>
           <div>
               <Checkbox
                   value={"IDENTIFED"}
                   checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              />{this.props.LocaleData['filter.dataQuality.identification.identified']} <span className="filter--counter">{this.props.stat["available"]}</span>
+              />{this.props.LocaleData['filter.dataQuality.identification.identified']} <StatCounter count={this.props.stat["available"]} />
           </div>
         </>}
       </div>

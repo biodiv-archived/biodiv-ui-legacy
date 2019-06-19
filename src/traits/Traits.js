@@ -76,23 +76,30 @@ class Traits extends React.Component {
     }
     return (
       <div>
-        {observationTraitList.data?observationTraitList.data.map((_t,index)=>{
-          return(
-            <div key={index}>
-              <Collapsible  open={keys.includes(_t.id.toString())} trigger={_t.name}>
-                {console.log("trait",_t)}
-                <TraitValues
-                  passToTraitValues={this.passToTraitValues}
-                  language={_t.threeLetterCode}
-                  traitId={_t.id}
-                  traitName={_t.name}
-                  traitType={_t.traitTypes}
-                  traitDataType={_t.dataTypes}
-                />
-              </Collapsible>
-            </div>
-          )
-        }):null}
+        {observationTraitList.data && this.props.stat ? (
+          observationTraitList.data.map((_t, index) => {
+            return (
+              <div key={index}>
+                <Collapsible
+                  open={keys.includes(_t.id.toString())}
+                  trigger={_t.name}
+                >
+                  <TraitValues
+                    passToTraitValues={this.passToTraitValues}
+                    language={_t.threeLetterCode}
+                    traitStat={this.props.stat[`trait_${_t.id}`]}
+                    traitId={_t.id}
+                    traitName={_t.name}
+                    traitType={_t.traitTypes}
+                    traitDataType={_t.dataTypes}
+                  />
+                </Collapsible>
+              </div>
+            );
+          })
+        ) : (
+          <>Loading...</>
+        )}
       </div>
           );
   }
@@ -100,6 +107,7 @@ class Traits extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    stat: state.Observation.stats ? state.Observation.stats.traits : null,
     Locale:state.Locale
   }
 }

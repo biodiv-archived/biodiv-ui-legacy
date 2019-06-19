@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import 'rc-checkbox/assets/index.css';
+import StatCounter from '../counter';
 
 class ValidateFilter extends Component{
 
@@ -68,14 +69,14 @@ handleCheckboxes(event){
                   value={"validate"}
                   checked={ this.state.ValidateFilter.includes("validate")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              /> {this.props.LocaleData['filter.dataQuality.validation.validated']} <span className="filter--counter">{this.props.stat["1"]}</span>
+              /> {this.props.LocaleData['filter.dataQuality.validation.validated']} <StatCounter count={this.props.stat["1"]} />
           </div>
           <div>
               <Checkbox
                   value={"invalidate"}
                   checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              /> {this.props.LocaleData['filter.dataQuality.validation.notValidated']} <span className="filter--counter">{this.props.stat["0"]}</span>
+              /> {this.props.LocaleData['filter.dataQuality.validation.notValidated']} <StatCounter count={this.props.stat["0"]} />
           </div>
         </>}
 

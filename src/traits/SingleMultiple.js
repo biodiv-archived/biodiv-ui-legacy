@@ -7,6 +7,7 @@ import './TraitsObvStyle.css'
 import 'rc-checkbox/assets/index.css';
 import {getTraitValues} from './TraitsApiCall';
 import { ROOT_URL } from '../Config';
+import StatCounter from '../components/filterPanel/counter';
 
 class Single extends Component{
 
@@ -80,6 +81,7 @@ class Single extends Component{
                 width="30px"
               />
               {`${item.value}`}
+              <StatCounter count={this.props.traitStat[item.value]} />
             </div>
               )):null}
         </div>

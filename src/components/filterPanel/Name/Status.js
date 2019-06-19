@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 
 import 'rc-checkbox/assets/index.css';
+import StatCounter from '../counter';
 
 class TaxonStatus extends React.Component {
   constructor(){
@@ -64,14 +65,14 @@ class TaxonStatus extends React.Component {
             checked={this.state.Status.includes("accepted") ? true : false}
             value={"accepted"}
             onChange={this.handleCheckboxes.bind(this)}
-          /> {this.props.LocaleData["filter.name.status.accepted"]} <span className="filter--counter">{this.props.stat["ACCEPTED"]}</span>
+          /> {this.props.LocaleData["filter.name.status.accepted"]} <StatCounter count={this.props.stat["ACCEPTED"]} />
         </div>
         <div>
           <Checkbox
             checked={this.state.Status.includes("synonym") ? true : false}
             value={"synonym"}
             onChange={this.handleCheckboxes.bind(this)}
-          /> {this.props.LocaleData["filter.name.status.synonyms"]} <span className="filter--counter">{this.props.stat["SYNONYM"]}</span>
+          /> {this.props.LocaleData["filter.name.status.synonyms"]} <StatCounter count={this.props.stat["SYNONYM"]} />
         </div>
       </div>
     )

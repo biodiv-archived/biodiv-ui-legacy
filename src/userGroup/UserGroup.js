@@ -12,6 +12,7 @@ import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
 import UserGroupName from '../util/UserGroup';
 
 import {ClearObservationPage} from '../actions/index';
+import StatCounter from '../components/filterPanel/counter';
 
 function comparer(otherArray){
   return function(current){
@@ -212,7 +213,7 @@ onChangeCheck(event){
               defaultChecked={true}
               onChange={this.onChangeCheck}
               item={item}
-            /> {item.name} <span className="filter--counter">{this.props.stat[item.name]}</span>
+            /> {item.name} <StatCounter count={this.props.stat[item.name]} />
         </div>
         </div>
           )
@@ -242,7 +243,7 @@ onChangeCheck(event){
                   checked={false}
                   item={item}
                   onChange={this.onChangeCheck.bind(this)}
-                /> {item.name} <span className="filter--counter">{this.props.stat[item.name]}</span>
+                /> {item.name} <StatCounter count={this.props.stat[item.name]} />
               </div>
               </div>
                 :null

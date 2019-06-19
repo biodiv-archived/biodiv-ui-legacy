@@ -22,7 +22,7 @@ showFilter(traitId,traitType,traitDataType){
       return <ColorTrait passToTraitValues={this.props.passToTraitValues} traitId={traitId} />
     }
     else{
-      return <SingleMultiple  passToTraitValues={this.props.passToTraitValues} traitId={traitId} />
+      return <SingleMultiple  passToTraitValues={this.props.passToTraitValues} traitId={traitId} traitStat={this.props.traitStat} />
     }
   }
   else{
