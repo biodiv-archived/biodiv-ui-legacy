@@ -65,14 +65,14 @@ class TaxonStatus extends React.Component {
             checked={this.state.Status.includes("accepted") ? true : false}
             value={"accepted"}
             onChange={this.handleCheckboxes.bind(this)}
-          /> {this.props.LocaleData["filter.name.status.accepted"]} <StatCounter count={this.props.stat["ACCEPTED"]} />
+          /> {this.props.LocaleData["filter.name.status.accepted"]} <StatCounter stat={this.props.stat} keyName="ACCEPTED" />
         </div>
         <div>
           <Checkbox
             checked={this.state.Status.includes("synonym") ? true : false}
             value={"synonym"}
             onChange={this.handleCheckboxes.bind(this)}
-          /> {this.props.LocaleData["filter.name.status.synonyms"]} <StatCounter count={this.props.stat["SYNONYM"]} />
+          /> {this.props.LocaleData["filter.name.status.synonyms"]} <StatCounter stat={this.props.stat} keyName="SYNONYM" />
         </div>
       </div>
     )

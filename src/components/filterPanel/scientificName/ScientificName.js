@@ -67,14 +67,14 @@ handleCheckboxes(event){
                   value={"UNIDENTIFED"}
                   checked={ this.state.speciesName.includes("UNIDENTIFED")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              />{this.props.LocaleData['filter.dataQuality.identification.unIdentified']} <StatCounter count={this.props.stat["missing"]} />
+              />{this.props.LocaleData['filter.dataQuality.identification.unIdentified']} <StatCounter stat={this.props.stat} keyName="missing" />
           </div>
           <div>
               <Checkbox
                   value={"IDENTIFED"}
                   checked={ this.state.speciesName.includes("IDENTIFED")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              />{this.props.LocaleData['filter.dataQuality.identification.identified']} <StatCounter count={this.props.stat["available"]} />
+              />{this.props.LocaleData['filter.dataQuality.identification.identified']} <StatCounter stat={this.props.stat} keyName="available" />
           </div>
         </>}
       </div>

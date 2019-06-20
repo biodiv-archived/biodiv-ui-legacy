@@ -213,7 +213,7 @@ onChangeCheck(event){
               defaultChecked={true}
               onChange={this.onChangeCheck}
               item={item}
-            /> {item.name} <StatCounter count={this.props.stat[item.name]} />
+            /> {item.name} <StatCounter stat={this.props.stat} keyName={item.name} />
         </div>
         </div>
           )
@@ -243,7 +243,7 @@ onChangeCheck(event){
                   checked={false}
                   item={item}
                   onChange={this.onChangeCheck.bind(this)}
-                /> {item.name} <StatCounter count={this.props.stat[item.name]} />
+                /> {item.name} <StatCounter stat={this.props.stat} keyName={item.name} />
               </div>
               </div>
                 :null

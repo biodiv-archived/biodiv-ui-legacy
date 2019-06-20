@@ -81,7 +81,7 @@ class Single extends Component{
                 width="30px"
               />
               {`${item.value}`}
-              <StatCounter count={this.props.traitStat[item.value]} />
+              <StatCounter stat={this.props.traitStat} keyName={item.value} />
             </div>
               )):null}
         </div>

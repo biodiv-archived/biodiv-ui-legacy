@@ -69,14 +69,14 @@ handleCheckboxes(event){
                   value={"validate"}
                   checked={ this.state.ValidateFilter.includes("validate")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              /> {this.props.LocaleData['filter.dataQuality.validation.validated']} <StatCounter count={this.props.stat["1"]} />
+              /> {this.props.LocaleData['filter.dataQuality.validation.validated']} <StatCounter stat={this.props.stat} keyName="1" />
           </div>
           <div>
               <Checkbox
                   value={"invalidate"}
                   checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
                   onChange={this.handleCheckboxes.bind(this)}
-              /> {this.props.LocaleData['filter.dataQuality.validation.notValidated']} <StatCounter count={this.props.stat["0"]} />
+              /> {this.props.LocaleData['filter.dataQuality.validation.notValidated']} <StatCounter stat={this.props.stat} keyName="0" />
           </div>
         </>}
 

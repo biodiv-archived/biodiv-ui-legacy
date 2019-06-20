@@ -64,14 +64,14 @@ class TaxonIdsFilter extends React.Component {
                 checked={ this.state.TaxonId.includes("1")?true:false }
                 value={"1"}
                 onChange={this.handleCheckboxes.bind(this)}
-            /> {this.props.LocaleData['filter.name.taxonId.hasTaxonId']} <StatCounter count={this.props.stat["available"]} />
+            /> {this.props.LocaleData['filter.name.taxonId.hasTaxonId']} <StatCounter stat={this.props.stat} keyName="available" />
         </div>
         <div>
             <Checkbox
                 checked={ this.state.TaxonId.includes("0")?true:false }
                 value={"0"}
                 onChange={this.handleCheckboxes.bind(this)}
-            /> {this.props.LocaleData['filter.name.taxonId.noTaxonId']} <StatCounter count={this.props.stat["missing"]} />
+            /> {this.props.LocaleData['filter.name.taxonId.noTaxonId']} <StatCounter stat={this.props.stat} keyName="missing" />
         </div></>}
       </div>
     )
