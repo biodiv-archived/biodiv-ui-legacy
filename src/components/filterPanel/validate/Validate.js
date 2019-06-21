@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import 'rc-checkbox/assets/index.css';
+import StatCounter from '../counter';
 
 class ValidateFilter extends Component{
 
@@ -62,20 +63,22 @@ handleCheckboxes(event){
     return(
       <div>
 
-        <div>
-            <Checkbox
-                value={"validate"}
-                checked={ this.state.ValidateFilter.includes("validate")?true:false }
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.validation.validated']}
-        </div>
-        <div>
-            <Checkbox
-                value={"invalidate"}
-                checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.validation.notValidated']}
-        </div>
+        {this.props.stat && <>
+          <div>
+              <Checkbox
+                  value={"validate"}
+                  checked={ this.state.ValidateFilter.includes("validate")?true:false }
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.validation.validated']} <StatCounter stat={this.props.stat} keyName="1" />
+          </div>
+          <div>
+              <Checkbox
+                  value={"invalidate"}
+                  checked={ this.state.ValidateFilter.includes("invalidate")?true:false }
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.validation.notValidated']} <StatCounter stat={this.props.stat} keyName="0" />
+          </div>
+        </>}
 
       </div>
     )
@@ -84,6 +87,9 @@ handleCheckboxes(event){
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupValidate
+      : null,
     LocaleData:state.LocaleData
   };
 }

@@ -102,16 +102,16 @@ setUserGroup(UserGroupList){
   let parts=fullUrl.split(".");
   if(parts.length>=3){
     let groupid;
-    if(parts[0]=="assambiodiversity"){
+    if(parts[0]==="assambiodiversity"){
 
         groupid=4087136;
 
     }
-    if(parts[0]=="treesindia"){
+    if(parts[0]==="treesindia"){
       groupid=18;
 
     }
-    if(parts[0]=="thewesternghats"){
+    if(parts[0]==="thewesternghats"){
       groupid=1;
     }
     if(groupid){this.props.fetchCustomFields(groupid)}

@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import 'rc-checkbox/assets/index.css';
+import StatCounter from '../counter';
 
 class FlaggedFilter extends React.Component {
 
@@ -64,21 +65,22 @@ class FlaggedFilter extends React.Component {
   render() {
     return (
       <div>
-        <div>
-            <Checkbox
-                checked={this.state.isFlagged.includes("0")?true:false}
-                value={"0"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.flag.unFlagged']}
-        </div>
-        <div>
-            <Checkbox
-              checked={this.state.isFlagged.includes("1")?true:false}
-                value={"1"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.dataQuality.flag.flagged']}
-        </div>
-
+        {this.props.stat && (<>
+          <div>
+              <Checkbox
+                  checked={this.state.isFlagged.includes("0")?true:false}
+                  value={"0"}
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.flag.unFlagged']} <StatCounter stat={this.props.stat} keyName={"0"} />
+          </div>
+          <div>
+              <Checkbox
+                checked={this.state.isFlagged.includes("1")?true:false}
+                  value={"1"}
+                  onChange={this.handleCheckboxes.bind(this)}
+              /> {this.props.LocaleData['filter.dataQuality.flag.flagged']} <StatCounter stat={this.props.stat} keyName={"1"} />
+          </div>
+        </>)}
       </div>
     )
   }
@@ -86,6 +88,9 @@ class FlaggedFilter extends React.Component {
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupFlag
+      : null,
     LocaleData:state.LocaleData
   };
 }

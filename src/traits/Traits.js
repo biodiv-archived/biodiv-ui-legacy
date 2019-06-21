@@ -35,6 +35,11 @@ class Traits extends React.Component {
   componentDidMount(){
       this.setParameter()
     getAllTraits(this.props.Locale).then(data=>{
+      data.data = data.data.map(item =>
+        item.hasOwnProperty("language")
+          ? { ...item.trait, threeLetterCode: item.language.threeLetterCode }
+          : {...item, threeLetterCode: "eng"}
+      );
     this.setState({
       observationTraitList:data
     })
@@ -71,22 +76,38 @@ class Traits extends React.Component {
     }
     return (
       <div>
-          {observationTraitList.data?observationTraitList.data.map((item,index)=>{
-            return(
+        {observationTraitList.data && this.props.stat ? (
+          observationTraitList.data.map((_t, index) => {
+            return (
               <div key={index}>
-                <Collapsible  open={keys.includes(item.trait.id.toString())} trigger={item.name}>
-                    <TraitValues  passToTraitValues={this.passToTraitValues}  language={item.language.threeLetterCode} traitId={item.trait.id}  traitName={item.trait.name} traitType={item.trait.traitTypes} traitDataType={item.trait.dataTypes}/>
+                <Collapsible
+                  open={keys.includes(_t.id.toString())}
+                  trigger={_t.name}
+                >
+                  <TraitValues
+                    passToTraitValues={this.passToTraitValues}
+                    language={_t.threeLetterCode}
+                    traitStat={this.props.stat[`trait_${_t.id}`]}
+                    traitId={_t.id}
+                    traitName={_t.name}
+                    traitType={_t.traitTypes}
+                    traitDataType={_t.dataTypes}
+                  />
                 </Collapsible>
               </div>
-            )
-          }):null}
-    </div>
+            );
+          })
+        ) : (
+          <>Loading...</>
+        )}
+      </div>
           );
   }
 }
 
 function mapStateToProps(state) {
   return {
+    stat: state.Observation.stats ? state.Observation.stats.traits : null,
     Locale:state.Locale
   }
 }

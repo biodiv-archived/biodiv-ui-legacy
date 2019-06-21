@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 
 
 import 'rc-checkbox/assets/index.css';
+import StatCounter from '../counter';
 
 class TaxonStatus extends React.Component {
   constructor(){
@@ -59,22 +60,20 @@ class TaxonStatus extends React.Component {
   render() {
     return (
       <div>
-
         <div>
-            <Checkbox
-                checked={ this.state.Status.includes("accepted")?true:false }
-                value={"accepted"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.name.status.accepted']}
+          <Checkbox
+            checked={this.state.Status.includes("accepted") ? true : false}
+            value={"accepted"}
+            onChange={this.handleCheckboxes.bind(this)}
+          /> {this.props.LocaleData["filter.name.status.accepted"]} <StatCounter stat={this.props.stat} keyName="ACCEPTED" />
         </div>
         <div>
-            <Checkbox
-                checked={ this.state.Status.includes("synonym")?true:false }
-                value={"synonym"}
-                onChange={this.handleCheckboxes.bind(this)}
-            />{this.props.LocaleData['filter.name.status.synonyms']}
+          <Checkbox
+            checked={this.state.Status.includes("synonym") ? true : false}
+            value={"synonym"}
+            onChange={this.handleCheckboxes.bind(this)}
+          /> {this.props.LocaleData["filter.name.status.synonyms"]} <StatCounter stat={this.props.stat} keyName="SYNONYM" />
         </div>
-
       </div>
     )
   }
@@ -82,6 +81,9 @@ class TaxonStatus extends React.Component {
 function mapStateToProps(state) {
 
   return {
+    stat: state.Observation.stats
+      ? state.Observation.stats.groupStatus
+      : null,
     LocaleData:state.LocaleData
   };
 }
