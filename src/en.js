@@ -1627,7 +1627,7 @@ var obj =
   'filter.location':'Location',
   'filter.usergroup':'User Group',
   'filter.dataQuality':'Data Quality',
-  'filter.indentification':'Indentification',
+  'filter.indentification':'Identification',
   'filter.flag':'Flag',
   'filter.validation':'Validtion',
   'filter.mediaType':'Media Type',
