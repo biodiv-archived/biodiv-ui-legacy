@@ -111,7 +111,7 @@ export default class LightboxExample extends Component {
                                   "_th2"
                                 )[0] + "_th1.jpg";
                             }}
-                          />;
+                          />
 
 
                           </figure>
