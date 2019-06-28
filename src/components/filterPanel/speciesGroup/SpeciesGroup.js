@@ -47,10 +47,8 @@ class FilterPanel extends Component {
   }
 
   handleInput(id) {
-    // console.log(data);
-    console.log(this.refs[id].classList);
     let sGroupId = this.state.sGroupId;
-    if (this.refs[id].classList.contains("active")) {
+    if (!this.refs[id].classList.contains("active")) {
       sGroupId.push(id);
       sGroupId = _.uniq(sGroupId);
     } else {
@@ -76,32 +74,32 @@ class FilterPanel extends Component {
     return (
       <div id="speciesGroupFilter" data-toggle="buttons-radio">
         <ul className="list-unstyled list-inline list-responsive">
-          {!this.props.stat && "Loading..."}
-          {this.props.stat &&
-            this.state.list.map(item => {
-              return (
-                <li className="filter--btn-species" key={item.id}>
-                  <button
-                    style={{
-                      marginBottom: "5px",
-                      borderRadius: "100%",
-                      border: "solid thin #5B5757"
-                    }}
-                    ref={item.id.toString()}
-                    onClick={this.handleInput.bind(this, item.id.toString())}
-                    title={`${item.name} - ${this.props.stat[item.name]}`}
-                    value={item.id.toString()}
-                    name={item.name}
-                    className={`btn species_groups_sprites ${item.name.toLowerCase()}_gall_th ${
-                      this.state.sGroupId.includes(item.id.toString())
-                        ? "active"
-                        : ""
-                    }`}
-                  />
-                  <span>{counter(this.props.stat[item.name])}</span>
-                </li>
-              );
-            })}
+          {this.state.list.map(item => {
+            return (
+              <li className="filter--btn-species" key={item.id}>
+                <button
+                  style={{
+                    marginBottom: "5px",
+                    borderRadius: "100%",
+                    border: "solid thin #5B5757"
+                  }}
+                  ref={item.id.toString()}
+                  onClick={this.handleInput.bind(this, item.id.toString())}
+                  title={`${item.name} - ${
+                    this.props.stat ? this.props.stat[item.name] : ""
+                  }`}
+                  value={item.id.toString()}
+                  name={item.name}
+                  className={`btn species_groups_sprites ${item.name.toLowerCase()}_gall_th ${
+                    this.state.sGroupId.includes(item.id.toString())
+                      ? "active"
+                      : ""
+                  }`}
+                />
+                  <span>{this.props.stat ? counter(this.props.stat[item.name]) : "..."}</span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );

@@ -28,14 +28,14 @@ class NavigationHeader extends Component{
       let fullUrl = window.location.host;
       let parts=fullUrl.split(".");
 
-        if(this.props.groupName!= "" && this.props.groupName!=undefined){
+        if(this.props.groupName!== "" && this.props.groupName!==undefined){
             let groupName=this.props.PublicUrl.split("/")[1];
             UserGroupName.list().then(data=>{
 
                 let group=data.find((item)=>{
-                    return item.webaddress==groupName
+                    return item.webaddress===groupName
                 })
-                console.log(group);
+                // console.log(group);
                 this.getNewsLetters(group.id);
             })
         } else {
@@ -353,7 +353,6 @@ class NavigationHeader extends Component{
     }
 }
 function mapStateToProps(state) {
-  console.log(state.DataSetList);
     return {
         authenticated: state.auth.authenticated,
         userData: state.auth.userData,

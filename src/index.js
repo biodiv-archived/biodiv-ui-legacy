@@ -1,94 +1,117 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import ReduxThunk from 'redux-thunk';
-import ReduxPromise from 'redux-promise';
-import queryString from 'query-string';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-import {Config} from './Config'
-import { unregister } from './registerServiceWorker';
-import App from './app/App';
-import { Login, Logout, AuthUtils,Register,VerifyRegistration,ForgotPassword,ResetPassword} from './auth';
-import reducers from './reducers';
-import HomePageContainer from './app/homePage/HomePageContainer';
-import {AUTH_USER} from './auth/AuthConstants'
-import {SET_GROUP_NAME,LOAD_LOCALE,SET_LOCALE} from './actions/index';
-import naksha from 'naksha-react-ui-legacy'
-import ReactGA from 'react-ga';
-// import fr from './fr.js';
-import en from './en.js';
-import fr from './fr.js';
-
 import "naksha-components-react/dist/index.css";
 import "./index.css";
-import { Layers, Upload } from "naksha-components-react";
 
-var fileref=document.createElement("link")
-       fileref.setAttribute("rel", "stylesheet")
-       fileref.setAttribute("type", "text/css")
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import queryString from "query-string";
+import React from "react";
+import ReactDOM from "react-dom";
+import ReactGA from "react-ga";
+import Loadable from "react-loadable";
+import { Provider } from "react-redux";
+import { BrowserRouter, Redirect, Route } from "react-router-dom";
+import { applyMiddleware, createStore } from "redux";
+import ReduxPromise from "redux-promise";
+import ReduxThunk from "redux-thunk";
 
-      //  if(Config.api.DEPLOY==="ibp"){
-      //    fileref.setAttribute("href", "http://localhost:3000"+"/headerStyles/headerstyle.css")
-      //  }else{
-      //    fileref.setAttribute("href", Config.api.ROOT_URL+"/headerStyles/bbpHeaderStyle.css")
-      //  }
+import { LOAD_LOCALE, SET_GROUP_NAME, SET_LOCALE } from "./actions";
+// import { ForgotPassword, Login, Logout, Register, ResetPassword, VerifyRegistration } from "./auth";
+import { AUTH_USER } from "./auth/AuthConstants";
+import { Config } from "./Config";
+import en from "./en.js";
+import fr from "./fr.js";
+import LoadingComponent from "./loadingComponent";
+import reducers from "./reducers";
+import { unregister } from "./registerServiceWorker";
 
-      switch (Config.api.DEPLOY) {
-        case "bbp":
-          fileref.setAttribute("href", "/headerStyles/bbpHeaderStyle.css?v=2");
-          break;
-        case "wiktrop":
-          fileref.setAttribute("href", "/headerStyles/wiktropHeaderStyle.css?v=2");
-          break;
-        default:
-          fileref.setAttribute("href", "/headerStyles/headerstyle.css?v=2");
-      }
-       //console.log("typeOf",typeof fileref)
-       if (typeof fileref!="undefined")
-               document.getElementsByTagName("head")[0].appendChild(fileref)
+import AuthUtils from "./auth/AuthUtils";
 
+// ---Dynamic Imports---
 
-let Header;
-// if(Config.api.DEPLOY==="ibp"){
-//     Header = require('./app/header/Header.js').default;
-// }else{
-//     Header = require('./app/header/BbpHeader.js').default;
-// }
+const ForgotPassword = Loadable({
+  loader: () => import("./auth/ForgotPassword"),
+  loading: LoadingComponent,
+});
 
-switch(Config.api.DEPLOY)
-{
-  case "ibp":
-      Header = require('./app/header/Header.js').default;
-      break;
+const Login = Loadable({
+  loader: () => import("./auth/Login"),
+  loading: LoadingComponent,
+});
+
+const Logout = Loadable({
+  loader: () => import("./auth/Logout"),
+  loading: LoadingComponent,
+});
+
+const Register = Loadable({
+  loader: () => import("./auth/Register"),
+  loading: LoadingComponent,
+});
+
+const ResetPassword = Loadable({
+  loader: () => import("./auth/ResetPassword"),
+  loading: LoadingComponent,
+});
+
+const VerifyRegistration = Loadable({
+  loader: () => import("./auth/VerifyRegistration"),
+  loading: LoadingComponent,
+});
+
+const App = Loadable({
+  loader: () => import("./app/App"),
+  loading: LoadingComponent,
+});
+
+const HomePageContainer = Loadable({
+  loader: () => import("./app/homePage/HomePageContainer"),
+  loading: LoadingComponent,
+});
+
+const NakshaLibLayers = Loadable({
+  loader: () => import("./nakshaLibLayers"),
+  loading: LoadingComponent,
+});
+
+const NakshaLibUpload = Loadable({
+  loader: () => import("./nakshaLibUpload"),
+  loading: LoadingComponent,
+});
+
+var fileref = document.createElement("link");
+fileref.setAttribute("rel", "stylesheet");
+fileref.setAttribute("type", "text/css");
+
+switch (Config.api.DEPLOY) {
   case "bbp":
-      Header = require('./app/header/BbpHeader.js').default;
-      break;
+    fileref.setAttribute("href", "/headerStyles/bbpHeaderStyle.css?v=2");
+    break;
   case "wiktrop":
-      Header = require('./app/header/WiktropHeader.js').default;
-      break;
+    fileref.setAttribute("href", "/headerStyles/wiktropHeaderStyle.css?v=2");
+    break;
+  default:
+    fileref.setAttribute("href", "/headerStyles/headerstyle.css?v=2");
+    break;
 }
 
-let Footer;
-// if(Config.api.DEPLOY==="ibp"){
-//     Footer = require('./app/footer/Footer').default;
-// }else{
-//     Footer = require('./app/footer/BbpFooter.js').default;
-// }
+if (typeof fileref != "undefined")
+  document.getElementsByTagName("head")[0].appendChild(fileref);
 
-switch(Config.api.DEPLOY)
-{
-  case "ibp":
-      Footer = require('./app/footer/Footer').default;
-      break;
+let Header;
+let Footer;
+
+switch (Config.api.DEPLOY) {
   case "bbp":
-      Footer = require('./app/footer/BbpFooter.js').default;
-      break;
+    Header = require("./app/header/BbpHeader.js").default;
+    Footer = require("./app/footer/BbpFooter.js").default;
+    break;
   case "wiktrop":
-      Footer = require('./app/footer/WiktropFooter.js').default;
-      break;
+    Header = require("./app/header/WiktropHeader.js").default;
+    Footer = require("./app/footer/WiktropFooter.js").default;
+    break;
+  default:
+    Header = require("./app/header/Header.js").default;
+    Footer = require("./app/footer/Footer").default;
+    break;
 }
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
@@ -241,7 +264,7 @@ const RenderMap = () => (
       width: "100%"
     }}
   >
-    <Layers
+    <NakshaLibLayers
       mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
       endpoint={window.location.origin}
       layersPanelClosed={true}
@@ -277,7 +300,7 @@ ReactDOM.render(
                   <Route path={["/group/:groupName/map", "/group/:groupName/map/show"]} render={RenderMap}/>
                   <Route exact path={["/map", "/map/show"]} render={RenderMap}/>
 
-              <PrivateRoute exact path="/map/upload" component={Upload}/>
+              <PrivateRoute exact path="/map/upload" component={NakshaLibUpload}/>
 
               </div>
                 <div  id="footerWrapper">

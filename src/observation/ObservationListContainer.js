@@ -1,27 +1,25 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Button} from 'react-bootstrap';
-import EllipsisText  from 'react-ellipsis-text-x';
-import  queryString from 'query-string';
-import {withRouter} from 'react-router-dom';
-import  deepEqual  from 'deep-equal';
-import _ from "lodash";
+import "./ObservationListContainer.css";
 
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { createBrowserHistory } from "history";
+import queryString from "query-string";
+import React, { Component } from "react";
+import { Button } from "react-bootstrap";
+import ReactGA from "react-ga";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import {fetchObservations} from './ObservationActions';
-import {fetchRecommendations,ClearObservationPage,clearRecommendations,fetchFilterCount} from '../actions'
-import ObservationListWrapper from './ObservationListWrapper';
-import AnalyticsDrawer from '../app/AnalyticsDrawer';
-import AuthUtils from '../auth/AuthUtils.js';
-import UserGroupName from '../util/UserGroup';
-import DownloadModal from './DownloadModal';
-import Navigate from '../bulk/Navigation.js'
-import ModalPopup from '../auth/Modal.js';
+import { ClearObservationPage, clearRecommendations, fetchFilterCount, fetchRecommendations } from "../actions";
+import AuthUtils from "../auth/AuthUtils.js";
+import ModalPopup from "../auth/Modal.js";
+import Navigate from "../bulk/Navigation.js";
+import UserGroupName from "../util/UserGroup";
+import DownloadModal from "./DownloadModal";
+import { fetchObservations } from "./ObservationActions";
+import ObservationListWrapper from "./ObservationListWrapper";
 
-import ReactGA from 'react-ga';
-import './ObservationListContainer.css'
+const history = createBrowserHistory();
+
 
 function clean(obj) {
   for (var propName in obj) {
@@ -78,7 +76,7 @@ class ObservationListContainer extends Component {
           const search1=decodeURIComponent(seacrh);
           let newSearchParams="?"+search1;
           if(decodeURIComponent(this.props.location.search)!=newSearchParams){
-             this.props.history.push(this.props.location.pathname+"?"+search1);
+             history.push(this.props.location.pathname+"?"+search1);
           }
 
           ReactGA.pageview(this.props.location.pathname + search1);
@@ -107,7 +105,6 @@ class ObservationListContainer extends Component {
       sGroupFilterEventListner(e){
         this.props.ClearObservationPage();
         let params=this.state.params;
-
         params.sGroup=e.detail.sGroup.join(",");
           this.GlobalCall(params);
       }
@@ -277,7 +274,7 @@ class ObservationListContainer extends Component {
 
               let newSearchParams="?"+search2;
               if(decodeURIComponent(this.props.location.search)!=newSearchParams){
-                this.props.history.push(this.props.location.pathname+"?"+search2);
+                history.push(this.props.location.pathname+"?"+search2);
               }
 
           this.setState({
@@ -333,12 +330,15 @@ class ObservationListContainer extends Component {
 
             let newSearchParams="?"+search2;
 
-            if(decodeURIComponent(this.props.location.search)!=newSearchParams){
-               this.props.history.push(this.props.location.pathname+"?"+search2);
+            if(decodeURIComponent(this.props.location.search)!==newSearchParams){
+              // window.history.pushState({}, "", `${this.props.location.pathname}?${search2}`);
+               history.push({
+                 pathname: this.props.location.pathname,
+                 search: "?"+search2
+               });
             }
 
           this.props.fetchObservations(newparams);
-          console.log("fobs-setParameter2")
           this.props.fetchFilterCount(url1);
           this.setState({
             params:newparams,
@@ -427,7 +427,7 @@ class ObservationListContainer extends Component {
           const search1=decodeURIComponent(seacrh);
           let newSearchParams="?"+search1;
           if(decodeURIComponent(this.props.location.search)!=newSearchParams){
-             this.props.history.push(this.props.location.pathname+"?"+search1);
+             history.push(this.props.location.pathname+"?"+search1);
           }
         }
         selectAll(){
@@ -562,19 +562,19 @@ return   <ObservationListWrapper  uniqueKey={item.id} showMap={this.state.showMa
               <div>
                   <div className="row" style={{marginBottom:'5px'}}>
                     <div className="col-sm-4 " style={{paddingRight:'0px'}}>
-                      <ul className="nav nav-tabs" style={{border:'0px'}}>
-                          <li role="presentation" ><button style={{fontSize:'1em'}}  className={`btn  ${this.state.params.view==="list"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list">{" "+this.props.LocaleData['default.instance.list']}</span></button></li>
-                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="grid"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th">{" "+this.props.LocaleData['default.instance.grid']}</span></button></li>
-                          <li role="presentation" ><button style={{fontSize:'1em'}} className={`btn  ${this.state.params.view==="map"?"btn-success successNewColor btn-xs":"btn-default btn-xs"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker">{" "+this.props.LocaleData['default.instance.map']}</span></button></li>
+                      <ul className="nav nav-tabs card-shadow" style={{border: 0}}>
+                          <li role="presentation"><button className={`btn ${this.state.params.view==="list"?"btn-success successNewColor":"btn-default"}`} onClick={this.setView.bind(this,"list")} ><span className="glyphicon glyphicon-th-list">{" "+this.props.LocaleData['default.instance.list']}</span></button></li>
+                          <li role="presentation"><button className={`btn ${this.state.params.view==="grid"?"btn-success successNewColor":"btn-default"}`} onClick={this.setView.bind(this,"grid")} ><span className="glyphicon glyphicon-th">{" "+this.props.LocaleData['default.instance.grid']}</span></button></li>
+                          <li role="presentation"><button className={`btn ${this.state.params.view==="map"?"btn-success successNewColor":"btn-default"}`} onClick={this.setView.bind(this,"map")} ><span className="glyphicon glyphicon-map-marker">{" "+this.props.LocaleData['default.instance.map']}</span></button></li>
                       </ul>
                     </div>
                     <div className="col-sm-4 " style={{paddingRight:'0px',paddingLeft:'0px'}}>
-                      <div className="alignLeftCenter" style={{display:'block',textAlign:'-webkit-center'}}><h5 className="text-primary" style={{marginTop:'4px',marginBottom:'4px'}}>{this.props.Observation.count} result(s) found</h5></div>
+                      <div className="alignLeftCenter" style={{display:'block',textAlign:'-webkit-center'}}><h5 className="text-primary" style={{margin:'6px 0', color: "#4b5a33" }}>{this.props.Observation.count} result(s) found</h5></div>
                     </div>
                     <div className="col-sm-4" style={{paddingLeft:'0px'}}>
                       <div className="alignLeft" style={{float:'right'}}>
-                        <button style={{marginRight:'5px',fontSize:'1em'}} onClick={this.setOpenModal.bind(this)} className="btn btn-default btn-xs">{this.props.LocaleData['button.download']}</button>
-                        <select className="btn btn-default btn-xs" style={{fontSize:'1em'}} onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
+                        <button style={{marginRight:'5px',fontSize:'1em'}} onClick={this.setOpenModal.bind(this)} className="btn btn-default">{this.props.LocaleData['button.download']}</button>
+                        <select className="form-control" style={{display: "inline", width: "auto", height: "32px"}} onChange={this.handleChangeCheckbox.bind(this)} value={this.state.sortValue}>
                             <option  value="Last Updated">{this.props.LocaleData['button.last.updated']}</option>
                             <option  value="Latest">{this.props.LocaleData['button.latest']}</option>
                             <option  value="Most Viewed">{this.props.LocaleData['button.most.viewed']}</option>

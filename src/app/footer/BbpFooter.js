@@ -31,7 +31,7 @@ import UserGroupName from '../../util/UserGroup';
                let group=data.find((item)=>{
                    return item.webaddress==this.props.groupName
                })
-               console.log(group);
+              //  console.log(group);
                this.getNewsLetters(group.id);
            })
        } else {
@@ -111,7 +111,7 @@ import UserGroupName from '../../util/UserGroup';
 
    render(){
     let groupName=this.props.groupName;
-    console.log(groupName);
+    // console.log(groupName);
      return (
          <footer>
            <div className="row">

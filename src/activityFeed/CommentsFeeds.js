@@ -1,21 +1,17 @@
-import React, {Component} from 'react';
-import axios from 'axios';
-import Moment from 'react-moment'
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavLink} from 'react-router-dom';
-import UserAvatar from '../util/userIcon'
+import axios from "axios";
+import React, { Component } from "react";
+import Moment from "react-moment";
+import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
 
-import commentWithTagStyle from '../observation/commentWithTagStyle.js'
-
-import { Config } from '../Config';
-import ModalPopup from '../auth/Modal.js';
-import AuthUtils from '../auth/AuthUtils.js';
-import UserGroup from '../util/UserGroup';
-import RichTextEditor from '../util/richEditor/RichTextEditor.js'
+import AuthUtils from "../auth/AuthUtils.js";
+import ModalPopup from "../auth/Modal.js";
+import { Config } from "../Config";
+import RichTextEditor from "../util/richEditor/RichTextEditor.js";
+import UserAvatar from "../util/userIcon";
 
 var  abc= 'nrewurl';
-class CommentsFeeds extends React.Component {
+class CommentsFeeds extends Component {
   constructor(props) {
     super(props);
     this.state={
@@ -121,7 +117,6 @@ class CommentsFeeds extends React.Component {
 
           this.semiFeeds=response.data.model.feeds
           this.semiFeeds=this.semiFeeds.concat(this.state.response)
-          console.log("semifeeeeds",this.semiFeeds)
           this.setState({
             response:this.semiFeeds,
             remainingFeedCount:response.data.remainingFeedCount

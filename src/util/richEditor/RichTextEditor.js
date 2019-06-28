@@ -146,7 +146,6 @@ class RichTextEditor extends React.Component {
                                         this.blocksFromHTML.contentBlocks,
                                         this.blocksFromHTML.entityMap
                                     );
-      console.log("statatatatatatatatattatta",this.stat)
     }
     this.state = {
       editorState: (this.props.htm?EditorState.createWithContent(this.stat):EditorState.createEmpty()),

@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import isAbsoluteUrl  from 'is-absolute-url';
 import Truncate from 'react-truncate';
 
-import createHistory from 'history/createBrowserHistory';
-import style from './ObservationStyle.css';
+import {createBrowserHistory} from 'history';
+import './ObservationStyle.css';
 import ShowGallery from './imageGallery/ImageShows';
 import Tabs from './Tabs';
 import {Config} from '../Config';
@@ -21,7 +21,7 @@ import RichTextEditor from '../util/richEditor/RichTextEditor.js';
 import FlaggingInterface from '../util/flag/FlaggingInterface';
 import ShareInterface from '../util/share/ShareInterface';
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 function getList(Observation,id,flag) {
     if(flag){
@@ -139,18 +139,12 @@ class ListComponent extends Component{
     }
 
     getUserPhotoUrl(images){
-        if(images){
-          if(isAbsoluteUrl(images)){
-            return images;
-          }
-          else{
-            let url=`${Config.api.IBP_URL}/biodiv/users${images}`;
-            return url;
-          }
-        }
-        else{
-          return null;
-        }
+      return images
+        ? (isAbsoluteUrl(images)
+            ? images
+            : `${Config.api.IBP_URL}/biodiv/users${images}`
+          ).replace(".jpg", "_th1.jpg")
+        : null;
     }
 
     getObsAgain(obvid){
@@ -167,20 +161,6 @@ class ListComponent extends Component{
             document.body.style.cursor = "default";
             this.ObvRenderAgain(response);
           })
-    }
-    getUserPhotoUrl(images){
-        if(images){
-          if(isAbsoluteUrl(images)){
-            return images;
-          }
-          else{
-            let url=`${Config.api.IBP_URL}/biodiv/users${images}`;
-            return url;
-          }
-        }
-        else{
-          return null;
-        }
     }
 
     fetchUsersWhoLiked(obvId,likes){
@@ -286,7 +266,7 @@ display(objs,selectAll){
   return (
     <div   className="container-fluid">
 
-                  <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white',zIndex:'5'}}>
+                  <div className="row card-shadow" style={{borderRadius: '5px',backgroundColor:'white',zIndex:'5'}}>
 
                       <div className="media col-md-4 col-xl-3" >
                             <div style={{position:'relative'}} className="pull-left">
@@ -308,7 +288,7 @@ display(objs,selectAll){
                         </div>
 
                         <div className="col-md-8 col-xl-9" style={{zIndex:'5'}}>
-                                <div  className="row" style={{marginLeft:'2%',zIndex:'5'}} >
+                                <div  className="row" style={{marginLeft:'5px',zIndex:'5'}} >
                                       <div className="userPosition" style={{top:'25px',left:'-80px',position:'absolute',zIndex:'5'}}>
                                        <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}>
                                         <UserAvatar style={{zIndex:'21'}} className="contributorImage"  title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="70"  ></UserAvatar>
@@ -367,7 +347,7 @@ display(objs,selectAll){
                                      </div>
                                  </div>
 
-                                 <div className="row" style={{marginTop:'3%',zIndex:'20'}}>
+                                 <div className="row" style={{zIndex:'20'}}>
                                     <Tabs  ref={instance => { this.child = instance; }}  rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
                                  </div>
 

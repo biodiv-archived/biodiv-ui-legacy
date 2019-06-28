@@ -24,14 +24,14 @@ import UserGroupName from '../../util/UserGroup';
      let fullUrl = window.location.host;
      let parts=fullUrl.split(".");
 
-       if(this.props.groupName!= "" && this.props.groupName!=undefined){
+       if(this.props.groupName!== "" && this.props.groupName!==undefined){
 
            UserGroupName.list().then(data=>{
 
                let group=data.find((item)=>{
-                   return item.webaddress==this.props.groupName
+                   return item.webaddress===this.props.groupName
                })
-               console.log(group);
+              //  console.log(group);
                this.getNewsLetters(group.id);
            })
        } else {
@@ -111,7 +111,7 @@ import UserGroupName from '../../util/UserGroup';
 
    render(){
     let groupName=this.props.groupName;
-    console.log(groupName);
+    // console.log(groupName);
      return (
          <footer>
            <div className="row">

@@ -1,19 +1,25 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,700italic,400italic);
-
-
 .Collapsible {
-  background-color: white; }
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
 
 .Collapsible__contentInner {
   padding: 10px;
   border: 1px solid #ebebeb;
-  border-top: 0; }
-  .Collapsible__contentInner p {
-    margin-bottom: 10px;
-    font-size: 14px;
-    line-height: 20px; }
-    .Collapsible__contentInner p:last-child {
-      margin-bottom: 0; }
+  border-top: 0;
+}
+.Collapsible__contentInner p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.Collapsible__contentInner p:last-child {
+  margin-bottom: 0;
+}
 
 .Collapsible__trigger {
   display: block;
@@ -21,28 +27,27 @@
   text-decoration: none;
   color: #333333;
   position: relative;
-  border: 1px solid white;
   padding: 10px;
-  background: #798A60;
+  background: #798a60;
   color: white;
 }
 
-  .Collapsible__trigger:after {
-    font-family: 'FontAwesome';
-    content: '\f107';
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    display: block;
-    transition: transform 300ms;
-  }
-  .Collapsible__trigger.is-open:after {
-    transform: rotateZ(180deg);
-   }
-  .Collapsible__trigger.is-disabled {
-    opacity: 0.5;
-    background-color: grey;
-  }
+.Collapsible__trigger:after {
+  font-family: "FontAwesome";
+  content: "\f107";
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: block;
+  transition: transform 300ms;
+}
+.Collapsible__trigger.is-open:after {
+  transform: rotateZ(180deg);
+}
+.Collapsible__trigger.is-disabled {
+  opacity: 0.5;
+  background-color: grey;
+}
 
 .CustomTriggerCSS {
   background-color: lightcoral;
@@ -51,11 +56,11 @@
 
 .CustomTriggerCSS--open {
   background-color: darkslateblue;
- }
+}
 
 .Collapsible__custom-sibling {
   padding: 5px;
   font-size: 12px;
-  background-color: #CBB700;
+  background-color: #cbb700;
   color: black;
- }
+}

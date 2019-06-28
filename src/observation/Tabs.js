@@ -1,15 +1,19 @@
-import React, {Component} from 'react';
-import RecoName from './RecoName.js'
-import CustomFields from './CustomFields.js'
-import Groups from '../userGroup/Groups.js'
-import Traits from '../traits/TraitsObv.js'
-import CommentsFeeds from '../activityFeed/CommentsFeeds.js'
-import {NavLink,withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {getLocaleData} from '../actions'
-import {bindActionCreators} from 'redux'
+import React, { Component } from "react";
+import Loadable from "react-loadable";
+import { connect } from "react-redux";
 
-class Tabs extends React.Component {
+import LoadingComponent from "../loadingComponent.js";
+import Traits from "../traits/TraitsObv.js";
+import Groups from "../userGroup/Groups.js";
+import CustomFields from "./CustomFields.js";
+import RecoName from "./RecoName.js";
+
+const CommentsFeeds = Loadable({
+  loader: () => import("../activityFeed/CommentsFeeds"),
+  loading: LoadingComponent,
+});
+
+class Tabs extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -89,7 +93,7 @@ class Tabs extends React.Component {
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab2"}>{this.state.Groupsflag===1?<Groups id={this.props.objs.id}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab3"}>{this.state.Traitflag===1?<Traits id={this.props.objs.id} sGroup={this.props.objs.speciesgroupid} owner={this.props.objs.authorid}/>:null}</div>
                   <div className="tab-pane fade" id={this.props.objs.id+"_tab4"}>{this.state.Customflag===1?<CustomFields id={this.props.objs.id} owner={this.props.objs.authorid}/>:null}</div>
-                  <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.Activityflag==1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
+                  <div className="tab-pane fade" id={this.props.objs.id+"_tab5"}>{this.state.Activityflag===1?<CommentsFeeds id={this.props.objs.id}/>:null}</div>
                </div>
                </div>
              </div>

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import Lightbox from 'react-image-lightbox';
-import {NavLink} from 'react-router-dom';
-import axios from 'axios';
 
 import {Config} from '../../Config';
-import createHistory from 'history/createBrowserHistory';
 import style from './style.css';
-import UserAvatar from '../../util/userIcon';
 import isAbsoluteUrl  from 'is-absolute-url';
 
 

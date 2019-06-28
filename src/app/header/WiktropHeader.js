@@ -1,27 +1,28 @@
-import React, {Component} from 'react';
-import {NavLink,withRouter} from 'react-router-dom';
-import {getGroupName} from './HeaderApi';
-import _ from "lodash";
-import {connect} from 'react-redux';
-import axios from 'axios';
-import { Form, Text} from 'react-form';
-
-import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages,fetchDataSetList,loadLocale,setLocale} from '../../actions/index';
-import AuthUtils from '../../auth/AuthUtils';
-import $ from 'jquery';
-import {Config} from '../../Config'
-//import style from './style/headerstyle.css';
-import WiktropBanner from './WiktropBanner';
-import {logout} from '../../auth/AuthActions';
-import UserAvatar from '../../util/userIcon';
-
-import UserGroupName from '../../util/UserGroup';
-import WiktropNavigationHeader from './WiktropNavigationHeader';
-import {bindActionCreators} from 'redux';
+import React, { Component } from "react";
+import { Form, Text } from "react-form";
+import { connect } from "react-redux";
+import { NavLink, withRouter } from "react-router-dom";
 import Switch from "react-switch";
-import en from '../../en.js';
-import fr from '../../fr.js';
+import { bindActionCreators } from "redux";
 
+import {
+  fetchDataSetList,
+  fetchLanguages,
+  fetchSpeciesGroup,
+  fetchUserGroupList,
+  loadLocale,
+  setLocale,
+} from "../../actions";
+import { logout } from "../../auth/AuthActions";
+import AuthUtils from "../../auth/AuthUtils";
+import { Config } from "../../Config";
+import en from "../../en.js";
+import fr from "../../fr.js";
+import UserAvatar from "../../util/userIcon";
+import WiktropBanner from "./WiktropBanner";
+import WiktropNavigationHeader from "./WiktropNavigationHeader";
+
+//import style from './style/headerstyle.css';
 class WiktropHeader extends React.Component {
     constructor(props) {
         super(props);

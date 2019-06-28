@@ -49,7 +49,6 @@ class UserAvatar extends React.Component {
 
     const imageStyle = {
       display: 'block',
-      border:'1px solid white',
       objectFit:'cover',
       zIndex:'5001',
       overflow:'hidden',

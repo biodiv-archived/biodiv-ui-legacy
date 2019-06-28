@@ -1,30 +1,56 @@
-import React, { Component } from "react";
-import queryString from "query-string";
-import Collapsible from "react-collapsible";
-import { withRouter, NavLink } from "react-router-dom";
-import { connect } from "react-redux";
+import "./right_sidebar.css";
 
-import style from "./right_sidebar.css";
-import TaxonBrowser from "../taxonBrowser/TaxonBrowser";
-import SpeciesGroup from "../components/filterPanel/speciesGroup/SpeciesGroup";
-import UserGroup from "../userGroup/UserGroup";
-import ScientificNameFilter from "../components/filterPanel/scientificName/ScientificName";
+import queryString from "query-string";
+import React, { Component } from "react";
+import Collapsible from "react-collapsible";
+import Loadable from "react-loadable";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
 import FlaggedFilter from "../components/filterPanel/flag/Flag";
 import Media from "../components/filterPanel/media/Media";
-import SearchBar from "../taxonBrowser/SearchBar";
-import ObservedOn from "../components/filterPanel/observedOn/ObservedOn";
-import CreatedOn from "../components/filterPanel/createdOn/CreatedOn";
-
-import Validate_Filter from "../components/filterPanel/validate/Validate";
 import Month_Filter from "../components/filterPanel/month/Month";
-import Traits_Filter from "../traits/Traits";
-import UserFilter from "../user/User";
+import RecoName from "../components/filterPanel/Name/RecoName";
 import Status from "../components/filterPanel/Name/Status";
 import TaxonId from "../components/filterPanel/Name/TaxonId";
-import RecoName from "../components/filterPanel/Name/RecoName";
-import CustomFields from "../customFields/CustomFields";
-import Location from "../components/filterPanel/location/Location";
+import SpeciesGroup from "../components/filterPanel/speciesGroup/SpeciesGroup";
+import Validate_Filter from "../components/filterPanel/validate/Validate";
 import { Config } from "../Config";
+import CustomFields from "../customFields/CustomFields";
+import LoadingComponent from "../loadingComponent";
+import SearchBar from "../taxonBrowser/SearchBar";
+import Traits_Filter from "../traits/Traits";
+import UserFilter from "../user/User";
+
+const CreatedOn = Loadable({
+  loader: () => import("../components/filterPanel/createdOn/CreatedOn"),
+  loading: LoadingComponent,
+});
+
+const ObservedOn = Loadable({
+  loader: () => import("../components/filterPanel/observedOn/ObservedOn"),
+  loading: LoadingComponent,
+});
+
+const UserGroup = Loadable({
+  loader: () => import("../userGroup/UserGroup"),
+  loading: LoadingComponent,
+});
+
+const ScientificNameFilter = Loadable({
+  loader: () => import("../components/filterPanel/scientificName/ScientificName"),
+  loading: LoadingComponent,
+});
+
+const TaxonBrowser = Loadable({
+  loader: () => import("../taxonBrowser/TaxonBrowser"),
+  loading: LoadingComponent,
+});
+
+const Location = Loadable({
+  loader: () => import("../components/filterPanel/location/Location"),
+  loading: LoadingComponent,
+});
 
 class Right extends Component {
   constructor() {
@@ -220,13 +246,13 @@ class Right extends Component {
         let fullUrl = window.location.host;
         let parts = fullUrl.split(".");
         if (parts.length >= 3) {
-          if (parts[0] == "assambiodiversity") {
+          if (parts[0] === "assambiodiversity") {
             this.refs.hide.style.display = "none";
           }
-          if (parts[0] == "treesindia") {
+          if (parts[0] === "treesindia") {
             this.refs.hide.style.display = "none";
           }
-          if (parts[0] == "thewesternghats") {
+          if (parts[0] === "thewesternghats") {
             this.refs.hide.style.display = "none";
           }
         } else {

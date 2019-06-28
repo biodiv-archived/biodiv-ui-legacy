@@ -1,7 +1,7 @@
 .badge:hover .open>.dropdown-menu {
   display: block;
 }
-
+/* 
 .loader {
     border: 5px solid white;
     border-radius: 50%;
@@ -11,7 +11,7 @@
     height: 40px;
     margin-left: auto;
     margin-right: auto;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
+    -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 
 }
@@ -19,6 +19,7 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+*/
 
 .glyphicon.glyphicon-lock{
   font-size:25px;

@@ -13,7 +13,7 @@ class LoginService {
     }
 
     setCredentials(response) {
-        if(response == undefined) return;
+        if(!response) return;
 
         var decoded = jwt_decode(response.access_token);
         var expires_in = new Date(decoded.exp*1000);
@@ -58,7 +58,7 @@ class LoginService {
 
     getCurrentUserRoles() {
         var c = this.loginStore.get();
-        // console.log("getCurrentUserRoles",c)
+        //e.log("getCurrentUserRoles",c)
         //var json = (c.roles).to_json;
         return (c.roles);
     }
@@ -88,7 +88,6 @@ class LoginStore {
                     }
                 }
             }*/
-            console.log(props);
             const cookies = new Cookies();
             var domain = Config.api.cookie.domain;
             cookies.set('BAToken', props['aToken'], { path: Config.api.cookie.path , domain: domain, expires:props['expires_in']});//expiry time in 2 days
@@ -103,7 +102,7 @@ class LoginStore {
         }
 
         this.get = function() {
-            if(_credentials != undefined && _credentials.hasOwnProperty('aToken')) return _credentials;
+            if(!_credentials && _credentials.hasOwnProperty('aToken')) return _credentials;
             else {
                 var items = {};
                 /*for(var key in localStorage) {
@@ -148,7 +147,6 @@ class LoginStore {
         }
 
         this.clear = function() {
-          // console.log("loginStore clear function")
 /*            for(var key in localStorage) {
                 if(localStorage.hasOwnProperty(key) && key.startsWith('auth_')) {
                     localStorage.removeItem(key);
