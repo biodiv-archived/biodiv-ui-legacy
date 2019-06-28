@@ -6,10 +6,10 @@
 }
 
 .snip1336 {
-    position: relative;
-    margin: 10px 1%;
-    width:300px;
-    height: 300px;
+  position: relative;
+  width: 300px;
+  height: 300px;
+  padding: 14px 0;
 }
 .snip1336 img {
   max-width: 100%;
@@ -17,7 +17,7 @@
   opacity: 1;
   width:300px;
   height: 300px;
-   border-radius: 8px;
+  border-radius: 4px;
 
 }
 .snip1336 figcaptionpic {

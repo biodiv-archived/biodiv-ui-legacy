@@ -266,7 +266,7 @@ display(objs,selectAll){
   return (
     <div   className="container-fluid">
 
-                  <div className="row" style={{border:'1px solid #acb3bf',borderRadius: '5px',backgroundColor:'white',zIndex:'5'}}>
+                  <div className="row card-shadow" style={{borderRadius: '5px',backgroundColor:'white',zIndex:'5'}}>
 
                       <div className="media col-md-4 col-xl-3" >
                             <div style={{position:'relative'}} className="pull-left">
@@ -288,7 +288,7 @@ display(objs,selectAll){
                         </div>
 
                         <div className="col-md-8 col-xl-9" style={{zIndex:'5'}}>
-                                <div  className="row" style={{marginLeft:'2%',zIndex:'5'}} >
+                                <div  className="row" style={{marginLeft:'5px',zIndex:'5'}} >
                                       <div className="userPosition" style={{top:'25px',left:'-80px',position:'absolute',zIndex:'5'}}>
                                        <NavLink to={`/${this.props.PublicUrl}user/show/${objs.authorid}`}>
                                         <UserAvatar style={{zIndex:'21'}} className="contributorImage"  title={objs.authorname} src={this.getUserPhotoUrl(objs.authorprofilepic)} name={objs.authorname} size="70"  ></UserAvatar>
@@ -347,7 +347,7 @@ display(objs,selectAll){
                                      </div>
                                  </div>
 
-                                 <div className="row" style={{marginTop:'3%',zIndex:'20'}}>
+                                 <div className="row" style={{zIndex:'20'}}>
                                     <Tabs  ref={instance => { this.child = instance; }}  rerun={this.state.rerun} objs={objs} ObvRenderAgain={this.ObvRenderAgain}/>
                                  </div>
 

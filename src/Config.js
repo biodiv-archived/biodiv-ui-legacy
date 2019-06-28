@@ -2,42 +2,21 @@ import axios from 'axios';
 
 import loginService from './auth/LoginService';
 require('dotenv').config()
-export let ROOT_URL;
-export let PAMBA_API_ROOT_URL;
-export let API_ROOT_URL;
-export let IBP_URL;
-export let BBP_URL;
-export let WIKTROP_URL;
-export let DEPLOY;
-export let TITLE;
-export let TRACKING_CODE;
-//if(process.env.NODE_ENV=="development" ){
-ROOT_URL=process.env.REACT_APP_ROOT_URL
-API_ROOT_URL=process.env.REACT_APP_API_ROOT_URL
-PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
-IBP_URL=process.env.REACT_APP_IBP_URL
-BBP_URL=process.env.REACT_APP_BBP_URL
-WIKTROP_URL=process.env.REACT_APP_WIKTROP_URL
-DEPLOY=process.env.REACT_APP_CONFIG_DEPLOY;
-TITLE=process.env.REACT_APP_CONFIG_TITLE;
-TRACKING_CODE=process.env.REACT_APP_CONFIG_TRACKING_CODE;
-//}
-    /*
-if(process.env.NODE_ENV=="kk" ){
-    ROOT_URL="http://indiabiodiversity.org";
-    PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
-    API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
-    IBP_URL="https://indiabiodiversity.org"
-
-}
-
-if(process.env.NODE_ENV=="production" ){
-    ROOT_URL="https://indiabiodiversity.org";
-    PAMBA_API_ROOT_URL="https://indiabiodiversity.org/biodiv-api";
-    API_ROOT_URL="https://indiabiodiversity.org/biodiv-api"
-    IBP_URL="https://indiabiodiversity.org"
-
-}*/
+export const ROOT_URL=process.env.REACT_APP_ROOT_URL
+export const API_ROOT_URL=process.env.REACT_APP_API_ROOT_URL
+export const PAMBA_API_ROOT_URL=process.env.REACT_APP_PAMBA_API_ROOT_URL
+export const IBP_URL=process.env.REACT_APP_IBP_URL
+export const BBP_URL=process.env.REACT_APP_BBP_URL
+export const WIKTROP_URL=process.env.REACT_APP_WIKTROP_URL
+export const DEPLOY=process.env.REACT_APP_CONFIG_DEPLOY;
+export const TITLE=process.env.REACT_APP_CONFIG_TITLE;
+export const TRACKING_CODE=process.env.REACT_APP_CONFIG_TRACKING_CODE;
+export const REACT_APP_MAPBOX_TOKEN=process.env.REACT_APP_MAPBOX_TOKEN;
+export const REACT_APP_MAP_CENTER=process.env.REACT_APP_MAP_CENTER;
+export const getMapCenterArray = () => {
+    const [lat, lng] = process.env.REACT_APP_MAP_CENTER.split(",");
+    return [parseInt(lat), parseInt(lng)]
+};
 
 axios.defaults.baseURL = ROOT_URL;
 
