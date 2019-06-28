@@ -1,19 +1,16 @@
-import React from 'react';
-import Tree, { TreeNode } from 'rc-tree';
-import axios from 'axios';
-import $ from 'jquery';
-import {connect} from 'react-redux';
-import  queryString from 'query-string';
+import "rc-tree/assets/index.css";
+
+import $ from "jquery";
 import _ from "lodash";
-import  scrollIntoView  from 'dom-scroll-into-view';
-import {withRouter} from 'react-router-dom';
+import queryString from "query-string";
+import Tree, { TreeNode } from "rc-tree";
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
+import { Config } from "../Config";
+import { fetchTaxonList } from "./TaxonBrowserActions";
 
-import 'rc-tree/assets/index.css';
-import style from './style.css';
-
-import {fetchTaxonList} from './TaxonBrowserActions';
-import { Config } from '../Config';
 
 class TaxonBrowser extends  React.Component{
 constructor(){

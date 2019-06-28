@@ -1,19 +1,18 @@
-import React, {Component} from 'react';
-import axios from 'axios';
-import $ from 'jquery'
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import moment from 'moment';
+import "./TraitsObvStyle.css";
 
-import './TraitsObvStyle.css'
+import axios from "axios";
+import $ from "jquery";
+import moment from "moment";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { Config } from '../Config';
-import AuthUtils from '../auth/AuthUtils.js';
-import ModalPopup from '../auth/Modal.js';
-import DatePicker from '../util/traitUtils/RangeDate.js'
-import ColorTrait from '../util/traitUtils/MultipleCategoricalColor.js'
+import AuthUtils from "../auth/AuthUtils.js";
+import ModalPopup from "../auth/Modal.js";
+import { Config } from "../Config";
+import ColorTrait from "../util/traitUtils/MultipleCategoricalColor.js";
+import DatePicker from "../util/traitUtils/RangeDate.js";
 
-class Traits extends React.Component {
+class Traits extends Component {
   constructor(props) {
     super(props);
     this.state={
@@ -63,7 +62,7 @@ class Traits extends React.Component {
           //console.log("traityy",response)
           document.body.style.cursor = "default";
           if(response.status === 200){
-            let numericTrait = new Map();
+            // let numericTrait = new Map();
           //  testTraitData.model.numericTraitMinMax.map((item,index)=>{
           //     let minMax= new Map();
           //     minMax.set("min",item.min);
@@ -95,12 +94,12 @@ pushTraitsRadio(traitId,value){
     else
     {
       this.traitIdMap.get(traitId).clear()
-      var x = new Map()
+      let x = new Map()
       x.set(value,value)
       this.traitIdMap.set(traitId,x)
     }
   }else{
-    var x = new Map()
+    let x = new Map()
     x.set(value,value)
     this.traitIdMap.set(traitId,x)
   }
@@ -196,19 +195,19 @@ submitTraits(id1,id2,traitType,dataType){
               //console.log(key,x[key])
               arr=arr.concat(x[key].id)
             }
-            var list=arr.toString()
+            // var list=arr.toString()
             break;
 
         default:
             x.forEach(function(value){
               arr=arr.concat(value)
             })
-            var list=arr.toString()
+            // var list=arr.toString()
       }
 
       var list1=id1+":"+list+";"
     }else{
-      var list1=arr.toString()
+      // var list1=arr.toString()
     }
 
     var options={

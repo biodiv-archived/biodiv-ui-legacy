@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import isAbsoluteUrl  from 'is-absolute-url';
 import Truncate from 'react-truncate';
 
-import createHistory from 'history/createBrowserHistory';
-import style from './ObservationStyle.css';
+import {createBrowserHistory} from 'history';
+import './ObservationStyle.css';
 import ShowGallery from './imageGallery/ImageShows';
 import Tabs from './Tabs';
 import {Config} from '../Config';
@@ -21,7 +21,7 @@ import RichTextEditor from '../util/richEditor/RichTextEditor.js';
 import FlaggingInterface from '../util/flag/FlaggingInterface';
 import ShareInterface from '../util/share/ShareInterface';
 
-const history = createHistory();
+const history = createBrowserHistory();
 
 function getList(Observation,id,flag) {
     if(flag){
@@ -139,18 +139,12 @@ class ListComponent extends Component{
     }
 
     getUserPhotoUrl(images){
-        if(images){
-          if(isAbsoluteUrl(images)){
-            return images;
-          }
-          else{
-            let url=`${Config.api.IBP_URL}/biodiv/users${images}`;
-            return url;
-          }
-        }
-        else{
-          return null;
-        }
+      return images
+        ? (isAbsoluteUrl(images)
+            ? images
+            : `${Config.api.IBP_URL}/biodiv/users${images}`
+          ).replace(".jpg", "_th1.jpg")
+        : null;
     }
 
     getObsAgain(obvid){
@@ -167,20 +161,6 @@ class ListComponent extends Component{
             document.body.style.cursor = "default";
             this.ObvRenderAgain(response);
           })
-    }
-    getUserPhotoUrl(images){
-        if(images){
-          if(isAbsoluteUrl(images)){
-            return images;
-          }
-          else{
-            let url=`${Config.api.IBP_URL}/biodiv/users${images}`;
-            return url;
-          }
-        }
-        else{
-          return null;
-        }
     }
 
     fetchUsersWhoLiked(obvId,likes){

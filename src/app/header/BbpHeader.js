@@ -1,24 +1,18 @@
-import React, {Component} from 'react';
-import {NavLink,withRouter} from 'react-router-dom';
-import {getGroupName} from './HeaderApi';
-import _ from "lodash";
-import {connect} from 'react-redux';
-import axios from 'axios';
-import { Form, Text} from 'react-form';
+import React, { Component } from "react";
+import { Form, Text } from "react-form";
+import { connect } from "react-redux";
+import { NavLink, withRouter } from "react-router-dom";
 
-import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages} from '../../actions/index';
-import AuthUtils from '../../auth/AuthUtils';
-import $ from 'jquery';
-import {Config} from '../../Config'
+import { fetchLanguages, fetchSpeciesGroup, fetchUserGroupList } from "../../actions";
+import { logout } from "../../auth/AuthActions";
+import AuthUtils from "../../auth/AuthUtils";
+import { Config } from "../../Config";
+import UserAvatar from "../../util/userIcon";
+import Banner from "./BbpBanner";
+import NavigationHeader from "./BbpNavigationHeader";
+
 //import './style/headerstyle.css';
 //import style from './style/bbpHeaderStyle.css';
-import Banner from './BbpBanner';
-import {logout} from '../../auth/AuthActions';
-import UserAvatar from '../../util/userIcon';
-
-import UserGroupName from '../../util/UserGroup';
-import NavigationHeader from './BbpNavigationHeader';
-
 class Header extends React.Component {
     constructor(props) {
         super(props);

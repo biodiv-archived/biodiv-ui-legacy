@@ -1,20 +1,16 @@
-import React, {Component} from 'react';
-import axios from 'axios';
-import {connect} from 'react-redux';
-import Moment from 'react-moment'
-import {bindActionCreators} from 'redux';
-import { MentionsInput, Mention } from 'react-mentions'
-import {withRouter} from 'react-router-dom';
+import "./recoComment.css";
 
+import axios from "axios";
+import React, { Component } from "react";
+import Moment from "react-moment";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import commentWithTagStyle from './commentWithTagStyle.js'
+import AuthUtils from "../auth/AuthUtils.js";
+import ModalPopup from "../auth/Modal.js";
+import { Config } from "../Config";
+import RichTextEditor from "../util/richEditor/RichTextEditor.js";
 
-import { Config } from '../Config';
-import ModalPopup from '../auth/Modal.js';
-import AuthUtils from '../auth/AuthUtils.js';
-import RichTextEditor from '../util/richEditor/RichTextEditor.js'
-import $ from 'jquery'
-import './recoComment.css'
 
 class RecoComment extends React.Component {
 
@@ -116,7 +112,6 @@ class RecoComment extends React.Component {
                 console.log("setting data")
               this.semiComments=response.data.model.instanceList.reverse();
               this.semiComments=this.semiComments.concat(this.state.response)
-              console.log("semifeeeeds",this.semiComments)
               this.setState({
                 response:this.semiComments,
                 remainingCommentCount:response.data.model.remainingCommentCount

@@ -1,23 +1,17 @@
-import React, {Component} from 'react';
-import {NavLink,withRouter} from 'react-router-dom';
-import {getGroupName} from './HeaderApi';
-import _ from "lodash";
-import {connect} from 'react-redux';
-import axios from 'axios';
-import { Form, Text} from 'react-form';
+import React, { Component } from "react";
+import { Form, Text } from "react-form";
+import { connect } from "react-redux";
+import { NavLink, withRouter } from "react-router-dom";
 
-import {fetchUserGroupList,fetchSpeciesGroup,fetchLanguages,fetchDataSetList} from '../../actions/index';
-import AuthUtils from '../../auth/AuthUtils';
-import $ from 'jquery';
-import {Config} from '../../Config'
+import { fetchDataSetList, fetchLanguages, fetchSpeciesGroup, fetchUserGroupList } from "../../actions";
+import { logout } from "../../auth/AuthActions";
+import AuthUtils from "../../auth/AuthUtils";
+import { Config } from "../../Config";
+import UserAvatar from "../../util/userIcon";
+import Banner from "./Banner";
+import NavigationHeader from "./NavigationHeader";
+
 //import style from './style/headerstyle.css';
-import Banner from './Banner';
-import {logout} from '../../auth/AuthActions';
-import UserAvatar from '../../util/userIcon';
-
-import UserGroupName from '../../util/UserGroup';
-import NavigationHeader from './NavigationHeader';
-
 class Header extends React.Component {
     constructor(props) {
         super(props);

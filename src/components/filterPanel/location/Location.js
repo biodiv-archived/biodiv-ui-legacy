@@ -60,7 +60,7 @@ class LocationFilter extends React.Component {
     }
 
   }
-  getMapPointsParameters(draw){
+  getMapPointsParameters(draw, map){
     let locationParams="";
   var data = Draw.getAll();
   data.features.map(parents=>{
@@ -77,6 +77,7 @@ class LocationFilter extends React.Component {
       location:locationParams
   }
   });
+  this.map._controlContainer.hidden = true;
   document.dispatchEvent(events);
   }
   componentDidMount(){
@@ -88,7 +89,9 @@ class LocationFilter extends React.Component {
    this.map.fitBounds(Config.map.RESTRICTED_EXTENT, {linear: true, duration: 0});
    this.map.setMaxBounds(this.map.getBounds());
    this.map.addControl(Draw, 'top-left');
-   this.map.on('draw.create', this.getMapPointsParameters);
+   this.map.on("draw.create", e => {
+    this.getMapPointsParameters(e, this.map);
+  });
    this.map.on('draw.delete', this.getMapPointsParameters);
    this.map.on('draw.update', this.getMapPointsParameters);
    this.setParameter();

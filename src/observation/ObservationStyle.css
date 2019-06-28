@@ -174,7 +174,7 @@ tr:not(.no-hover):hover {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-.showClean{
+/* .showClean{
   background-color: #16A024;
   color:blue;
 }
@@ -185,7 +185,7 @@ tr:not(.no-hover):hover {
 .showRaw{
   background-color: #8E8E93;
     color:blue;
-}
+} */
 #hatethis {
     width: 200px;
     white-space: nowrap;

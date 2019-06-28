@@ -64,14 +64,14 @@ class Banner extends Component{
 
     getuserUserGroup(){
       axios.get(`${Config.api.API_ROOT_URL}/user/currentUserUserGroups`).then((userGroups)=>{
-        console.log(userGroups.id);
+        // console.log(userGroups.id);
         this.setState({
           userUserGroup:userGroups.data
         })
       })
     }
     getPop(){
-      console.log("log");
+      // console.log("log");
       this.setState({
         moderatorPopup:!this.state.moderatorPopup
       })
@@ -137,7 +137,7 @@ getJoinPermission(){
         //        userGroup = {name:'Assam Biodiversity Portal for invasive species', icon:'/4ad8d75d-7b3b-46bc-bbea-31f6c4ba93be/resources/513.gif'}
 
         let userUserGroup=this.state.userUserGroup?this.state.userUserGroup.filter((item)=>{return item.webaddress==this.props.PublicUrl.split("/")[1]})[0]:null;
-          console.log(userUserGroup);
+          // console.log(userUserGroup);
 
         if(true) {
             return(
