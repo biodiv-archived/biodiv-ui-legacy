@@ -31,7 +31,7 @@
     "mapbox-gl": "^1.0.0",
     "material-ui": "0.20.0",
     "moment": "2.21.0",
-    "naksha-components-react": "^1.1.4",
+    "naksha-components-react": "^1.1.5",
     "naksha-react-ui-legacy": "^1.0.5",
     "prop-types": "15.6.1",
     "query-string": "5.0.0",
