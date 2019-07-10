@@ -1,4 +1,4 @@
-import "naksha-components-react/dist/index.css";
+import "naksha-components-react/dist/naksha-components-react.css";
 import "./index.css";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
@@ -29,52 +29,52 @@ import AuthUtils from "./auth/AuthUtils";
 
 const ForgotPassword = Loadable({
   loader: () => import("./auth/ForgotPassword"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const Login = Loadable({
   loader: () => import("./auth/Login"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const Logout = Loadable({
   loader: () => import("./auth/Logout"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const Register = Loadable({
   loader: () => import("./auth/Register"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const ResetPassword = Loadable({
   loader: () => import("./auth/ResetPassword"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const VerifyRegistration = Loadable({
   loader: () => import("./auth/VerifyRegistration"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const App = Loadable({
   loader: () => import("./app/App"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const HomePageContainer = Loadable({
   loader: () => import("./app/homePage/HomePageContainer"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const NakshaLibLayers = Loadable({
   loader: () => import("./nakshaLibLayers"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 const NakshaLibUpload = Loadable({
   loader: () => import("./nakshaLibUpload"),
-  loading: LoadingComponent,
+  loading: LoadingComponent
 });
 
 var fileref = document.createElement("link");
@@ -114,7 +114,9 @@ switch (Config.api.DEPLOY) {
     break;
 }
 
-const createStoreWithMiddleware = applyMiddleware(ReduxThunk,ReduxPromise)(createStore);
+const createStoreWithMiddleware = applyMiddleware(ReduxThunk, ReduxPromise)(
+  createStore
+);
 
 /*
 Let the user login always
@@ -122,94 +124,96 @@ Let the user login always
 let store = createStoreWithMiddleware(reducers);
 
 if (AuthUtils.isLoggedIn()) {
-  store.dispatch({ type: AUTH_USER});
+  store.dispatch({ type: AUTH_USER });
 }
-
 
 let language;
- if (navigator.languages !== undefined){
-   language =  navigator.languages[0];
- } else {
-   language =  navigator.language;
- }
+if (navigator.languages !== undefined) {
+  language = navigator.languages[0];
+} else {
+  language = navigator.language;
+}
 //language = "fr";
 
-if(language!=='fr' || Config.api.DEPLOY !=="wiktrop"){
-    if(sessionStorage.locale){
-      store.dispatch({type:SET_LOCALE,payload:sessionStorage.locale})
-    }else{
-      store.dispatch({type:SET_LOCALE,payload:"en"})
-      sessionStorage.locale="en";
-    }
-}else{
-    if(sessionStorage.locale){
-      store.dispatch({type:SET_LOCALE,payload:sessionStorage.locale})
-    }else{
-      store.dispatch({type:SET_LOCALE,payload:"fr"})
-      sessionStorage.locale="fr"
-    }
+if (language !== "fr" || Config.api.DEPLOY !== "wiktrop") {
+  if (sessionStorage.locale) {
+    store.dispatch({ type: SET_LOCALE, payload: sessionStorage.locale });
+  } else {
+    store.dispatch({ type: SET_LOCALE, payload: "en" });
+    sessionStorage.locale = "en";
+  }
+} else {
+  if (sessionStorage.locale) {
+    store.dispatch({ type: SET_LOCALE, payload: sessionStorage.locale });
+  } else {
+    store.dispatch({ type: SET_LOCALE, payload: "fr" });
+    sessionStorage.locale = "fr";
+  }
 }
-if(store.getState().Locale ==="fr"){
-   store.dispatch({type:LOAD_LOCALE,payload:fr})
-}else{
-  store.dispatch({type:LOAD_LOCALE,payload:en})
+if (store.getState().Locale === "fr") {
+  store.dispatch({ type: LOAD_LOCALE, payload: fr });
+} else {
+  store.dispatch({ type: LOAD_LOCALE, payload: en });
 }
 
-const newparams =  queryString.parse(document.location.search);
-let search1=queryString.stringify(newparams);
-let search2 = decodeURIComponent( search1 );
+const newparams = queryString.parse(document.location.search);
+let search1 = queryString.stringify(newparams);
+let search2 = decodeURIComponent(search1);
 
 /*
 For generating group level urls
 Now group level avaialble in global state if group context is set
 */
 
+let groupName = document.location.pathname.split("/")[2];
+let groupsyntax = document.location.pathname.split("/")[1];
 
-let groupName= document.location.pathname.split("/")[2];
-let groupsyntax=document.location.pathname.split("/")[1];
-
-if(groupsyntax==='group' && groupName!=null){
-  store.dispatch({type:SET_GROUP_NAME,payload:groupName})
-}
-else{
-  store.dispatch({type:SET_GROUP_NAME,payload:""})
+if (groupsyntax === "group" && groupName != null) {
+  store.dispatch({ type: SET_GROUP_NAME, payload: groupName });
+} else {
+  store.dispatch({ type: SET_GROUP_NAME, payload: "" });
 }
 
 var softBounds = undefined;
-var hardBounds = Config.map.RESTRICTED_EXTENT
+var hardBounds = Config.map.RESTRICTED_EXTENT;
 var groupContext = null;
 
 let fullUrl = window.location.host;
-let parts=fullUrl.split(".");
-if(groupsyntax === "group" && groupName !== null){
+let parts = fullUrl.split(".");
+if (groupsyntax === "group" && groupName !== null) {
   groupContext = groupName;
-}else if(parts.length>=3){
-  if(parts[0]==="assambiodiversity"){
+} else if (parts.length >= 3) {
+  if (parts[0] === "assambiodiversity") {
     groupContext = parts[0];
     hardBounds = [[88, 23], [97, 29]];
   }
 }
 
 const map_props = {
-	softBounds: softBounds, // TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
-	hardBounds: hardBounds, // bounds to restrict the map
-	contextUrl:window.location.host,
-	groupName: groupContext
-}
+  softBounds: softBounds, // TODO: fetch bounds from userGroup // [[92, 10], [102, 29]], // bounds to initialize the map
+  hardBounds: hardBounds, // bounds to restrict the map
+  contextUrl: window.location.host,
+  groupName: groupContext
+};
 
 window.map_hardbounds = hardBounds;
 
-const footerRoutes = ["/", "/group/:groupName/login", "/login","/logout","/register","/register/forgotPassword",
-"/register/resetPassword"];
-
+const footerRoutes = [
+  "/",
+  "/group/:groupName/login",
+  "/login",
+  "/logout",
+  "/register",
+  "/register/forgotPassword",
+  "/register/resetPassword"
+];
 
 ReactGA.initialize(Config.api.TRACKING_CODE);
 
 function fireTracking() {
   //console.log("fileTracking",window.location.pathname,window.location.search)
- 	//const { pathname } = nextState.location // this gives you the next URL
+  //const { pathname } = nextState.location // this gives you the next URL
   ReactGA.pageview(window.location.pathname + window.location.search);
-
 }
 // console.log(history)
 //   history.listen((location,action) =>{
@@ -221,22 +225,18 @@ function fireTracking() {
 const title = Config.api.TITLE;
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
-
   <Route
     {...rest}
     render={props =>
       AuthUtils.isLoggedIn() ? (
-        AuthUtils.isAdmin()?
-        (
+        AuthUtils.isAdmin() ? (
           <Component
             endpoint={
               process.env.REACT_APP_ROOT_URL + "/naksha/layer/uploadshp"
             }
             title={title}
           />
-        )
-        :
-        (
+        ) : (
           <Redirect
             to={{
               pathname: "/map",
@@ -244,7 +244,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
             }}
           />
         )
-
       ) : (
         <Redirect
           to={{
@@ -266,54 +265,112 @@ const RenderMap = () => (
   >
     <NakshaLibLayers
       mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      endpoint={window.location.origin}
+      endpoint={process.env.REACT_APP_ROOT_URL}
       layersPanelClosed={true}
     />
   </div>
-)
+);
 
 ReactDOM.render(
   <MuiThemeProvider>
-  <Provider store={store}>
-    <BrowserRouter forceRefresh={true}  onUpdate={fireTracking()}>
-      <>
+    <Provider store={store}>
+      <BrowserRouter forceRefresh={true} onUpdate={fireTracking()}>
+        <>
           <div id="headerWrapper">
-              <Header title={"IBP"}/>
+            <Header title={"IBP"} />
           </div>
           <div id="contentWrapper">
-              <div id="content">
-                  <Route exact path="/" component={HomePageContainer} />
-                  <Route exact path="/observation/list" component={App} props={search2} />
-                  <Route  path="/group/:groupName/observation" render={(props) => <App {...props} title={title} />}/>
-                  <Route  path="/group/:groupName/login" render={(props) => <Login {...props} title={title} />}/>
-                  <Route  exact path="/group/:groupName/register/verifyRegistration" render={(props) => <VerifyRegistration {...props} title={title} />}/>
-                  <Route  path="/group/:groupName/forgotPassword"  render={(props) => <ForgotPassword {...props} title={title} />}/>
-                  <Route  path="/group/:groupName/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
-                  <Route  path="/group/:groupName/register"  render={(props) => <Register {...props} title={title} />}/>
-                  <Route  path="/login"  render={(props) => <Login {...props} title={title} />}/>
-                  <Route  exact path="/logout"  render={(props) => <Logout {...props} title={title} />}/>
-                  <Route  exact path="/register" render={(props) => <Register {...props} title={title} />}/>
-                  <Route  exact path="/register/verifyRegistration" render={(props) => <VerifyRegistration {...props} title={title} />}/>
-                  <Route  exact path="/register/forgotPassword" render={(props) => <ForgotPassword {...props} title={title} />}/>
-                  <Route  exact path="/register/resetPassword" render={(props) => <ResetPassword {...props} title={title} />}/>
+            <div id="content">
+              <Route exact path="/" component={HomePageContainer} />
+              <Route
+                exact
+                path="/observation/list"
+                component={App}
+                props={search2}
+              />
+              <Route
+                path="/group/:groupName/observation"
+                render={props => <App {...props} title={title} />}
+              />
+              <Route
+                path="/group/:groupName/login"
+                render={props => <Login {...props} title={title} />}
+              />
+              <Route
+                exact
+                path="/group/:groupName/register/verifyRegistration"
+                render={props => (
+                  <VerifyRegistration {...props} title={title} />
+                )}
+              />
+              <Route
+                path="/group/:groupName/forgotPassword"
+                render={props => <ForgotPassword {...props} title={title} />}
+              />
+              <Route
+                path="/group/:groupName/resetPassword"
+                render={props => <ResetPassword {...props} title={title} />}
+              />
+              <Route
+                path="/group/:groupName/register"
+                render={props => <Register {...props} title={title} />}
+              />
+              <Route
+                path="/login"
+                render={props => <Login {...props} title={title} />}
+              />
+              <Route
+                exact
+                path="/logout"
+                render={props => <Logout {...props} title={title} />}
+              />
+              <Route
+                exact
+                path="/register"
+                render={props => <Register {...props} title={title} />}
+              />
+              <Route
+                exact
+                path="/register/verifyRegistration"
+                render={props => (
+                  <VerifyRegistration {...props} title={title} />
+                )}
+              />
+              <Route
+                exact
+                path="/register/forgotPassword"
+                render={props => <ForgotPassword {...props} title={title} />}
+              />
+              <Route
+                exact
+                path="/register/resetPassword"
+                render={props => <ResetPassword {...props} title={title} />}
+              />
 
-                  <Route path={["/group/:groupName/map", "/group/:groupName/map/show"]} render={RenderMap}/>
-                  <Route exact path={["/map", "/map/show"]} render={RenderMap}/>
+              <Route
+                path={["/group/:groupName/map", "/group/:groupName/map/show"]}
+                render={RenderMap}
+              />
+              <Route exact path={["/map", "/map/show"]} render={RenderMap} />
 
-              <PrivateRoute exact path="/map/upload" component={NakshaLibUpload}/>
-
-              </div>
-                <div  id="footerWrapper">
-              {footerRoutes.map((routes,index)=>{
-                return(
+              <PrivateRoute
+                exact
+                path="/map/upload"
+                component={NakshaLibUpload}
+              />
+            </div>
+            <div id="footerWrapper">
+              {footerRoutes.map((routes, index) => {
+                return (
                   <Route key={index} exact path={routes} component={Footer} />
-                )
+                );
               })}
-                </div>
-         </div>
-      </>
-    </BrowserRouter>
-  </Provider>
-</MuiThemeProvider>
-  , document.querySelector('.outer-wrapper'));
+            </div>
+          </div>
+        </>
+      </BrowserRouter>
+    </Provider>
+  </MuiThemeProvider>,
+  document.querySelector(".outer-wrapper")
+);
 unregister();
