@@ -232,7 +232,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         AuthUtils.isAdmin() ? (
           <Component
             endpoint={
-              process.env.REACT_APP_ROOT_URL + "/naksha/layer/uploadshp"
+              process.env.REACT_APP_ROOT_URL + "/naksha/api/layer/uploadshp"
             }
             title={title}
           />

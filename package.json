@@ -31,7 +31,7 @@
     "mapbox-gl": "^1.0.0",
     "material-ui": "0.20.0",
     "moment": "2.21.0",
-    "naksha-components-react": "^1.1.10",
+    "naksha-components-react": "^1.1.13",
     "naksha-react-ui-legacy": "^1.0.5",
     "prop-types": "15.6.1",
     "query-string": "5.0.0",
@@ -70,8 +70,7 @@
     "redux-logger": "^3.0.6",
     "redux-promise": "0.5.3",
     "redux-thunk": "2.2.0",
-    "universal-cookie": "2.1.0",
-    "yarn": "^1.16.0"
+    "universal-cookie": "2.1.0"
   },
   "scripts": {
     "lint": "eslint src/**/*.js",
@@ -101,7 +100,6 @@
   "devDependencies": {
     "babel-loader": "^8.0.5",
     "eslint": "^5.16.0",
-    "file-encryptor": "^0.1.1",
-    "terser": "^3.14.1"
+    "file-encryptor": "^0.1.1"
   }
 }
