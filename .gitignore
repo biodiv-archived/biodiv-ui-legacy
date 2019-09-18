@@ -23,4 +23,5 @@ yarn-error.log*
 .env.pamba
 .env.wiktrop
 .env.bbp
+.env.venus
 .scripts/test.txt
