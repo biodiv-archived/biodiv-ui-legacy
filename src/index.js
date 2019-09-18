@@ -232,7 +232,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         AuthUtils.isAdmin() ? (
           <Component
             endpoint={
-              process.env.REACT_APP_ROOT_URL + "/naksha/api/layer/uploadshp"
+              process.env.REACT_APP_IBP_URL + "/naksha-api/api/layer/uploadshp"
             }
             title={title}
           />
@@ -265,7 +265,7 @@ const RenderMap = () => (
   >
     <NakshaLibLayers
       mapboxToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      endpoint={process.env.REACT_APP_ROOT_URL}
+      endpoint={process.env.REACT_APP_IBP_URL+"/naksha-api/api"}
       layersPanelClosed={true}
     />
   </div>
