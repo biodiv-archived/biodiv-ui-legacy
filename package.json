@@ -78,6 +78,7 @@
     "build": "sh -ac '. ./.env.${REACT_APP_ENV}; GENERATE_SOURCEMAP=false react-scripts build'",
     "build:wiktrop": "REACT_APP_ENV=wiktrop npm run build",
     "build:pamba": "REACT_APP_ENV=pamba npm run build",
+    "build:venus": "REACT_APP_ENV=venus npm run build",
     "build:kk": "REACT_APP_ENV=kk npm run build",
     "encrypt-assets": "node ./.scripts/encrypt.js",
     "decrypt-assets": "node ./.scripts/decrypt.js"
